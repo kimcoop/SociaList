@@ -27,7 +27,8 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dorm Room Checklist" />
+                android:text="Dorm Room Checklist" 
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
 
@@ -40,7 +41,8 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other list" />
+                android:text="Other list"
+                android:textAppearance="?android:attr/textAppearanceLarge"  />
 
         </TableRow>
 
@@ -53,7 +55,8 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yet Another List" />
+                android:text="Yet Another List"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
 
@@ -66,7 +69,8 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="This needs work... (and yes this is a list)" />
+                android:text="This needs work..."
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
     </TableLayout>
