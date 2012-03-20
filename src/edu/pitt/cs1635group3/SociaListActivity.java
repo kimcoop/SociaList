@@ -63,11 +63,10 @@ public class SociaListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				@SuppressWarnings("unchecked")
 				HashMap<String, String> o = (HashMap<String, String>) lv.getItemAtPosition(position);
-				Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
-		
+				//Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
 
                 Intent intent = new Intent(SociaListActivity.this, InsideList.class);
-                //intent.putExtra("selected_color", selected_color);	// Pass the color information back to our DrawableActivity
+                intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list
                 startActivity(intent);
                 finish();
 				
