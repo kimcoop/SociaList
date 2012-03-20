@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.EditText;
 
 public class ItemActivity extends Activity {
 
@@ -14,27 +15,26 @@ public class ItemActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item);
  
-        TextView name, quantity, creation_date, creator, assignee, notes;
-		name = (TextView) findViewById(R.id.item_name);
-		quantity = (TextView) findViewById(R.id.item_quantity);
-		creation_date = (TextView) findViewById(R.id.item_creation_date);
-		creator = (TextView) findViewById(R.id.item_creator);
+        TextView name, quantity, creation_details, assignee, notes;
+		name = (EditText) findViewById(R.id.item_name);
+		quantity = (EditText) findViewById(R.id.item_quantity);
+		creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (TextView) findViewById(R.id.item_assignee);
-		notes = (TextView) findViewById(R.id.item_notes);
+		notes = (EditText) findViewById(R.id.item_notes);
         
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-		String item_name, item_creation_date = "", item_creator = "", item_assignee = "", item_notes = "";
+		//TODO grab this data from server or intent (if possible to do the latter, that'd be ideal)
+		String item_name, item_creation_date = "19 March", item_creator = "Kim", item_assignee = "", item_notes = "Good sale on this at Target!";
 		int item_quantity = 1; // by default
 		
 		item_name = extras.getString("name");
 		
-        name.setText("This data was pulled from intent: "+item_name);
-        quantity.setText("Quantity: "+item_quantity);
-        creation_date.setText("Added on: "+item_creation_date);
-        creator.setText("Added by: " +item_creator);
-        assignee.setText("Assigned to: "+item_assignee);
-        notes.setText("Notes: "+item_notes);
+        name.setText(item_name);
+        quantity.setText(""+item_quantity);
+        creation_details.setText("Added on "+item_creation_date+" by " +item_creator);
+        assignee.setText(item_assignee);
+        notes.setText(item_notes);
 	}
 	
 	

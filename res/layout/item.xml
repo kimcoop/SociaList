@@ -5,46 +5,104 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/label_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:text="@string/label_name" />
+    
+    <EditText
         android:id="@+id/item_name"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:padding="10px"
         android:text="@+id/item_name"
-        android:padding="10px" />
-    
+        android:textSize="12dp"
+        android:layout_height="30dp" />
+
     <TextView
+        android:id="@+id/label_quantity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:text="@string/label_quantity" />
+    
+    <EditText
         android:id="@+id/item_quantity"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:padding="4.0dp"
         android:text="@+id/item_quantity"
-        android:padding="10px" />
-    
+        android:textSize="12dp"
+        android:layout_height="30dp" />
+
     <TextView
-        android:id="@+id/item_creation_date"
+        android:id="@+id/item_creation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@+id/item_creation_date"
-        android:padding="10px" />
-    
+        android:padding="4.0dp"
+        android:text="@+id/item_creation" />
+
     <TextView
-        android:id="@+id/item_creator"
+        android:id="@+id/label_assignee"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@+id/item_creator"
-        android:padding="10px" />
-    
-    <TextView
+        android:padding="4.0dp"
+        android:text="@string/label_assignee" />
+
+    <EditText
         android:id="@+id/item_assignee"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@+id/item_assignee"
-        android:padding="10px" />
-    
+        android:layout_width="match_parent"
+        android:textSize="12dp"
+        android:layout_height="30dp" />
+
     <TextView
-        android:id="@+id/item_notes"
+        android:id="@+id/header_notes"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@+id/item_notes"
-        android:padding="10px" />
+        android:padding="4.0dp"
+        android:text="@string/label_notes" />
 
+    <EditText
+        android:id="@+id/item_notes"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
+        android:padding="4.0dp"
+        android:textSize="12dp"
+        android:layout_height="60dp" >
+    </EditText>
 
+   <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip" >
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Next Item" />
+
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Prev Item" />
+
+        </LinearLayout>	    
 </LinearLayout>
