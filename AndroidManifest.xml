@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".InsideList"></activity>
+        <activity android:name=".InsideListActivity"></activity>
         
     </application>
 

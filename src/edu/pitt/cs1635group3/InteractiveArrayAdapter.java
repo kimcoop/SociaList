@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,15 +56,21 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Item> {
 			view = inflator.inflate(R.layout.insidelistplaceholder, null);
 			final ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text = (TextView) view.findViewById(R.id.label);
-			
+			/*
 			viewHolder.text.setOnClickListener(new OnClickListener() {
 
 			    final int pos = position;
-			    public void onClick(View v) {
-			    	String itemname = list.get(pos).getName();
-					Toast.makeText(getContext(), "Pulling item name: "+itemname, Toast.LENGTH_SHORT).show(); 
+			    public void onClick(View v) { // List items are identified as they are put into the list by "position" as an ID
+			    	Item item = list.get(pos);
+					//Toast.makeText(getContext(), "Pulling item name: "+itemname, Toast.LENGTH_SHORT).show(); 
+
+	                Intent intent = new Intent(getContext(), ItemActivity.class);
+	                intent.putExtra("item", item.getName());	// Pass the item to new Activity
+	                startActivity(intent);
+					
+					
 			    }
-			});
+			});*/
 			
 			viewHolder.text.setClickable(true);
 			viewHolder.subtext = (TextView) view.findViewById(R.id.sublabel);

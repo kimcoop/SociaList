@@ -65,7 +65,7 @@ public class SociaListActivity extends ListActivity {
 				HashMap<String, String> o = (HashMap<String, String>) lv.getItemAtPosition(position);
 				//Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
 
-                Intent intent = new Intent(SociaListActivity.this, InsideList.class);
+                Intent intent = new Intent(SociaListActivity.this, InsideListActivity.class);
                 intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list -- TODO use this id to grab proper data
                 startActivity(intent);
                 finish();
