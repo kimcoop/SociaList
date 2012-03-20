@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,6 +65,12 @@ public class SociaListActivity extends ListActivity {
 				HashMap<String, String> o = (HashMap<String, String>) lv.getItemAtPosition(position);
 				Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
 		
+
+                Intent intent = new Intent(SociaListActivity.this, InsideList.class);
+                //intent.putExtra("selected_color", selected_color);	// Pass the color information back to our DrawableActivity
+                startActivity(intent);
+                finish();
+				
 			}
 		});
         
