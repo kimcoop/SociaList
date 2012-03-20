@@ -21,7 +21,7 @@ public final class R {
         public static final int checkBox3=0x7f05001d;
         public static final int checkBox4=0x7f050020;
         public static final int complete_button=0x7f050013;
-        public static final int delete_button=0x7f05000d;
+        public static final int delete_button=0x7f05000c;
         public static final int header_notes=0x7f05000a;
         public static final int invite_button=0x7f050014;
         public static final int item_assignee=0x7f050009;
@@ -36,9 +36,9 @@ public final class R {
         public static final int label_name=0x7f050003;
         public static final int label_quantity=0x7f050005;
         public static final int linearLayout1=0x7f050011;
-        public static final int next_button=0x7f05000c;
+        public static final int next_button=0x7f05000e;
         public static final int prev_button=0x7f05000f;
-        public static final int save_button=0x7f05000e;
+        public static final int save_button=0x7f05000d;
         public static final int sublabel=0x7f050002;
         public static final int tableLayout1=0x7f050015;
         public static final int tableRow1=0x7f050016;

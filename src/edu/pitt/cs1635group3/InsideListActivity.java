@@ -33,7 +33,6 @@ public class InsideListActivity extends ListActivity {
     	       
 	   ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
 	   setListAdapter(adapter);
-	   ListView list = getListView();
 	}
 
 	@Override
@@ -41,10 +40,9 @@ public class InsideListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 		Item item = (Item) this.getListAdapter().getItem(position);
-		Toast.makeText(this, "You selected: " + item.getName(), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-        intent.putExtra("name", item.getName());
+        intent.putExtra("Item", item); // can pass as object because it implements Parcelable
         startActivity(intent);
 
     }

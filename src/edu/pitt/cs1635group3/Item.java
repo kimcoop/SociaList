@@ -1,7 +1,10 @@
 package edu.pitt.cs1635group3;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Item {
+
+public class Item implements Parcelable{
 
 	//item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, complete)
 	private String name, assigner, assignee, creation_date, notes, creator, completion_date;
@@ -34,9 +37,33 @@ public class Item {
 	public String getName() {
 		return name;
 	}
+	
+	public String getAssigner() {
+		return assigner;
+	}
 
 	public String getAssignee() {
 		return assignee;
+	}
+	
+	public String getCreationDate() {
+		return creation_date;
+	}
+	
+	public String getCreator() {
+		return creator;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public boolean isCompleted() {
+		return completed;
 	}
 
 	public boolean isSelected() {
@@ -50,9 +77,78 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void assignTo(String name) {
+		this.assignee = name;
+	}
+	
+	public void setQuantity(int q) {
+		this.quantity = q;
+	}
+	
+	public void setNotes(String n) {
+		this.notes = n;
+	}
+	
+	public void setCompleted() {
+		this.completed = true;
+	}
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see android.os.Parcelable
+	 * Method like Serializable but for mobile - "way" faster too
+	 */
+	
+	public int describeContents() {
+		return 0;
+	}
+
+
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(id);
+		out.writeString(name);
+		out.writeString(assigner);
+		out.writeString(assignee);
+		out.writeString(creation_date);
+		out.writeString(notes);
+		out.writeInt(quantity);
+		out.writeString(creator);
+		out.writeString(completion_date);
+		out.writeString(""+completed); // finicky. no writeBoolean method - other options?
+	}
+	
+    // Regenerate the object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
+    // Constructor that takes a Parcel and gives you an object populated with its values
+    private Item(Parcel in) {
+		id = in.readInt();
+		name = in.readString();
+		assigner = in.readString();
+		assignee = in.readString();
+		creation_date = in.readString();
+		notes = in.readString();
+		quantity = in.readInt();
+		creator = in.readString();
+		completion_date = in.readString();
+		
+		String strCompleted = in.readString();
+		if (strCompleted.equals("true")) completed = true;
+		else completed = false;
+    }
 
 }

@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ItemActivity extends Activity {
 
@@ -24,17 +25,14 @@ public class ItemActivity extends Activity {
         
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-		//TODO grab this data from server or intent (if possible to do the latter, that'd be ideal)
-		String item_name, item_creation_date = "19 March", item_creator = "Kim", item_assignee = "", item_notes = "Good sale on this at Target!";
-		int item_quantity = 1; // by default
 		
-		item_name = extras.getString("name");
+		Item item = extras.getParcelable("Item"); 
 		
-        name.setText(item_name);
-        quantity.setText(""+item_quantity);
-        creation_details.setText("Added on "+item_creation_date+" by " +item_creator);
-        assignee.setText(item_assignee);
-        notes.setText(item_notes);
+        name.setText(item.getName());
+        quantity.setText(""+item.getQuantity());
+        creation_details.setText("Added on "+item.getCreationDate()+" by " +item.getCreator());
+        assignee.setText(item.getAssignee());
+        notes.setText(item.getNotes());
 	}
 	
 	
