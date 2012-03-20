@@ -5,10 +5,11 @@ public class Item {
 
 	//item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, complete)
 	private String name, assigner, assignee, creation_date, notes, creator, completion_date;
-	private int quantity;
+	private int id, quantity;
 	private boolean selected, completed;
 
-	public Item(String name, String a1, String a2, String c1, String n, int q, String c2, String c_date, boolean complete) {
+	public Item(int id, String name, String a1, String a2, String c1, String n, int q, String c2, String c_date, boolean complete) {
+		this.id = id;
 		this.name = name;
 		this.assigner = a1;
 		this.assignee = a2;
@@ -25,6 +26,10 @@ public class Item {
 	/*
 	 * GETTERS
 	 */
+	
+	public int getID() {
+		return id;
+	}
 
 	public String getName() {
 		return name;

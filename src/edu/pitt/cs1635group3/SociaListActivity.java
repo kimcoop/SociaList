@@ -66,9 +66,8 @@ public class SociaListActivity extends ListActivity {
 				//Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
 
                 Intent intent = new Intent(SociaListActivity.this, InsideListActivity.class);
-                intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list -- TODO use this id to grab proper data
+                intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list -- TODO use this id to grab proper data (currently grabs generic data)
                 startActivity(intent);
-                finish();
 				
 			}
 		});

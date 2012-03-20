@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_name"
+        android:padding="10px" />
+    
+    <TextView
+        android:id="@+id/item_quantity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_quantity"
+        android:padding="10px" />
+    
+    <TextView
+        android:id="@+id/item_creation_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_creation_date"
+        android:padding="10px" />
+    
+    <TextView
+        android:id="@+id/item_creator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_creator"
+        android:padding="10px" />
+    
+    <TextView
+        android:id="@+id/item_assignee"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_assignee"
+        android:padding="10px" />
+    
+    <TextView
+        android:id="@+id/item_notes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@+id/item_notes"
+        android:padding="10px" />
+
+
+</LinearLayout>

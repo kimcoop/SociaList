@@ -33,20 +33,7 @@ public class InsideListActivity extends ListActivity {
     	       
 	   ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
 	   setListAdapter(adapter);
-	   ListView list = getListView();/*
-		list.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Toast.makeText(getContext(),
-						"Item in position " + position + " clicked",
-						Toast.LENGTH_LONG).show();
-				// Return true to consume the click event. In this case the
-				// onListItemClick listener is not called anymore.
-				return true;
-			}
-		});*/
+	   ListView list = getListView();
 	}
 
 	@Override
@@ -54,8 +41,11 @@ public class InsideListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 		Item item = (Item) this.getListAdapter().getItem(position);
-		Toast.makeText(this, "You selected: " + item.getName(), Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(this, "You selected: " + item.getName(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getBaseContext(), ItemActivity.class);
+        intent.putExtra("name", item.getName());
+        startActivity(intent);
 
     }
     
@@ -69,13 +59,14 @@ public class InsideListActivity extends ListActivity {
 
     	      	Item item;
     	      	String id, name, assigner, assignee, creation_date, notes, creator, completion_date;
-    	      	int quantity;
+    	      	int item_id, quantity;
     	      	boolean completed;
 
     	        for (int i=0;i < lists.length()-1; i++){						
 
     	        	JSONObject e = lists.getJSONObject(i);
 					id = String.valueOf(i);
+					item_id = e.getInt("id");
     	        	name = e.getString("name");
     	        	assigner = e.getString("assigner");
     	        	assignee = e.getString("assignee");
@@ -85,7 +76,7 @@ public class InsideListActivity extends ListActivity {
     	        	completion_date = e.getString("completion_date");
     	        	quantity = e.getInt("quantity");
     	        	completed = e.getBoolean("completed");
-    	        	item = new Item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, completed);
+    	        	item = new Item(item_id, name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, completed);
     	        	list.add(item);
     	        }
     	       } catch (JSONException e)        {
