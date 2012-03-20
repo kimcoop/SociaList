@@ -3,14 +3,28 @@ package edu.pitt.cs1635group3;
 
 public class Item {
 
-	private String name, assignee;
-	private boolean selected;
+	//item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, complete)
+	private String name, assigner, assignee, creation_date, notes, creator, completion_date;
+	private int quantity;
+	private boolean selected, completed;
 
-	public Item(String name, String a) {
+	public Item(String name, String a1, String a2, String c1, String n, int q, String c2, String c_date, boolean complete) {
 		this.name = name;
-		this.assignee = a;
+		this.assigner = a1;
+		this.assignee = a2;
+		this.creation_date = c1;
+		this.notes = n;
+		this.creator = c2;
+		this.completion_date = c_date;
+		this.quantity = q;
+		this.completed = complete;
 		selected = false;
 	}
+
+	
+	/*
+	 * GETTERS
+	 */
 
 	public String getName() {
 		return name;
@@ -20,12 +34,16 @@ public class Item {
 		return assignee;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public boolean isSelected() {
 		return selected;
+	}
+	
+	/*
+	 * SETTERS
+	 */
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setSelected(boolean selected) {

@@ -61,14 +61,24 @@ public class InsideList extends ListActivity {
     			JSONArray  lists = json.getJSONArray("items");
 
     	      	Item item;
-    	      	String id, name, assignee;
+    	      	String id, name, assigner, assignee, creation_date, notes, creator, completion_date;
+    	      	int quantity;
+    	      	boolean completed;
+
     	        for (int i=0;i < lists.length()-1; i++){						
 
     	        	JSONObject e = lists.getJSONObject(i);
 					id = String.valueOf(i);
     	        	name = e.getString("name");
+    	        	assigner = e.getString("assigner");
     	        	assignee = e.getString("assignee");
-    	        	item = new Item(name, assignee);
+    	        	creation_date = e.getString("creation_date");
+    	        	notes = e.getString("notes");
+    	        	creator = e.getString("creator");
+    	        	completion_date = e.getString("completion_date");
+    	        	quantity = e.getInt("quantity");
+    	        	completed = e.getBoolean("completed");
+    	        	item = new Item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, completed);
     	        	list.add(item);
     	        }
     	       } catch (JSONException e)        {
