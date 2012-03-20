@@ -30,44 +30,9 @@ public class InsideList extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        /*
-        setContentView(R.layout.insidelistplaceholder);
-
-    	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-
-    	//Get the data (see above)
-    	JSONObject json =
-    		JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
-
-    	       try{
-    		JSONArray  lists = json.getJSONArray("items");
-
-    	      	       	//Loop the Array
-    	        for(int i=0;i < lists.length()-1; i++){						
-
-    	        	HashMap<String, String> map = new HashMap<String, String>();
-    	        	JSONObject e = lists.getJSONObject(i);
-
-    	        	map.put("id",  String.valueOf(i));
-    	        	map.put("name", e.getString("name"));
-    	        	String assignee = e.getString("assignee").trim();
-    	        	
-    	        	if (assignee != "") map.put("assignee", "Assigned to: " +  e.getString("assignee"));
-    	        	mylist.add(map);
-    		}
-    	       }catch(JSONException e)        {
-    	       	 Log.e("log_tag", "Error parsing data "+e.toString());
-    	       }
-    	       /*
-        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.main,
-                new String[] { "name", "assignee" },
-                new int[] { R.id.item_title, R.id.item_subtitle });
-*/
     	       
-    	       ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this,
-    					getItem());
-    			setListAdapter(adapter); /*
+	   ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
+		setListAdapter(adapter); /* May be helpful later -- onclicklistener for items
 		
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -86,27 +51,31 @@ public class InsideList extends ListActivity {
 		});*/
         
     }
+    
+    private List<Item> getItems() {
 
-	private List<Item> getItem() {
 		List<Item> list = new ArrayList<Item>();
-		list.add(get("XBOX", "Jim"));
-		list.add(get("Fridge", "Brendan"));
-		list.add(get("TV", "Rob"));
-		list.add(get("Beer", "Kim"));
-		list.add(get("More beer"));
-		// Initially select one of the items
-		list.get(1).setSelected(true);
+		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
+
+    	       try {
+    			JSONArray  lists = json.getJSONArray("items");
+
+    	      	Item item;
+    	      	String id, name, assignee;
+    	        for (int i=0;i < lists.length()-1; i++){						
+
+    	        	JSONObject e = lists.getJSONObject(i);
+					id = String.valueOf(i);
+    	        	name = e.getString("name");
+    	        	assignee = e.getString("assignee");
+    	        	item = new Item(name, assignee);
+    	        	list.add(item);
+    	        }
+    	       } catch (JSONException e)        {
+    	       	 Log.e("log_tag", "Error parsing data "+e.toString());
+    	       }
 		return list;
 	}
-
-	private Item get(String s) {
-		return new Item(s, "");
-	}
-	
-	private Item get(String s, String a) {
-		return new Item(s, a);
-	}
-    
     
     
     
