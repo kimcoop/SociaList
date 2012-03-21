@@ -31,6 +31,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 public class InsideListActivity extends ListActivity {
+	
+
+	  
+	Button assign_button;
+	Button complete_button;
+	Button invite_button;
+	View buttons_helper;
+	boolean inviteUp = true;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +98,7 @@ public class InsideListActivity extends ListActivity {
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("Viewing List Contents"); //TODO get name of List (implement Parcelable for List)
+		label_header.setText("Viewing Dorm Room Checklist"); //TODO get name of List (implement Parcelable for List)
 		
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,6 +122,11 @@ public class InsideListActivity extends ListActivity {
 			});
 
 	   setListAdapter(adapter);
+       
+		assign_button = (Button) findViewById(R.id.assign_button);
+		complete_button = (Button) findViewById(R.id.complete_button);
+		invite_button = (Button) findViewById(R.id.invite_button);
+		buttons_helper = (View) findViewById(R.id.buttons_helper);
 	   
 	}
 /*
@@ -165,6 +178,28 @@ public class InsideListActivity extends ListActivity {
 		return list;
 	}
     
+
+
+    public void flipButtons (View v)
+    {
+
+    	if (inviteUp)
+    	{
+    		invite_button.setVisibility(View.GONE);
+    		complete_button.setVisibility(View.VISIBLE);
+    		assign_button.setVisibility(View.VISIBLE);
+    		buttons_helper.setVisibility(View.VISIBLE);
+    		inviteUp = false;
+    	}
+    	else
+    	{
+    		invite_button.setVisibility(View.VISIBLE);
+    		complete_button.setVisibility(View.GONE);
+    		assign_button.setVisibility(View.GONE);
+    		buttons_helper.setVisibility(View.GONE);
+    		inviteUp = true;
+    	}
+    }
     
     
 }

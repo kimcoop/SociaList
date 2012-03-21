@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 public class SociaListActivity extends ListActivity {
     /** Called when the activity is first created. */
+	
+		
     @Override
     public void onCreate(Bundle savedInstanceState) {    	
     	
@@ -83,15 +85,13 @@ public class SociaListActivity extends ListActivity {
 				//Toast.makeText(getBaseContext(), "ID '" + o.get("id") + "' was clicked.", Toast.LENGTH_SHORT).show(); 
 
                 Intent intent = new Intent(SociaListActivity.this, InsideListActivity.class);
-                intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list -- TODO use this id to grab proper data (currently grabs generic data)
+                intent.putExtra("list_id", o.get("id"));	// Pass the id of the clicked list -- TODO use this id to grab proper data (currently grabs generic data). Talk to Kim about this.
                 startActivity(intent);
 				
 			}
 		});
         
-        
-        
-    }
+    } //end onCreate
     
     
 }
