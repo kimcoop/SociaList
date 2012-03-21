@@ -32,7 +32,15 @@ public class InsideListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
     	       
 	   ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
-	   setListAdapter(adapter);
+	   
+	   /*
+	   final Button btnAddMore = new Button(this);
+	   btnAddMore.setText("Button");
+	   exArticlesList = (ExpandableListView) this.findViewById(R.id.art_list_exlist);
+	   exArticlesList.addFooterView(btnAddMore);
+
+	   setListAdapter(adapter);*/
+	   
 	}
 
 	@Override
