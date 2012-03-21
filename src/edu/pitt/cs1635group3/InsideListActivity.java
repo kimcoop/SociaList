@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,13 +15,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
@@ -67,17 +71,54 @@ public class InsideListActivity extends ListActivity {
         ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.insidelist_main,
                 new String[] { "name", "assignee" },
                 new int[] { R.id.item_name, R.id.item_assignee });
+/*
+			viewHolder.checkbox
+					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+						public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+							Item element = (Item) viewHolder.checkbox
+									.getTag();
+							element.setSelected(buttonView.isChecked());
+
+						}
+					});
+			view.setTag(viewHolder);
+			viewHolder.checkbox.setTag(list.get(position));*/
 		
 		final ListView lv = getListView();
-        
+
+		View header = getLayoutInflater().inflate(R.layout.header, null);
+		lv.addHeaderView(header);
+		TextView label_header = (TextView) findViewById(R.id.label_header);
+		label_header.setText("Viewing List Contents"); //TODO get name of List (implement Parcelable for List)
+		
+
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			  public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+
+			    Object o = lv.getItemAtPosition(position);
+			    Log.e("Clicked item in list", "At position" +position);
+			    //Log.e("Object clicked", o.toString() + " and name is " +((Item) o).getName());
+			    /* write you handling code like...
+			    String st = "sdcard/";
+			    */
+			    //super.onListItemClick(l, v, position, id);
+				// Get the item that was clicked
+				//Item item = (Item) this.getListAdapter().getItem(position);
+
+		        //Intent intent = new Intent(getBaseContext(), ItemActivity.class);
+		        //intent.putExtra("Item", item); // can pass as object because it implements Parcelable
+		        //startActivity(intent);
+			  }
+			});
 
 	   setListAdapter(adapter);
 	   
 	}
-
+/*
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
+	protected void setOnListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 		Item item = (Item) this.getListAdapter().getItem(position);
@@ -86,7 +127,7 @@ public class InsideListActivity extends ListActivity {
         intent.putExtra("Item", item); // can pass as object because it implements Parcelable
         startActivity(intent);
 
-    }
+    }*/
     
     private List<Item> getItems() {
 

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -59,9 +60,19 @@ public class SociaListActivity extends ListActivity {
 		final ListView lv = getListView();
 		
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-		//View footer = getLayoutInflater().inflate(R.layout.footer, null);
+		View footer = getLayoutInflater().inflate(R.layout.footer, null);
 		lv.addHeaderView(header);
-		//listView.addFooterView(footer);
+		lv.addFooterView(footer);
+		
+		Button newListButton = (Button) findViewById(R.id.new_list_button);
+		         newListButton.setOnClickListener(new View.OnClickListener() {
+		             public void onClick(View v) {
+		                 // Perform action on click
+		            	 Log.e("You clicked!", "STUB: create new list");
+		             }
+		         });
+		
+		
 		setListAdapter(adapter);
 		
 		lv.setTextFilterEnabled(true);
@@ -81,5 +92,6 @@ public class SociaListActivity extends ListActivity {
         
         
     }
+    
     
 }
