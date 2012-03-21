@@ -55,9 +55,15 @@ public class SociaListActivity extends ListActivity {
                 new String[] { "name", "updated" },
                 new int[] { R.id.item_title, R.id.item_subtitle });
 
-		setListAdapter(adapter);
 		
 		final ListView lv = getListView();
+		
+		View header = getLayoutInflater().inflate(R.layout.header, null);
+		//View footer = getLayoutInflater().inflate(R.layout.footer, null);
+		lv.addHeaderView(header);
+		//listView.addFooterView(footer);
+		setListAdapter(adapter);
+		
 		lv.setTextFilterEnabled(true);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

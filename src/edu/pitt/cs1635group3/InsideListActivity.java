@@ -38,8 +38,8 @@ public class InsideListActivity extends ListActivity {
 	   btnAddMore.setText("Button");
 	   exArticlesList = (ExpandableListView) this.findViewById(R.id.art_list_exlist);
 	   exArticlesList.addFooterView(btnAddMore);
-
-	   setListAdapter(adapter);*/
+*/
+	   setListAdapter(adapter);
 	   
 	}
 
