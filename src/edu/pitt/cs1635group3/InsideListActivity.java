@@ -31,14 +31,47 @@ public class InsideListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     	       
-	   ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
+	   //ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
 	   
-	   /*
-	   final Button btnAddMore = new Button(this);
-	   btnAddMore.setText("Button");
-	   exArticlesList = (ExpandableListView) this.findViewById(R.id.art_list_exlist);
-	   exArticlesList.addFooterView(btnAddMore);
-*/
+	  
+        Log.i("HERE", "Inside onCreate in InsideListActivity");
+        setContentView(R.layout.insidelistplaceholder);
+
+    	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
+
+    	//Get the data (see above)
+    	JSONObject json =
+    		JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
+
+    	       try{
+    		JSONArray  lists = json.getJSONArray("items");
+
+    	      	       	//Loop the Array
+    	        for(int i=0;i < lists.length()-1; i++){						
+
+    	        	HashMap<String, String> map = new HashMap<String, String>();
+    	        	JSONObject e = lists.getJSONObject(i);
+
+    	        	map.put("id",  String.valueOf(i));
+    	        	map.put("name", e.getString("name"));
+    	        	map.put("assignee",e.getString("assignee"));
+    	        	
+    	        	Log.d("Test", "item name is "+e.getString("name"));
+    	        	
+    	        	mylist.add(map);
+    		}
+    	       }catch(JSONException e)        {
+    	       	 Log.e("log_tag", "Error parsing data "+e.toString());
+    	       }
+    	       
+        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.insidelist_main,
+                new String[] { "name", "assignee" },
+                new int[] { R.id.item_name, R.id.item_assignee });
+
+		
+		final ListView lv = getListView();
+        
+
 	   setListAdapter(adapter);
 	   
 	}

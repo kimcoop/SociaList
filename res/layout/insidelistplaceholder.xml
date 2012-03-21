@@ -1,40 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/inside_layout" >
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
     
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+id/label"
-        android:textSize="30px"
-        android:layout_marginLeft="5px"
-	    android:layout_weight="1"
-	    android:padding="10px"
-    	android:textColor="@android:color/white">
-    </TextView>
-
-    <CheckBox
-        android:id="@+id/check"
-        android:focusable="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="10px" >
-    </CheckBox>
-    
-    <TextView
-        android:id="@+id/sublabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+id/sublabel"
-        android:textSize="24px"
-        android:layout_marginTop="40px"
-        android:layout_marginLeft="5px"
-	    android:padding="10px">
-    </TextView>
-    
-
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/top_control_bar">
+		<!--  <Spinner android:id="@+id/sort_by" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:entries="@array/default_sorts" />-->
+	</RelativeLayout>
+	
+	
+	<LinearLayout android:id="@+id/bottom_control_bar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true">
+		<Button android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="Invite" />
+	</LinearLayout>
+	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+		android:layout_height="0dip" android:choiceMode="multipleChoice"
+		android:layout_below="@id/top_control_bar" android:layout_above="@id/bottom_control_bar"></ListView>
+	
+	
+	<TextView android:id="@android:id/empty" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="My list stuff"
+		android:layout_below="@id/top_control_bar" android:layout_above="@id/bottom_control_bar" />
 </RelativeLayout>

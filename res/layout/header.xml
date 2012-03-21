@@ -9,7 +9,7 @@
         android:id="@+id/label_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="My header here"
+        android:text="My Lists"
         android:textSize="16dip" />
 
 </LinearLayout>
