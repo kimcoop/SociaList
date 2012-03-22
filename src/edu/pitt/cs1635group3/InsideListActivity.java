@@ -32,7 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class InsideListActivity extends ListActivity {
 	
-
+	ArrayList<Item> items = null;
 	  
 	Button assign_button;
 	Button complete_button;
@@ -42,84 +42,29 @@ public class InsideListActivity extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    	       
-	   //ArrayAdapter<Item> adapter = new InteractiveArrayAdapter(this, getItems());
-	   
-	  
-        Log.i("HERE", "Inside onCreate in InsideListActivity");
         setContentView(R.layout.insidelistplaceholder);
-
-    	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-
-    	//Get the data (see above)
-    	JSONObject json =
-    		JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
-
-    	       try{
-    		JSONArray  lists = json.getJSONArray("items");
-
-    	      	       	//Loop the Array
-    	        for(int i=0;i < lists.length()-1; i++){						
-
-    	        	HashMap<String, String> map = new HashMap<String, String>();
-    	        	JSONObject e = lists.getJSONObject(i);
-
-    	        	map.put("id",  String.valueOf(i));
-    	        	map.put("name", e.getString("name"));
-    	        	map.put("assignee",e.getString("assignee"));
-    	        	
-    	        	Log.d("Test", "item name is "+e.getString("name"));
-    	        	
-    	        	mylist.add(map);
-    		}
-    	       }catch(JSONException e)        {
-    	       	 Log.e("log_tag", "Error parsing data "+e.toString());
-    	       }
-    	       
-        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.insidelist_main,
-                new String[] { "name", "assignee" },
-                new int[] { R.id.item_name, R.id.item_assignee });
+        
+		assign_button = (Button) findViewById(R.id.assign_button);
+		complete_button = (Button) findViewById(R.id.complete_button);
+		invite_button = (Button) findViewById(R.id.invite_button);
+		buttons_helper = (View) findViewById(R.id.buttons_helper);
+        
+        items = getItems();
+        ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.insidelist_main, items);
 		
 		final ListView lv = getListView();
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("Viewing Dorm Room Checklist"); //TODO get name of List (implement Parcelable for List)
+		label_header.setText("Viewing Dorm Room Checklist"); //TODO get name of List (make List class & implement Parcelable for List)
 		
 		lv.setTextFilterEnabled(true);
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			  public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-
-			    Object o = lv.getItemAtPosition(position);
-			    Toast.makeText(getBaseContext(), "Clicked list item", Toast.LENGTH_SHORT).show(); 
-			    Log.e("Clicked item in list", "At position" +position);
-			    //Log.e("Object clicked", o.toString() + " and name is " +((Item) o).getName());
-			    /* write you handling code like...
-			    String st = "sdcard/";
-			    */
-			    //super.onListItemClick(l, v, position, id);
-				// Get the item that was clicked
-				//Item item = (Item) this.getListAdapter().getItem(position);
-
-		        //Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-		        //intent.putExtra("Item", item); // can pass as object because it implements Parcelable
-		        //startActivity(intent);
-			  }//android:descendantFocusability="blocksDescendants
-			});
-
-	   setListAdapter(adapter);
-       
-		assign_button = (Button) findViewById(R.id.assign_button);
-		complete_button = (Button) findViewById(R.id.complete_button);
-		invite_button = (Button) findViewById(R.id.invite_button);
-		buttons_helper = (View) findViewById(R.id.buttons_helper);
-	   
+		lv.setClickable(true);
+		setListAdapter(adapter); // must go after header and footer are inflated
 	}
-/*
-	@Override
-	protected void setOnListItemClick(ListView l, View v, int position, long id) {
+
+    protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 		Item item = (Item) this.getListAdapter().getItem(position);
@@ -128,11 +73,11 @@ public class InsideListActivity extends ListActivity {
         intent.putExtra("Item", item); // can pass as object because it implements Parcelable
         startActivity(intent);
 
-    }*/
+    }
     
-    private List<Item> getItems() {
+    private ArrayList<Item> getItems() { // TODO: convert this to a getItems() method inside List class
 
-		List<Item> list = new ArrayList<Item>();
+    	ArrayList<Item> myList = new ArrayList<Item>();
 		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
 
     	       try {
@@ -158,12 +103,12 @@ public class InsideListActivity extends ListActivity {
     	        	quantity = e.getInt("quantity");
     	        	completed = e.getBoolean("completed");
     	        	item = new Item(item_id, name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, completed);
-    	        	list.add(item);
+    	        	myList.add(item);
     	        }
     	       } catch (JSONException e)        {
     	       	 Log.e("log_tag", "Error parsing data "+e.toString());
     	       }
-		return list;
+    	       return myList;
 	}
     
 
