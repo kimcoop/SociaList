@@ -19,4 +19,41 @@
         android:textSize="12dp"
         android:layout_height="30dp" />
     
+    <TextView
+        android:id="@+id/label_list_items"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:text="List items" />
+
+    <LinearLayout 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_gravity="bottom" 
+            android:gravity="center" 
+            >   
+    
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add List Item"
+        android:onClick="addListItem" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:onClick="saveList"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:onClick="deleteList" />
+    
+    
+    </LinearLayout>
 </LinearLayout>

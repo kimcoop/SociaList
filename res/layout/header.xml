@@ -10,6 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="My Lists"
-        android:textSize="16dip" />
+        android:textSize="16dip"
+   		android:background="#323331"
+   		android:padding="4dp"/>
 
 </LinearLayout>
