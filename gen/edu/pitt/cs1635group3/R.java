@@ -28,6 +28,8 @@ public final class R {
         public static final int complete_button=0x7f05000b;
         public static final int delete_button=0x7f050019;
         public static final int edit_list_name=0x7f050001;
+        public static final int element_subtitle=0x7f050031;
+        public static final int element_title=0x7f050030;
         public static final int header=0x7f05000c;
         public static final int header_notes=0x7f050017;
         public static final int inside_layout=0x7f05001d;
@@ -37,8 +39,6 @@ public final class R {
         public static final int item_name=0x7f050011;
         public static final int item_notes=0x7f050018;
         public static final int item_quantity=0x7f050013;
-        public static final int item_subtitle=0x7f050031;
-        public static final int item_title=0x7f050030;
         public static final int label=0x7f05001e;
         public static final int label_assignee=0x7f050015;
         public static final int label_header=0x7f05000d;
@@ -74,8 +74,8 @@ public final class R {
         public static final int item=0x7f030005;
         public static final int item_row=0x7f030006;
         public static final int list=0x7f030007;
-        public static final int listplaceholder=0x7f030008;
-        public static final int main=0x7f030009;
+        public static final int list_row=0x7f030008;
+        public static final int listplaceholder=0x7f030009;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

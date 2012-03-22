@@ -72,7 +72,6 @@ public class InsideListActivity extends ListActivity {
         Intent intent = new Intent(getBaseContext(), ItemActivity.class);
         intent.putExtra("Item", item); // can pass as object because it implements Parcelable
         startActivity(intent);
-
     }
     
     private ArrayList<Item> getItems() { // TODO: convert this to a getItems() method inside List class

@@ -43,9 +43,9 @@ public class CreateListActivity extends ListActivity {
 
 	    	mylist = new ArrayList<HashMap<String, String>>();
 
-	        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.main,
+	        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.list_row,
 	                new String[] { "name", "assignee" },
-	                new int[] { R.id.item_title, R.id.item_subtitle });
+	                new int[] { R.id.element_title, R.id.element_subtitle }); // not proper use of list_row.xml, but works
 			
 			final ListView lv = getListView();
 			setListAdapter(adapter);
@@ -76,7 +76,7 @@ public class CreateListActivity extends ListActivity {
 			    ((SimpleAdapter) getListView().getAdapter()).notifyDataSetChanged();
 			    setContentView(R.layout.editlist);
 
-			    listNameSpace = (EditText) findViewById(R.id.edit_list_name);
+			    listNameSpace = (EditText) findViewById(R.id.edit_list_name); // redeclare this because onCreate is called again for this refresh
 				//Toast.makeText(getBaseContext(), "original list name is "+listName, Toast.LENGTH_SHORT).show(); 
 			    listNameSpace.setText(listName); //restore list name
 			
