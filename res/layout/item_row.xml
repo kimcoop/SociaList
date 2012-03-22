@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/inside_layout"
-    android:descendantFocusability="blocksDescendants" ><!-- this line is super important -->
+    android:descendantFocusability="blocksDescendants" ><!-- this line is super duper important -->
     
 		    <TextView
 		        android:id="@+id/item_name"
