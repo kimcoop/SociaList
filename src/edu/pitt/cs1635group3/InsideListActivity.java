@@ -64,27 +64,24 @@ public class InsideListActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter); // must go after header and footer are inflated
-
+/*
 	    Spinner spinner = (Spinner) findViewById(R.id.sorter);
 	    spinner.setVisibility(View.VISIBLE);
 	    ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
 	            this, R.array.default_sorts, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    spinner.setAdapter(spinnerAdapter);
-		
 	    
 	    class MyOnItemSelectedListener implements OnItemSelectedListener {
 
-	        public void onItemSelected(AdapterView<?> parent,
-	            View view, int pos, long id) {
-	          Toast.makeText(parent.getContext(), "The sort selected is " +
-	              parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+	        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+	          Toast.makeText(parent.getContext(), "The sort selected is " +parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
 	        }
 
 	        public void onNothingSelected(AdapterView parent) {
 	          // Do nothing.
 	        }
-	    }
+	    }*/
 		
 		
 		
@@ -100,7 +97,7 @@ public class InsideListActivity extends ListActivity {
         startActivity(intent);
     }
     
-    private ArrayList<Item> getItems() { // TODO: convert this to a getItems() method inside List class
+    private ArrayList<Item> getItems() { //TODO: convert this to a getItems() method inside List class
 
     	ArrayList<Item> myList = new ArrayList<Item>();
 		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");

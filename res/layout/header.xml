@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/header"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:orientation="horizontal"
+    android:paddingBottom="1.0dip"
+    android:paddingLeft="4.0dip"
+    android:paddingRight="4.0dip"
+    android:paddingTop="5.0dip" >
 
     <TextView
         android:id="@+id/label_header"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/sorter"
+        android:layout_weight="0.76"
+        android:background="#323331"
+        android:padding="4dp"
         android:text="My Lists"
-        android:textSize="16dip"
-   		android:background="#323331"
-   		android:padding="4dp"/>
-		
-	<Spinner android:id="@+id/sorter" 
-	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content" 
-		android:entries="@array/default_sorts"
-		android:visibility="gone"
-		android:prompt="@string/default_sort_text" />
+        android:textSize="16dip" />
+
+    <Spinner
+        android:id="@+id/sorter"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_weight="0.17"
+        android:entries="@array/default_sorts"
+        android:prompt="@string/default_sort_text"
+        android:visibility="gone" />
 
 </LinearLayout>
