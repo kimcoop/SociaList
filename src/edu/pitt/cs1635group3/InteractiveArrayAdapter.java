@@ -22,7 +22,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Item> {
 	private final Activity context;
 
 	public InteractiveArrayAdapter(Activity context, List<Item> list) {
-		super(context, R.layout.insidelistplaceholder, list);
+		super(context, R.layout.insidelist_layout, list);
 		this.context = context;
 		this.list = list;
 	}
@@ -38,7 +38,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Item> {
 		View view = null;
 		if (convertView == null) {
 			LayoutInflater inflator = context.getLayoutInflater();
-			view = inflator.inflate(R.layout.insidelistplaceholder, null);
+			view = inflator.inflate(R.layout.insidelist_layout, null);
 			final ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text = (TextView) view.findViewById(R.id.label);
 			

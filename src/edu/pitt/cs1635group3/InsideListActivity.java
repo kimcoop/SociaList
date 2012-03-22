@@ -42,7 +42,7 @@ public class InsideListActivity extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.insidelistplaceholder);
+        setContentView(R.layout.insidelist_layout);
         
 		assign_button = (Button) findViewById(R.id.assign_button);
 		complete_button = (Button) findViewById(R.id.complete_button);
@@ -50,7 +50,7 @@ public class InsideListActivity extends ListActivity {
 		buttons_helper = (View) findViewById(R.id.buttons_helper);
         
         items = getItems();
-        ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.insidelist_main, items);
+        ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row, items);
 		
 		final ListView lv = getListView();
 

@@ -9,6 +9,7 @@
         android:id="@+id/new_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create New List" />
+        android:text="Create New List"
+        android:onClick="createNewList" />
 
 </LinearLayout>

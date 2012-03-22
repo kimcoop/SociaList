@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
-
+	//This pulls in items and inflates them appropriately for the layout.
+	
+	
 	private final ArrayList<Item> items;
 
 	public ItemAdapter(Context context, int textViewResourceId, ArrayList<Item> items) {
@@ -33,7 +35,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		
         if (v == null) {
         	LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.insidelist_main, null);
+            v = vi.inflate(R.layout.item_row, null);
         }
         Item o = items.get(position);
         if (o != null) {

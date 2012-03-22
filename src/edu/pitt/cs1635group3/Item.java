@@ -6,13 +6,12 @@ import android.os.Parcelable;
 
 public class Item implements Parcelable{
 
-	//item(name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, complete)
 	private String name, assigner, assignee, creation_date, notes, creator, completion_date;
-	private int id, quantity;
+	private int parentID, ID, quantity; //use parentID to tie to list (TODO)
 	private boolean selected, completed;
 
 	public Item(int id, String name, String a1, String a2, String c1, String n, int q, String c2, String c_date, boolean complete) {
-		this.id = id;
+		this.ID = id;
 		this.name = name;
 		this.assigner = a1;
 		this.assignee = a2;
@@ -31,7 +30,7 @@ public class Item implements Parcelable{
 	 */
 	
 	public int getID() {
-		return id;
+		return ID;
 	}
 
 	public String getName() {
@@ -111,7 +110,7 @@ public class Item implements Parcelable{
 
 
 	public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(id);
+		out.writeInt(ID);
 		out.writeString(name);
 		out.writeString(assigner);
 		out.writeString(assignee);
@@ -136,7 +135,7 @@ public class Item implements Parcelable{
 
     // Constructor that takes a Parcel and gives you an object populated with its values
     private Item(Parcel in) {
-		id = in.readInt();
+		ID = in.readInt();
 		name = in.readString();
 		assigner = in.readString();
 		assignee = in.readString();

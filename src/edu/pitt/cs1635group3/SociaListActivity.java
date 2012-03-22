@@ -66,15 +66,6 @@ public class SociaListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		lv.addFooterView(footer);
 		
-		Button newListButton = (Button) findViewById(R.id.new_list_button);
-		         newListButton.setOnClickListener(new View.OnClickListener() {
-		             public void onClick(View v) {
-		                 // Perform action on click
-		            	 Log.e("You clicked!", "STUB: create new list");
-		            	 Toast.makeText(getBaseContext(), "Create new list", Toast.LENGTH_SHORT).show(); 
-		             }
-		         });
-		
 		
 		setListAdapter(adapter);
 		
@@ -95,7 +86,10 @@ public class SociaListActivity extends ListActivity {
     } //end onCreate
     
     public void createNewList(View v) {
-    	
+
+     Intent intent = new Intent(SociaListActivity.this, CreateListActivity.class);
+     startActivity(intent);
+   	 
     }
     
     
