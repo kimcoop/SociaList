@@ -12,7 +12,7 @@
         android:text="List name" />
     
     <EditText
-        android:id="@+id/list_name"
+        android:id="@+id/edit_list_name"
         android:layout_width="fill_parent"
         android:padding="10px"
         android:text="@+id/list_name"

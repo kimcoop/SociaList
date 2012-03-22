@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +36,7 @@ public class CreateListActivity extends ListActivity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.editlist);
 	 
-	        EditText listName = (EditText) findViewById(R.id.list_name);
+	        EditText listName = (EditText) findViewById(R.id.edit_list_name);
 	        listName.setText("List name here");
 
 	    	mylist = new ArrayList<HashMap<String, String>>();
@@ -61,16 +62,15 @@ public class CreateListActivity extends ListActivity {
 	    	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 	    		String value = input.getText().toString();
-	    	  // Do something with value!
-				
 
 	        	HashMap<String, String> newItem = new HashMap<String, String>();
 				newItem.put("name", value);
-				newItem.put("assignee", "test");
-			    mylist.add(newItem);
+				newItem.put("assignee", "");
+			    mylist.add(newItem); // append the new item to our list of items (can be saved when saveList() is called)
 			    ((SimpleAdapter) getListView().getAdapter()).notifyDataSetChanged();
 			    setContentView(R.layout.editlist);
-				
+				//Whenever the list gets refreshed, the other layout pieces (List name) get refreshed too.
+			    // Not too difficult TODO, but store the user's inputted list name prior to list refresh. Restore it after the refresh.
 	    	  }
 	    	});
 
@@ -84,7 +84,14 @@ public class CreateListActivity extends ListActivity {
 	    }
 
 	    public void saveList(View v) {
-			Toast.makeText(getBaseContext(), "TODO: save list", Toast.LENGTH_SHORT).show();
+			
+			EditText editlistSpace = (EditText) findViewById(R.id.edit_list_name);
+			String listName = editlistSpace.getText().toString();
+			if (listName.equals("") || listName.equals("Please enter a list name") || listName.equals("List name here")) {
+				//invalid name. don't allow save.
+				editlistSpace.setBackgroundColor(Color.parseColor("red"));
+				editlistSpace.setText("Please enter a list name");
+			}
 			
 			//To do this, save the List as list newList = new List(list name).
 			// Store newList's ID in a var
@@ -97,5 +104,7 @@ public class CreateListActivity extends ListActivity {
 	    public void deleteList(View v) {
 			Toast.makeText(getBaseContext(), "TODO: delete list", Toast.LENGTH_SHORT).show(); 
 
+			//Question - destroy list only for user? Or for every user who shares it?
+			
 	    }
 }
