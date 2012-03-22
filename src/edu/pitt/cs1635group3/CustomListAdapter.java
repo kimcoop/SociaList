@@ -43,7 +43,7 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
                 if (name != null)
                       name.setText(o.getName());
                 if(lastUpdated != null)
-                	lastUpdated.setText(o.getLastUpdated());
+                	lastUpdated.setText("Last updated: " +o.getLastUpdated());
         }
         
         return v;
