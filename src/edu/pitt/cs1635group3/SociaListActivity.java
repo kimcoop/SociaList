@@ -33,8 +33,7 @@ public class SociaListActivity extends ListActivity {
     	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 
     	//Get the data (see above)
-    	JSONObject json =
-    		JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/index.json");
+    	JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/index.json");
 
     	       try{
     		JSONArray  lists = json.getJSONArray("lists");
@@ -65,7 +64,6 @@ public class SociaListActivity extends ListActivity {
 		View footer = getLayoutInflater().inflate(R.layout.footer, null);
 		lv.addHeaderView(header);
 		lv.addFooterView(footer);
-		
 		
 		setListAdapter(adapter);
 		

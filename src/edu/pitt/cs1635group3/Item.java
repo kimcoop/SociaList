@@ -23,6 +23,18 @@ public class Item implements Parcelable{
 		this.completed = complete;
 		selected = false;
 	}
+	
+	public Item(String name) { // for now, when a user submits a new list item, this is what's called. 
+		//eventually switch to next method (after getting parent list ID)
+		this.name = name;
+		
+	}
+	
+	public Item(String name, int parent) {
+		//this is what we want to use
+		this.name = name;
+		this.parentID = parent;
+	}
 
 	
 	/*
@@ -72,6 +84,10 @@ public class Item implements Parcelable{
 	/*
 	 * SETTERS
 	 */
+	
+	public void setParent(int parent) {
+		this.parentID = parent;
+	}
 
 	public void setName(String name) {
 		this.name = name;
