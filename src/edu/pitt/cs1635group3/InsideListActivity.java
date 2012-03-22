@@ -79,19 +79,6 @@ public class InsideListActivity extends ListActivity {
         ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.insidelist_main,
                 new String[] { "name", "assignee" },
                 new int[] { R.id.item_name, R.id.item_assignee });
-/*
-			viewHolder.checkbox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-						public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-							Item element = (Item) viewHolder.checkbox
-									.getTag();
-							element.setSelected(buttonView.isChecked());
-
-						}
-					});
-			view.setTag(viewHolder);
-			viewHolder.checkbox.setTag(list.get(position));*/
 		
 		final ListView lv = getListView();
 
@@ -100,12 +87,13 @@ public class InsideListActivity extends ListActivity {
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing Dorm Room Checklist"); //TODO get name of List (implement Parcelable for List)
 		
-
+		lv.setTextFilterEnabled(true);
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			  public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 
 			    Object o = lv.getItemAtPosition(position);
+			    Toast.makeText(getBaseContext(), "Clicked list item", Toast.LENGTH_SHORT).show(); 
 			    Log.e("Clicked item in list", "At position" +position);
 			    //Log.e("Object clicked", o.toString() + " and name is " +((Item) o).getName());
 			    /* write you handling code like...
@@ -118,7 +106,7 @@ public class InsideListActivity extends ListActivity {
 		        //Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		        //intent.putExtra("Item", item); // can pass as object because it implements Parcelable
 		        //startActivity(intent);
-			  }
+			  }//android:descendantFocusability="blocksDescendants
 			});
 
 	   setListAdapter(adapter);

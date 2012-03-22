@@ -71,6 +71,7 @@ public class SociaListActivity extends ListActivity {
 		             public void onClick(View v) {
 		                 // Perform action on click
 		            	 Log.e("You clicked!", "STUB: create new list");
+		            	 Toast.makeText(getBaseContext(), "Create new list", Toast.LENGTH_SHORT).show(); 
 		             }
 		         });
 		
@@ -92,6 +93,10 @@ public class SociaListActivity extends ListActivity {
 		});
         
     } //end onCreate
+    
+    public void createNewList(View v) {
+    	
+    }
     
     
 }

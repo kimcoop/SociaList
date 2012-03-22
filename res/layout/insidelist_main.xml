@@ -8,7 +8,8 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/inside_layout" >
+    android:id="@+id/inside_layout"
+    android:descendantFocusability="blocksDescendants" ><!-- this line is super important -->
     
 		    <TextView
 		        android:id="@+id/item_name"
