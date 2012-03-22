@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,6 +28,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
 
 
@@ -62,7 +64,31 @@ public class InsideListActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter); // must go after header and footer are inflated
-	}
+
+	    Spinner spinner = (Spinner) findViewById(R.id.sorter);
+	    spinner.setVisibility(View.VISIBLE);
+	    ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+	            this, R.array.default_sorts, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    spinner.setAdapter(spinnerAdapter);
+		
+	    
+	    class MyOnItemSelectedListener implements OnItemSelectedListener {
+
+	        public void onItemSelected(AdapterView<?> parent,
+	            View view, int pos, long id) {
+	          Toast.makeText(parent.getContext(), "The sort selected is " +
+	              parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+	        }
+
+	        public void onNothingSelected(AdapterView parent) {
+	          // Do nothing.
+	        }
+	    }
+		
+		
+		
+	}// end onCreate
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);

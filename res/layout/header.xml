@@ -13,5 +13,12 @@
         android:textSize="16dip"
    		android:background="#323331"
    		android:padding="4dp"/>
+		
+	<Spinner android:id="@+id/sorter" 
+	    android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:entries="@array/default_sorts"
+		android:visibility="gone"
+		android:prompt="@string/default_sort_text" />
 
 </LinearLayout>

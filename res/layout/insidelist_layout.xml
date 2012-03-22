@@ -6,8 +6,6 @@
     
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/top_control_bar">
-		<!--  <Spinner android:id="@+id/sort_by" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:entries="@array/default_sorts" /> This will be helpful if we plan to do sorting for list items -->
 	</RelativeLayout>
 	
 	
