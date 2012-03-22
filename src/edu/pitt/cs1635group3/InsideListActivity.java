@@ -83,25 +83,27 @@ public class InsideListActivity extends ListActivity {
     			JSONArray  lists = json.getJSONArray("items");
 
     	      	Item item;
-    	      	String id, name, assigner, assignee, creation_date, notes, creator, completion_date;
-    	      	int item_id, quantity;
+    	      	String ID, name, assigner, assignee, creationDate, notes, creator, completionDate;
+    	      	int itemID, parentID, quantity;
     	      	boolean completed;
 
     	        for (int i=0;i < lists.length()-1; i++){						
 
     	        	JSONObject e = lists.getJSONObject(i);
-					id = String.valueOf(i);
-					item_id = e.getInt("id");
+					ID = String.valueOf(i);
+					parentID = e.getInt("parent_id");
+					itemID = e.getInt("id");
     	        	name = e.getString("name");
     	        	assigner = e.getString("assigner");
     	        	assignee = e.getString("assignee");
-    	        	creation_date = e.getString("creation_date");
+    	        	creationDate = e.getString("creation_date");
     	        	notes = e.getString("notes");
     	        	creator = e.getString("creator");
-    	        	completion_date = e.getString("completion_date");
+    	        	completionDate = e.getString("completion_date");
     	        	quantity = e.getInt("quantity");
     	        	completed = e.getBoolean("completed");
-    	        	item = new Item(item_id, name, assigner, assignee, creation_date, notes, quantity, creator, completion_date, completed);
+    	        	item = new Item(itemID, name, assigner, assignee, creationDate, notes, quantity, creator, completionDate, completed);
+    	        	item.setParent(parentID);
     	        	myList.add(item);
     	        }
     	       } catch (JSONException e)        {
