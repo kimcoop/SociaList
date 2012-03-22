@@ -29,15 +29,17 @@ import android.widget.Toast;
 
 public class CreateListActivity extends ListActivity {
 
-	ArrayList<HashMap<String, String>> mylist;
+	private ArrayList<HashMap<String, String>> mylist;
+    private EditText listNameSpace;
+    private String listName;
 		
 @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.editlist);
 	 
-	        EditText listName = (EditText) findViewById(R.id.edit_list_name);
-	        listName.setText("List name here");
+	        listNameSpace = (EditText) findViewById(R.id.edit_list_name);
+	        listNameSpace.setText("List name here");
 
 	    	mylist = new ArrayList<HashMap<String, String>>();
 
@@ -52,8 +54,12 @@ public class CreateListActivity extends ListActivity {
 	}
 	    
 	    public void addListItem(View v) {
+			
+	    	//Whenever the list gets refreshed, the other layout pieces (List name) get refreshed too.
+		    // Store the user's inputted list name prior to list refresh. Restore it after the list refresh.
+  	    	listName = listNameSpace.getText().toString().trim();
+	    	
 	    	AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
 	    	alert.setTitle("New List Item Name");
 
 	    	final EditText input = new EditText(this); // Set an EditText view to get user input 
@@ -61,7 +67,7 @@ public class CreateListActivity extends ListActivity {
 
 	    	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-	    		String value = input.getText().toString();
+	    		String value = input.getText().toString().trim();
 
 	        	HashMap<String, String> newItem = new HashMap<String, String>();
 				newItem.put("name", value);
@@ -69,9 +75,12 @@ public class CreateListActivity extends ListActivity {
 			    mylist.add(newItem); // append the new item to our list of items (can be saved when saveList() is called)
 			    ((SimpleAdapter) getListView().getAdapter()).notifyDataSetChanged();
 			    setContentView(R.layout.editlist);
-				//Whenever the list gets refreshed, the other layout pieces (List name) get refreshed too.
-			    // Not too difficult TODO, but store the user's inputted list name prior to list refresh. Restore it after the refresh.
-	    	  }
+
+			    listNameSpace = (EditText) findViewById(R.id.edit_list_name);
+				//Toast.makeText(getBaseContext(), "original list name is "+listName, Toast.LENGTH_SHORT).show(); 
+			    listNameSpace.setText(listName); //restore list name
+			
+				}
 	    	});
 
 	    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -85,12 +94,11 @@ public class CreateListActivity extends ListActivity {
 
 	    public void saveList(View v) {
 			
-			EditText editlistSpace = (EditText) findViewById(R.id.edit_list_name);
-			String listName = editlistSpace.getText().toString();
+			listName = listNameSpace.getText().toString();
 			if (listName.equals("") || listName.equals("Please enter a list name") || listName.equals("List name here")) {
 				//invalid name. don't allow save.
-				editlistSpace.setBackgroundColor(Color.parseColor("red"));
-				editlistSpace.setText("Please enter a list name");
+				listNameSpace.setBackgroundColor(Color.parseColor("red"));
+				listNameSpace.setText("Please enter a list name");
 			}
 			
 			//To do this, save the List as list newList = new List(list name).
