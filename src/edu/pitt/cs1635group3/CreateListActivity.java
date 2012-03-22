@@ -40,31 +40,9 @@ public class CreateListActivity extends ListActivity {
 
 	    	mylist = new ArrayList<HashMap<String, String>>();
 
-	    	//Get the data (see above)
-	    	JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
-
-	    	       try{
-	    		JSONArray  lists = json.getJSONArray("items");
-
-	    	      	       	//Loop the Array
-	    	        for(int i=0;i < lists.length()-1; i++){						
-
-	    	        	HashMap<String, String> map = new HashMap<String, String>();
-	    	        	JSONObject e = lists.getJSONObject(i);
-
-	    	        	map.put("id",  String.valueOf(i));
-	    	        	map.put("name", e.getString("name"));
-	    	        	map.put("assignee", e.getString("assignee"));
-	    	        	mylist.add(map);
-	    		}
-	    	       }catch(JSONException e)        {
-	    	       	 Log.e("log_tag", "Error parsing data "+e.toString());
-	    	       }
-	    	       
 	        ListAdapter adapter = new SimpleAdapter(this, mylist, R.layout.main,
 	                new String[] { "name", "assignee" },
 	                new int[] { R.id.item_title, R.id.item_subtitle });
-
 			
 			final ListView lv = getListView();
 			setListAdapter(adapter);
@@ -77,15 +55,12 @@ public class CreateListActivity extends ListActivity {
 
 	    	alert.setTitle("New List Item Name");
 
-	    	// Set an EditText view to get user input 
-	    	final EditText input = new EditText(this);
+	    	final EditText input = new EditText(this); // Set an EditText view to get user input 
 	    	alert.setView(input);
 
 	    	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	    	@SuppressWarnings("unchecked")
 			public void onClick(DialogInterface dialog, int whichButton) {
 	    		String value = input.getText().toString();
-				Toast.makeText(getBaseContext(), "You added list item: "+value, Toast.LENGTH_LONG).show(); 
 	    	  // Do something with value!
 				
 
@@ -109,7 +84,13 @@ public class CreateListActivity extends ListActivity {
 	    }
 
 	    public void saveList(View v) {
-			Toast.makeText(getBaseContext(), "TODO: save list", Toast.LENGTH_SHORT).show(); 
+			Toast.makeText(getBaseContext(), "TODO: save list", Toast.LENGTH_SHORT).show();
+			
+			//To do this, save the List as list newList = new List(list name).
+			// Store newList's ID in a var
+			// then iterate through each item within the mylist arraylist.
+			// create a new Item() from each mylist String name.
+			// for each new Item, set the parent ID to whatever newList's ID is.
 
 	    }
 	    
