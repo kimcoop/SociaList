@@ -100,7 +100,7 @@ public class InsideListActivity extends ListActivity {
     private ArrayList<Item> getItems() { //TODO: convert this to a getItems() method inside List class
 
     	ArrayList<Item> myList = new ArrayList<Item>();
-		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/items.json");
+		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php"); // WOO we're really pulling from the server!!
 
     	       try {
     			JSONArray  lists = json.getJSONArray("items");
@@ -112,22 +112,25 @@ public class InsideListActivity extends ListActivity {
 
     	        for (int i=0;i < lists.length()-1; i++){						
 
-    	        	JSONObject e = lists.getJSONObject(i);
+    	        	JSONArray e = lists.getJSONArray(i);
 					ID = String.valueOf(i);
-					parentID = e.getInt("parent_id");
-					itemID = e.getInt("id");
-    	        	name = e.getString("name");
-    	        	assigner = e.getString("assigner");
-    	        	assignee = e.getString("assignee");
-    	        	creationDate = e.getString("creation_date");
-    	        	notes = e.getString("notes");
-    	        	creator = e.getString("creator");
-    	        	completionDate = e.getString("completion_date");
-    	        	quantity = e.getInt("quantity");
-    	        	completed = e.getBoolean("completed");
+					
+					itemID = e.getInt(0);
+					parentID = e.getInt(1);
+    	        	name = e.getString(2);
+    	        	creator = e.getString(3);
+    	        	creationDate = e.getString(4);
+    	        	quantity = e.getInt(5);
+    	        	assigner = e.getString(6);
+    	        	assignee = e.getString(7);
+    	        	notes = e.getString(8);
+    	        	completed = e.getBoolean(9);
+    	        	completionDate = e.getString(10);
+    	        	
     	        	item = new Item(itemID, name, assigner, assignee, creationDate, notes, quantity, creator, completionDate, completed);
     	        	item.setParent(parentID);
     	        	myList.add(item);
+    	        	
     	        }
     	       } catch (JSONException e)        {
     	       	 Log.e("log_tag", "Error parsing data "+e.toString());

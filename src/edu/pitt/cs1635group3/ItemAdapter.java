@@ -43,8 +43,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
                 if (name != null)
                       name.setText(o.getName());
-                if(assignee != null)
+                if (assignee != null) {
                 	assignee.setText(o.getAssignee());
+                } else {
+                	assignee.setText("");
+                }
         }
         
         return v;
