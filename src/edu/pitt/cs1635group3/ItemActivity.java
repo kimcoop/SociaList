@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -26,7 +27,10 @@ public class ItemActivity extends Activity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		Item item = extras.getParcelable("Item");
+		Item item, prevItem, nextItem;
+		item = extras.getParcelable("Item");
+		prevItem = extras.getParcelable("PrevItem");
+		nextItem = extras.getParcelable("NextItem");
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
@@ -34,6 +38,18 @@ public class ItemActivity extends Activity {
 				+ item.getCreator());
 		assignee.setText(item.getAssignee());
 		notes.setText(item.getNotes());
+	}
+	
+	public void prevItem(View v) {
+		Toast.makeText(this,"prev",
+				 Toast.LENGTH_LONG).show();
+	}
+	
+	public void nextItem(View v) {
+		
+		Toast.makeText(this,
+				 "next",
+				 Toast.LENGTH_LONG).show();
 	}
 
 }

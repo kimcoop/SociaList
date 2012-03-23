@@ -32,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class InsideListActivity extends ListActivity {
 
+	CustomList list = null;
 	ArrayList<Item> items = null;
 
 	Button assign_button;
@@ -48,8 +49,19 @@ public class InsideListActivity extends ListActivity {
 		complete_button = (Button) findViewById(R.id.complete_button);
 		invite_button = (Button) findViewById(R.id.invite_button);
 		buttons_helper = (View) findViewById(R.id.buttons_helper);
+		
+		Intent i = getIntent();
+		Bundle extras = i.getExtras();
 
-		items = getItems();
+		//Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"), Toast.LENGTH_LONG).show();
+		
+		list = extras.getParcelable("List");
+		//Toast.makeText(this,"List "+list.getNote(), Toast.LENGTH_LONG).show();
+		
+		list.pullItems(); // pull the list's items from the server;
+		items = list.getItems();
+		
+		
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items);
 
@@ -58,36 +70,12 @@ public class InsideListActivity extends ListActivity {
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("Viewing Dorm Room Checklist"); // TODO get name of
-																// List (make
-																// List class &
-																// implement
-																// Parcelable
-																// for List)
+		label_header.setText("Viewing "+list.getName());
 
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
-		setListAdapter(adapter); // must go after header and footer are inflated
-		/*
-		 * Spinner spinner = (Spinner) findViewById(R.id.sorter);
-		 * spinner.setVisibility(View.VISIBLE); ArrayAdapter<CharSequence>
-		 * spinnerAdapter = ArrayAdapter.createFromResource( this,
-		 * R.array.default_sorts, android.R.layout.simple_spinner_item);
-		 * adapter.
-		 * setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item
-		 * ); spinner.setAdapter(spinnerAdapter);
-		 * 
-		 * class MyOnItemSelectedListener implements OnItemSelectedListener {
-		 * 
-		 * public void onItemSelected(AdapterView<?> parent, View view, int pos,
-		 * long id) { Toast.makeText(parent.getContext(),
-		 * "The sort selected is " +parent.getItemAtPosition(pos).toString(),
-		 * Toast.LENGTH_LONG).show(); }
-		 * 
-		 * public void onNothingSelected(AdapterView parent) { // Do nothing. }
-		 * }
-		 */
-
+		setListAdapter(adapter);
+		
 	}// end onCreate
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -98,51 +86,9 @@ public class InsideListActivity extends ListActivity {
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("Item", item); // can pass as object because it
 										// implements Parcelable
+		intent.putExtra("PrevItem", list.getItemBefore(item));
+		intent.putExtra("NextItem", list.getItemAfter(item));
 		startActivity(intent);
-	}
-
-	private ArrayList<Item> getItems() { // TODO: convert this to a getItems()
-											// method inside List class
-
-		ArrayList<Item> myList = new ArrayList<Item>();
-		JSONObject json = JSONfunctions
-				.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getItems");
-
-		try {
-			JSONArray lists = json.getJSONArray("items");
-			
-			Item item;
-			String ID, name, assigner, assignee, creationDate, notes, creator, completionDate;
-			int itemID, parentID, quantity;
-			boolean completed;
-
-			for (int i = 0; i < lists.length(); i++) {
-
-				JSONArray e = lists.getJSONArray(i);
-				ID = String.valueOf(i);
-
-				itemID = e.getInt(0);
-				parentID = e.getInt(1);
-				name = e.getString(2);
-				creator = e.getString(3);
-				creationDate = e.getString(4);
-				quantity = e.getInt(5);
-				assigner = e.getString(6);
-				assignee = e.getString(7);
-				notes = e.getString(8);
-				completed = e.getBoolean(9);
-				completionDate = e.getString(10);
-
-				item = new Item(itemID, name, assigner, assignee, creationDate,
-						notes, quantity, creator, completionDate, completed);
-				item.setParent(parentID);
-				myList.add(item);
-
-			}
-		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing data " + e.toString());
-		}
-		return myList;
 	}
 
 	public void flipButtons(View v) {

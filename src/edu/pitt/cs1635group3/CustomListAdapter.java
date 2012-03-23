@@ -42,12 +42,14 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 		CustomList o = (CustomList) lists.get(position);
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.element_title);
-			TextView lastUpdated = (TextView) v
-					.findViewById(R.id.element_subtitle);
+			TextView note = (TextView) v.findViewById(R.id.element_subtitle);
 			if (name != null)
 				name.setText(o.getName());
-			if (lastUpdated != null)
-				lastUpdated.setText("Last updated: " + o.getLastUpdated());
+			if (note != null) {
+				String listNote = o.getNote();
+				if (listNote == null) note.setText("");
+				else note.setText(listNote);
+			}
 		}
 
 		return v;

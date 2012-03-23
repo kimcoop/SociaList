@@ -31,8 +31,6 @@ public class SociaListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 
-		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-
 		lists = getLists();
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
@@ -53,11 +51,10 @@ public class SociaListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
-		CustomList list = (CustomList) this.getListAdapter().getItem(position);
-
-		Intent intent = new Intent(getBaseContext(), InsideListActivity.class);
-		// intent.putExtra("Item", item); // can pass as object because it
-		// implements Parcelable - TODO
+		CustomList list = (CustomList) this.getListAdapter().getItem(position-1); // not sure why the -1 is needed but it is
+		
+		Intent intent = new Intent(this, InsideListActivity.class);
+		intent.putExtra("List", list);
 		startActivity(intent);
 	}
 
@@ -73,22 +70,28 @@ public class SociaListActivity extends ListActivity {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
-		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/index.json");
+		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getLists");
 
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
+			
+			CustomList newList;
+			String listName, listCreation, listNote;
+			int listID;
 
 			// Loop the Array
-			for (int i = 0; i < myLists.length() - 1; i++) {
+			for (int i = 0; i < myLists.length(); i++) {
 
-				JSONObject e = myLists.getJSONObject(i);
+				JSONArray e = myLists.getJSONArray(i);
 				// id = String.valueOf(i);
-				int ID = e.getInt("id");
-				String name = e.getString("name");
-				String lastUpdated = e.getString("lastUpdated");
+				listID = e.getInt(0);
+				listName = e.getString(1);
+				listCreation = e.getString(3);
+				listNote = e.getString(4);
 
-				CustomList newList = new CustomList(ID, name);
-				newList.setLastUpdated(lastUpdated);
+				newList = new CustomList(listID, listName);
+				newList.setCreationDate(listCreation);
+				newList.setNote(listNote); // don't read in the list's items here. do it once a list is actually clicked (more efficient and also avoids problems with parcelable item passing)
 				myCustomLists.add(newList);
 			}
 		} catch (JSONException e) {
