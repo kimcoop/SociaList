@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ItemActivity extends Activity {
+	
+	private Item item, prevItem, nextItem;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +29,6 @@ public class ItemActivity extends Activity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		Item item, prevItem, nextItem;
 		item = extras.getParcelable("Item");
 		prevItem = extras.getParcelable("PrevItem");
 		nextItem = extras.getParcelable("NextItem");
@@ -38,18 +39,21 @@ public class ItemActivity extends Activity {
 				+ item.getCreator());
 		assignee.setText(item.getAssignee());
 		notes.setText(item.getNotes());
-	}
+	}/*
+		Toast.makeText(this, "next", Toast.LENGTH_LONG).show();*/
 	
 	public void prevItem(View v) {
-		Toast.makeText(this,"prev",
-				 Toast.LENGTH_LONG).show();
+
+		Intent intent = new Intent(this, ItemActivity.class);
+		intent.putExtra("Item", prevItem);
+		startActivity(intent);
 	}
 	
 	public void nextItem(View v) {
-		
-		Toast.makeText(this,
-				 "next",
-				 Toast.LENGTH_LONG).show();
+
+		Intent intent = new Intent(this, ItemActivity.class);
+		intent.putExtra("Item", nextItem);
+		startActivity(intent);
 	}
 
 }
