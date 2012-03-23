@@ -19,33 +19,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CustomListAdapter extends ArrayAdapter<CustomList> {
-	//This pulls in the user's lists and inflates them appropriately for the layout.
-	
+	// This pulls in the user's lists and inflates them appropriately for the
+	// layout.
+
 	private final ArrayList<CustomList> lists;
 
-	public CustomListAdapter(Context context, int textViewResourceId, ArrayList<CustomList> lists) {
+	public CustomListAdapter(Context context, int textViewResourceId,
+			ArrayList<CustomList> lists) {
 		super(context, textViewResourceId, lists);
 		this.lists = lists;
 	}
-	
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
-		
-        if (v == null) {
-        	LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.list_row, null);
-        }
-        CustomList o = (CustomList) lists.get(position);
-        if (o != null) {
-                TextView name = (TextView) v.findViewById(R.id.element_title);
-                TextView lastUpdated = (TextView) v.findViewById(R.id.element_subtitle);
-                if (name != null)
-                      name.setText(o.getName());
-                if(lastUpdated != null)
-                	lastUpdated.setText("Last updated: " +o.getLastUpdated());
-        }
-        
-        return v;
+
+		if (v == null) {
+			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+					Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.list_row, null);
+		}
+		CustomList o = (CustomList) lists.get(position);
+		if (o != null) {
+			TextView name = (TextView) v.findViewById(R.id.element_title);
+			TextView lastUpdated = (TextView) v
+					.findViewById(R.id.element_subtitle);
+			if (name != null)
+				name.setText(o.getName());
+			if (lastUpdated != null)
+				lastUpdated.setText("Last updated: " + o.getLastUpdated());
+		}
+
+		return v;
 	}
 }

@@ -19,37 +19,41 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
-	//This pulls in items and inflates them appropriately for the layout.
-	
-	
+	// This pulls in items and inflates them appropriately for the layout.
+
 	private final ArrayList<Item> items;
 
-	public ItemAdapter(Context context, int textViewResourceId, ArrayList<Item> items) {
+	public ItemAdapter(Context context, int textViewResourceId,
+			ArrayList<Item> items) {
 		super(context, textViewResourceId, items);
 		this.items = items;
 	}
-	
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
-		
-        if (v == null) {
-        	LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.item_row, null);
-        }
-        Item o = items.get(position);
-        if (o != null) {
-                TextView name = (TextView) v.findViewById(R.id.item_name);
-                TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
-                if (name != null)
-                      name.setText(o.getName());
-                if (assignee != null) {
-                	assignee.setText(o.getAssignee());
-                } else {
-                	assignee.setText("");
-                }
-        }
-        
-        return v;
+
+		if (v == null) {
+			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+					Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.item_row, null);
+		}
+		Item o = items.get(position);
+		if (o != null) {
+			TextView name = (TextView) v.findViewById(R.id.item_name);
+			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
+			if (name != null)
+				name.setText(o.getName());
+
+			if (assignee != null) {
+				assignee.setText(o.getAssignee());
+
+				if (o.getAssignee() == null) {
+					assignee.setText("");
+				}
+			}
+
+		}
+		return v;
 	}
 }
