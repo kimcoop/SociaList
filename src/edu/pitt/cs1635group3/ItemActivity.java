@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ItemActivity extends Activity {
-	
+
 	private Item item, prevItem, nextItem;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,8 @@ public class ItemActivity extends Activity {
 		Bundle extras = i.getExtras();
 
 		item = extras.getParcelable("Item");
-		prevItem = extras.getParcelable("PrevItem");
-		nextItem = extras.getParcelable("NextItem");
+		prevItem = item.getPrev();
+		nextItem = item.getNext();
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
@@ -40,15 +40,26 @@ public class ItemActivity extends Activity {
 		assignee.setText(item.getAssignee());
 		notes.setText(item.getNotes());
 	}/*
-		Toast.makeText(this, "next", Toast.LENGTH_LONG).show();*/
-	
+	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
+	 */
+
+	public void saveItem(View v) {
+		Toast.makeText(this, "TODO; saveItem method in ItemActivity.java",
+				Toast.LENGTH_LONG).show();
+	}
+
+	public void deleteItem(View v) {
+		Toast.makeText(this, "TODO; deleteItem method in ItemActivity.java",
+				Toast.LENGTH_LONG).show();
+	}
+
 	public void prevItem(View v) {
 
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("Item", prevItem);
 		startActivity(intent);
 	}
-	
+
 	public void nextItem(View v) {
 
 		Intent intent = new Intent(this, ItemActivity.class);

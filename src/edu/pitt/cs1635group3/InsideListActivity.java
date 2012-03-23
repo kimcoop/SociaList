@@ -49,19 +49,20 @@ public class InsideListActivity extends ListActivity {
 		complete_button = (Button) findViewById(R.id.complete_button);
 		invite_button = (Button) findViewById(R.id.invite_button);
 		buttons_helper = (View) findViewById(R.id.buttons_helper);
-		
+
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		//Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"), Toast.LENGTH_LONG).show();
-		
+		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
+		// Toast.LENGTH_LONG).show();
+
 		list = extras.getParcelable("List");
-		//Toast.makeText(this,"List "+list.getNote(), Toast.LENGTH_LONG).show();
-		
+		// Toast.makeText(this,"List "+list.getNote(),
+		// Toast.LENGTH_LONG).show();
+
 		list.pullItems(); // pull the list's items from the server;
 		items = list.getItems();
-		
-		
+
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items);
 
@@ -70,18 +71,18 @@ public class InsideListActivity extends ListActivity {
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("Viewing "+list.getName());
+		label_header.setText("Viewing " + list.getName());
 
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
-		
+
 	}// end onCreate
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
-		Item item = (Item) this.getListAdapter().getItem(position-1);
+		Item item = (Item) this.getListAdapter().getItem(position - 1);
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("Item", item); // can pass as object because it

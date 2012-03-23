@@ -51,8 +51,9 @@ public class SociaListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
-		CustomList list = (CustomList) this.getListAdapter().getItem(position-1); // not sure why the -1 is needed but it is
-		
+		CustomList list = (CustomList) this.getListAdapter().getItem(
+				position - 1); // not sure why the -1 is needed but it is
+
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("List", list);
 		startActivity(intent);
@@ -70,11 +71,12 @@ public class SociaListActivity extends ListActivity {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
-		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getLists");
+		JSONObject json = JSONfunctions.getJSONfromURL(
+				"http://www.zebrafishtec.com/server.php", "getLists");
 
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
-			
+
 			CustomList newList;
 			String listName, listCreation, listNote;
 			int listID;
@@ -91,7 +93,11 @@ public class SociaListActivity extends ListActivity {
 
 				newList = new CustomList(listID, listName);
 				newList.setCreationDate(listCreation);
-				newList.setNote(listNote); // don't read in the list's items here. do it once a list is actually clicked (more efficient and also avoids problems with parcelable item passing)
+				newList.setNote(listNote); // don't read in the list's items
+											// here. do it once a list is
+											// actually clicked (more efficient
+											// and also avoids problems with
+											// parcelable item passing)
 				myCustomLists.add(newList);
 			}
 		} catch (JSONException e) {

@@ -1,14 +1,20 @@
 package edu.pitt.cs1635group3;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Item implements Parcelable {
 
-	private String name, assigner, assignee, creation_date, notes, creator,
-			completion_date;
-	private int parentID, ID, quantity; // use parentID to tie to list (TODO)
+	private String name, assigner, assignee, creationDate, notes, creator,
+			completionDate;
+	private int parentID, ID, quantity; // use parentID to tie to list
 	private boolean selected, completed;
+	private int nextID, prevID; // Linked-list format. necessary to make "next" and
+							// "prev" buttons work on item details screen
 
 	public Item(int id, String name, String a1, String a2, String c1, String n,
 			int q, String c2, String c_date, boolean complete) {
@@ -16,13 +22,32 @@ public class Item implements Parcelable {
 		this.name = name;
 		this.assigner = a1;
 		this.assignee = a2;
-		this.creation_date = c1;
+		this.creationDate = c1;
 		this.notes = n;
 		this.creator = c2;
-		this.completion_date = c_date;
+		this.completionDate = c_date;
 		this.quantity = q;
 		this.completed = complete;
 		selected = false;
+	}
+
+	public Item(JSONArray e) {
+
+		try {
+			ID = e.getInt(0);
+			name = e.getString(2);
+			creator = e.getString(3);
+			creationDate = e.getString(4);
+			quantity = e.getInt(5);
+			assigner = e.getString(6);
+			assignee = e.getString(7);
+			notes = e.getString(8);
+			completed = e.getBoolean(9);
+			completionDate = e.getString(10);
+		} catch (JSONException e1) {
+			Log.i("Item parse problem", e1.toString());
+		}
+
 	}
 
 	public Item(String name) { // for now, when a user submits a new list item,
@@ -45,7 +70,7 @@ public class Item implements Parcelable {
 	public int getID() {
 		return ID;
 	}
-	
+
 	public int getParentID() {
 		return parentID;
 	}
@@ -63,11 +88,15 @@ public class Item implements Parcelable {
 	}
 
 	public String getCreationDate() {
-		return creation_date;
+		return creationDate;
 	}
 
 	public String getCreator() {
 		return creator;
+	}
+
+	public String getCompletionDate() {
+		return completionDate;
 	}
 
 	public String getNotes() {
@@ -86,9 +115,29 @@ public class Item implements Parcelable {
 		return selected;
 	}
 
+	public Item getNext() {
+		//Query DB
+		
+		
+		return null;
+	}
+
+	public Item getPrev() {
+		//Query DB
+		
+		return null;
+	}
+
 	/*
 	 * SETTERS
 	 */
+	public void setNext(int i) {
+		this.nextID = i;
+	}
+
+	public void setPrev(int i) {
+		this.prevID = i;
+	}
 
 	public void setParent(int parent) {
 		this.parentID = parent;
@@ -134,12 +183,13 @@ public class Item implements Parcelable {
 		out.writeString(name);
 		out.writeString(assigner);
 		out.writeString(assignee);
-		out.writeString(creation_date);
+		out.writeString(creationDate);
 		out.writeString(notes);
 		out.writeInt(quantity);
 		out.writeString(creator);
-		out.writeString(completion_date);
+		out.writeString(completionDate);
 		out.writeString("" + completed);
+
 	}
 
 	// Regenerate the object. All Parcelables must have a CREATOR that
@@ -161,11 +211,11 @@ public class Item implements Parcelable {
 		name = in.readString();
 		assigner = in.readString();
 		assignee = in.readString();
-		creation_date = in.readString();
+		creationDate = in.readString();
 		notes = in.readString();
 		quantity = in.readInt();
 		creator = in.readString();
-		completion_date = in.readString();
+		completionDate = in.readString();
 
 		String strCompleted = in.readString();
 		if (strCompleted.equals("true"))

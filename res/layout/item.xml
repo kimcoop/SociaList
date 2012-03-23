@@ -84,13 +84,15 @@
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Delete" />
+            android:text="Delete"
+            android:onClick="deleteItem" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Save" />
+            android:text="Save"
+            android:onClick="saveItem" />
 
         <Button
             android:id="@+id/next_button"

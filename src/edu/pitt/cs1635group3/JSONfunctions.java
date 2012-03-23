@@ -20,11 +20,10 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class JSONfunctions {
-	
+
 	public static JSONObject getJSONfromURL(String url) {
 		return getJSONfromURL(url, null);
 	}
-	
 
 	public static JSONObject getJSONfromURL(String url, String action) {
 
@@ -37,15 +36,15 @@ public class JSONfunctions {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(url);
-			
+
 			if (action != null) {
-			
+
 				List<NameValuePair> params = new ArrayList<NameValuePair>(1);
 				params.add(new BasicNameValuePair("action", action));
-			    httppost.setEntity(new UrlEncodedFormEntity(params));
-		    
+				httppost.setEntity(new UrlEncodedFormEntity(params));
+
 			}
-			
+
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();

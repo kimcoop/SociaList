@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class CustomList implements Parcelable {
 	private String name, creationDate, note;
-	private int ID;
+	private int ID, creatorID;
 	protected ArrayList<Item> listItems;
 
 	public CustomList() {
@@ -32,11 +32,11 @@ public class CustomList implements Parcelable {
 	public void setNote(String n) {
 		this.note = n;
 	}
-	
+
 	public void setCreationDate(String s) {
 		this.creationDate = s;
 	}
-	
+
 	public void attachItems(ArrayList<Item> children) {
 		this.listItems = children;
 	}
@@ -45,9 +45,8 @@ public class CustomList implements Parcelable {
 	 * GETTERS
 	 */
 
-
 	public int getID() {
-		return ID; 
+		return ID;
 	}
 
 	public String getName() {
@@ -57,68 +56,109 @@ public class CustomList implements Parcelable {
 	public String getNote() {
 		return note;
 	}
-	
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public int getCreator() {
+		return creatorID;
+	}
+
 	public ArrayList<Item> getItems() {
 		return listItems;
 	}
-	
+
 	public Item getItemAfter(Item item) {
-		//return the item in the list directly proceeding Item item
+		// return the item in the list directly proceeding Item item
 		int i = listItems.indexOf(item);
 		int numItems = listItems.size();
-		
-		if (i==numItems-1) return listItems.get(0);
-		else return listItems.get(i+1);
+
+		if (i == numItems - 1)
+			return listItems.get(0);
+		else
+			return listItems.get(i + 1);
 	}
-	
+
 	public Item getItemBefore(Item item) {
-		//like previous method
+		// like previous method
 		int i = listItems.indexOf(item);
-		
-		if (i>0) return listItems.get(i-1); // Thoughts on this - If we're doing this lookup often, better to store item's position as item var?
-		else return listItems.get(listItems.size()-1); // otherwise pass the last list item
+
+		if (i > 0)
+			return listItems.get(i - 1); // Thoughts on this - If we're doing
+											// this lookup often, better to
+											// store item's position as item
+											// var?
+		else
+			return listItems.get(listItems.size() - 1); // otherwise pass the
+														// last list item
 	}
 
 	public void pullItems() {
 		listItems = new ArrayList<Item>();
-	
-		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getItemsForList");
-	
+
+		JSONObject json = JSONfunctions.getJSONfromURL(
+				"http://www.zebrafishtec.com/server.php", "getItemsForList");
+
 		try {
 			JSONArray lists = json.getJSONArray("items");
-			
-			Item item;
-			String itemName, assigner, assignee, creationDate, notes, creator, completionDate;
-			int itemID, quantity;
-			boolean completed;
-	
+			JSONArray e1, e2;
+			Item item1, item2;
+
 			for (int i = 0; i < lists.length(); i++) {
-	
-				JSONArray e = lists.getJSONArray(i);
-				//ID = String.valueOf(i);
-				itemID = e.getInt(0);
-				itemName = e.getString(2);
-				creator = e.getString(3);
-				creationDate = e.getString(4);
-				quantity = e.getInt(5);
-				assigner = e.getString(6);
-				assignee = e.getString(7);
-				notes = e.getString(8);
-				completed = e.getBoolean(9);
-				completionDate = e.getString(10);
-	
-				item = new Item(itemID, itemName, assigner, assignee, creationDate, notes, quantity, creator, completionDate, completed);
-				item.setParent(this.ID);
-				listItems.add(item);
-				
-				Log.d("List item added", "Name: "+itemName);
-	
+
+				if (i == 0) { // do the items two at a time in order to set prev
+								// and next for each
+					e1 = lists.getJSONArray(i);
+					item1 = new Item(e1);
+					item1.setParent(this.ID);
+
+					e2 = lists.getJSONArray(i + 1);
+					item2 = new Item(e2);
+					item2.setParent(this.ID);
+
+					item2.setPrev(item1.getID());
+					item1.setNext(item2.getID());
+					listItems.add(item1);
+					listItems.add(item2);
+
+					i += 1;
+
+				} else {
+					e1 = lists.getJSONArray(i);
+					item1 = new Item(e1);
+					item1.setParent(this.ID);
+
+					Item prev = listItems.get(i - 1);
+					prev.setNext(item1.getID());
+					item1.setPrev(prev.getID());
+					listItems.add(item1);
+				}
 			}
+
+			listItems.get(0).setPrev(listItems.get(listItems.size() - 1).getID()); // "Loop around":
+																			// the
+																			// first
+																			// list
+																			// item
+																			// must
+																			// link
+																			// to
+																			// the
+																			// last
+			listItems.get(listItems.size() - 1).setNext(listItems.get(0).getID()); // and
+																			// the
+																			// last
+																			// must
+																			// link
+																			// to
+																			// the
+																			// first
+
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}
 	}
-
 
 	public int describeContents() {
 		return 0;
@@ -128,7 +168,7 @@ public class CustomList implements Parcelable {
 		out.writeInt(ID);
 		out.writeString(name);
 		out.writeString(note);
-		//out.writeTypedList(listItems);
+		// out.writeTypedList(listItems);
 	}
 
 	public static final Parcelable.Creator<CustomList> CREATOR = new Parcelable.Creator<CustomList>() {
@@ -145,8 +185,8 @@ public class CustomList implements Parcelable {
 		ID = in.readInt();
 		name = in.readString();
 		note = in.readString();
-		//in.readTypedList(listItems, Item.CREATOR);
-		//in.readList(listItems,null);
+		// in.readTypedList(listItems, Item.CREATOR);
+		// in.readList(listItems,null);
 	}
 
 }
