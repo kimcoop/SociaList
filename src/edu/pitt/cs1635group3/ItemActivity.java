@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class ItemActivity extends Activity {
 
 	private Item item, prevItem, nextItem;
+	private DBHelper db;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class ItemActivity extends Activity {
 		Bundle extras = i.getExtras();
 		item = extras.getParcelable("Item");
 
-		DBHelper db = new DBHelper(this);
+		db = new DBHelper(this);
 		db.open();
 
 		prevItem = db.getItem(item.getPrev());
@@ -42,8 +43,11 @@ public class ItemActivity extends Activity {
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
+		
+		
+		String creator = db.getUserNameByID(item.getCreator());
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
-				+ item.getCreator());
+				+ creator);
 
 		String assignedTo = (item.getAssignee() > 0 ? db.getUserByID(
 				item.getAssignee()).getName() : "");
@@ -70,7 +74,7 @@ public class ItemActivity extends Activity {
 		Toast.makeText(this, "TODO; deleteItem method in ItemActivity.java",
 				Toast.LENGTH_LONG).show();
 
-		// just gather the item ID, open the db, use the deleteItem method,
+		// just gather the item ID, open the db, use the deleteItem method, reset wiring for linked list,
 		// close the db.
 	}
 
