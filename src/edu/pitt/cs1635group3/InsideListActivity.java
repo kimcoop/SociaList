@@ -61,6 +61,10 @@ public class InsideListActivity extends ListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
+		
+		if (extras.getInt("refresh")==1) {
+			Toast.makeText(this,"Need to refresh this list. Data has changed.",Toast.LENGTH_LONG).show();
+		}
 
 		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
 		// Toast.LENGTH_LONG).show();
@@ -69,8 +73,10 @@ public class InsideListActivity extends ListActivity {
 		// Toast.makeText(this,"List "+list.getNote(),
 		// Toast.LENGTH_LONG).show();
 
-		list.pullItems(); // pull the list's items from the server;
-		items = list.getItems();
+		if (items==null) {
+			list.pullItems(); // pull the list's items from the server;
+			items = list.getItems();
+		}
 
 		db = new DBHelper(this);
 		db.open();
@@ -89,10 +95,9 @@ public class InsideListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing " + list.getName());
-		
+
 		label_header.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				
 
 			}
 		});
@@ -113,13 +118,13 @@ public class InsideListActivity extends ListActivity {
 										// implements Parcelable
 		startActivity(intent);
 	}
-	
+
 	public void assignItemsTo(String user) {
 
 		db.open();
-		
+
 		int userID = db.getUserByName(user);
-		
+
 		for (Item item : items) {
 			if (item.isSelected()) {
 				item.assignTo(userID);
@@ -127,34 +132,34 @@ public class InsideListActivity extends ListActivity {
 				db.updateItem(item);
 			}
 		}
-		
+
 		db.close();
 
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
 	public void assignItems(View v) {
-		//Grab users from the db. Alert Dialog to display all of them.
+		// Grab users from the db. Alert Dialog to display all of them.
 		Log.e("You clicked", "Assign To button");
 		db.open();
 		final CharSequence[] users = db.getUsersForDialog();
 		db.close();
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
 		builder.setItems(users, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int pos) {
-		        assignItemsTo((String) users[pos]);
-		    }
+			public void onClick(DialogInterface dialog, int pos) {
+				assignItemsTo((String) users[pos]);
+			}
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
-		
+
 	}
 
 	public void completeItems(View v) {
 		db.open();
-		
+
 		for (Item item : items) {
 			if (item.isSelected()) {
 				item.setCompleted();
@@ -182,18 +187,19 @@ public class InsideListActivity extends ListActivity {
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
 
-			//assign_button.setVisibility(View.VISIBLE); // remove this for final
-														// product (testing now)
+			// assign_button.setVisibility(View.VISIBLE); // remove this for
+			// final
+			// product (testing now)
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}
 	}
-	
-	public void inviteToList(View v){
+
+	public void inviteToList(View v) {
 		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
-		
+
 		startActivity(intent);
-	
+
 	}
 
 }

@@ -127,11 +127,11 @@ public class Item implements Parcelable {
 	/*
 	 * SETTERS
 	 */
-	
+
 	public void setID(int i) {
 		this.ID = i;
 	}
-	
+
 	public void setNext(int i) {
 		this.nextID = i;
 	}
@@ -249,5 +249,6 @@ public class Item implements Parcelable {
 		prevID = in.readInt();
 		nextID = in.readInt();
 	}
+
 
 }
