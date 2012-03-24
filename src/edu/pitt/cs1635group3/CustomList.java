@@ -106,6 +106,7 @@ public class CustomList implements Parcelable {
 			Item item1, item2;
 
 			for (int i = 0; i < lists.length(); i++) {
+				
 
 				if (i == 0) { // do the items two at a time in order to set prev
 								// and next for each
@@ -121,6 +122,7 @@ public class CustomList implements Parcelable {
 					item1.setNext(item2.getID());
 					listItems.add(item1);
 					listItems.add(item2);
+					Log.i("LINKING", "Item name " +item2.getName() + " has previous item "+item1.getName()+ " ID " +item1.getID());
 
 					i += 1;
 
@@ -130,8 +132,11 @@ public class CustomList implements Parcelable {
 					item1.setParent(this.ID);
 
 					Item prev = listItems.get(i - 1);
+					
 					prev.setNext(item1.getID());
 					item1.setPrev(prev.getID());
+					
+					Log.i("LINKING", "Item name " +item1.getName() + " has previous item "+prev.getName()+ " ID " +prev.getID());
 					listItems.add(item1);
 				}
 			}

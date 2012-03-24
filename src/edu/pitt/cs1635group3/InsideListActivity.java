@@ -62,7 +62,15 @@ public class InsideListActivity extends ListActivity {
 
 		list.pullItems(); // pull the list's items from the server;
 		items = list.getItems();
-
+		
+		DBHelper db = new DBHelper(this);
+		db.open();
+		for (Item el : items) {
+			db.insertItem(el);
+			Log.i("ITEM INSERTION", "Inserted item with ID " +el.getID());
+		}
+		db.close();
+		
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items);
 
@@ -87,8 +95,6 @@ public class InsideListActivity extends ListActivity {
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("Item", item); // can pass as object because it
 										// implements Parcelable
-		intent.putExtra("PrevItem", list.getItemBefore(item));
-		intent.putExtra("NextItem", list.getItemAfter(item));
 		startActivity(intent);
 	}
 

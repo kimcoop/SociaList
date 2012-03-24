@@ -46,9 +46,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				name.setText(o.getName());
 
 			if (assignee != null) {
-				assignee.setText(o.getAssignee());
+				assignee.setText(""+o.getAssignee());
 
-				if (o.getAssignee() == null) {
+				if (o.getAssignee() == 0) {
 					assignee.setText("");
 				}
 			}

@@ -44,13 +44,13 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 			TextView name = (TextView) v.findViewById(R.id.element_title);
 			TextView note = (TextView) v.findViewById(R.id.element_subtitle);
 			if (name != null)
-				name.setText(o.getName());
+				name.setText(""+o.getName());
 			if (note != null) {
 				String listNote = o.getNote();
 				if (listNote == null)
 					note.setText("");
 				else
-					note.setText(listNote);
+					note.setText(""+listNote);
 			}
 		}
 

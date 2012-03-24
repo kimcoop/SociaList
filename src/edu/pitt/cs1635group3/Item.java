@@ -9,26 +9,14 @@ import android.util.Log;
 
 public class Item implements Parcelable {
 
-	private String name, assigner, assignee, creationDate, notes, creator,
-			completionDate;
-	private int parentID, ID, quantity; // use parentID to tie to list
+	private String name, creationDate, notes, completionDate;
+	private int parentID, ID, quantity, assigner, assignee, creator; // use parentID to tie to list
 	private boolean selected, completed;
 	private int nextID, prevID; // Linked-list format. necessary to make "next" and
 							// "prev" buttons work on item details screen
 
-	public Item(int id, String name, String a1, String a2, String c1, String n,
-			int q, String c2, String c_date, boolean complete) {
-		this.ID = id;
-		this.name = name;
-		this.assigner = a1;
-		this.assignee = a2;
-		this.creationDate = c1;
-		this.notes = n;
-		this.creator = c2;
-		this.completionDate = c_date;
-		this.quantity = q;
-		this.completed = complete;
-		selected = false;
+	public Item() {
+		
 	}
 
 	public Item(JSONArray e) {
@@ -36,11 +24,11 @@ public class Item implements Parcelable {
 		try {
 			ID = e.getInt(0);
 			name = e.getString(2);
-			creator = e.getString(3);
+			creator = e.getInt(3);
 			creationDate = e.getString(4);
 			quantity = e.getInt(5);
-			assigner = e.getString(6);
-			assignee = e.getString(7);
+			assigner = e.getInt(6);
+			assignee = e.getInt(7);
 			notes = e.getString(8);
 			completed = e.getBoolean(9);
 			completionDate = e.getString(10);
@@ -79,11 +67,11 @@ public class Item implements Parcelable {
 		return name;
 	}
 
-	public String getAssigner() {
+	public int getAssigner() {
 		return assigner;
 	}
 
-	public String getAssignee() {
+	public int getAssignee() {
 		return assignee;
 	}
 
@@ -91,7 +79,7 @@ public class Item implements Parcelable {
 		return creationDate;
 	}
 
-	public String getCreator() {
+	public int getCreator() {
 		return creator;
 	}
 
@@ -115,17 +103,12 @@ public class Item implements Parcelable {
 		return selected;
 	}
 
-	public Item getNext() {
-		//Query DB
-		
-		
-		return null;
+	public int getNext() {
+		return nextID;
 	}
 
-	public Item getPrev() {
-		//Query DB
-		
-		return null;
+	public int getPrev() {
+		return prevID;
 	}
 
 	/*
@@ -146,9 +129,13 @@ public class Item implements Parcelable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void setAssigner(int i) {
+		this.assigner = i;
+	}
 
-	public void assignTo(String name) {
-		this.assignee = name;
+	public void assignTo(int i) {
+		this.assignee = i;
 	}
 
 	public void setQuantity(int q) {
@@ -159,13 +146,26 @@ public class Item implements Parcelable {
 		this.notes = n;
 	}
 
-	public void setCompleted() {
-		this.completed = true;
+	public void setCreator(int i) {
+		this.creator = i;
+	}
+
+	public void setCompleted(int i) {
+		this.completed = (i==1? true : false);
+	}
+
+	public void setCreationDate(String string) {
+		this.creationDate = string;
+	}
+
+	public void setCompletionDate(String string) {
+		this.completionDate = string;
 	}
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -181,14 +181,16 @@ public class Item implements Parcelable {
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeInt(ID);
 		out.writeString(name);
-		out.writeString(assigner);
-		out.writeString(assignee);
+		out.writeInt(assigner);
+		out.writeInt(assignee);
 		out.writeString(creationDate);
 		out.writeString(notes);
 		out.writeInt(quantity);
-		out.writeString(creator);
+		out.writeInt(creator);
 		out.writeString(completionDate);
 		out.writeString("" + completed);
+		out.writeInt(prevID);
+		out.writeInt(nextID);
 
 	}
 
@@ -209,19 +211,20 @@ public class Item implements Parcelable {
 	private Item(Parcel in) {
 		ID = in.readInt();
 		name = in.readString();
-		assigner = in.readString();
-		assignee = in.readString();
+		assigner = in.readInt();
+		assignee = in.readInt();
 		creationDate = in.readString();
 		notes = in.readString();
 		quantity = in.readInt();
-		creator = in.readString();
+		creator = in.readInt();
 		completionDate = in.readString();
 
 		String strCompleted = in.readString();
-		if (strCompleted.equals("true"))
-			completed = true;
-		else
-			completed = false;
+		if (strCompleted.equals("true")) completed = true;
+		else completed = false;
+		
+		prevID = in.readInt();
+		nextID = in.readInt();
 	}
 
 }

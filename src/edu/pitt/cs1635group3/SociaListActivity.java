@@ -85,7 +85,6 @@ public class SociaListActivity extends ListActivity {
 			for (int i = 0; i < myLists.length(); i++) {
 
 				JSONArray e = myLists.getJSONArray(i);
-				// id = String.valueOf(i);
 				listID = e.getInt(0);
 				listName = e.getString(1);
 				listCreation = e.getString(3);
@@ -99,6 +98,11 @@ public class SociaListActivity extends ListActivity {
 											// and also avoids problems with
 											// parcelable item passing)
 				myCustomLists.add(newList);
+				DBHelper db = new DBHelper(this);
+				db.open();
+				db.abandonShip();
+				db.insertList(newList);
+				db.close();
 			}
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());

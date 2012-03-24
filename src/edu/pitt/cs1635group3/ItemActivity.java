@@ -1,8 +1,12 @@
 package edu.pitt.cs1635group3;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -25,19 +29,24 @@ public class ItemActivity extends Activity {
 		creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-
+        
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-
 		item = extras.getParcelable("Item");
-		prevItem = item.getPrev();
-		nextItem = item.getNext();
+		
+		Log.i("LINKING", "prev item ID " +item.getPrev()+ ". next item ID " +item.getNext());
+		
+		DBHelper db = new DBHelper(this);
+		db.open();
+		prevItem = db.getItem(item.getPrev());
+		nextItem = db.getItem(item.getNext());
+		db.close();
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ item.getCreator());
-		assignee.setText(item.getAssignee());
+		assignee.setText(""+item.getAssignee());
 		notes.setText(item.getNotes());
 	}/*
 	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
