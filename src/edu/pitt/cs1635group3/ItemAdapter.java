@@ -33,6 +33,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	Button complete_button;
 	Button invite_button;
 	boolean inviteUp;
+	int checkedItems = 0;
 
 	public ItemAdapter(Context context, int textViewResourceId,
 			ArrayList<Item> items, Button assign_button, Button complete_button,
@@ -93,7 +94,25 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					// TODO: invite becomes assignto/mark completed
 					// Still don't know why this is needed, but position must be
 					// decremented.
-					flipButtons();
+					
+					if(isChecked){
+						checkedItems++;
+					}
+					else{
+						checkedItems--;
+					}
+					if(checkedItems == 0){
+						invite_button.setVisibility(View.VISIBLE);
+						complete_button.setVisibility(View.GONE);
+						assign_button.setVisibility(View.GONE);
+						
+					}
+					else if(checkedItems > 0){
+						invite_button.setVisibility(View.GONE);
+						complete_button.setVisibility(View.VISIBLE);
+						assign_button.setVisibility(View.VISIBLE);
+						
+					}
 					int pos = position;
 					items.get(pos).setSelected(isChecked);
 					Log.d("CHECKED", "item is selected "

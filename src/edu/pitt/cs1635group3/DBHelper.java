@@ -184,6 +184,19 @@ public class DBHelper {
 		
 		return users;
 	}
+	
+	public String getUserNameByID(int row) {
+		String myQuery = "SELECT * FROM user WHERE id = " + row;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null)
+			c.moveToFirst();
+
+		String name = c.getString(1) + " "+ c.getString(2);
+		c.close();
+		return name;
+		
+	}
 
 	public User getUserByID(int row) {
 		//Log.i("DB USER", "Querying for user ID = " + row);
