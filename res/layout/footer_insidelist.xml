@@ -34,7 +34,6 @@
 	<Button
         android:id="@+id/complete_button"
         android:layout_toRightOf="@+id/buttons_helper"
-        
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

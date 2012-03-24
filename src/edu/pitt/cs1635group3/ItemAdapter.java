@@ -49,7 +49,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				assignee.setText(""+o.getAssignee());
 
 				if (o.getAssignee() == 0) {
-					assignee.setText("");
+					assignee.setText("Unassigned");
 				}
 			}
 
