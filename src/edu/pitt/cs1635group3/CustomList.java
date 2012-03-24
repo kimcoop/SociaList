@@ -16,8 +16,6 @@ public class CustomList implements Parcelable {
 	protected ArrayList<Item> listItems;
 
 	public CustomList() {
-		this.name = null;
-		this.ID = -1;
 	}
 
 	public CustomList(int ID, String name) {
@@ -28,6 +26,14 @@ public class CustomList implements Parcelable {
 	/*
 	 * SETTERS
 	 */
+	
+	public void setName(String n) {
+		this.name = n;
+	}
+	
+	public void setID(int i) {
+		this.ID = i;
+	}
 
 	public void setNote(String n) {
 		this.note = n;
@@ -35,6 +41,14 @@ public class CustomList implements Parcelable {
 
 	public void setCreationDate(String s) {
 		this.creationDate = s;
+	}
+	
+	public void deleteItem(Item i) {
+		this.listItems.remove(i);
+	}
+	
+	public void addItem(Item i) {
+		this.listItems.add(i);
 	}
 
 	public void attachItems(ArrayList<Item> children) {
@@ -67,6 +81,10 @@ public class CustomList implements Parcelable {
 
 	public ArrayList<Item> getItems() {
 		return listItems;
+	}
+
+	public Item getItem(int i) {
+		return listItems.get(i);
 	}
 	
 	public Item getLastItem() {

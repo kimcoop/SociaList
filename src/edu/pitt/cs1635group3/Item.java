@@ -1,5 +1,7 @@
 package edu.pitt.cs1635group3;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -23,7 +25,11 @@ public class Item implements Parcelable {
 	// "prev" buttons work on item details screen
 
 	public Item() {
+	}
 
+	public Item(HashMap<String, String> item) {
+		name = item.get(0);
+		assignee = -1;
 	}
 
 	public Item(JSONArray e) {
@@ -121,6 +127,11 @@ public class Item implements Parcelable {
 	/*
 	 * SETTERS
 	 */
+	
+	public void setID(int i) {
+		this.ID = i;
+	}
+	
 	public void setNext(int i) {
 		this.nextID = i;
 	}

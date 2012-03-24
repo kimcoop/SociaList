@@ -122,13 +122,32 @@ public class CreateListActivity extends ListActivity {
 			// invalid name. don't allow save.
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
 			listNameSpace.setText("Please enter a list name");
+		} else { // allow save
+		
+			CustomList newList = new CustomList();
+			newList.setName(listName);
+// TODO: Get the next valid ID from database to assign to list. For now, use ID = 40. (Query the whole table, retrieve last row, increment index).
+			newList.setID(40);
+			
+			Item newItem;
+			for (HashMap<String, String> map : mylist) {
+				newItem = new Item(map);
+				newItem.setParent(newList.getID());
+				newItem.setID(20); // FIX. same problem as above
+				newList.addItem(newItem);
+			}
+			
+			Item itemA, itemB;
+			for (int i = 0; i < newList.getItems().size(); i++) { // make linked list
+				itemA = newList.getItem(i);
+				itemB = newList.getItem(i+1);
+				
+				itemA.setNext(i+1);
+				itemB.setPrev(i);
+			}
+			
+		
 		}
-
-		// To do this, save the List as list newList = new List(list name).
-		// Store newList's ID in a var
-		// then iterate through each item within the mylist arraylist.
-		// create a new Item() from each mylist String name.
-		// for each new Item, set the parent ID to whatever newList's ID is.
 
 	}
 
