@@ -126,7 +126,7 @@ public class InsideListActivity extends ListActivity {
 
 	public void assignItems(View v) {
 		//Grab users from the db. Alert Dialog to display all of them.
-
+		Log.e("You clicked", "Assign To button");
 		db.open();
 		final CharSequence[] users = db.getUsersForDialog();
 		db.close();
