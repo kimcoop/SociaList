@@ -21,7 +21,8 @@
         
         <activity android:name=".InsideListActivity"></activity>
         <activity android:name=".ItemActivity"></activity>
-         <activity android:name=".CreateListActivity"></activity>
+        <activity android:name=".CreateListActivity"></activity>
+        <activity android:name=".InviteActivity"></activity>
          
         
     </application>
