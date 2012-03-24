@@ -99,38 +99,38 @@
    </EditText>
 
    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="2dp" >
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:layout_gravity="bottom"
+       android:gravity="bottom|center"
+       android:orientation="horizontal"
+       android:padding="2dp" >
 
         <Button
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Delete"
             android:onClick="deleteItem" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Save"
             android:onClick="saveItem" />
 
         <Button
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Next Item"
             android:onClick="nextItem" />
 
         <Button
             android:id="@+id/prev_button"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Prev Item"
             android:onClick="prevItem" />
 
