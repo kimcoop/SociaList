@@ -124,6 +124,8 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
+			db.execSQL("DROP TABLE IF EXISTS item");
+			db.execSQL("DROP TABLE IF EXISTS list");
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -134,7 +136,6 @@ public class DBHelper {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 					+ newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS item");
 			onCreate(db);
 		}
 	} // end DatabaseHelper inner class
@@ -164,7 +165,7 @@ public class DBHelper {
 	}
 
 	public User getUserByID(int row) {
-		Log.i("DB USER", "Querying for user ID = " + row);
+		//Log.i("DB USER", "Querying for user ID = " + row);
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -172,6 +173,23 @@ public class DBHelper {
 			c.moveToFirst();
 
 		return cursorToUser(c);
+	}
+
+	public int getUserByName(String user) {
+		
+		String[] pieces = user.split(" ");
+		String fname = pieces[0];
+		String lname = pieces[1];
+		
+		String myQuery = "SELECT * FROM user WHERE first = ? AND last = ?";
+		Cursor c = db.rawQuery(myQuery, new String[] { fname, lname });
+
+		if (c != null)
+			c.moveToFirst();
+		
+		int userID = c.getInt(0);
+		c.close();
+		return userID;
 	}
 
 	private User cursorToUser(Cursor c) {

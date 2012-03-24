@@ -37,7 +37,7 @@
 	        android:layout_margin="0dp"
 	        android:onClick="assignItems"
 	        android:text="@string/assign_button"
-	        android:visibility="gone" />
+	        android:visibility="visible" />
 	
 		<Button
 	        android:id="@+id/complete_button"

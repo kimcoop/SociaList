@@ -45,12 +45,14 @@ public final class R {
         public static final int label_list_name=0x7f060000;
         public static final int label_name=0x7f06000f;
         public static final int label_quantity=0x7f060011;
+        public static final int layout_root=0x7f060022;
         public static final int list_name=0x7f060002;
         public static final int new_list_button=0x7f060007;
         public static final int next_button=0x7f06001a;
         public static final int prev_button=0x7f06001b;
         public static final int save_button=0x7f060019;
         public static final int sublabel=0x7f06001f;
+        public static final int text=0x7f060023;
         public static final int top_control_bar=0x7f06000d;
     }
     public static final class layout {
@@ -63,6 +65,7 @@ public final class R {
         public static final int item_row=0x7f030006;
         public static final int list_row=0x7f030007;
         public static final int listplaceholder=0x7f030008;
+        public static final int shared_users_popup=0x7f030009;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

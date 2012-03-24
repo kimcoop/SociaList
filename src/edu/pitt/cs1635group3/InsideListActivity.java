@@ -8,7 +8,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -100,15 +104,16 @@ public class InsideListActivity extends ListActivity {
 										// implements Parcelable
 		startActivity(intent);
 	}
+	
+	public void assignItemsTo(String user) {
 
-	public void assignItems(View v) {
-		
-		//TODO - make this feature work with a popup of names. See DBHelper for method.
 		db.open();
+		
+		int userID = db.getUserByName(user);
 		
 		for (Item item : items) {
 			if (item.isSelected()) {
-				item.assignTo(32); // for now, assign to 32 = Rob.
+				item.assignTo(userID); // for now, assign to 32 = Rob.
 				item.setSelected(false);
 				Toast.makeText(this,
 						"ITEM marked as assigned: " + item.getName(),
@@ -120,6 +125,23 @@ public class InsideListActivity extends ListActivity {
 		db.close();
 
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	public void assignItems(View v) {
+		//Grab users from the db. Alert Dialog to display all of them.
+
+		final CharSequence[] users = {"Rob Filippi", "Jim Cervone", "Brendan Liu", "Kim Cooperrider"};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Assign To");
+		builder.setItems(users, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int pos) {
+		        assignItemsTo((String) users[pos]);
+		    }
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+		
 	}
 
 	public void completeItems(View v) {
