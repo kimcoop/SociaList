@@ -68,6 +68,10 @@ public class CustomList implements Parcelable {
 	public ArrayList<Item> getItems() {
 		return listItems;
 	}
+	
+	public Item getLastItem() {
+		return listItems.get(listItems.size()-1);
+	}
 
 	public Item getItemAfter(Item item) {
 		// return the item in the list directly proceeding Item item

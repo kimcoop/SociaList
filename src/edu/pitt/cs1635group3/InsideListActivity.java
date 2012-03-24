@@ -102,6 +102,8 @@ public class InsideListActivity extends ListActivity {
 	}
 
 	public void assignItems(View v) {
+		
+		//TODO - make this feature work with a popup of names. See DBHelper for method.
 		db.open();
 		
 		for (Item item : items) {

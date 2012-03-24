@@ -222,6 +222,10 @@ public class DBHelper {
 	}
 
 	public boolean deleteItem(Item i) {
+		//NOTE - Items are in a doubly-linked list. Make sure you do this approriately so the links stayed wrapped around.
+		// May need to write a method like deleteItem(prevItem, Item, nextItem) where prevItem and nextItem are just the IDs
+		// of prev and next. Then just reset the wiring.
+		
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}
