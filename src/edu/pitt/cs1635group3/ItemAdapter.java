@@ -26,13 +26,25 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
 	private final ArrayList<Item> items;
+	Button assign_button;
+	Button complete_button;
+	Button invite_button;
+	View buttons_helper;
+	boolean inviteUp;
 
 	public ItemAdapter(Context context, int textViewResourceId,
-			ArrayList<Item> items) {
+			ArrayList<Item> items, Button assign_button, Button complete_button,
+			Button invite_button, View buttons_helper, boolean inviteUp) {
 		super(context, textViewResourceId, items);
 		this.items = items;
+		this.assign_button = assign_button;
+		this.complete_button = complete_button;
+		this.invite_button = invite_button; 
+		this.buttons_helper = buttons_helper;
+		this.inviteUp = inviteUp;
 	}
-
+	
+	
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
@@ -80,6 +92,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					// TODO: invite becomes assignto/mark completed
 					// Still don't know why this is needed, but position must be
 					// decremented.
+					flipButtons();
 					int pos = position;
 					items.get(pos).setSelected(isChecked);
 					Log.d("CHECKED", "item is selected "
@@ -94,6 +107,25 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 		}
 		return v;
+	}
+	public void flipButtons() {
+
+		if (inviteUp) {
+			invite_button.setVisibility(View.GONE);
+			complete_button.setVisibility(View.VISIBLE);
+			assign_button.setVisibility(View.VISIBLE);
+			buttons_helper.setVisibility(View.VISIBLE);
+			inviteUp = false;
+		} else {
+			invite_button.setVisibility(View.VISIBLE);
+			complete_button.setVisibility(View.GONE);
+			assign_button.setVisibility(View.GONE);
+
+			//assign_button.setVisibility(View.VISIBLE); // remove this for final
+														// product (testing now)
+			buttons_helper.setVisibility(View.GONE);
+			inviteUp = true;
+		}
 	}
 
 }

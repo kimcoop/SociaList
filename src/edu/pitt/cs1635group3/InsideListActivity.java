@@ -79,7 +79,7 @@ public class InsideListActivity extends ListActivity {
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
-				items);
+				items, assign_button, complete_button, invite_button, buttons_helper, inviteUp);
 
 		final ListView lv = getListView();
 
@@ -173,7 +173,7 @@ public class InsideListActivity extends ListActivity {
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
 
-			assign_button.setVisibility(View.VISIBLE); // remove this for final
+			//assign_button.setVisibility(View.VISIBLE); // remove this for final
 														// product (testing now)
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
