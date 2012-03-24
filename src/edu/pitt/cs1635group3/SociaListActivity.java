@@ -43,9 +43,9 @@ public class SociaListActivity extends ListActivity {
 		final ListView lv = getListView();
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-		View footer = getLayoutInflater().inflate(R.layout.footer, null);
+		//View footer = getLayoutInflater().inflate(R.layout.footer, null);
 		lv.addHeaderView(header);
-		lv.addFooterView(footer);
+		//lv.addFooterView(footer);
 
 		setListAdapter(adapter);
 		lv.setClickable(true);
