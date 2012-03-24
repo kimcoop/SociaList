@@ -77,7 +77,8 @@
 		        android:textSize="12dp"
 		        android:layout_width="fill_parent"
 		        android:layout_height="30dp"
-		   		android:padding="2dp" />
+		   		android:padding="4dp"
+		   		android:focusable="false" />
 		    
     </LinearLayout>
     

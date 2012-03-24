@@ -3,6 +3,8 @@ package edu.pitt.cs1635group3;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -44,22 +46,61 @@ public class ItemActivity extends Activity {
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 		
-		
 		String creator = db.getUserNameByID(item.getCreator());
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ creator);
 
-		String assignedTo = (item.getAssignee() > 0 ? db.getUserByID(
-				item.getAssignee()).getName() : "");
-
-		assignee.setText(assignedTo); // set to name rather than userID, if the
-										// item has been assigned
+		if (item.getAssignee() > 0) {
+			assignee.setText(db.getUserByID(item.getAssignee()).getName());
+		} else {
+			assignee.setHint("Click to assign"); 
+		}
+		
 		notes.setText(item.getNotes());
 
 		db.close();
+		
+		assignee.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				selectAssignee(v);
+			}
+		});
+		
+		
 	}/*
 	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
 	 */
+
+	public void assignItemTo(String user) {
+
+		int userID = db.getUserByName(user);
+		TextView assignee = (TextView) findViewById(R.id.item_assignee);
+		assignee.setText(user);
+		assignee.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				selectAssignee(v);
+			}
+		});
+		//item.assignTo(userID); -- Don't do this here. Do on save
+		db.close();
+	}
+	
+	public void selectAssignee(View v) {
+		db.open();
+		final CharSequence[] users = db.getUsersForDialog();
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Assign To");
+		builder.setItems(users, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int pos) {
+		        assignItemTo((String) users[pos]);
+		    }
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
 	public void saveItem(View v) {
 		Toast.makeText(this, "TODO; saveItem method in ItemActivity.java",
