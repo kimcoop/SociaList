@@ -22,7 +22,7 @@
             android:text="@string/invite_method_label"></TextView>
 
         <Spinner
-            android:id="@+id/Spinner01"
+            android:id="@+id/invite_type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/invitetypelist"
@@ -61,9 +61,10 @@
             android:id="@+id/invite_message_preview"></EditText>
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="sendInvitation"
             android:text="@string/send_button" />
 
     </LinearLayout>
