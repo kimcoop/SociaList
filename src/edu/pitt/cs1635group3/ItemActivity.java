@@ -59,11 +59,16 @@ public class ItemActivity extends Activity {
 	public void saveItem(View v) {
 		Toast.makeText(this, "TODO; saveItem method in ItemActivity.java",
 				Toast.LENGTH_LONG).show();
+		
+		// just gather the item details, open the db, use the updateItem method, close the db.
+		
 	}
 
 	public void deleteItem(View v) {
 		Toast.makeText(this, "TODO; deleteItem method in ItemActivity.java",
 				Toast.LENGTH_LONG).show();
+		
+		// just gather the item ID, open the db, use the deleteItem method, close the db.
 	}
 
 	public void prevItem(View v) {

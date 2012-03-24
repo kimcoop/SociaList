@@ -47,12 +47,16 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (name != null)
 				name.setText(o.getName());
 
+			
+			
 			if (assignee != null) {
-				assignee.setText(""+o.getAssignee());
 
-				if (o.getAssignee() == 0) {
-					assignee.setText("Unassigned");
-				}
+				DBHelper db = new DBHelper(getContext());
+				db.open();
+
+				int userID = o.getAssignee();
+				String assignment = (userID > 0? db.getUserByID(userID).getName() : "Unassigned");
+				assignee.setText(assignment);
 			}
 			/*String note = o.getNotes();
 			if (snippit != null && note != null) {
