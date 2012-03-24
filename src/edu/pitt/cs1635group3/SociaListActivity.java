@@ -32,9 +32,11 @@ public class SociaListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 
-		if (lists==null) lists = getLists();
-		if (users==null) users = getUsers();
-		
+		if (lists == null)
+			lists = getLists();
+		if (users == null)
+			users = getUsers();
+
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
 
@@ -69,19 +71,20 @@ public class SociaListActivity extends ListActivity {
 		startActivity(intent);
 
 	}
-	
+
 	public ArrayList<User> getUsers() {
-		//pull in users from the server. do this only once
-		
+		// pull in users from the server. do this only once
+
 		ArrayList<User> sharedUsers = new ArrayList<User>();
-		
-		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getUsers");
+
+		JSONObject json = JSONfunctions.getJSONfromURL(
+				"http://www.zebrafishtec.com/server.php", "getUsers");
 
 		try {
 			JSONArray myUsers = json.getJSONArray("users");
 
 			User u;
-			
+
 			DBHelper db = new DBHelper(this);
 			db.open();
 
@@ -97,9 +100,9 @@ public class SociaListActivity extends ListActivity {
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing user data " + e.toString());
 		}
-		
+
 		return sharedUsers;
-		
+
 	}
 
 	public ArrayList<CustomList> getLists() {
@@ -139,7 +142,7 @@ public class SociaListActivity extends ListActivity {
 			}
 
 			db.close();
-			
+
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}

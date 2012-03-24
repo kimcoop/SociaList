@@ -36,7 +36,6 @@ import android.util.Log;
  */
 public class DBHelper {
 
-
 	public static final String ITEM_TABLE = "item";
 	public static final String LIST_TABLE = "list";
 	public static final String USER_TABLE = "user";
@@ -112,7 +111,7 @@ public class DBHelper {
 	public DBHelper(Context ctx) {
 		this.mCtx = ctx;
 	}
-	
+
 	public boolean abandonShip() {
 		return db.delete("list", null, null) > 0;
 	}
@@ -139,9 +138,9 @@ public class DBHelper {
 			onCreate(db);
 		}
 	} // end DatabaseHelper inner class
-	
+
 	public DBHelper open() throws SQLException {
-		
+
 		mDbHelper = new DatabaseHelper(mCtx);
 		db = mDbHelper.getWritableDatabase();
 		return this;
@@ -150,40 +149,38 @@ public class DBHelper {
 	public void close() {
 		mDbHelper.close();
 	}
-	
+
 	/*
 	 * USER METHODS
 	 */
-	
+
 	public long insertUser(User u) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
 		initialValues.put(KEY_USER_LAST, u.getLastName());
-		Log.i("DB USER", "Inserted user " +u.getName());
+		Log.i("DB USER", "Inserted user " + u.getName());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
-	
 
 	public User getUserByID(int row) {
-		Log.i("DB USER", "Querying for user ID = "+row);
-		String myQuery = "SELECT * FROM user WHERE id = "+row;
+		Log.i("DB USER", "Querying for user ID = " + row);
+		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
-		
-		if (c != null) c.moveToFirst();
-		
+
+		if (c != null)
+			c.moveToFirst();
+
 		return cursorToUser(c);
 	}
-	
+
 	private User cursorToUser(Cursor c) {
-		//Log.d("DB", "c.getCount() is " +c.getCount());
+		// Log.d("DB", "c.getCount() is " +c.getCount());
 		User u = new User(c.getInt(0), c.getString(1), c.getString(2));
 		c.close();
-		return u;		
+		return u;
 	}
-	
-	
-	
+
 	/*
 	 * LIST METHODS
 	 */
@@ -196,17 +193,18 @@ public class DBHelper {
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
 	}
-	
+
 	/*
 	 * ITEM METHODS
 	 */
 
 	public long insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();
-		
+
 		int isCompleted = 0;
-		if (i.isCompleted()) isCompleted = 1;
-		
+		if (i.isCompleted())
+			isCompleted = 1;
+
 		initialValues.put(KEY_ITEM_ID, i.getID());
 		initialValues.put(KEY_PARENT_ID, i.getParentID());
 		initialValues.put(KEY_ITEM_NAME, i.getName());
@@ -229,19 +227,19 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		Log.i("DB ITEM", "Querying for item ID = "+row);
-		String myQuery = "SELECT * FROM item WHERE id = "+row;
+		Log.i("DB ITEM", "Querying for item ID = " + row);
+		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
-		
+
 		if (c != null) {
 			c.moveToFirst();
 		}
-		
+
 		return cursorToItem(c);
 	}
-	
+
 	private Item cursorToItem(Cursor c) {
-		Log.d("DB", "c.getCount() is " +c.getCount());
+		Log.d("DB", "c.getCount() is " + c.getCount());
 		Item i = new Item(c.getString(2), c.getInt(0));
 		i.setParent(c.getInt(1));
 		i.setCreator(c.getInt(4));
@@ -255,7 +253,7 @@ public class DBHelper {
 		i.setPrev(c.getInt(11));
 		i.setNext(c.getInt(12));
 		c.close();
-		return i;		
+		return i;
 	}
 
 	public boolean updateItem(Item i) {

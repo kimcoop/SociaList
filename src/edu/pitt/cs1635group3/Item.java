@@ -10,13 +10,20 @@ import android.util.Log;
 public class Item implements Parcelable {
 
 	private String name, creationDate, notes, completionDate;
-	private int parentID, ID, quantity, assigner, assignee, creator; // use parentID to tie to list
+	private int parentID, ID, quantity, assigner, assignee, creator; // use
+																		// parentID
+																		// to
+																		// tie
+																		// to
+																		// list
 	private boolean selected, completed;
-	private int nextID, prevID; // Linked-list format. necessary to make "next" and
-							// "prev" buttons work on item details screen
+	private int nextID, prevID; // Linked-list format. necessary to make "next"
+								// and
+
+	// "prev" buttons work on item details screen
 
 	public Item() {
-		
+
 	}
 
 	public Item(JSONArray e) {
@@ -129,7 +136,7 @@ public class Item implements Parcelable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void setAssigner(int i) {
 		this.assigner = i;
 	}
@@ -149,9 +156,9 @@ public class Item implements Parcelable {
 	public void setCreator(int i) {
 		this.creator = i;
 	}
-	
+
 	public void setCompleted(int i) {
-		this.completed = (i==1? true : false);
+		this.completed = (i == 1 ? true : false);
 	}
 
 	public void setCompleted() {
@@ -169,7 +176,6 @@ public class Item implements Parcelable {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -224,9 +230,11 @@ public class Item implements Parcelable {
 		completionDate = in.readString();
 
 		String strCompleted = in.readString();
-		if (strCompleted.equals("true")) completed = true;
-		else completed = false;
-		
+		if (strCompleted.equals("true"))
+			completed = true;
+		else
+			completed = false;
+
 		prevID = in.readInt();
 		nextID = in.readInt();
 	}

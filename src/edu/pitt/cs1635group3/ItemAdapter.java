@@ -42,56 +42,58 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.item_row, null);
 		}
-		
+
 		Item o = items.get(position);
 		CheckBox cb;
-		
+
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			cb = (CheckBox) v.findViewById(R.id.check);
-			//TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
-			
+			// TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
+
 			if (name != null) {
 				name.setText(o.getName());
-				
+
 				if (o.isCompleted()) {
-					name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					name.setPaintFlags(name.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
 				}
-				
+
 			}
-			
+
 			if (assignee != null) {
 
 				DBHelper db = new DBHelper(getContext());
 				db.open();
 
 				int userID = o.getAssignee();
-				String assignment = (userID > 0? db.getUserByID(userID).getName() : "Unassigned");
+				String assignment = (userID > 0 ? db.getUserByID(userID)
+						.getName() : "Unassigned");
 				assignee.setText(assignment);
 			}
-			
+
 			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		        	//TODO: invite becomes assignto/mark completed
-		        	// Still don't know why this is needed, but position must be decremented.
-		        	int pos = position;
-		            items.get(pos).setSelected(isChecked);
-		    		Log.d("CHECKED", "item is selected " +items.get(pos).getName());
-		        }
-		    }); //end onCheckedChangeListener
-			
-			
-			/*String note = o.getNotes();
-			if (snippit != null && note != null) {
-				snippit.setVisibility(View.VISIBLE);
-				snippit.setText(note);
-			}*/ //TODO - in item_row.xml, use this field for note snippit
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					// TODO: invite becomes assignto/mark completed
+					// Still don't know why this is needed, but position must be
+					// decremented.
+					int pos = position;
+					items.get(pos).setSelected(isChecked);
+					Log.d("CHECKED", "item is selected "
+							+ items.get(pos).getName());
+				}
+			}); // end onCheckedChangeListener
+
+			/*
+			 * String note = o.getNotes(); if (snippit != null && note != null)
+			 * { snippit.setVisibility(View.VISIBLE); snippit.setText(note); }
+			 */// TODO - in item_row.xml, use this field for note snippit
 
 		}
 		return v;
 	}
-	
-	
+
 }

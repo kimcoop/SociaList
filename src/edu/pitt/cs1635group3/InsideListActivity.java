@@ -36,6 +36,8 @@ public class InsideListActivity extends ListActivity {
 	CustomList list = null;
 	ArrayList<Item> items = null;
 
+	DBHelper db;
+
 	Button assign_button;
 	Button complete_button;
 	Button invite_button;
@@ -54,7 +56,8 @@ public class InsideListActivity extends ListActivity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"), Toast.LENGTH_LONG).show();
+		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
+		// Toast.LENGTH_LONG).show();
 
 		list = extras.getParcelable("List");
 		// Toast.makeText(this,"List "+list.getNote(),
@@ -62,15 +65,15 @@ public class InsideListActivity extends ListActivity {
 
 		list.pullItems(); // pull the list's items from the server;
 		items = list.getItems();
-		
-		DBHelper db = new DBHelper(this);
+
+		db = new DBHelper(this);
 		db.open();
 		for (Item el : items) {
 			db.insertItem(el);
-			Log.i("ITEM INSERTION", "Inserted item with ID " +el.getID());
+			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
 		}
 		db.close();
-		
+
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items);
 
@@ -99,32 +102,41 @@ public class InsideListActivity extends ListActivity {
 	}
 
 	public void assignItems(View v) {
+		db.open();
 		
 		for (Item item : items) {
 			if (item.isSelected()) {
 				item.assignTo(32); // for now, assign to 32 = Rob.
 				item.setSelected(false);
-				Toast.makeText(this,"ITEM marked as assigned: " +item.getName(), Toast.LENGTH_LONG).show();
+				Toast.makeText(this,
+						"ITEM marked as assigned: " + item.getName(),
+						Toast.LENGTH_LONG).show();
+				db.updateItem(item);
 			}
 		}
 		
+		db.close();
+
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-	
+
 	public void completeItems(View v) {
+		db.open();
 		
 		for (Item item : items) {
 			if (item.isSelected()) {
 				item.setCompleted();
 				item.setSelected(false);
-				Toast.makeText(this,"ITEM marked as completed: " +item.getName(), Toast.LENGTH_LONG).show();
+				Toast.makeText(this,
+						"ITEM marked as completed: " + item.getName(),
+						Toast.LENGTH_LONG).show();
+				db.updateItem(item);
 			}
 		}
-		
+		db.close();
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-	
-	
+
 	public void flipButtons(View v) {
 
 		if (inviteUp) {
@@ -138,7 +150,8 @@ public class InsideListActivity extends ListActivity {
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
 
-			assign_button.setVisibility(View.VISIBLE); // remove this for final product (testing now)
+			assign_button.setVisibility(View.VISIBLE); // remove this for final
+														// product (testing now)
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}

@@ -40,16 +40,20 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 			v = vi.inflate(R.layout.list_row, null);
 		}
 		CustomList o = (CustomList) lists.get(position);
-		
+
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.element_title);
 			TextView note = (TextView) v.findViewById(R.id.element_subtitle);
-			
-			if (name != null) name.setText(""+o.getName());
+
+			if (name != null)
+				name.setText("" + o.getName());
 			if (note != null) {
 				String listNote = o.getNote();
-				if (listNote == null || listNote.equals("")) note.setText("");
-				else note.setText(listNote);
+				if (listNote == null || listNote.equals("")
+						|| listNote.equals("null"))
+					note.setText("");
+				else
+					note.setText(listNote);
 			}
 		}
 
