@@ -67,6 +67,7 @@ public class ItemActivity extends Activity {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("Item", prevItem);
 		startActivity(intent);
+		finish();
 	}
 
 	public void nextItem(View v) {
@@ -74,6 +75,7 @@ public class ItemActivity extends Activity {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("Item", nextItem);
 		startActivity(intent);
+		finish();
 	}
 
 }

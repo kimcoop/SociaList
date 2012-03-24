@@ -47,10 +47,10 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 				name.setText(""+o.getName());
 			if (note != null) {
 				String listNote = o.getNote();
-				if (listNote == null)
+				if (listNote == null || listNote.equals(""))
 					note.setText("");
 				else
-					note.setText(""+listNote);
+					note.setText(listNote);
 			}
 		}
 
