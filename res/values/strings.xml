@@ -17,13 +17,20 @@
 	<string name="label_quantity">Quantity:</string>
 	<string name="label_assignee">Assigned to:</string>
 	
-	 <string name="default_sort_text">Sort By</string>
+	<string name="default_sort_text">Sort By</string>
     <string-array name="default_sorts">
         <item>Dated Added</item>
         <item>Assigned To Me</item>
         <item>Unassigned</item>
         <item>Ascending</item>
         <item>Descending</item>
+    </string-array>
+    
+    <string-array name="shared_users">
+        <item>Jim Cervone</item>
+        <item>Brendan Liu</item>
+        <item>Rob Filippi</item>
+        <item>Kim Cooperrider</item>
     </string-array>
 	
 </resources>

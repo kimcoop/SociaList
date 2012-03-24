@@ -42,6 +42,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
+			//TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
+			
 			if (name != null)
 				name.setText(o.getName());
 
@@ -52,6 +54,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					assignee.setText("Unassigned");
 				}
 			}
+			/*String note = o.getNotes();
+			if (snippit != null && note != null) {
+				snippit.setVisibility(View.VISIBLE);
+				snippit.setText(note);
+			}*/ //TODO - in item_row.xml, use this field for note snippit
 
 		}
 		return v;

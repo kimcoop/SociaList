@@ -187,9 +187,6 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-
-		//Log.d("DB", "c.getCount() is " +c1.getCount());
-		
 		Log.i("DB ITEM", "Querying for item ID = "+row);
 		String myQuery = "SELECT * FROM item WHERE id = "+row;
 		Cursor c = db.rawQuery(myQuery, null);

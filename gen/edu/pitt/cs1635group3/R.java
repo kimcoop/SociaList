@@ -10,6 +10,7 @@ package edu.pitt.cs1635group3;
 public final class R {
     public static final class array {
         public static final int default_sorts=0x7f050000;
+        public static final int shared_users=0x7f050001;
     }
     public static final class attr {
     }

@@ -3,11 +3,9 @@
 	android:layout_width="wrap_content" android:layout_height="wrap_content"
 	android:orientation="vertical">
 	
-    
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/top_control_bar">
 	</RelativeLayout>
-	
 	
 	<LinearLayout android:id="@+id/bottom_control_bar"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -33,31 +31,23 @@
 	    
 	    <Button
 	        android:id="@+id/assign_button"
-	        
 	        android:layout_toLeftOf="@+id/buttons_helper"
-	        
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
-	        
 	        android:layout_margin="0dp"
-	        
 	        android:onClick="flipButtons"
 	        android:text="@string/assign_button"
 	        android:visibility="gone" />
 	
 		<Button
 	        android:id="@+id/complete_button"
-	        
 	        android:layout_toRightOf="@+id/buttons_helper"
-	        
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:layout_alignParentRight="true"
-	        
 			android:layout_margin="0dp"
-	        
 	        android:onClick="flipButtons"
 	        android:text="@string/complete_button"
 	        android:visibility="gone" />
@@ -67,7 +57,6 @@
 	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
 		android:layout_height="0dip" android:choiceMode="multipleChoice"
 		android:layout_below="@id/top_control_bar" android:layout_above="@id/bottom_control_bar"></ListView>
-	
 	
 	<TextView android:id="@android:id/empty" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="My list stuff"
