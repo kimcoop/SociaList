@@ -34,20 +34,24 @@ public class ItemActivity extends Activity {
 		Bundle extras = i.getExtras();
 		item = extras.getParcelable("Item");
 		
-		Log.i("LINKING", "prev item ID " +item.getPrev()+ ". next item ID " +item.getNext());
-		
 		DBHelper db = new DBHelper(this);
 		db.open();
+		
 		prevItem = db.getItem(item.getPrev());
 		nextItem = db.getItem(item.getNext());
-		db.close();
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ item.getCreator());
-		assignee.setText(""+item.getAssignee());
+		
+		
+		String assignedTo = (item.getAssignee() > 0? db.getUserByID(item.getAssignee()).getName() : "");
+		
+		assignee.setText(assignedTo); // set to name rather than userID, if the item has been assigned
 		notes.setText(item.getNotes());
+		
+		db.close();
 	}/*
 	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
 	 */

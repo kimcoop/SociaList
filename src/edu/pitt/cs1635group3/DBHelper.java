@@ -39,6 +39,7 @@ public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
 	public static final String LIST_TABLE = "list";
+	public static final String USER_TABLE = "user";
 
 	public static final String KEY_ITEM_ID = "id";
 	public static final String KEY_PARENT_ID = "parent_id";
@@ -67,8 +68,8 @@ public class DBHelper {
 	public static final String KEY_MAP_USER_ID = "user_id";
 
 	public static final String KEY_USER_ID = "id";
-	public static final String KEY_FNAME = "fname";
-	public static final String KEY_LNAME = "lname";
+	public static final String KEY_USER_FIRST = "first";
+	public static final String KEY_USER_LAST = "last";
 
 	private static final String TAG = "SociaList: DbAdapter";
 	private DatabaseHelper mDbHelper;
@@ -94,7 +95,7 @@ public class DBHelper {
 			+ "list_id integer not null, user_id integer not null)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
-			+ "fname text not null, lname text not null)";
+			+ "first text not null, last text not null)";
 
 	private static final String DATABASE_NAME = "socialist_db";
 	private static final int DATABASE_VERSION = 1;
@@ -149,6 +150,43 @@ public class DBHelper {
 	public void close() {
 		mDbHelper.close();
 	}
+	
+	/*
+	 * USER METHODS
+	 */
+	
+	public long insertUser(User u) {
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_USER_ID, u.getID());
+		initialValues.put(KEY_USER_FIRST, u.getFirstName());
+		initialValues.put(KEY_USER_LAST, u.getLastName());
+		Log.i("DB USER", "Inserted user " +u.getName());
+		return db.insert(USER_TABLE, null, initialValues);
+	}
+	
+
+	public User getUserByID(int row) {
+		Log.i("DB USER", "Querying for user ID = "+row);
+		String myQuery = "SELECT * FROM user WHERE id = "+row;
+		Cursor c = db.rawQuery(myQuery, null);
+		
+		if (c != null) c.moveToFirst();
+		
+		return cursorToUser(c);
+	}
+	
+	private User cursorToUser(Cursor c) {
+		//Log.d("DB", "c.getCount() is " +c.getCount());
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+		c.close();
+		return u;		
+	}
+	
+	
+	
+	/*
+	 * LIST METHODS
+	 */
 
 	public long insertList(CustomList list) {
 		ContentValues initialValues = new ContentValues();
@@ -158,6 +196,10 @@ public class DBHelper {
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
 	}
+	
+	/*
+	 * ITEM METHODS
+	 */
 
 	public long insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();

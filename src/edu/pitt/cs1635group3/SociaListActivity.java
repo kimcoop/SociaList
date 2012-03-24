@@ -24,6 +24,7 @@ import android.widget.Toast;
 public class SociaListActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	ArrayList<CustomList> lists = null;
+	ArrayList<User> users = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,9 @@ public class SociaListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 
-		lists = getLists();
+		if (lists==null) lists = getLists();
+		if (users==null) users = getUsers();
+		
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
 
@@ -66,9 +69,41 @@ public class SociaListActivity extends ListActivity {
 		startActivity(intent);
 
 	}
+	
+	public ArrayList<User> getUsers() {
+		//pull in users from the server. do this only once
+		
+		ArrayList<User> sharedUsers = new ArrayList<User>();
+		
+		JSONObject json = JSONfunctions.getJSONfromURL("http://www.zebrafishtec.com/server.php", "getUsers");
+
+		try {
+			JSONArray myUsers = json.getJSONArray("users");
+
+			User u;
+			
+			DBHelper db = new DBHelper(this);
+			db.open();
+
+			for (int i = 0; i < myUsers.length(); i++) {
+
+				JSONArray e = myUsers.getJSONArray(i);
+				u = new User(e.getInt(0), e.getString(1), e.getString(2));
+				db.insertUser(u);
+				sharedUsers.add(u);
+			}
+
+			db.close();
+		} catch (JSONException e) {
+			Log.e("log_tag", "Error parsing user data " + e.toString());
+		}
+		
+		return sharedUsers;
+		
+	}
 
 	public ArrayList<CustomList> getLists() {
-
+		Log.e("HERE", "inside getLists");
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
 		JSONObject json = JSONfunctions.getJSONfromURL(
@@ -81,6 +116,8 @@ public class SociaListActivity extends ListActivity {
 			String listName, listCreation, listNote;
 			int listID;
 
+			DBHelper db = new DBHelper(this);
+			db.open();
 			// Loop the Array
 			for (int i = 0; i < myLists.length(); i++) {
 
@@ -98,12 +135,11 @@ public class SociaListActivity extends ListActivity {
 											// and also avoids problems with
 											// parcelable item passing)
 				myCustomLists.add(newList);
-				DBHelper db = new DBHelper(this);
-				db.open();
-				db.abandonShip();
 				db.insertList(newList);
-				db.close();
 			}
+
+			db.close();
+			
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}
