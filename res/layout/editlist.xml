@@ -3,29 +3,40 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/label_list_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="10px"
-        android:text="List name" />
     
-    <EditText
-        android:id="@+id/edit_list_name"
-        android:layout_width="fill_parent"
-        android:padding="10px"
-        android:text="@+id/list_name"
-        android:textSize="12dp"
-        android:layout_height="30dp" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+		    <TextView
+		        android:id="@+id/label_list_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="List name"
+			    android:padding="2dp"
+	    		android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textSize="14dp" />
+		    
+		    <EditText
+		        android:id="@+id/edit_list_name"
+		        android:layout_width="fill_parent"
+	    		android:padding="2dp"
+		        android:text="@+id/list_name"
+		        android:textSize="12dp"
+		        android:layout_height="30dp" />
+    
+    </LinearLayout>
     
     <TextView
         android:id="@+id/label_list_items"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10px"
-        android:text="List items" />
-
+        android:text="List items"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:padding="2dp"
+	    android:layout_marginTop="20dp"
+	    android:textSize="14dp" />
 
     <ListView
 	 	android:id="@id/android:list"
@@ -38,7 +49,8 @@
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="No data"/>
+        android:text="No items in list"
+	    android:padding="2dp"/>
     
     
     <LinearLayout 
