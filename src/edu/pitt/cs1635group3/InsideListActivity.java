@@ -113,11 +113,8 @@ public class InsideListActivity extends ListActivity {
 		
 		for (Item item : items) {
 			if (item.isSelected()) {
-				item.assignTo(userID); // for now, assign to 32 = Rob.
+				item.assignTo(userID);
 				item.setSelected(false);
-				Toast.makeText(this,
-						"ITEM marked as assigned: " + item.getName(),
-						Toast.LENGTH_LONG).show();
 				db.updateItem(item);
 			}
 		}
@@ -130,8 +127,10 @@ public class InsideListActivity extends ListActivity {
 	public void assignItems(View v) {
 		//Grab users from the db. Alert Dialog to display all of them.
 
-		final CharSequence[] users = {"Rob Filippi", "Jim Cervone", "Brendan Liu", "Kim Cooperrider"};
-
+		db.open();
+		final CharSequence[] users = db.getUsersForDialog();
+		db.close();
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
 		builder.setItems(users, new DialogInterface.OnClickListener() {

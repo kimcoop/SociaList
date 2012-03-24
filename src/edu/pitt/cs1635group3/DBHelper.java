@@ -163,6 +163,27 @@ public class DBHelper {
 		Log.i("DB USER", "Inserted user " + u.getName());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
+	
+	public CharSequence[] getUsersForDialog() { //TODO - make this take ListID as a param
+		
+		CharSequence[] users;
+
+		String myQuery = "SELECT * FROM user"; // TODO - more detailed query involving list & map_list_user
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) c.moveToFirst();
+		users = new CharSequence[c.getCount()]; // allow for number of users returned		
+
+		c.moveToFirst();
+		int i = 0;
+		while (!c.isAfterLast()) {
+		    users[i] = (CharSequence) c.getString(1) +" "+c.getString(2);
+		    c.moveToNext();
+		    i++;
+		}
+		
+		return users;
+	}
 
 	public User getUserByID(int row) {
 		//Log.i("DB USER", "Querying for user ID = " + row);
@@ -240,7 +261,7 @@ public class DBHelper {
 	}
 
 	public boolean deleteItem(Item i) {
-		//NOTE - Items are in a doubly-linked list. Make sure you do this approriately so the links stayed wrapped around.
+		//NOTE - Items are in a doubly-linked list. Make sure you do this appropriately so the links stayed wrapped around.
 		// May need to write a method like deleteItem(prevItem, Item, nextItem) where prevItem and nextItem are just the IDs
 		// of prev and next. Then just reset the wiring.
 		
@@ -290,7 +311,10 @@ public class DBHelper {
 		args.put(KEY_NOTES, i.getNotes());
 		args.put(KEY_COMPLETED, i.isCompleted());
 		args.put(KEY_COMPLETION_DATE, i.getCompletionDate());
+		
+		Log.d("UPDATED ITEM", "Item " +i.getName() + " assigned to "+i.getAssignee());
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
+				
 	}
 }
