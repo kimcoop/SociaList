@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListAdapter;
@@ -53,8 +54,7 @@ public class InsideListActivity extends ListActivity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
-		// Toast.LENGTH_LONG).show();
+		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"), Toast.LENGTH_LONG).show();
 
 		list = extras.getParcelable("List");
 		// Toast.makeText(this,"List "+list.getNote(),
@@ -98,6 +98,33 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 	}
 
+	public void assignItems(View v) {
+		
+		for (Item item : items) {
+			if (item.isSelected()) {
+				item.assignTo(32); // for now, assign to 32 = Rob.
+				item.setSelected(false);
+				Toast.makeText(this,"ITEM marked as assigned: " +item.getName(), Toast.LENGTH_LONG).show();
+			}
+		}
+		
+		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+	
+	public void completeItems(View v) {
+		
+		for (Item item : items) {
+			if (item.isSelected()) {
+				item.setCompleted();
+				item.setSelected(false);
+				Toast.makeText(this,"ITEM marked as completed: " +item.getName(), Toast.LENGTH_LONG).show();
+			}
+		}
+		
+		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+	
+	
 	public void flipButtons(View v) {
 
 		if (inviteUp) {
@@ -110,6 +137,8 @@ public class InsideListActivity extends ListActivity {
 			invite_button.setVisibility(View.VISIBLE);
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
+
+			assign_button.setVisibility(View.VISIBLE); // remove this for final product (testing now)
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}

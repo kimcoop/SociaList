@@ -11,7 +11,6 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true">
 		
-		
 	    <Button
 		    android:id="@+id/invite_button"
 		    android:layout_width="match_parent"
@@ -20,14 +19,14 @@
 		    android:layout_alignParentLeft="true"
 		    android:onClick="flipButtons"
 		    android:text="@string/invite_button"
-		    android:visibility="visible" />
+		    android:visibility="gone" />
 	    
 	    <View
 	 		android:id="@+id/buttons_helper"
 			 android:layout_width="0dp"
 			 android:layout_height="0dp"
 			 android:layout_centerHorizontal="true"
-			 android:visibility="gone" />
+			 android:visibility="visible" />
 	    
 	    <Button
 	        android:id="@+id/assign_button"
@@ -36,7 +35,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:layout_margin="0dp"
-	        android:onClick="flipButtons"
+	        android:onClick="assignItems"
 	        android:text="@string/assign_button"
 	        android:visibility="gone" />
 	
@@ -48,9 +47,9 @@
 	        android:layout_alignParentBottom="true"
 	        android:layout_alignParentRight="true"
 			android:layout_margin="0dp"
-	        android:onClick="flipButtons"
+	        android:onClick="completeItems"
 	        android:text="@string/complete_button"
-	        android:visibility="gone" />
+	        android:visibility="visible" />
 		
 	</LinearLayout>
 	

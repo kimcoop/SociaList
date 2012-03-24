@@ -1,11 +1,14 @@
 package edu.pitt.cs1635group3;
 
+import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -38,16 +42,24 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.item_row, null);
 		}
+		
 		Item o = items.get(position);
+		CheckBox cb;
+		
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
+			cb = (CheckBox) v.findViewById(R.id.check);
 			//TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
 			
-			if (name != null)
+			if (name != null) {
 				name.setText(o.getName());
-
-			
+				
+				if (o.isCompleted()) {
+					name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+				}
+				
+			}
 			
 			if (assignee != null) {
 
@@ -58,6 +70,19 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				String assignment = (userID > 0? db.getUserByID(userID).getName() : "Unassigned");
 				assignee.setText(assignment);
 			}
+			
+			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		        	//TODO: invite becomes assignto/mark completed
+		        	// Still don't know why this is needed, but position must be decremented.
+		        	int pos = position;
+		            items.get(pos).setSelected(isChecked);
+		    		Log.d("CHECKED", "item is selected " +items.get(pos).getName());
+		        }
+		    }); //end onCheckedChangeListener
+			
+			
 			/*String note = o.getNotes();
 			if (snippit != null && note != null) {
 				snippit.setVisibility(View.VISIBLE);
@@ -67,4 +92,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		}
 		return v;
 	}
+	
+	
 }

@@ -149,9 +149,13 @@ public class Item implements Parcelable {
 	public void setCreator(int i) {
 		this.creator = i;
 	}
-
+	
 	public void setCompleted(int i) {
 		this.completed = (i==1? true : false);
+	}
+
+	public void setCompleted() {
+		this.completed = true;
 	}
 
 	public void setCreationDate(String string) {

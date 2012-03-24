@@ -10,7 +10,7 @@
     <!-- Buttons -->
 	<string name="invite_button">Invite&#8230;</string>
 	<string name="assign_button">Assign To&#8230;</string>
-	<string name="complete_button">Complete Task</string>
+	<string name="complete_button">Mark Completed</string>
 	
 	<string name="label_notes">Notes about this item:</string>
 	<string name="label_name">Item name:</string>
