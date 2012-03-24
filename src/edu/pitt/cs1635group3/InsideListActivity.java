@@ -46,6 +46,7 @@ public class InsideListActivity extends ListActivity {
 	Button complete_button;
 	Button invite_button;
 	View buttons_helper;
+	ListView lv;
 	boolean inviteUp = true;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class InsideListActivity extends ListActivity {
 		complete_button = (Button) findViewById(R.id.complete_button);
 		invite_button = (Button) findViewById(R.id.invite_button);
 		buttons_helper = (View) findViewById(R.id.buttons_helper);
+		lv = getListView();
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -79,7 +81,7 @@ public class InsideListActivity extends ListActivity {
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
-				items, assign_button, complete_button, invite_button, buttons_helper, inviteUp);
+				items, assign_button, complete_button, invite_button, inviteUp);
 
 		final ListView lv = getListView();
 

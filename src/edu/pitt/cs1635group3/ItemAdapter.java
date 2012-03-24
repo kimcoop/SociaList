@@ -19,6 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,18 +32,16 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	Button assign_button;
 	Button complete_button;
 	Button invite_button;
-	View buttons_helper;
 	boolean inviteUp;
 
 	public ItemAdapter(Context context, int textViewResourceId,
 			ArrayList<Item> items, Button assign_button, Button complete_button,
-			Button invite_button, View buttons_helper, boolean inviteUp) {
+			Button invite_button, boolean inviteUp) {
 		super(context, textViewResourceId, items);
 		this.items = items;
 		this.assign_button = assign_button;
 		this.complete_button = complete_button;
-		this.invite_button = invite_button; 
-		this.buttons_helper = buttons_helper;
+		this.invite_button = invite_button;
 		this.inviteUp = inviteUp;
 	}
 	
@@ -110,11 +111,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	}
 	public void flipButtons() {
 
+		
 		if (inviteUp) {
 			invite_button.setVisibility(View.GONE);
 			complete_button.setVisibility(View.VISIBLE);
 			assign_button.setVisibility(View.VISIBLE);
-			buttons_helper.setVisibility(View.VISIBLE);
 			inviteUp = false;
 		} else {
 			invite_button.setVisibility(View.VISIBLE);
@@ -123,7 +124,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 			//assign_button.setVisibility(View.VISIBLE); // remove this for final
 														// product (testing now)
-			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}
 	}
