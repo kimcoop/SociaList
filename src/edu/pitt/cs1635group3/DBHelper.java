@@ -16,6 +16,8 @@
 
 package edu.pitt.cs1635group3;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -78,13 +80,18 @@ public class DBHelper {
 	 * Database creation sql statement
 	 */
 	private static final String ITEM_CREATE = "create table item (id integer primary key autoincrement, "
-			+ "parent_id integer not null, "
+			+ "prev_id integer not null, "
+			+ "assigner_id not null, "
 			+ "name text not null, adder_id integer not null, "
-			+ "add_date text not null, quantity integer not null, "
-			+ "assignee integer not null, assigner_id not null, "
-			+ "notes text, completed integer not null, "
+			+ "assignee integer not null, "
+			+ "add_date text not null, "
+			+ "next_id integer not null, "
+			+ "quantity integer not null, "
 			+ "completion_date text, "
-			+ "prev_id integer not null, next_id integer not null, UNIQUE(id) ON CONFLICT IGNORE)";
+			+ "notes text, completed integer not null, "
+			+ "parent_id integer not null, "
+			+"UNIQUE(id) ON CONFLICT IGNORE)";
+	
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
@@ -243,12 +250,49 @@ public class DBHelper {
 	 */
 
 	public long insertList(CustomList list) {
+		Log.i("INSERTING LIST", "Here" + list.getName());
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
 		initialValues.put(KEY_LIST_NAME, list.getName());
 		initialValues.put(KEY_CREATOR_ID, list.getCreator());
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
+	}
+	
+	public ArrayList<Item> getItemsForListByID(int ID){
+		
+		ArrayList<Item> items = null;
+		String myQuery = "SELECT * FROM item";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null){
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			items = new ArrayList<Item> (c.getCount());
+			c.moveToFirst();
+	
+		
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop"); 
+				Item i = new Item(c.getString(3), c.getInt(0));
+				i.setParent(c.getInt(12));
+				i.setCreator(c.getInt(4));
+				i.setCreationDate(c.getString(6));
+				i.setQuantity(c.getInt(8));
+				i.assignTo(c.getInt(5));
+				i.setAssigner(c.getInt(2));
+				i.setNotes(c.getString(10));
+				i.setCompleted(c.getInt(11));
+				i.setCompletionDate(c.getString(9));
+				i.setPrev(c.getInt(1));
+				i.setNext(c.getInt(7));
+				items.add(i);
+			    c.moveToNext();
+			}
+		}
+		
+		
+		return items;
+		
 	}
 
 	/*
@@ -263,19 +307,24 @@ public class DBHelper {
 			isCompleted = 1;
 
 		initialValues.put(KEY_ITEM_ID, i.getID());
-		initialValues.put(KEY_PARENT_ID, i.getParentID());
+		initialValues.put(KEY_ITEM_PREV, i.getPrev());
+		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
 		initialValues.put(KEY_ITEM_NAME, i.getName());
 		initialValues.put(KEY_ADDER_ID, i.getCreator());
-		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
-		initialValues.put(KEY_QUANTITY, i.getQuantity());
 		initialValues.put(KEY_ASSIGNED_TO, i.getAssignee());
-		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
+		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
+		initialValues.put(KEY_ITEM_NEXT, i.getNext());
+		initialValues.put(KEY_QUANTITY, i.getQuantity());
+		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
 		initialValues.put(KEY_NOTES, i.getNotes());
 		initialValues.put(KEY_COMPLETED, isCompleted);
-		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
-		initialValues.put(KEY_ITEM_PREV, i.getPrev());
-		initialValues.put(KEY_ITEM_NEXT, i.getNext());
+		initialValues.put(KEY_PARENT_ID, i.getParentID());
+		
+		
+		Log.d("LEGIT INSERTED ITEM", "Inserted item name="+i.getName());
+		
 		return db.insert(ITEM_TABLE, null, initialValues);
+		
 	}
 
 	public boolean deleteItem(Item i) {
@@ -320,6 +369,7 @@ public class DBHelper {
 	}
 
 	public boolean updateItem(Item i) {
+		Log.d("BEGINING OF UPDATE", "Item " +i.getName() + " assigned to "+i.getAssignee());
 		ContentValues args = new ContentValues();
 		args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_ITEM_NAME, i.getName());

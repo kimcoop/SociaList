@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -48,6 +49,7 @@ public class InsideListActivity extends ListActivity {
 	View buttons_helper;
 	ListView lv;
 	boolean inviteUp = true;
+	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,22 +63,27 @@ public class InsideListActivity extends ListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
+		
 
 		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
 		// Toast.LENGTH_LONG).show();
 
 		list = extras.getParcelable("List");
-		// Toast.makeText(this,"List "+list.getNote(),
-		// Toast.LENGTH_LONG).show();
-
-		list.pullItems(); // pull the list's items from the server;
-		items = list.getItems();
-
+		Log.i("InsideListActivity", "KIM SAYS HERE"); 
 		db = new DBHelper(this);
 		db.open();
-		for (Item el : items) {
-			db.insertItem(el);
-			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
+		//Item testItem = list.getItem(0);
+		if(list.isPopulated() == 0){			
+			list.pullItems(); // pull the list's items from the server;
+			items = list.getItems();
+			for (Item el : items) {
+				db.insertItem(el);
+				Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
+			}
+		}
+		else{
+			items = db.getItemsForListByID(list.getID());
+			Log.i("ITEM EXISTS", "HERE");
 		}
 		db.close();
 
@@ -102,6 +109,18 @@ public class InsideListActivity extends ListActivity {
 		setListAdapter(adapter);
 
 	}// end onCreate
+	
+	@Override
+	public void onBackPressed() {
+		
+		Log.d("BACK PRESSED", "putting list in bundle to pass back. populated = "+ list.isPopulated());
+	
+		Intent intent = new Intent();
+		intent.putExtra("list", list);
+		setResult(Activity.RESULT_OK, intent);
+		super.onBackPressed();
+		
+	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -128,9 +147,12 @@ public class InsideListActivity extends ListActivity {
 			}
 		}
 		
-		db.close();
+		
+		
 
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
+		
+		db.close();
 	}
 
 	public void assignItems(View v) {
@@ -169,7 +191,7 @@ public class InsideListActivity extends ListActivity {
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
-	public void flipButtons(View v) {
+	/*public void flipButtons(View v) {
 
 		if (inviteUp) {
 			invite_button.setVisibility(View.GONE);
@@ -187,6 +209,9 @@ public class InsideListActivity extends ListActivity {
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}
+<<<<<<< HEAD
+	}*/
+=======
 	}
 	
 	public void inviteToList(View v){
@@ -195,5 +220,6 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 	
 	}
+>>>>>>> de2f0036bb80ca07e3c1615ec59585f2d06d8ecb
 
 }
