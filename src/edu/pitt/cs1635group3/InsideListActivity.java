@@ -211,8 +211,6 @@ public class InsideListActivity extends ListActivity {
 		}
 <<<<<<< HEAD
 	}*/
-=======
-	}
 	
 	public void inviteToList(View v){
 		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
@@ -220,6 +218,5 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 	
 	}
->>>>>>> de2f0036bb80ca07e3c1615ec59585f2d06d8ecb
 
 }
