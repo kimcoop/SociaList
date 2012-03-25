@@ -123,14 +123,12 @@ public class CreateListActivity extends ListActivity {
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
 			listNameSpace.setText("Please enter a list name");
 		} else { // allow save
-
+		
 			CustomList newList = new CustomList();
 			newList.setName(listName);
-			// TODO: Get the next valid ID from database to assign to list. For
-			// now, use ID = 40. (Query the whole table, retrieve last row,
-			// increment index).
+// TODO: Get the next valid ID from database to assign to list. For now, use ID = 40. (Query the whole table, retrieve last row, increment index).
 			newList.setID(40);
-
+			
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
 				newItem = new Item(map);
@@ -138,17 +136,17 @@ public class CreateListActivity extends ListActivity {
 				newItem.setID(20); // FIX. same problem as above
 				newList.addItem(newItem);
 			}
-
+			
 			Item itemA, itemB;
-			for (int i = 0; i < newList.getItems().size(); i++) { // make linked
-																	// list
+			for (int i = 0; i < newList.getItems().size(); i++) { // make linked list
 				itemA = newList.getItem(i);
-				itemB = newList.getItem(i + 1);
-
-				itemA.setNext(i + 1);
+				itemB = newList.getItem(i+1);
+				
+				itemA.setNext(i+1);
 				itemB.setPrev(i);
 			}
-
+			
+		
 		}
 
 	}

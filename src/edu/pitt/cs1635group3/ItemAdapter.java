@@ -36,8 +36,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	int checkedItems = 0;
 
 	public ItemAdapter(Context context, int textViewResourceId,
-			ArrayList<Item> items, Button assign_button,
-			Button complete_button, Button invite_button, boolean inviteUp) {
+			ArrayList<Item> items, Button assign_button, Button complete_button,
+			Button invite_button, boolean inviteUp) {
 		super(context, textViewResourceId, items);
 		this.items = items;
 		this.assign_button = assign_button;
@@ -45,7 +45,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		this.invite_button = invite_button;
 		this.inviteUp = inviteUp;
 	}
-
+	
+	
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
@@ -93,22 +94,24 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					// TODO: invite becomes assignto/mark completed
 					// Still don't know why this is needed, but position must be
 					// decremented.
-
-					if (isChecked) {
+					
+					if(isChecked){
 						checkedItems++;
-					} else {
+					}
+					else{
 						checkedItems--;
 					}
-					if (checkedItems == 0) {
+					if(checkedItems == 0){
 						invite_button.setVisibility(View.VISIBLE);
 						complete_button.setVisibility(View.GONE);
 						assign_button.setVisibility(View.GONE);
-
-					} else if (checkedItems > 0) {
+						
+					}
+					else if(checkedItems > 0){
 						invite_button.setVisibility(View.GONE);
 						complete_button.setVisibility(View.VISIBLE);
 						assign_button.setVisibility(View.VISIBLE);
-
+						
 					}
 					int pos = position;
 					items.get(pos).setSelected(isChecked);
@@ -125,9 +128,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		}
 		return v;
 	}
-
 	public void flipButtons() {
 
+		
 		if (inviteUp) {
 			invite_button.setVisibility(View.GONE);
 			complete_button.setVisibility(View.VISIBLE);
@@ -138,9 +141,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
 
-			// assign_button.setVisibility(View.VISIBLE); // remove this for
-			// final
-			// product (testing now)
+			//assign_button.setVisibility(View.VISIBLE); // remove this for final
+														// product (testing now)
 			inviteUp = true;
 		}
 	}
