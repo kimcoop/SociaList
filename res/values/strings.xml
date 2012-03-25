@@ -33,4 +33,19 @@
         <item>Kim Cooperrider</item>
     </string-array>
 	
+    
+    <!-- Invite -->
+    <string name="send_button">Send Invitation</string>
+    <string name="invite_activity_title">Invite</string>
+    <string name="invite_method_label">Invite through..</string>
+    <string name="invite_message_preview_title">Invite massage:</string>
+    <string name="pick_contact_label">Pick Contacts</string>
+    <string name="invite_email_hint">number or email</string>
+    <string name="message_preview">message preview</string>
+    <string name="invitetypeprompt">Pick type of invite...</string>
+    <string-array name="invitetypelist">
+        <item>Send SMS</item>
+        <item>Send Email</item>
+	</string-array>
+    
 </resources>

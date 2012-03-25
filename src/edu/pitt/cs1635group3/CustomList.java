@@ -28,11 +28,11 @@ public class CustomList implements Parcelable {
 	/*
 	 * SETTERS
 	 */
-	
+
 	public void setName(String n) {
 		this.name = n;
 	}
-	
+
 	public void setID(int i) {
 		this.ID = i;
 	}
@@ -48,11 +48,11 @@ public class CustomList implements Parcelable {
 	public void setCreationDate(String s) {
 		this.creationDate = s;
 	}
-	
+
 	public void deleteItem(Item i) {
 		this.listItems.remove(i);
 	}
-	
+
 	public void addItem(Item i) {
 		this.listItems.add(i);
 	}
@@ -109,9 +109,9 @@ public class CustomList implements Parcelable {
 	public int isPopulated() {
 		return this.populated;
 	}
-	
+
 	public Item getLastItem() {
-		return listItems.get(listItems.size()-1);
+		return listItems.get(listItems.size() - 1);
 	}
 
 	public Item getItemAfter(Item item) {

@@ -96,6 +96,13 @@ public class InsideListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing " + list.getName());
+		
+		label_header.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				
+
+			}
+		});
 
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
@@ -202,6 +209,17 @@ public class InsideListActivity extends ListActivity {
 			buttons_helper.setVisibility(View.GONE);
 			inviteUp = true;
 		}
+<<<<<<< HEAD
 	}*/
+=======
+	}
+	
+	public void inviteToList(View v){
+		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
+		
+		startActivity(intent);
+	
+	}
+>>>>>>> de2f0036bb80ca07e3c1615ec59585f2d06d8ecb
 
 }
