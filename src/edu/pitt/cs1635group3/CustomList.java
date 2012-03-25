@@ -48,6 +48,10 @@ public class CustomList implements Parcelable {
 	public void setCreationDate(String s) {
 		this.creationDate = s;
 	}
+	
+	public void setCreator(int i) {
+		this.creatorID = i;
+	}
 
 	public void deleteItem(Item i) {
 		this.listItems.remove(i);

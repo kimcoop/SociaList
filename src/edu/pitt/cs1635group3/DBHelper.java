@@ -259,6 +259,20 @@ public class DBHelper {
 		return db.insert(LIST_TABLE, null, initialValues);
 	}
 	
+	public CustomList getListByID(int i) {
+		
+		String myQuery = "SELECT * FROM list WHERE id = " + i;
+		Cursor c = db.rawQuery(myQuery, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+
+		CustomList myList = new CustomList(c.getInt(0), c.getString(1));
+		myList.setCreator(c.getInt(2));
+		myList.setCreationDate(c.getString(3));
+		return myList;
+	}
+	
 	public ArrayList<Item> getItemsForListByID(int ID){
 		
 		ArrayList<Item> items = null;
