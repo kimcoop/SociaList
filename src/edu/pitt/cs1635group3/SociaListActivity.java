@@ -26,7 +26,10 @@ public class SociaListActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	ArrayList<CustomList> lists = null;
 	ArrayList<User> users = null;
+	ArrayList<Item> items = null;
 	int activeListPosition;
+	DBHelper db;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +39,18 @@ public class SociaListActivity extends ListActivity {
 
 		if (lists == null)
 			lists = getLists();
+		
+			for(CustomList list : lists){
+				populateList(list);
+			}
+			
 		if (users == null)
 			users = getUsers();
 
+		
+
+		
+		
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
 
@@ -66,6 +78,7 @@ public class SociaListActivity extends ListActivity {
 		
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("List",  list);
+		intent.putExtra("ListID", list.getID());
 		startActivityForResult(intent, 0);
 	}
 
@@ -168,5 +181,17 @@ public class SociaListActivity extends ListActivity {
 		}
 		return myCustomLists;
 	} // end getLists()
+	public void populateList(CustomList list){
+		db = new DBHelper(this);
+		db.open();
+		//Item testItem = list.getItem(0);		
+		list.pullItems(); // pull the list's items from the server;
+		items = list.getItems();
+		for (Item el : items) {
+			db.insertItem(el);
+			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
+		}
+		db.close();
+	}
 
 }

@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:padding="7dp" >
-    
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/inside_layout"
-    android:descendantFocusability="blocksDescendants" ><!-- this line is super duper important -->
-    
-		    <TextView
-		        android:id="@+id/item_name"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@+id/label"
-			    android:layout_weight="1"
-			    android:textAppearance="?android:attr/textAppearanceMedium"
-			    android:padding="2dp"
-			    android:textSize="20dp" >
-		    </TextView>
-		
-		    <CheckBox
-		        android:id="@+id/check"
-		        android:focusable="false"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentRight="true"
-		        android:layout_marginLeft="4px"
-		        android:layout_marginRight="10px" >
-		    </CheckBox>
-		    
-		    <TextView
-		        android:id="@+id/item_assignee"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@+id/sublabel"
-		        android:layout_marginTop="40px"
-			    android:padding="2dp"
-			    android:textSize="13dp">
-		    </TextView>
-	    
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/inside_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants" >
+ <!-- this line is super duper important -->
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:text="@+id/label"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="20dp" >
+        </TextView>
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:focusable="false" >
+        </CheckBox>
+
+        <TextView
+            android:id="@+id/item_assignee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:padding="2dp"
+            android:text="@+id/sublabel"
+            android:textSize="13dp" >
+        </TextView>
     </RelativeLayout>
-    
-    
+
 </LinearLayout>
