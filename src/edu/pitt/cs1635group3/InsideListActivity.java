@@ -68,23 +68,27 @@ public class InsideListActivity extends ListActivity {
 		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
 		// Toast.LENGTH_LONG).show();
 
-		list = extras.getParcelable("List");
-		Log.i("InsideListActivity", "KIM SAYS HERE"); 
+		//list = extras.getParcelable("List");				// Pass list ID, not list. Then pull the list from the database. Same for items (going into ItemActivity)
 		db = new DBHelper(this);
 		db.open();
+		
+		list = db.getListByID(extras.getInt("ListID")); 							//comment these lines
+		Log.i("InsideListActivity", "List ID is: " + extras.getInt("ListID")); 		//and uncomment
+		//Log.i("InsideListActivity", "List is populated?: " + list.isPopulated());   //list = extras.getParcelable("List");	
+		
 		//Item testItem = list.getItem(0);
-		if(list.isPopulated() == 0){			
+		/*if(list.isPopulated() == 0){			
 			list.pullItems(); // pull the list's items from the server;
 			items = list.getItems();
 			for (Item el : items) {
 				db.insertItem(el);
 				Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
 			}
-		}
-		else{
+		}*/
+		//else{
 			items = db.getItemsForListByID(list.getID());
 			Log.i("ITEM EXISTS", "HERE");
-		}
+		//}
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
