@@ -35,13 +35,17 @@ public class ItemActivity extends Activity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-		item = extras.getParcelable("Item");
-
+		int itemID = extras.getInt("ItemID");
+		
 		db = new DBHelper(this);
 		db.open();
-
-		prevItem = db.getItem(item.getPrev());
-		nextItem = db.getItem(item.getNext());
+		
+		item = db.getItem(itemID);
+		
+		Log.d("ITEM RECEIVED", "Item ID = "+itemID);
+		
+		//prevItem = db.getItem(item.getPrev());
+		//nextItem = db.getItem(item.getNext());
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
@@ -51,7 +55,8 @@ public class ItemActivity extends Activity {
 				+ creator);
 
 		if (item.getAssignee() > 0) {
-			assignee.setText(db.getUserByID(item.getAssignee()).getName());
+			Log.d("ASSIGNEE", item.getAssignee()+"");
+			//assignee.setText(db.getUserByID(item.getAssignee()).getName());
 		} else {
 			assignee.setHint("Click to assign");
 		}

@@ -132,8 +132,11 @@ public class InsideListActivity extends ListActivity {
 		Item item = (Item) this.getListAdapter().getItem(position - 1);
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-		intent.putExtra("Item", item); // can pass as object because it
+		intent.putExtra("ItemID", item.getID()); // can pass as object because it
 										// implements Parcelable
+		
+		Log.d("PASSING ITEM", "Item ID passing as " +item.getID());
+		
 		startActivity(intent);
 	}
 	
