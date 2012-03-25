@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,23 +33,23 @@ public class Item implements Parcelable {
 		assignee = -1;
 	}
 
-	public Item(JSONArray e) {
+	public Item(JSONObject e) {
 
 		try {
-			ID = e.getInt(0);
-			parentID = e.getInt(1);
-			name = e.getString(2);
-			creator = e.getInt(3);
-			creationDate = e.getString(4);
-			quantity = e.getInt(5);
-			assignee = e.getInt(6);
-			assigner = e.getInt(7);
-			notes = e.getString(8);
+			ID = e.getInt("id");
+			parentID = e.getInt("parent_id");
+			name = e.getString("name");
+			creator = e.getInt("adder_id");
+			creationDate = e.getString("add_date");
+			quantity = e.getInt("quantity");
+			assignee = e.getInt("assignee_id");
+			assigner = e.getInt("assigner_id");
+			notes = e.getString("notes");
 			
-			int isCompleted = e.getInt(9);
+			int isCompleted = e.getInt("completed");
 			completed = (isCompleted==1? true:false);
 			
-			completionDate = e.getString(10);
+			completionDate = e.getString("completion_date");
 			//prevID = e.getInt(11);
 			//nextID = e.getInt(12);
 		} catch (JSONException e1) {
