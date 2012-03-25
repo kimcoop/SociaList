@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class SociaListActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	ArrayList<CustomList> lists = null;
 	ArrayList<User> users = null;
+	int activeListPosition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,12 +58,15 @@ public class SociaListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
+		
 		CustomList list = (CustomList) this.getListAdapter().getItem(
 				position - 1); // not sure why the -1 is needed but it is
 
+		activeListPosition = position-1; // for intent
+		
 		Intent intent = new Intent(this, InsideListActivity.class);
-		intent.putExtra("List", list);
-		startActivity(intent);
+		intent.putExtra("List",  list);
+		startActivityForResult(intent, 0);
 	}
 
 	public void createNewList(View v) {
@@ -70,6 +75,20 @@ public class SociaListActivity extends ListActivity {
 				CreateListActivity.class);
 		startActivity(intent);
 
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (requestCode==0) {
+			if (resultCode == Activity.RESULT_OK){
+				CustomList updatedList = data.getParcelableExtra("list");
+				Log.d("ACTIVITY RETURN", "updatedList is populated? "+updatedList.isPopulated());
+				lists.set(activeListPosition, updatedList);
+			}
+		}
+		
 	}
 
 	public ArrayList<User> getUsers() {
@@ -89,7 +108,7 @@ public class SociaListActivity extends ListActivity {
 			db.open();
 
 			for (int i = 0; i < myUsers.length(); i++) {
-
+				Log.i("SocialListActivity", "getUsersMethod"); 
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2));
 				db.insertUser(u);
@@ -106,13 +125,14 @@ public class SociaListActivity extends ListActivity {
 	}
 
 	public ArrayList<CustomList> getLists() {
-		Log.e("HERE", "inside getLists");
+		Log.i("SocialListActivity", "inside getLists");
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
 		JSONObject json = JSONfunctions.getJSONfromURL(
 				"http://www.zebrafishtec.com/server.php", "getLists");
 
 		try {
+			Log.i("SocialListActivity", "inside Try");
 			JSONArray myLists = json.getJSONArray("lists");
 
 			CustomList newList;
@@ -123,7 +143,7 @@ public class SociaListActivity extends ListActivity {
 			db.open();
 			// Loop the Array
 			for (int i = 0; i < myLists.length(); i++) {
-
+				Log.i("SocialListActivity", "inside For");
 				JSONArray e = myLists.getJSONArray(i);
 				listID = e.getInt(0);
 				listName = e.getString(1);
@@ -140,7 +160,7 @@ public class SociaListActivity extends ListActivity {
 				myCustomLists.add(newList);
 				db.insertList(newList);
 			}
-
+			Log.i("SocialListActivity", "Outside for");
 			db.close();
 
 		} catch (JSONException e) {
