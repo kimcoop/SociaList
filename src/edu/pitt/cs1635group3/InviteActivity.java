@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -167,17 +169,26 @@ public class InviteActivity extends Activity {
 	    }
 	    
 	    public void sendInvitation(View v){
+	    	String smsContent = "Join my SociaList# 123456";
+	    	
 	    	Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
             String invite_type = (String) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
             
             if(invite_type.equals("Send SMS")){
             	
-            	Uri smsUri = Uri.parse("tel:"+phone);
+            	Uri smsUri = Uri.parse("sms:"+"6102356128");
             	Intent sendIntent = new Intent(Intent.ACTION_VIEW,smsUri);
-            	sendIntent.putExtra("sms_body", "The SMS text SociaList!!!"); 
+            	sendIntent.putExtra("sms_body", smsContent); 
             	sendIntent.setType("vnd.android-dir/mms-sms");
             	startActivity(sendIntent);   
             	
+            	
+            	/*
+            	 PendingIntent pi = PendingIntent.getActivity(this, 0,
+            	            new Intent(this, Object.class), 0);                
+            	 SmsManager sms = SmsManager.getDefault();
+            	 sms.sendTextMessage(phone, null, smsContent, pi, null);     
+            	*/
             
             } else if(invite_type.equals("Send Email")){
             	String subject = "Invitation to my SociaList";

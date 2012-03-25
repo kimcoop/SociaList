@@ -49,7 +49,7 @@ public class InsideListActivity extends ListActivity {
 	View buttons_helper;
 	ListView lv;
 	boolean inviteUp = true;
-	
+	int listID;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,6 +83,7 @@ public class InsideListActivity extends ListActivity {
 		}
 		else{
 			items = db.getItemsForListByID(list.getID());
+			listID = list.getID();
 			Log.i("ITEM EXISTS", "HERE");
 		}
 		db.close();
@@ -215,6 +216,8 @@ public class InsideListActivity extends ListActivity {
 	public void inviteToList(View v){
 		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
 		
+		intent.putExtra("listID",listID);
+		Log.i("INVITE to list", " " +listID);
 		startActivity(intent);
 	
 	}
