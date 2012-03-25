@@ -176,7 +176,7 @@ public class InviteActivity extends Activity {
             
             if(invite_type.equals("Send SMS")){
             	
-            	Uri smsUri = Uri.parse("sms:"+"6102356128");
+            	Uri smsUri = Uri.parse("sms:6102356128");
             	Intent sendIntent = new Intent(Intent.ACTION_VIEW,smsUri);
             	sendIntent.putExtra("sms_body", smsContent); 
             	sendIntent.setType("vnd.android-dir/mms-sms");
