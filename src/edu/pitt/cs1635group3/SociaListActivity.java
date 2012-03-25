@@ -41,16 +41,7 @@ public class SociaListActivity extends ListActivity {
 			lists = getLists();
 		
 			for(CustomList list : lists){
-				db = new DBHelper(this);
-				db.open();
-				//Item testItem = list.getItem(0);		
-				list.pullItems(); // pull the list's items from the server;
-				items = list.getItems();
-				for (Item el : items) {
-					db.insertItem(el);
-					Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
-				}
-				db.close();
+				populateList(list);
 			}
 			
 		if (users == null)
@@ -190,5 +181,17 @@ public class SociaListActivity extends ListActivity {
 		}
 		return myCustomLists;
 	} // end getLists()
+	public void populateList(CustomList list){
+		db = new DBHelper(this);
+		db.open();
+		//Item testItem = list.getItem(0);		
+		list.pullItems(); // pull the list's items from the server;
+		items = list.getItems();
+		for (Item el : items) {
+			db.insertItem(el);
+			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
+		}
+		db.close();
+	}
 
 }

@@ -1,28 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">	
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
     <Button
         android:id="@+id/new_list_button"
-        android:text="Create New List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:onClick="createNewList"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true" />
-    
+        android:text="Create New List" />
+
     <ListView
-	 	android:id="@id/android:list"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	 	android:drawSelectorOnTop="false" 
-	 	android:layout_above="@id/new_list_button" />
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/new_list_button"
+        android:drawSelectorOnTop="false" />
 
     <TextView
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="No lists"
-        android:layout_above="@id/new_list_button" />
+        android:layout_above="@id/new_list_button"
+        android:text="No lists" />
 
 </RelativeLayout>

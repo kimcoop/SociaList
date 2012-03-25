@@ -13,7 +13,7 @@
         android:padding="4dp"
         android:text="My Lists"
         android:textSize="16dip" />
-<!--  
+    <!--
     <Spinner
         android:id="@+id/sorter"
         android:layout_width="140dp"
@@ -22,6 +22,7 @@
         android:layout_weight="0.17"
         android:entries="@array/default_sorts"
         android:prompt="@string/default_sort_text"
-        android:visibility="gone" />-->
+        android:visibility="gone" />
+    -->
 
 </LinearLayout>

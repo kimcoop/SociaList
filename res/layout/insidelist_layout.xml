@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
-	android:orientation="vertical">
-	
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
     <LinearLayout
         android:id="@+id/button_holder"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation = "horizontal"
-        android:layout_alignParentBottom="true">
-        
-        <Button
-		    android:id="@+id/invite_button"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:onClick="inviteToList"
-		    android:text="@string/invite_button"
-		    android:layout_weight = "1"
-		    android:visibility="visible" />
-	    
-	    <Button
-	        android:id="@+id/assign_button"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_margin="0dp"
-	        android:onClick="assignItems"
-	        android:text="@string/assign_button"
-	        android:layout_weight = "1"
-	        android:visibility="gone" />
-	
-		<Button
-	        android:id="@+id/complete_button"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-			android:layout_margin="0dp"
-	        android:onClick="completeItems"
-	        android:text="@string/complete_button"
-	        android:layout_weight = "1"
-	        android:visibility="gone" />"
-        
-    </LinearLayout>
-    
-    
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
-	<ListView android:id="@android:id/list" 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent" 
-		android:choiceMode="multipleChoice"
-		android:layout_above="@+id/button_holder" />
-	
-	<TextView android:id="@android:id/empty" 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent" 
-		android:text="My list stuff"
-		android:layout_above="@+id/button_holder" />
-	
+        <Button
+            android:id="@+id/invite_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="inviteToList"
+            android:text="@string/invite_button"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/assign_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:onClick="assignItems"
+            android:text="@string/assign_button"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/complete_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:onClick="completeItems"
+            android:text="@string/complete_button"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button_holder"
+        android:choiceMode="multipleChoice" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button_holder"
+        android:text="My list stuff" />
+
 </RelativeLayout>

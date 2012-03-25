@@ -86,7 +86,7 @@ public class InsideListActivity extends ListActivity {
 			}
 		}*/
 		//else{
-			items = db.getItemsForListByID(list.getID());
+			items = db.getItemsForListByID(extras.getInt("ListID"));
 			Log.i("ITEM EXISTS", "HERE");
 		//}
 		db.close();
