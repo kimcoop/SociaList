@@ -156,18 +156,20 @@ public class CustomList implements Parcelable {
 	
 			try {
 				JSONArray lists = json.getJSONArray("items");
-				JSONArray e1, e2;
+				//JSONArray e1, e2;
+				
+				JSONObject e1, e2;
 				Item item1, item2;
 	
 				for (int i = 0; i < lists.length(); i++) {
 	
 					if (i == 0) { // do the items two at a time in order to set prev
 									// and next for each
-						e1 = lists.getJSONArray(i);
+						e1 = lists.getJSONObject(i);
 						item1 = new Item(e1);
 						item1.setParent(this.ID);
 	
-						e2 = lists.getJSONArray(i + 1);
+						e2 = lists.getJSONObject(i + 1);
 						item2 = new Item(e2);
 						item2.setParent(this.ID);
 	
@@ -182,7 +184,7 @@ public class CustomList implements Parcelable {
 						i += 1;
 	
 					} else {
-						e1 = lists.getJSONArray(i);
+						e1 = lists.getJSONObject(i);
 						item1 = new Item(e1);
 						item1.setParent(this.ID);
 	
