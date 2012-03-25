@@ -46,7 +46,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		this.inviteUp = inviteUp;
 	}
 	
-	
+	 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
