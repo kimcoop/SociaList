@@ -171,6 +171,7 @@ public class InviteActivity extends Activity {
             String invite_type = (String) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
             
             if(invite_type.equals("Send SMS")){
+            	
             	Uri smsUri = Uri.parse("tel:"+phone);
             	Intent sendIntent = new Intent(Intent.ACTION_VIEW,smsUri);
             	sendIntent.putExtra("sms_body", "The SMS text SociaList!!!"); 
@@ -179,6 +180,15 @@ public class InviteActivity extends Activity {
             	
             
             } else if(invite_type.equals("Send Email")){
+            	String subject = "Invitation to my SociaList";
+            	String emailContent = "Join my SociaList# 123456";
+            	
+            	Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            	emailIntent .setType("plain/text");
+            	emailIntent .putExtra(Intent.EXTRA_EMAIL, email);
+            	emailIntent .putExtra(Intent.EXTRA_SUBJECT, subject );
+            	emailIntent .putExtra(Intent.EXTRA_TEXT, emailContent);
+            	startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             	
             }
             
