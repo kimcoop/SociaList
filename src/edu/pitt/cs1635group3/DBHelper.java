@@ -16,6 +16,8 @@
 
 package edu.pitt.cs1635group3;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -78,13 +80,18 @@ public class DBHelper {
 	 * Database creation sql statement
 	 */
 	private static final String ITEM_CREATE = "create table item (id integer primary key autoincrement, "
-			+ "parent_id integer not null, "
+			+ "prev_id integer not null, "
+			+ "assigner_id not null, "
 			+ "name text not null, adder_id integer not null, "
-			+ "add_date text not null, quantity integer not null, "
-			+ "assignee integer not null, assigner_id not null, "
-			+ "notes text, completed integer not null, "
+			+ "assignee integer not null, "
+			+ "add_date text not null, "
+			+ "next_id integer not null, "
+			+ "quantity integer not null, "
 			+ "completion_date text, "
-			+ "prev_id integer not null, next_id integer not null, UNIQUE(id) ON CONFLICT IGNORE)";
+			+ "notes text, completed integer not null, "
+			+ "parent_id integer not null, "
+			+"UNIQUE(id) ON CONFLICT IGNORE)";
+	
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
@@ -163,28 +170,33 @@ public class DBHelper {
 		Log.i("DB USER", "Inserted user " + u.getName());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
-	
-	public CharSequence[] getUsersForDialog() { //TODO - make this take ListID as a param
-		
+
+	public CharSequence[] getUsersForDialog() { // TODO - make this take ListID
+												// as a param
+
 		CharSequence[] users;
 
-		String myQuery = "SELECT * FROM user"; // TODO - more detailed query involving list & map_list_user
+		String myQuery = "SELECT * FROM user"; // TODO - more detailed query
+												// involving list &
+												// map_list_user
 		Cursor c = db.rawQuery(myQuery, null);
 
-		if (c != null) c.moveToFirst();
-		users = new CharSequence[c.getCount()]; // allow for number of users returned		
+		if (c != null)
+			c.moveToFirst();
+		users = new CharSequence[c.getCount()]; // allow for number of users
+												// returned
 
 		c.moveToFirst();
 		int i = 0;
 		while (!c.isAfterLast()) {
-		    users[i] = (CharSequence) c.getString(1) +" "+c.getString(2);
-		    c.moveToNext();
-		    i++;
+			users[i] = (CharSequence) c.getString(1) + " " + c.getString(2);
+			c.moveToNext();
+			i++;
 		}
-		
+
 		return users;
 	}
-	
+
 	public String getUserNameByID(int row) {
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -192,14 +204,14 @@ public class DBHelper {
 		if (c != null)
 			c.moveToFirst();
 
-		String name = c.getString(1) + " "+ c.getString(2);
+		String name = c.getString(1) + " " + c.getString(2);
 		c.close();
 		return name;
-		
+
 	}
 
 	public User getUserByID(int row) {
-		//Log.i("DB USER", "Querying for user ID = " + row);
+		// Log.i("DB USER", "Querying for user ID = " + row);
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -210,17 +222,17 @@ public class DBHelper {
 	}
 
 	public int getUserByName(String user) {
-		
+
 		String[] pieces = user.split(" ");
 		String fname = pieces[0];
 		String lname = pieces[1];
-		
+
 		String myQuery = "SELECT * FROM user WHERE first = ? AND last = ?";
 		Cursor c = db.rawQuery(myQuery, new String[] { fname, lname });
 
 		if (c != null)
 			c.moveToFirst();
-		
+
 		int userID = c.getInt(0);
 		c.close();
 		return userID;
@@ -238,12 +250,63 @@ public class DBHelper {
 	 */
 
 	public long insertList(CustomList list) {
+		Log.i("INSERTING LIST", "Here" + list.getName());
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
 		initialValues.put(KEY_LIST_NAME, list.getName());
 		initialValues.put(KEY_CREATOR_ID, list.getCreator());
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
+	}
+	
+	public CustomList getListByID(int i) {
+		
+		String myQuery = "SELECT * FROM list WHERE id = " + i;
+		Cursor c = db.rawQuery(myQuery, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+
+		CustomList myList = new CustomList(c.getInt(0), c.getString(1));
+		myList.setCreator(c.getInt(2));
+		myList.setCreationDate(c.getString(3));
+		return myList;
+	}
+	
+	public ArrayList<Item> getItemsForListByID(int ID){
+		
+		ArrayList<Item> items = null;
+		String myQuery = "SELECT * FROM item";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null){
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			items = new ArrayList<Item> (c.getCount());
+			c.moveToFirst();
+	
+		
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop"); 
+				Item i = new Item(c.getString(3), c.getInt(0));
+				i.setParent(c.getInt(12));
+				i.setCreator(c.getInt(4));
+				i.setCreationDate(c.getString(6));
+				i.setQuantity(c.getInt(8));
+				i.assignTo(c.getInt(5));
+				i.setAssigner(c.getInt(2));
+				i.setNotes(c.getString(10));
+				i.setCompleted(c.getInt(11));
+				i.setCompletionDate(c.getString(9));
+				i.setPrev(c.getInt(1));
+				i.setNext(c.getInt(7));
+				items.add(i);
+			    c.moveToNext();
+			}
+		}
+		
+		
+		return items;
+		
 	}
 
 	/*
@@ -258,26 +321,33 @@ public class DBHelper {
 			isCompleted = 1;
 
 		initialValues.put(KEY_ITEM_ID, i.getID());
-		initialValues.put(KEY_PARENT_ID, i.getParentID());
+		initialValues.put(KEY_ITEM_PREV, i.getPrev());
+		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
 		initialValues.put(KEY_ITEM_NAME, i.getName());
 		initialValues.put(KEY_ADDER_ID, i.getCreator());
-		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
-		initialValues.put(KEY_QUANTITY, i.getQuantity());
 		initialValues.put(KEY_ASSIGNED_TO, i.getAssignee());
-		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
+		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
+		initialValues.put(KEY_ITEM_NEXT, i.getNext());
+		initialValues.put(KEY_QUANTITY, i.getQuantity());
+		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
 		initialValues.put(KEY_NOTES, i.getNotes());
 		initialValues.put(KEY_COMPLETED, isCompleted);
-		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
-		initialValues.put(KEY_ITEM_PREV, i.getPrev());
-		initialValues.put(KEY_ITEM_NEXT, i.getNext());
+		initialValues.put(KEY_PARENT_ID, i.getParentID());
+		
+		
+		Log.d("LEGIT INSERTED ITEM", "Inserted item name="+i.getName());
+		
 		return db.insert(ITEM_TABLE, null, initialValues);
+		
 	}
 
 	public boolean deleteItem(Item i) {
-		//NOTE - Items are in a doubly-linked list. Make sure you do this appropriately so the links stayed wrapped around.
-		// May need to write a method like deleteItem(prevItem, Item, nextItem) where prevItem and nextItem are just the IDs
+		// NOTE - Items are in a doubly-linked list. Make sure you do this
+		// appropriately so the links stayed wrapped around.
+		// May need to write a method like deleteItem(prevItem, Item, nextItem)
+		// where prevItem and nextItem are just the IDs
 		// of prev and next. Then just reset the wiring.
-		
+
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}
@@ -313,6 +383,7 @@ public class DBHelper {
 	}
 
 	public boolean updateItem(Item i) {
+		Log.d("BEGINING OF UPDATE", "Item " +i.getName() + " assigned to "+i.getAssignee());
 		ContentValues args = new ContentValues();
 		args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_ITEM_NAME, i.getName());
@@ -324,10 +395,11 @@ public class DBHelper {
 		args.put(KEY_NOTES, i.getNotes());
 		args.put(KEY_COMPLETED, i.isCompleted());
 		args.put(KEY_COMPLETION_DATE, i.getCompletionDate());
-		
-		Log.d("UPDATED ITEM", "Item " +i.getName() + " assigned to "+i.getAssignee());
+
+		Log.d("UPDATED ITEM",
+				"Item " + i.getName() + " assigned to " + i.getAssignee());
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
-				
+
 	}
 }

@@ -45,7 +45,7 @@ public class ItemActivity extends Activity {
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
-		
+
 		String creator = db.getUserNameByID(item.getCreator());
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ creator);
@@ -53,21 +53,20 @@ public class ItemActivity extends Activity {
 		if (item.getAssignee() > 0) {
 			assignee.setText(db.getUserByID(item.getAssignee()).getName());
 		} else {
-			assignee.setHint("Click to assign"); 
+			assignee.setHint("Click to assign");
 		}
-		
+
 		notes.setText(item.getNotes());
 
 		db.close();
-		
+
 		assignee.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				selectAssignee(v);
 			}
 		});
-		
-		
+
 	}/*
 	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
 	 */
@@ -83,31 +82,53 @@ public class ItemActivity extends Activity {
 				selectAssignee(v);
 			}
 		});
-		//item.assignTo(userID); -- Don't do this here. Do on save
+		// item.assignTo(userID); -- Don't do this here. Do on save
 		db.close();
 	}
-	
+
 	public void selectAssignee(View v) {
 		db.open();
 		final CharSequence[] users = db.getUsersForDialog();
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
 		builder.setItems(users, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int pos) {
-		        assignItemTo((String) users[pos]);
-		    }
+			public void onClick(DialogInterface dialog, int pos) {
+				assignItemTo((String) users[pos]);
+			}
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
 
 	public void saveItem(View v) {
-		Toast.makeText(this, "TODO; saveItem method in ItemActivity.java",
-				Toast.LENGTH_LONG).show();
 
-		// just gather the item details, open the db, use the updateItem method,
-		// close the db.
+		// regather the item details, open the db, use the updateItem method.
+
+		TextView name, quantity, assignee, notes;
+		name = (EditText) findViewById(R.id.item_name);
+		quantity = (EditText) findViewById(R.id.item_quantity);
+		assignee = (TextView) findViewById(R.id.item_assignee);
+		notes = (EditText) findViewById(R.id.item_notes);
+
+		db.open();
+		item.setName(name.getText().toString().trim());
+		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
+		
+		String rawAssignee = assignee.getText().toString().trim();
+		int assigneeID;
+		if (rawAssignee != "" && rawAssignee != null) {
+			assigneeID = db.getUserByName(rawAssignee);
+			item.assignTo(assigneeID);
+		}
+		
+		db.updateItem(item);
+		db.close();
+		Toast.makeText(this, "Updated item " +item.getName(),
+				Toast.LENGTH_LONG).show();
+		Intent intent = new Intent();
+		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh the list since we've changed it
+		finish();
 
 	}
 
@@ -115,7 +136,8 @@ public class ItemActivity extends Activity {
 		Toast.makeText(this, "TODO; deleteItem method in ItemActivity.java",
 				Toast.LENGTH_LONG).show();
 
-		// just gather the item ID, open the db, use the deleteItem method, reset wiring for linked list,
+		// just gather the item ID, open the db, use the deleteItem method,
+		// reset wiring for linked list,
 		// close the db.
 	}
 

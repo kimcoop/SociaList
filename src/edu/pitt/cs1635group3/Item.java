@@ -36,15 +36,21 @@ public class Item implements Parcelable {
 
 		try {
 			ID = e.getInt(0);
+			parentID = e.getInt(1);
 			name = e.getString(2);
 			creator = e.getInt(3);
 			creationDate = e.getString(4);
 			quantity = e.getInt(5);
-			assigner = e.getInt(6);
-			assignee = e.getInt(7);
+			assignee = e.getInt(6);
+			assigner = e.getInt(7);
 			notes = e.getString(8);
-			completed = e.getBoolean(9);
+			
+			int isCompleted = e.getInt(9);
+			completed = (isCompleted==1? true:false);
+			
 			completionDate = e.getString(10);
+			//prevID = e.getInt(11);
+			//nextID = e.getInt(12);
 		} catch (JSONException e1) {
 			Log.i("Item parse problem", e1.toString());
 		}
@@ -127,11 +133,11 @@ public class Item implements Parcelable {
 	/*
 	 * SETTERS
 	 */
-	
+
 	public void setID(int i) {
 		this.ID = i;
 	}
-	
+
 	public void setNext(int i) {
 		this.nextID = i;
 	}
@@ -249,5 +255,6 @@ public class Item implements Parcelable {
 		prevID = in.readInt();
 		nextID = in.readInt();
 	}
+
 
 }

@@ -82,9 +82,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				db.open();
 
 				int userID = o.getAssignee();
+				Log.d("ItemAdapter", "UserID = " + userID);
 				String assignment = (userID > 0 ? db.getUserByID(userID)
 						.getName() : "Unassigned");
 				assignee.setText(assignment);
+				db.close();
 			}
 
 			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -115,8 +117,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					}
 					int pos = position;
 					items.get(pos).setSelected(isChecked);
-					Log.d("CHECKED", "item is selected "
-							+ items.get(pos).getName());
+					if(items.get(pos).isSelected()){
+						Log.d("CHECKED", "item is selected "
+								+ items.get(pos).getName());
+					}
+					else{
+						Log.d("CHECKED", "item is UNselected "
+								+ items.get(pos).getName());
+					}
 				}
 			}); // end onCheckedChangeListener
 
