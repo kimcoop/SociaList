@@ -78,6 +78,7 @@ public class InsideListActivity extends ListActivity {
 
 		items = db.getItemsForListByID(extras.getInt("ListID"));
 		Log.i("ITEM EXISTS", "HERE");
+		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items, assign_button, complete_button, invite_button, inviteUp);
@@ -99,19 +100,8 @@ public class InsideListActivity extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==1){
-            Toast.makeText(this, "Pass", Toast.LENGTH_LONG).show(); 
-            
-            db.open();
-
-    		for (Item item : items) {
-    				item.setSelected(false);
-    				db.updateItem(item);
-    		}
-    		
-    		db.close();
-    		
-    		((ItemAdapter) super.getListAdapter()).notifyDataSetChanged();            
-        }
+    		startActivity(getIntent()); finish();       
+    	}
     }
 
 	@Override
