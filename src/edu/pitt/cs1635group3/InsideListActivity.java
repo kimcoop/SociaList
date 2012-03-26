@@ -94,6 +94,25 @@ public class InsideListActivity extends ListActivity {
 		setListAdapter(adapter);
 
 	}// end onCreate
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1){
+            Toast.makeText(this, "Pass", Toast.LENGTH_LONG).show(); 
+            
+            db.open();
+
+    		for (Item item : items) {
+    				item.setSelected(false);
+    				db.updateItem(item);
+    		}
+    		
+    		db.close();
+    		
+    		((ItemAdapter) super.getListAdapter()).notifyDataSetChanged();            
+        }
+    }
 
 	@Override
 	public void onBackPressed() {
@@ -119,8 +138,8 @@ public class InsideListActivity extends ListActivity {
 		intent.putExtra("ItemID", item.getID()); // can pass as object because
 													// it
 		// implements Parcelable
-
-		startActivity(intent);
+		   
+        startActivityForResult(intent, 1);
 	}
 
 	public void assignItemsTo(String user) {

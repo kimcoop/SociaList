@@ -80,8 +80,7 @@ public class ItemActivity extends Activity {
 	 */
 
 	public void assignItemTo(String user) {
-
-		int userID = db.getUserByName(user);
+		
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
 		assignee.setText(user);
 		assignee.setOnClickListener(new View.OnClickListener() {
@@ -91,12 +90,12 @@ public class ItemActivity extends Activity {
 			}
 		});
 		// item.assignTo(userID); -- Don't do this here. Do on save
-		db.close();
 	}
 
 	public void selectAssignee(View v) {
 		db.open();
 		final CharSequence[] users = db.getUsersForDialog();
+		db.close();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -131,16 +130,10 @@ public class ItemActivity extends Activity {
 			db.updateItem(item);
 			db.close();
 		}
-
-		Toast.makeText(
-				this,
-				"Updated item " + item.getName() + ". Now assigned to "
-						+ rawAssignee, Toast.LENGTH_LONG).show();
-		Intent intent = new Intent();
-		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh
-										// the list since we've changed it -
-										// TODO?
-		finish();
+		
+		Intent in = new Intent();
+	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
+	    finish();
 
 	}
 
@@ -156,7 +149,7 @@ public class ItemActivity extends Activity {
 	public void prevItem(View v) {
 
 		Intent intent = new Intent(this, ItemActivity.class);
-		intent.putExtra("Item", prevItem);
+		intent.putExtra("ItemID", prevItem.getID());
 		startActivity(intent);
 		finish();
 	}
@@ -164,7 +157,7 @@ public class ItemActivity extends Activity {
 	public void nextItem(View v) {
 
 		Intent intent = new Intent(this, ItemActivity.class);
-		intent.putExtra("Item", nextItem);
+		intent.putExtra("ItemID", nextItem.getID());
 		startActivity(intent);
 		finish();
 	}
