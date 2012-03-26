@@ -17,6 +17,7 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int splash=0x7f020001;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f06000e;
@@ -34,6 +35,7 @@ public final class R {
         public static final int element_subtitle=0x7f060026;
         public static final int element_title=0x7f060025;
         public static final int header_notes=0x7f06001b;
+        public static final int imageView1=0x7f060027;
         public static final int inside_layout=0x7f060021;
         public static final int invite_button=0x7f060008;
         public static final int invite_email=0x7f060010;
