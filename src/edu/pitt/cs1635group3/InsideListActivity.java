@@ -85,7 +85,6 @@ public class InsideListActivity extends ListActivity {
 			items = db.getItemsForListByID(list.getID());
 			Log.i("ITEM EXISTS", "HERE");
 		}
-		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
 				items, assign_button, complete_button, invite_button, inviteUp);
@@ -96,13 +95,6 @@ public class InsideListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing " + list.getName());
-		
-		label_header.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				
-
-			}
-		});
 
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
@@ -113,8 +105,8 @@ public class InsideListActivity extends ListActivity {
 	@Override
 	public void onBackPressed() {
 		
-		Log.d("BACK PRESSED", "putting list in bundle to pass back. populated = "+ list.isPopulated());
-	
+		Log.d("BACK PRESSED", "closing db");
+		db.close();
 		Intent intent = new Intent();
 		intent.putExtra("list", list);
 		setResult(Activity.RESULT_OK, intent);
@@ -125,7 +117,7 @@ public class InsideListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
-		Item item = (Item) this.getListAdapter().getItem(position - 1);
+		Item item = (Item) this.getListAdapter().getItem(position-1);
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("ItemID", item.getID()); // can pass as object because it
@@ -184,9 +176,6 @@ public class InsideListActivity extends ListActivity {
 			if (item.isSelected()) {
 				item.setCompleted();
 				item.setSelected(false);
-				Toast.makeText(this,
-						"ITEM marked as completed: " + item.getName(),
-						Toast.LENGTH_LONG).show();
 				db.updateItem(item);
 			}
 		}

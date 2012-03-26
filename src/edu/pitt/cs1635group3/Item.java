@@ -194,6 +194,11 @@ public class Item implements Parcelable {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+	
+	public void setSelected(int i) {
+		Log.e("ITEM CLASS", "Item " +name+ "is selected? " +i);
+		this.selected = (i == 1 ? true : false);
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -55,6 +55,7 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
+	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE ANDROID APP (wont come from server. will initialize to false!!)
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_NAME = "name";
@@ -91,6 +92,7 @@ public class DBHelper {
 			+ "completion_date text, "
 			+ "prev_id integer, "
 			+ "next_id integer, "
+			+ "selected integer, "
 			+"UNIQUE(id) ON CONFLICT IGNORE)";
 	
 
@@ -325,6 +327,7 @@ public class DBHelper {
 		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
 		initialValues.put(KEY_ITEM_PREV, i.getPrev());
 		initialValues.put(KEY_ITEM_NEXT, i.getNext());
+		initialValues.put(KEY_ITEM_SELECTED, 0); // On insertion, no item will ever be selected. (Right?) - Kim
 		
 		Log.d("LEGIT INSERTED ITEM", "Inserted item name="+i.getName());
 		
@@ -371,13 +374,24 @@ public class DBHelper {
 		i.setCompletionDate(c.getString(10));
 		i.setPrev(c.getInt(11));
 		i.setNext(c.getInt(12));
+		i.setSelected(c.getInt(13)); // when we're pulling items from the db, this is when we check if it's selected.
+		
+		Log.i("ITEM FROM DB", "From db, item selected? " +c.getInt(13));
+		
 		return i;
 	}
 
 	public boolean updateItem(Item i) {
-		Log.d("BEGINING OF UPDATE", "Item " +i.getName() + " assigned to "+i.getAssignee());
 		ContentValues args = new ContentValues();
+
+		int isCompleted = 0, isSelected = 0;
+		if (i.isCompleted())
+			isCompleted = 1;
+		if (i.isSelected()) isSelected = 1;
+		
+		
 		args.put(KEY_ITEM_ID, i.getID());
+		args.put(KEY_PARENT_ID, i.getParentID());
 		args.put(KEY_ITEM_NAME, i.getName());
 		args.put(KEY_ADDER_ID, i.getCreator());
 		args.put(KEY_ADD_DATE, i.getCreationDate());
@@ -385,11 +399,14 @@ public class DBHelper {
 		args.put(KEY_ASSIGNED_TO, i.getAssignee());
 		args.put(KEY_ASSIGNER_ID, i.getAssigner());
 		args.put(KEY_NOTES, i.getNotes());
-		args.put(KEY_COMPLETED, i.isCompleted());
+		args.put(KEY_COMPLETED, isCompleted);
 		args.put(KEY_COMPLETION_DATE, i.getCompletionDate());
+		args.put(KEY_ITEM_PREV, i.getPrev());
+		args.put(KEY_ITEM_NEXT, i.getNext());
+		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		Log.d("UPDATED ITEM",
-				"Item " + i.getName() + " assigned to " + i.getAssignee());
+		Log.d("SUCCESS:UPDATE ITEM",
+				"Item " + i.getName() + " assigned to " + i.getAssignee() + " and isSelected " +i.isSelected());
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 

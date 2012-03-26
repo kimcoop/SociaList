@@ -34,6 +34,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	Button invite_button;
 	boolean inviteUp;
 	int checkedItems = 0;
+	
+	DBHelper db;
 
 	public ItemAdapter(Context context, int textViewResourceId,
 			ArrayList<Item> items, Button assign_button, Button complete_button,
@@ -44,6 +46,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		this.complete_button = complete_button;
 		this.invite_button = invite_button;
 		this.inviteUp = inviteUp;
+
+		db = new DBHelper(getContext());
+		db.open();
 	}
 	
 	
@@ -78,24 +83,17 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 			if (assignee != null) {
 
-				DBHelper db = new DBHelper(getContext());
-				db.open();
-
 				int userID = o.getAssignee();
-				Log.d("ItemAdapter", "UserID = " + userID);
 				String assignment = (userID > 0 ? db.getUserByID(userID)
 						.getName() : "Unassigned");
 				assignee.setText(assignment);
-				db.close();
+				
 			}
 
 			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
-					// TODO: invite becomes assignto/mark completed
-					// Still don't know why this is needed, but position must be
-					// decremented.
 					
 					if(isChecked){
 						checkedItems++;
@@ -115,16 +113,17 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						assign_button.setVisibility(View.VISIBLE);
 						
 					}
-					int pos = position;
-					items.get(pos).setSelected(isChecked);
-					if(items.get(pos).isSelected()){
-						Log.d("CHECKED", "item is selected "
-								+ items.get(pos).getName());
-					}
-					else{
-						Log.d("CHECKED", "item is UNselected "
-								+ items.get(pos).getName());
-					}
+					//items.get(pos)
+					Item activeItem = items.get(position);
+					Log.d("ACTIVE ITEM", "After cb click, active item is " +activeItem.getName());
+					
+					//activeItem = db.getItem(activeItem.getID());
+					activeItem.setSelected(isChecked);
+					db.updateItem(activeItem); // the item needs to be marked as selected in the db so InsideListActivity can identify it as needing to be acted upon for assign or selected
+					
+					//activeItem = db.getItem(activeItem.getID());
+					Log.e("ITEM ADAPATER", "Pulling from db. Should be 1 for selected " +activeItem.isSelected());
+					
 				}
 			}); // end onCheckedChangeListener
 

@@ -39,13 +39,13 @@ public class ItemActivity extends Activity {
 		
 		db = new DBHelper(this);
 		db.open();
-		
-		item = db.getItem(itemID);
+
 		
 		Log.d("ITEM RECEIVED", "Item ID = "+itemID);
+		item = db.getItem(itemID);
 		
-		//prevItem = db.getItem(item.getPrev());
-		//nextItem = db.getItem(item.getNext());
+		prevItem = db.getItem(item.getPrev());
+		nextItem = db.getItem(item.getNext());
 
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
@@ -59,7 +59,7 @@ public class ItemActivity extends Activity {
 
 		if (item.getAssignee() > 0) {
 			Log.d("ASSIGNEE", item.getAssignee()+"");
-			//assignee.setText(db.getUserByID(item.getAssignee()).getName());
+			assignee.setText(db.getUserByID(item.getAssignee()).getName());
 		} else {
 			assignee.setHint("Click to assign");
 		}
@@ -118,24 +118,24 @@ public class ItemActivity extends Activity {
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-
-		db.open();
+		
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
 		
 		String rawAssignee = assignee.getText().toString().trim();
 		int assigneeID;
 		if (rawAssignee != "" && rawAssignee != null) {
+			db.open();
 			assigneeID = db.getUserByName(rawAssignee);
 			item.assignTo(assigneeID);
+			db.updateItem(item);
+			db.close();
 		}
 		
-		db.updateItem(item);
-		db.close();
-		Toast.makeText(this, "Updated item " +item.getName(),
+		Toast.makeText(this, "Updated item " +item.getName() + ". Now assigned to " +rawAssignee,
 				Toast.LENGTH_LONG).show();
 		Intent intent = new Intent();
-		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh the list since we've changed it
+		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh the list since we've changed it - TODO?
 		finish();
 
 	}
