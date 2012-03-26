@@ -50,7 +50,10 @@ public class ItemActivity extends Activity {
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 
-		String creator = db.getUserNameByID(item.getCreator());
+		String creator;
+		if (item.getCreator() > 0) 
+			creator = db.getUserNameByID(item.getCreator());
+		else creator = "";
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ creator);
 

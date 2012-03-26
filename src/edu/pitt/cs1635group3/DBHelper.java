@@ -48,7 +48,7 @@ public class DBHelper {
 	public static final String KEY_ADDER_ID = "adder_id";
 	public static final String KEY_ADD_DATE = "add_date";
 	public static final String KEY_QUANTITY = "quantity";
-	public static final String KEY_ASSIGNED_TO = "assignee";
+	public static final String KEY_ASSIGNED_TO = "assignee_id";
 	public static final String KEY_ASSIGNER_ID = "assigner_id";
 	public static final String KEY_NOTES = "notes";
 	public static final String KEY_COMPLETED = "completed";
@@ -80,16 +80,17 @@ public class DBHelper {
 	 * Database creation sql statement
 	 */
 	private static final String ITEM_CREATE = "create table item (id integer primary key autoincrement, "
-			+ "prev_id integer not null, "
-			+ "assigner_id not null, "
-			+ "name text not null, adder_id integer not null, "
-			+ "assignee integer not null, "
-			+ "add_date text not null, "
-			+ "next_id integer not null, "
-			+ "quantity integer not null, "
+			+ "parent_id integer, "
+			+ "name text not null, "
+			+ "adder_id integer, "
+			+ "add_date text, "
+			+ "quantity integer, "
+			+ "assignee_id integer, "
+			+ "assigner_id integer, "
+			+ "notes text, completed integer, "
 			+ "completion_date text, "
-			+ "notes text, completed integer not null, "
-			+ "parent_id integer not null, "
+			+ "prev_id integer, "
+			+ "next_id integer, "
 			+"UNIQUE(id) ON CONFLICT IGNORE)";
 	
 
@@ -218,7 +219,9 @@ public class DBHelper {
 		if (c != null)
 			c.moveToFirst();
 
-		return cursorToUser(c);
+		User u = cursorToUser(c);
+		c.close();
+		return u;
 	}
 
 	public int getUserByName(String user) {
@@ -287,18 +290,7 @@ public class DBHelper {
 		
 			while (!c.isAfterLast()) {
 				Log.i("DBHelper", "In While loop"); 
-				Item i = new Item(c.getString(3), c.getInt(0));
-				i.setParent(c.getInt(12));
-				i.setCreator(c.getInt(4));
-				i.setCreationDate(c.getString(6));
-				i.setQuantity(c.getInt(8));
-				i.assignTo(c.getInt(5));
-				i.setAssigner(c.getInt(2));
-				i.setNotes(c.getString(10));
-				i.setCompleted(c.getInt(11));
-				i.setCompletionDate(c.getString(9));
-				i.setPrev(c.getInt(1));
-				i.setNext(c.getInt(7));
+				Item i = cursorToItem(c);
 				items.add(i);
 			    c.moveToNext();
 			}
@@ -321,19 +313,18 @@ public class DBHelper {
 			isCompleted = 1;
 
 		initialValues.put(KEY_ITEM_ID, i.getID());
-		initialValues.put(KEY_ITEM_PREV, i.getPrev());
-		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
+		initialValues.put(KEY_PARENT_ID, i.getParentID());
 		initialValues.put(KEY_ITEM_NAME, i.getName());
 		initialValues.put(KEY_ADDER_ID, i.getCreator());
-		initialValues.put(KEY_ASSIGNED_TO, i.getAssignee());
 		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
-		initialValues.put(KEY_ITEM_NEXT, i.getNext());
 		initialValues.put(KEY_QUANTITY, i.getQuantity());
-		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
+		initialValues.put(KEY_ASSIGNED_TO, i.getAssignee());
+		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
 		initialValues.put(KEY_NOTES, i.getNotes());
 		initialValues.put(KEY_COMPLETED, isCompleted);
-		initialValues.put(KEY_PARENT_ID, i.getParentID());
-		
+		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
+		initialValues.put(KEY_ITEM_PREV, i.getPrev());
+		initialValues.put(KEY_ITEM_NEXT, i.getNext());
 		
 		Log.d("LEGIT INSERTED ITEM", "Inserted item name="+i.getName());
 		
@@ -361,15 +352,17 @@ public class DBHelper {
 			c.moveToFirst();
 		}
 
-		return cursorToItem(c);
+		Item i = cursorToItem(c);
+		c.close();
+		return i;
 	}
 
 	private Item cursorToItem(Cursor c) {
 		Log.d("DB", "c.getCount() is " + c.getCount());
 		Item i = new Item(c.getString(2), c.getInt(0));
 		i.setParent(c.getInt(1));
-		i.setCreator(c.getInt(4));
-		i.setCreationDate(c.getString(5));
+		i.setCreator(c.getInt(3));
+		i.setCreationDate(c.getString(4));
 		i.setQuantity(c.getInt(5));
 		i.assignTo(c.getInt(6));
 		i.setAssigner(c.getInt(7));
@@ -378,7 +371,6 @@ public class DBHelper {
 		i.setCompletionDate(c.getString(10));
 		i.setPrev(c.getInt(11));
 		i.setNext(c.getInt(12));
-		c.close();
 		return i;
 	}
 
