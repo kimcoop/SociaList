@@ -114,8 +114,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					}
 					// items.get(pos)
 					Item activeItem = items.get(position);
-					Log.d("ACTIVE ITEM", "After cb click, active item is "
-							+ activeItem.getName());
 
 					// activeItem = db.getItem(activeItem.getID());
 					activeItem.setSelected(isChecked);

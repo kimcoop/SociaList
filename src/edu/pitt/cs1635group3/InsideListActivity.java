@@ -121,6 +121,13 @@ public class InsideListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked 
 		Item item = (Item) this.getListAdapter().getItem(position - 1);
+		
+		db.open();
+		for (Item i : items) {		// this stops the weird jumping when a list item is clicked
+			i.setSelected(false);
+			db.updateItem(i);
+		}
+		db.close();
 
 		Log.d("PASSING ITEM", "Item " +item.getName()+". ID passing as " + item.getID());
 
