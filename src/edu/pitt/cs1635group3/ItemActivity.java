@@ -9,22 +9,40 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class ItemActivity extends Activity {
-
+	
+	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+	private GestureDetector gestureDetector;
+	View.OnTouchListener gestureListener;
+	
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
+		
+		// Gesture detection
+        gestureDetector = new GestureDetector(new MyGestureDetector());
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        };
 
 		TextView name, quantity, creation_details, assignee, notes;
 		name = (EditText) findViewById(R.id.item_name);
@@ -32,6 +50,9 @@ public class ItemActivity extends Activity {
 		creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
+		
+		//swiper = (View) findViewById(R.id.swiper);
+		notes.setOnTouchListener(gestureListener);
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -75,10 +96,8 @@ public class ItemActivity extends Activity {
 			}
 		});
 
-	}/*
-	 * Toast.makeText(this, "next", Toast.LENGTH_LONG).show();
-	 */
-
+	}
+	
 	public void assignItemTo(String user) {
 		
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
@@ -146,8 +165,8 @@ public class ItemActivity extends Activity {
 		// reset wiring for linked list,
 		// close the db.
 	}
-
-	public void prevItem(View v) {
+	
+	public void goToPrev() {
 
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", prevItem.getID());
@@ -155,12 +174,42 @@ public class ItemActivity extends Activity {
 		finish();
 	}
 
-	public void nextItem(View v) {
-
+	public void prevItem(View v) {
+		// calling like this because it's an onclick but we also use it for swipe
+		goToPrev();
+	}
+	
+	public void goToNext() {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", nextItem.getID());
 		startActivity(intent);
 		finish();
 	}
+
+	public void nextItem(View v) {
+		goToNext();
+	}
+	
+
+    class MyGestureDetector extends SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // right to left swipe
+                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    Toast.makeText(getBaseContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+                	goToPrev();
+                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                	Toast.makeText(getBaseContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+                	goToNext();
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
+    }
 
 }
