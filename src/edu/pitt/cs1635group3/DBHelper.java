@@ -331,7 +331,7 @@ public class DBHelper {
 	public ArrayList<Item> getItemsForListByID(int ID) {
 
 		ArrayList<Item> items = null;
-		String myQuery = "SELECT * FROM item";// WHERE parent_id = " + ID;
+		String myQuery = "SELECT * FROM item WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
@@ -379,7 +379,7 @@ public class DBHelper {
 
 		Log.d("LEGIT INSERTED ITEM", ""+initialValues);
 
-		Log.e("INSERT ID", "Item " +i.getName()+ ", "+ db.insertWithOnConflict(ITEM_TABLE, null, initialValues, 0));
+		Log.e("INSERT ID", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
 	}
 
 	public boolean deleteItem(Item i) {
