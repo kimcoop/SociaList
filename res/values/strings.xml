@@ -3,6 +3,7 @@
 
     <string name="hello">Zebrafish Technologies = best group ever!</string>
     <string name="app_name">SociaList</string>
+    <string name ="splash_screen">Splash Screen!!!!</string>
 
     <!-- Headers -->
     <string name="lists">Lists</string>
