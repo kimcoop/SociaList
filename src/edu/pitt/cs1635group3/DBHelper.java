@@ -55,7 +55,13 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
-	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE ANDROID APP (wont come from server. will initialize to false!!)
+	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE
+																// ANDROID APP
+																// (wont come
+																// from server.
+																// will
+																// initialize to
+																// false!!)
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_NAME = "name";
@@ -93,8 +99,7 @@ public class DBHelper {
 			+ "prev_id integer, "
 			+ "next_id integer, "
 			+ "selected integer, "
-			+"UNIQUE(id) ON CONFLICT IGNORE)";
-	
+			+ "UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
@@ -200,6 +205,29 @@ public class DBHelper {
 		return users;
 	}
 
+	public ArrayList<User> getAllUsers() {
+
+		ArrayList<User> users = null;
+		String myQuery = "SELECT * FROM user";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) {
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			users = new ArrayList<User>(c.getCount());
+			c.moveToFirst();
+
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop");
+				User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+				users.add(u);
+				c.moveToNext();
+			}
+
+		}
+		return users;
+
+	}
+
 	public String getUserNameByID(int row) {
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -263,9 +291,33 @@ public class DBHelper {
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
 	}
-	
+
+	public ArrayList<CustomList> getAllLists() {
+
+		ArrayList<CustomList> lists = null;
+		String myQuery = "SELECT * FROM list";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) {
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			lists = new ArrayList<CustomList>(c.getCount());
+			c.moveToFirst();
+
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop");
+				CustomList l = new CustomList(c.getInt(0), c.getString(1));
+				l.setCreator(c.getInt(2));
+				l.setCreationDate(c.getString(3));
+				lists.add(l);
+				c.moveToNext();
+			}
+		}
+		return lists;
+
+	}
+
 	public CustomList getListByID(int i) {
-		
+
 		String myQuery = "SELECT * FROM list WHERE id = " + i;
 		Cursor c = db.rawQuery(myQuery, null);
 		if (c != null) {
@@ -277,30 +329,28 @@ public class DBHelper {
 		myList.setCreationDate(c.getString(3));
 		return myList;
 	}
-	
-	public ArrayList<Item> getItemsForListByID(int ID){
-		
+
+	public ArrayList<Item> getItemsForListByID(int ID) {
+
 		ArrayList<Item> items = null;
 		String myQuery = "SELECT * FROM item";// WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
 
-		if (c != null){
+		if (c != null) {
 			Log.i("DBHelper", "In IF and c = " + c.getCount());
-			items = new ArrayList<Item> (c.getCount());
+			items = new ArrayList<Item>(c.getCount());
 			c.moveToFirst();
-	
-		
+
 			while (!c.isAfterLast()) {
-				Log.i("DBHelper", "In While loop"); 
+				Log.i("DBHelper", "In While loop");
 				Item i = cursorToItem(c);
 				items.add(i);
-			    c.moveToNext();
+				c.moveToNext();
 			}
 		}
-		
-		
+
 		return items;
-		
+
 	}
 
 	/*
@@ -327,12 +377,14 @@ public class DBHelper {
 		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
 		initialValues.put(KEY_ITEM_PREV, i.getPrev());
 		initialValues.put(KEY_ITEM_NEXT, i.getNext());
-		initialValues.put(KEY_ITEM_SELECTED, 0); // On insertion, no item will ever be selected. (Right?) - Kim
-		
-		Log.d("LEGIT INSERTED ITEM", "Inserted item name="+i.getName());
-		
+		initialValues.put(KEY_ITEM_SELECTED, 0); // On insertion, no item will
+													// ever be selected.
+													// (Right?) - Kim
+
+		Log.d("LEGIT INSERTED ITEM", "Inserted item name=" + i.getName());
+
 		return db.insert(ITEM_TABLE, null, initialValues);
-		
+
 	}
 
 	public boolean deleteItem(Item i) {
@@ -374,10 +426,12 @@ public class DBHelper {
 		i.setCompletionDate(c.getString(10));
 		i.setPrev(c.getInt(11));
 		i.setNext(c.getInt(12));
-		i.setSelected(c.getInt(13)); // when we're pulling items from the db, this is when we check if it's selected.
-		
-		Log.i("ITEM FROM DB", "From db, item selected? " +c.getInt(13));
-		
+		i.setSelected(c.getInt(13)); // when we're pulling items from the db,
+										// this is when we check if it's
+										// selected.
+
+		Log.i("ITEM FROM DB", "From db, item selected? " + c.getInt(13));
+
 		return i;
 	}
 
@@ -387,9 +441,9 @@ public class DBHelper {
 		int isCompleted = 0, isSelected = 0;
 		if (i.isCompleted())
 			isCompleted = 1;
-		if (i.isSelected()) isSelected = 1;
-		
-		
+		if (i.isSelected())
+			isSelected = 1;
+
 		args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_PARENT_ID, i.getParentID());
 		args.put(KEY_ITEM_NAME, i.getName());
@@ -405,8 +459,8 @@ public class DBHelper {
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		Log.d("SUCCESS:UPDATE ITEM",
-				"Item " + i.getName() + " assigned to " + i.getAssignee() + " and isSelected " +i.isSelected());
+		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " assigned to "
+				+ i.getAssignee() + " and isSelected " + i.isSelected());
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 

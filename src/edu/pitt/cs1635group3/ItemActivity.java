@@ -36,14 +36,13 @@ public class ItemActivity extends Activity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		int itemID = extras.getInt("ItemID");
-		
+
 		db = new DBHelper(this);
 		db.open();
 
-		
-		Log.d("ITEM RECEIVED", "Item ID = "+itemID);
+		Log.d("ITEM RECEIVED", "Item ID = " + itemID);
 		item = db.getItem(itemID);
-		
+
 		prevItem = db.getItem(item.getPrev());
 		nextItem = db.getItem(item.getNext());
 
@@ -51,14 +50,15 @@ public class ItemActivity extends Activity {
 		quantity.setText("" + item.getQuantity());
 
 		String creator;
-		if (item.getCreator() > 0) 
+		if (item.getCreator() > 0)
 			creator = db.getUserNameByID(item.getCreator());
-		else creator = "";
+		else
+			creator = "";
 		creation_details.setText("Added on " + item.getCreationDate() + " by "
 				+ creator);
 
 		if (item.getAssignee() > 0) {
-			Log.d("ASSIGNEE", item.getAssignee()+"");
+			Log.d("ASSIGNEE", item.getAssignee() + "");
 			assignee.setText(db.getUserByID(item.getAssignee()).getName());
 		} else {
 			assignee.setHint("Click to assign");
@@ -118,10 +118,10 @@ public class ItemActivity extends Activity {
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-		
+
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
-		
+
 		String rawAssignee = assignee.getText().toString().trim();
 		int assigneeID;
 		if (rawAssignee != "" && rawAssignee != null) {
@@ -131,11 +131,15 @@ public class ItemActivity extends Activity {
 			db.updateItem(item);
 			db.close();
 		}
-		
-		Toast.makeText(this, "Updated item " +item.getName() + ". Now assigned to " +rawAssignee,
-				Toast.LENGTH_LONG).show();
+
+		Toast.makeText(
+				this,
+				"Updated item " + item.getName() + ". Now assigned to "
+						+ rawAssignee, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent();
-		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh the list since we've changed it - TODO?
+		intent.putExtra("refresh", 1); // tell the InsideListActivity to refresh
+										// the list since we've changed it -
+										// TODO?
 		finish();
 
 	}

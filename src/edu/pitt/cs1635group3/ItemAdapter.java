@@ -34,12 +34,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	Button invite_button;
 	boolean inviteUp;
 	int checkedItems = 0;
-	
+
 	DBHelper db;
 
 	public ItemAdapter(Context context, int textViewResourceId,
-			ArrayList<Item> items, Button assign_button, Button complete_button,
-			Button invite_button, boolean inviteUp) {
+			ArrayList<Item> items, Button assign_button,
+			Button complete_button, Button invite_button, boolean inviteUp) {
 		super(context, textViewResourceId, items);
 		this.items = items;
 		this.assign_button = assign_button;
@@ -50,8 +50,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		db = new DBHelper(getContext());
 		db.open();
 	}
-	
-	
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
@@ -87,43 +86,49 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				String assignment = (userID > 0 ? db.getUserByID(userID)
 						.getName() : "Unassigned");
 				assignee.setText(assignment);
-				
+
 			}
 
 			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
-					
-					if(isChecked){
+
+					if (isChecked) {
 						checkedItems++;
-					}
-					else{
+					} else {
 						checkedItems--;
 					}
-					if(checkedItems == 0){
+					if (checkedItems == 0) {
 						invite_button.setVisibility(View.VISIBLE);
 						complete_button.setVisibility(View.GONE);
 						assign_button.setVisibility(View.GONE);
-						
-					}
-					else if(checkedItems > 0){
+
+					} else if (checkedItems > 0) {
 						invite_button.setVisibility(View.GONE);
 						complete_button.setVisibility(View.VISIBLE);
 						assign_button.setVisibility(View.VISIBLE);
-						
+
 					}
-					//items.get(pos)
+					// items.get(pos)
 					Item activeItem = items.get(position);
-					Log.d("ACTIVE ITEM", "After cb click, active item is " +activeItem.getName());
-					
-					//activeItem = db.getItem(activeItem.getID());
+					Log.d("ACTIVE ITEM", "After cb click, active item is "
+							+ activeItem.getName());
+
+					// activeItem = db.getItem(activeItem.getID());
 					activeItem.setSelected(isChecked);
-					db.updateItem(activeItem); // the item needs to be marked as selected in the db so InsideListActivity can identify it as needing to be acted upon for assign or selected
-					
-					//activeItem = db.getItem(activeItem.getID());
-					Log.e("ITEM ADAPATER", "Pulling from db. Should be 1 for selected " +activeItem.isSelected());
-					
+					db.updateItem(activeItem); // the item needs to be marked as
+												// selected in the db so
+												// InsideListActivity can
+												// identify it as needing to be
+												// acted upon for assign or
+												// selected
+
+					// activeItem = db.getItem(activeItem.getID());
+					Log.e("ITEM ADAPATER",
+							"Pulling from db. Should be 1 for selected "
+									+ activeItem.isSelected());
+
 				}
 			}); // end onCheckedChangeListener
 
@@ -135,9 +140,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		}
 		return v;
 	}
+
 	public void flipButtons() {
 
-		
 		if (inviteUp) {
 			invite_button.setVisibility(View.GONE);
 			complete_button.setVisibility(View.VISIBLE);
@@ -148,8 +153,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			complete_button.setVisibility(View.GONE);
 			assign_button.setVisibility(View.GONE);
 
-			//assign_button.setVisibility(View.VISIBLE); // remove this for final
-														// product (testing now)
+			// assign_button.setVisibility(View.VISIBLE); // remove this for
+			// final
+			// product (testing now)
 			inviteUp = true;
 		}
 	}

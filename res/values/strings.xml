@@ -3,21 +3,21 @@
 
     <string name="hello">Zebrafish Technologies = best group ever!</string>
     <string name="app_name">SociaList</string>
-    
+    <string name ="splash_screen">Splash Screen!!!!</string>
+
     <!-- Headers -->
     <string name="lists">Lists</string>
-    
+
     <!-- Buttons -->
-	<string name="invite_button">Invite&#8230;</string>
-	<string name="assign_button">Assign To&#8230;</string>
-	<string name="complete_button">Mark Completed</string>
-	
-	<string name="label_notes">Notes about this item:</string>
-	<string name="label_name">Item name:</string>
-	<string name="label_quantity">Quantity:</string>
-	<string name="label_assignee">Assigned to:</string>
-	
-	<string name="default_sort_text">Sort By</string>
+    <string name="invite_button">Invite…</string>
+    <string name="assign_button">Assign To…</string>
+    <string name="complete_button">Mark Completed</string>
+    <string name="label_notes">Notes about this item:</string>
+    <string name="label_name">Item name:</string>
+    <string name="label_quantity">Quantity:</string>
+    <string name="label_assignee">Assigned to:</string>
+    <string name="default_sort_text">Sort By</string>
+
     <string-array name="default_sorts">
         <item>Dated Added</item>
         <item>Assigned To Me</item>
@@ -25,27 +25,26 @@
         <item>Ascending</item>
         <item>Descending</item>
     </string-array>
-    
     <string-array name="shared_users">
         <item>Jim Cervone</item>
         <item>Brendan Liu</item>
         <item>Rob Filippi</item>
         <item>Kim Cooperrider</item>
     </string-array>
-	
-    
+
     <!-- Invite -->
     <string name="send_button">Send Invitation</string>
     <string name="invite_activity_title">Invite</string>
     <string name="invite_method_label">Invite through..</string>
-    <string name="invite_message_preview_title">Invite massage:</string>
+    <string name="invite_message_preview_title">Invite message:</string>
     <string name="pick_contact_label">Pick Contacts</string>
     <string name="invite_email_hint">number or email</string>
     <string name="message_preview">message preview</string>
     <string name="invitetypeprompt">Pick type of invite...</string>
+
     <string-array name="invitetypelist">
         <item>Send SMS</item>
         <item>Send Email</item>
-	</string-array>
-    
+    </string-array>
+
 </resources>

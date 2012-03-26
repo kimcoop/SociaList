@@ -4,135 +4,134 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-    
-		    <TextView
-		        android:id="@+id/label_name"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/label_name"
-			    android:padding="2dp"
-		   		android:textAppearance="?android:attr/textAppearanceMedium"
-			    android:textSize="14dp" />
-				    
-		    <EditText
-		        android:id="@+id/item_name"
-		        android:text="@+id/item_name"
-		        android:textSize="12dp"
-		        android:layout_width="fill_parent"
-		        android:layout_height="30dp"
-		   		android:padding="2dp" />
-    
-    </LinearLayout>
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-		    <TextView
-		        android:id="@+id/label_quantity"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:padding="2dp"
-		        android:text="@string/label_quantity"
-		   		android:textAppearance="?android:attr/textAppearanceMedium"
-			    android:textSize="14dp" />
-		    
-		    <EditText
-		        android:id="@+id/item_quantity"
-		        android:text="@+id/item_quantity"
-		        android:textSize="12dp"
-		        android:layout_width="fill_parent"
-		        android:layout_height="30dp"
-		   		android:padding="2dp" />
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/label_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14dp" />
 
+        <EditText
+            android:id="@+id/item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:padding="2dp"
+            android:text="@+id/item_name"
+            android:textSize="12dp" />
     </LinearLayout>
-    
-    
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/label_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/label_quantity"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14dp" />
+
+        <EditText
+            android:id="@+id/item_quantity"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:padding="2dp"
+            android:text="@+id/item_quantity"
+            android:textSize="12dp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/item_creation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="4.0dp"
         android:text="@+id/item_creation" />
- 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
 
-		    <TextView
-		        android:id="@+id/label_assignee"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:padding="4.0dp"
-		        android:text="@string/label_assignee" />
-		
-		    <EditText
-		        android:id="@+id/item_assignee"
-		        android:textSize="12dp"
-		        android:layout_width="fill_parent"
-		        android:layout_height="30dp"
-		   		android:padding="4dp"
-		   		android:focusable="false" />
-		    
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/label_assignee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4.0dp"
+            android:text="@string/label_assignee" />
+
+        <EditText
+            android:id="@+id/item_assignee"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:focusable="false"
+            android:padding="4dp"
+            android:textSize="12dp" />
     </LinearLayout>
-    
-   <TextView
-       android:id="@+id/header_notes"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:padding="4.0dp"
-       android:text="@string/label_notes" />
 
-   <EditText
-       android:id="@+id/item_notes"
-       android:layout_width="match_parent"
-       android:inputType="textMultiLine"
-       android:padding="4.0dp"
-       android:textSize="12dp"
-       android:layout_height="60dp" >
-   </EditText>
+    <TextView
+        android:id="@+id/header_notes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="4.0dp"
+        android:text="@string/label_notes" />
 
-   <LinearLayout
-       android:layout_width="fill_parent"
-       android:layout_height="fill_parent"
-       android:layout_gravity="bottom"
-       android:gravity="bottom|center"
-       android:orientation="horizontal"
-       android:padding="2dp" >
+    <EditText
+        android:id="@+id/item_notes"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:inputType="textMultiLine"
+        android:padding="4.0dp"
+        android:textSize="12dp" >
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        android:padding="2dp" >
 
         <Button
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
-            android:onClick="deleteItem" />
+            android:onClick="deleteItem"
+            android:text="Delete" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:onClick="saveItem" />
+            android:onClick="saveItem"
+            android:text="Save" />
 
         <Button
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next Item"
-            android:onClick="nextItem" />
+            android:onClick="nextItem"
+            android:text="Next Item" />
 
         <Button
             android:id="@+id/prev_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prev Item"
-            android:onClick="prevItem" />
+            android:onClick="prevItem"
+            android:text="Prev Item" />
+    </LinearLayout>
 
-        </LinearLayout>	    
 </LinearLayout>

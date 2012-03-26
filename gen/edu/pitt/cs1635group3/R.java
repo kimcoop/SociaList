@@ -70,32 +70,34 @@ public final class R {
         public static final int item_row=0x7f030007;
         public static final int list_row=0x7f030008;
         public static final int listplaceholder=0x7f030009;
+        public static final int splash=0x7f03000a;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
-        public static final int assign_button=0x7f040004;
-        public static final int complete_button=0x7f040005;
-        public static final int default_sort_text=0x7f04000a;
+        public static final int assign_button=0x7f040005;
+        public static final int complete_button=0x7f040006;
+        public static final int default_sort_text=0x7f04000b;
         public static final int hello=0x7f040000;
-        public static final int invite_activity_title=0x7f04000c;
+        public static final int invite_activity_title=0x7f04000d;
         /**  Buttons 
          */
-        public static final int invite_button=0x7f040003;
-        public static final int invite_email_hint=0x7f040010;
-        public static final int invite_message_preview_title=0x7f04000e;
-        public static final int invite_method_label=0x7f04000d;
-        public static final int invitetypeprompt=0x7f040012;
-        public static final int label_assignee=0x7f040009;
-        public static final int label_name=0x7f040007;
-        public static final int label_notes=0x7f040006;
-        public static final int label_quantity=0x7f040008;
+        public static final int invite_button=0x7f040004;
+        public static final int invite_email_hint=0x7f040011;
+        public static final int invite_message_preview_title=0x7f04000f;
+        public static final int invite_method_label=0x7f04000e;
+        public static final int invitetypeprompt=0x7f040013;
+        public static final int label_assignee=0x7f04000a;
+        public static final int label_name=0x7f040008;
+        public static final int label_notes=0x7f040007;
+        public static final int label_quantity=0x7f040009;
         /**  Headers 
          */
-        public static final int lists=0x7f040002;
-        public static final int message_preview=0x7f040011;
-        public static final int pick_contact_label=0x7f04000f;
+        public static final int lists=0x7f040003;
+        public static final int message_preview=0x7f040012;
+        public static final int pick_contact_label=0x7f040010;
         /**  Invite 
          */
-        public static final int send_button=0x7f04000b;
+        public static final int send_button=0x7f04000c;
+        public static final int splash_screen=0x7f040002;
     }
 }
