@@ -175,6 +175,10 @@ public class Item implements Parcelable {
 	public void setCreator(int i) {
 		this.creator = i;
 	}
+	
+	public void setCompleted(boolean b) {
+		this.completed = b;
+	}
 
 	public void setCompleted(int i) {
 		this.completed = (i == 1 ? true : false);
