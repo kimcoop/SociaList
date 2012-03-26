@@ -22,6 +22,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +37,7 @@ public class InviteActivity extends Activity {
 	 	private static final String DEBUG_TAG = "InviteActivity";
 	    private static final int CONTACT_PICKER_RESULT = 1001;
 	    
-	    String massage = "";
+	    String message = "";
 	    String email = "";
         String phone = "";
 
@@ -44,6 +45,29 @@ public class InviteActivity extends Activity {
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.invite);
+	        
+	        Intent i = getIntent();
+			Bundle extras = i.getExtras();
+			
+			message = "Hey! I shared a awesome list on SociaList with you! Download the app and add list: 60012-" + extras.getInt("ListID");
+			
+			EditText messageEntry = (EditText) findViewById(R.id.invite_message_preview);
+            messageEntry.setText(message);
+            
+            
+            Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                	EditText emailEntry = (EditText) findViewById(R.id.invite_email);
+                    emailEntry.setText("");
+                }
+
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // your code here
+                }
+
+            });
+			
 	    }
 
 	    public void doLaunchContactPicker(View view) {
@@ -60,6 +84,7 @@ public class InviteActivity extends Activity {
 	                
 	                Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
 	                String invite_type = (String) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
+	                String name = "";
 	                
 	                
 	                
@@ -79,6 +104,11 @@ public class InviteActivity extends Activity {
 	                    // get the contact id from the Uri
 	                    String id = result.getLastPathSegment();
 	                    
+	                    
+	                    /***************************
+	                     * 
+	                     *           Email
+	                     */
 	                    if(invite_type.equals("Send Email")){
 		                    // query for everything email
 		                    cursor = getContentResolver().query(Email.CONTENT_URI,
@@ -96,12 +126,16 @@ public class InviteActivity extends Activity {
 		                        	  int index = cursor.getColumnIndex(column);
 		                        	  Log.v(DEBUG_TAG, "Column: " + column + " == [" +
 		                        			  cursor.getString(index) + "]"); 
+		                        	  if(column.equals("display_name")){
+		                        		  name = cursor.getString(index);
+		                        	  }
 		                          }
 		                         
 
 		                        email = cursor.getString(emailIdx);
 		                        
 		                        Log.v(DEBUG_TAG, "Got email: " + email);
+		                        Log.v(DEBUG_TAG, "Got name: " + name);
 		                        
 
 		                    } else {
@@ -109,6 +143,10 @@ public class InviteActivity extends Activity {
 		                    }
 	                    }
 	                    
+	                    /***************************
+	                     * 
+	                     *           Phone
+	                     */
 	                    if(invite_type.equals("Send SMS")){
 		                    // query for everything phone
 		                    cursorPhone = getContentResolver().query(Phone.CONTENT_URI,
@@ -123,11 +161,15 @@ public class InviteActivity extends Activity {
 		                          for (String column : columnsPhone) { 
 		                        	  int index = cursorPhone.getColumnIndex(column);
 		                        	  Log.v(DEBUG_TAG, "Column: " + column + " == [" +
-		                        			  cursorPhone.getString(index) + "]"); 
+		                        			  cursorPhone.getString(index) + "]");
+		                        	  if(column.equals("display_name")){
+		                        		  name = cursorPhone.getString(index);
+		                        	  }
 		                          }
 		                        
 		                        phone = cursorPhone.getString(phoneIdx);
 		                        Log.v(DEBUG_TAG, "Got phone: " + phone);
+		                        Log.v(DEBUG_TAG, "Got name: " + name);
 
 		                    } else {
 		                        Log.w(DEBUG_TAG, "No phone results");
@@ -138,26 +180,29 @@ public class InviteActivity extends Activity {
 	                    
 	                } catch (Exception e) {
 	                    Log.e(DEBUG_TAG, "Failed to get data", e);
+	                    
 	                } finally {
 	                    if (cursor != null) {
 	                        cursor.close();
 	                    }
 	                    if(invite_type.equals("Send Email")){
 		                    EditText emailEntry = (EditText) findViewById(R.id.invite_email);
-		                    emailEntry.setText(email);
+		                    emailEntry.setText(name);
 		                    if (email.length() == 0) {
 		                        Toast.makeText(this, "No email found for contact.",
 		                                Toast.LENGTH_LONG).show();
+		                        emailEntry.setText("No email found..");
 		                    }
 	                    }
 	                    
 	                    if(invite_type.equals("Send SMS")){
 	                    	EditText massageEntry = (EditText) findViewById(R.id.invite_email);
-	                    	massageEntry.setText(phone);
+	                    	massageEntry.setText(name);
 	                    	
 	                    	if (phone.length() == 0) {
 		                        Toast.makeText(this, "No phone found for contact.",
 		                                Toast.LENGTH_LONG).show();
+		                        massageEntry.setText("No phone found..");
 		                    }
 	                    }
 
@@ -169,7 +214,7 @@ public class InviteActivity extends Activity {
 	    }
 	    
 	    public void sendInvitation(View v){
-	    	String smsContent = "Join my SociaList# 123456";
+	    	String smsContent = message;
 	    	
 	    	Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
             String invite_type = (String) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
@@ -178,6 +223,7 @@ public class InviteActivity extends Activity {
             	
             	Uri smsUri = Uri.parse("sms:6102356128");
             	Intent sendIntent = new Intent(Intent.ACTION_VIEW,smsUri);
+            	sendIntent.putExtra("address", phone);
             	sendIntent.putExtra("sms_body", smsContent); 
             	sendIntent.setType("vnd.android-dir/mms-sms");
             	startActivity(sendIntent);   
@@ -192,7 +238,7 @@ public class InviteActivity extends Activity {
             
             } else if(invite_type.equals("Send Email")){
             	String subject = "Invitation to my SociaList";
-            	String emailContent = "Join my SociaList# 123456";
+            	String emailContent = message;
             	
             	Intent emailIntent = new Intent(Intent.ACTION_SEND);
             	emailIntent .setType("plain/text");

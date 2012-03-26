@@ -224,7 +224,7 @@ public class InsideListActivity extends ListActivity {
 		Bundle extras = i.getExtras();
 		
 		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
-		intent.putExtra("listID", extras.getInt("ListID"));
+		intent.putExtra("ListID", extras.getInt("ListID"));
 		Log.i("INVITE TO","ListID: "+ extras.getInt("ListID"));
 		startActivity(intent);
 	

@@ -35,7 +35,7 @@
     <string name="send_button">Send Invitation</string>
     <string name="invite_activity_title">Invite</string>
     <string name="invite_method_label">Invite through..</string>
-    <string name="invite_message_preview_title">Invite massage:</string>
+    <string name="invite_message_preview_title">Invite message:</string>
     <string name="pick_contact_label">Pick Contacts</string>
     <string name="invite_email_hint">number or email</string>
     <string name="message_preview">message preview</string>
