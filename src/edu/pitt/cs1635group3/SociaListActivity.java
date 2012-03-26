@@ -37,7 +37,14 @@ public class SociaListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 
-		if (lists == null)
+		db = new DBHelper(this);
+		db.open();
+		lists = db.getAllLists();
+		users = db.getAllUsers(); 
+		
+		db.close();
+		
+		/*if (lists == null)
 			lists = getLists();
 		
 			for(CustomList list : lists){
@@ -45,7 +52,7 @@ public class SociaListActivity extends ListActivity {
 			}
 			
 		if (users == null)
-			users = getUsers();
+			users = getUsers();*/
 
 		
 
