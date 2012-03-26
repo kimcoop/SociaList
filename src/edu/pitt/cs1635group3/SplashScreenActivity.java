@@ -128,11 +128,7 @@ public class SplashScreenActivity extends Activity {
 
 				newList = new CustomList(listID, listName);
 				newList.setCreationDate(listCreation);
-				newList.setNote(listNote); // don't read in the list's items
-											// here. do it once a list is
-											// actually clicked (more efficient
-											// and also avoids problems with
-											// parcelable item passing)
+				newList.setNote(listNote);
 				myCustomLists.add(newList);
 				db.insertList(newList);
 			}
@@ -149,7 +145,7 @@ public class SplashScreenActivity extends Activity {
 		db = new DBHelper(this);
 		db.open();
 		// Item testItem = list.getItem(0);
-		list.pullItems(); // pull the list's items from the server;
+		list.pullItems(); // pull the list's items from the server
 		items = list.getItems();
 		for (Item el : items) {
 			db.insertItem(el);

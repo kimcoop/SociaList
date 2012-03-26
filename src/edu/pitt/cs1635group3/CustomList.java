@@ -94,14 +94,13 @@ public class CustomList implements Parcelable {
 	}
 
 	public ArrayList<Item> getItems() {
-		Log.d("CustomList", "Listitem at 0 is" + listItems.get(0).getName());
 		return listItems;
 	}
 
 	public Item getItem(int i) {
 
 		if (listItems != null && i < listItems.size()) {
-			Log.d("CustomList", "In IF statement");
+			Log.d("CustomList", "Returning list item " +listItems.get(i));
 			return listItems.get(i);
 		} else {
 			Log.d("CustomList", "No Item at index = " + i);
@@ -146,22 +145,21 @@ public class CustomList implements Parcelable {
 
 		if (listItems == null) {
 			this.populated = 1;
-			Log.d("PullItems()", "this populated? " + this.populated);
+			Log.d("PullItems()", "List ID = "+this.ID+ " . populated? " + this.populated);
 
 			listItems = new ArrayList<Item>();
 
 			JSONObject json = JSONfunctions
 					.getJSONfromURL("http://www.zebrafishtec.com/server.php",
-							"getItemsForList");
+							"getItemsForList", ""+this.ID); // must pass the list ID as a String
 
 			try {
 				JSONArray lists = json.getJSONArray("items");
-				// JSONArray e1, e2;
 
 				JSONObject e1, e2;
 				Item item1, item2;
 
-				for (int i = 0; i < lists.length(); i++) {
+				for (int i = 0; i < lists.length()-1; i++) {
 
 					if (i == 0) { // do the items two at a time in order to set
 									// prev
@@ -169,7 +167,7 @@ public class CustomList implements Parcelable {
 						e1 = lists.getJSONObject(i);
 						item1 = new Item(e1);
 						item1.setParent(this.ID);
-
+						
 						e2 = lists.getJSONObject(i + 1);
 						item2 = new Item(e2);
 						item2.setParent(this.ID);
@@ -200,32 +198,16 @@ public class CustomList implements Parcelable {
 						listItems.add(item1);
 
 					}
-					Log.d("CustomList", "ListItem 0 = "
-							+ listItems.get(0).getName());
 				}
 
+				Log.i("CustomList", "List Items size = " + listItems.size());
+				
 				listItems.get(0).setPrev(
 						listItems.get(listItems.size() - 1).getID()); // "Loop around":
-				// the
-				// first
-				// list
-				// item
-				// must
-				// link
-				// to
-				// the
-				// last
+				
 				listItems.get(listItems.size() - 1).setNext(
 						listItems.get(0).getID()); // and
-				// the
-				// last
-				// must
-				// link
-				// to
-				// the
-				// first
-
-				Log.i("CustomList", "List Items size = " + listItems.size());
+				
 			} catch (JSONException e) {
 				Log.e("log_tag", "Error parsing data " + e.toString());
 			}

@@ -45,13 +45,14 @@ public class Item implements Parcelable {
 			assignee = e.getInt("assignee_id");
 			assigner = e.getInt("assigner_id");
 			notes = e.getString("notes");
+			prevID = -1;
+			nextID = -1;
 
 			int isCompleted = e.getInt("completed");
 			completed = (isCompleted == 1 ? true : false);
 
 			completionDate = e.getString("completion_date");
-			// prevID = e.getInt(11);
-			// nextID = e.getInt(12);
+
 		} catch (JSONException e1) {
 			Log.i("Item parse problem", e1.toString());
 		}

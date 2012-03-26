@@ -178,7 +178,7 @@ public class SociaListActivity extends ListActivity {
 			db.close();
 
 		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing data " + e.toString());
+			Log.e("PULL ITEMS ISSUE", "Error parsing data " + e.toString());
 		}
 		return myCustomLists;
 	} // end getLists()

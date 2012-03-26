@@ -24,8 +24,12 @@ public class JSONfunctions {
 	public static JSONObject getJSONfromURL(String url) {
 		return getJSONfromURL(url, null);
 	}
+	
+	public static JSONObject getJSONfromURL(String url, String a) {
+		return getJSONfromURL(url, a, null);
+	}
 
-	public static JSONObject getJSONfromURL(String url, String action) {
+	public static JSONObject getJSONfromURL(String url, String action, String listID) {
 
 		// initialize
 		InputStream is = null;
@@ -39,8 +43,13 @@ public class JSONfunctions {
 
 			if (action != null) {
 
-				List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("action", action));
+				
+				if (listID != null) { 
+					params.add(new BasicNameValuePair("listID", listID)); // for some reason this must be a string
+				}
+				
 				httppost.setEntity(new UrlEncodedFormEntity(params));
 
 			}

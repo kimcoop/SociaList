@@ -98,8 +98,8 @@ public class DBHelper {
 			+ "completion_date text, "
 			+ "prev_id integer, "
 			+ "next_id integer, "
-			+ "selected integer, "
-			+ "UNIQUE(id) ON CONFLICT IGNORE)";
+			+ "selected integer, " 
+			+ "UNIQUE (id) ON CONFLICT IGNORE)";
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
@@ -139,8 +139,6 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("DROP TABLE IF EXISTS item");
-			db.execSQL("DROP TABLE IF EXISTS list");
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -337,18 +335,16 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
-			Log.i("DBHelper", "In IF and c = " + c.getCount());
 			items = new ArrayList<Item>(c.getCount());
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				Log.i("DBHelper", "In While loop");
 				Item i = cursorToItem(c);
 				items.add(i);
 				c.moveToNext();
 			}
 		}
-
+		c.close();
 		return items;
 
 	}
@@ -357,7 +353,7 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
-	public long insertItem(Item i) {
+	public void insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();
 
 		int isCompleted = 0;
@@ -381,10 +377,9 @@ public class DBHelper {
 													// ever be selected.
 													// (Right?) - Kim
 
-		Log.d("LEGIT INSERTED ITEM", "Inserted item name=" + i.getName());
+		Log.d("LEGIT INSERTED ITEM", ""+initialValues);
 
-		return db.insert(ITEM_TABLE, null, initialValues);
-
+		Log.e("INSERT ID", "Item " +i.getName()+ ", "+ db.insertWithOnConflict(ITEM_TABLE, null, initialValues, 0));
 	}
 
 	public boolean deleteItem(Item i) {
@@ -413,8 +408,10 @@ public class DBHelper {
 	}
 
 	private Item cursorToItem(Cursor c) {
-		Log.d("DB", "c.getCount() is " + c.getCount());
-		Item i = new Item(c.getString(2), c.getInt(0));
+		//Log.d("DB", "number of fields is " + c.getCount()+ ". Name is " +c.getString(2)+ " and ID is " +c.getInt(0));
+		Item i = new Item();
+		i.setID(c.getInt(0));
+		i.setName(c.getString(2));
 		i.setParent(c.getInt(1));
 		i.setCreator(c.getInt(3));
 		i.setCreationDate(c.getString(4));
@@ -430,7 +427,7 @@ public class DBHelper {
 										// this is when we check if it's
 										// selected.
 
-		Log.i("ITEM FROM DB", "From db, item selected? " + c.getInt(13));
+		Log.i("ITEM FROM DB", "From db, item inserted ID= " + i.getID());
 
 		return i;
 	}

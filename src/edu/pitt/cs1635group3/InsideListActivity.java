@@ -101,15 +101,16 @@ public class InsideListActivity extends ListActivity {
 		Log.d("BACK PRESSED", "closing db");
 		db.close();
 		Intent intent = new Intent();
-		intent.putExtra("list", list);
+		intent.putExtra("list", list); // TODO - needed here?
 		setResult(Activity.RESULT_OK, intent);
 		super.onBackPressed();
 
 	}
 
+	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		// Get the item that was clicked
+		// Get the item that was clicked 
 		Item item = (Item) this.getListAdapter().getItem(position - 1);
 
 		Log.d("PASSING ITEM", "Item " +item.getName()+". ID passing as " + item.getID());
