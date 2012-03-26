@@ -63,6 +63,7 @@ public class SociaListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 
+		db.close();
 		CustomList list = (CustomList) this.getListAdapter().getItem(
 				position - 1); // not sure why the -1 is needed but it is
 

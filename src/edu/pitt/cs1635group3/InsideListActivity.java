@@ -62,22 +62,12 @@ public class InsideListActivity extends ListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-
-		// Toast.makeText(this,"InsideListActivity onCreate. List id is "+extras.getInt("List_id"),
-		// Toast.LENGTH_LONG).show();
-
-		// list = extras.getParcelable("List"); // Pass list ID, not list. Then
-		// pull the list from the database. Same for items (going into
-		// ItemActivity)
 		db = new DBHelper(this);
 		db.open();
 
-		list = db.getListByID(extras.getInt("ListID")); // comment these lines
-		Log.i("InsideListActivity", "List ID is: " + extras.getInt("ListID")); // and
-																				// uncomment
+		list = db.getListByID(extras.getInt("ListID")); 
 
 		items = db.getItemsForListByID(extras.getInt("ListID"));
-		Log.i("ITEM EXISTS", "HERE");
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
@@ -99,7 +89,7 @@ public class InsideListActivity extends ListActivity {
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1){
+        if(resultCode==1){ // force refresh the view
     		startActivity(getIntent()); finish();       
     	}
     }
@@ -107,7 +97,6 @@ public class InsideListActivity extends ListActivity {
 	@Override
 	public void onBackPressed() {
 
-		Log.d("BACK PRESSED", "closing db");
 		db.close();
 		Intent intent = new Intent();
 		intent.putExtra("list", list); // TODO - needed here?
@@ -119,7 +108,9 @@ public class InsideListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		// Get the item that was clicked 
+		// Get the item that was clicked
+
+		complete_button.setSelected(false);
 		Item item = (Item) this.getListAdapter().getItem(position - 1);
 		
 		db.open();
@@ -132,10 +123,7 @@ public class InsideListActivity extends ListActivity {
 		Log.d("PASSING ITEM", "Item " +item.getName()+". ID passing as " + item.getID());
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-		intent.putExtra("ItemID", item.getID()); // can pass as object because
-													// it
-		// implements Parcelable
-		   
+		intent.putExtra("ItemID", item.getID()); 
         startActivityForResult(intent, 1);
 	}
 
@@ -160,7 +148,6 @@ public class InsideListActivity extends ListActivity {
 
 	public void assignItems(View v) {
 		// Grab users from the db. Alert Dialog to display all of them.
-		Log.e("You clicked", "Assign To button");
 		db.open();
 		final CharSequence[] users = db.getUsersForDialog();
 		db.close();
@@ -188,6 +175,7 @@ public class InsideListActivity extends ListActivity {
 			}
 		}
 		db.close();
+		complete_button.setSelected(false);
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
