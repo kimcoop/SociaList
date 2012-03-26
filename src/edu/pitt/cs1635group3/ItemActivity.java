@@ -120,6 +120,7 @@ public class ItemActivity extends Activity {
 
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
+		item.setNotes(notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
 		int assigneeID;

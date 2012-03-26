@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SociaListActivity extends ListActivity {
@@ -48,10 +49,10 @@ public class SociaListActivity extends ListActivity {
 		final ListView lv = getListView();
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-		// View footer = getLayoutInflater().inflate(R.layout.footer, null);
 		lv.addHeaderView(header);
-		// lv.addFooterView(footer);
-
+		TextView label_header = (TextView) findViewById(R.id.label_header);
+		label_header.setText("My Lists");
+		
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
