@@ -161,8 +161,11 @@ public class ItemActivity extends Activity {
 		item.setNotes(notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
+		
+		Log.d("rawAssignee", "" +rawAssignee);
+		
 		int assigneeID;
-		if (rawAssignee != "" && rawAssignee != null) {
+		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
 			db.open();
 			assigneeID = db.getUserByName(rawAssignee);
 			item.assignTo(assigneeID);
