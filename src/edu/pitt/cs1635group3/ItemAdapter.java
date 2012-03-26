@@ -70,6 +70,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			cb = (CheckBox) v.findViewById(R.id.check);
 			// TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
 
+			if (!o.isSelected()) cb.setChecked(false); // This solves the jumping problem [facepalm]
+			
 			if (name != null) {
 				name.setText(o.getName());
 
@@ -123,11 +125,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 												// identify it as needing to be
 												// acted upon for assign or
 												// selected
-
-					// activeItem = db.getItem(activeItem.getID());
-					Log.e("ITEM ADAPATER",
-							"Pulling from db. Should be 1 for selected "
-									+ activeItem.isSelected());
 
 				}
 			}); // end onCheckedChangeListener
