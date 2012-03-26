@@ -39,17 +39,8 @@ public class SociaListActivity extends ListActivity {
 		db = new DBHelper(this);
 		db.open();
 		lists = db.getAllLists();
-		users = db.getAllUsers();
-
+		users = db.getAllUsers(); 
 		db.close();
-
-		/*
-		 * if (lists == null) lists = getLists();
-		 * 
-		 * for(CustomList list : lists){ populateList(list); }
-		 * 
-		 * if (users == null) users = getUsers();
-		 */
 
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
@@ -103,97 +94,6 @@ public class SociaListActivity extends ListActivity {
 			}
 		}
 
-	}
-
-	public ArrayList<User> getUsers() {
-		// pull in users from the server. do this only once
-
-		ArrayList<User> sharedUsers = new ArrayList<User>();
-
-		JSONObject json = JSONfunctions.getJSONfromURL(
-				"http://www.zebrafishtec.com/server.php", "getUsers");
-
-		try {
-			JSONArray myUsers = json.getJSONArray("users");
-
-			User u;
-
-			DBHelper db = new DBHelper(this);
-			db.open();
-
-			for (int i = 0; i < myUsers.length(); i++) {
-				Log.i("SocialListActivity", "getUsersMethod");
-				JSONArray e = myUsers.getJSONArray(i);
-				u = new User(e.getInt(0), e.getString(1), e.getString(2));
-				db.insertUser(u);
-				sharedUsers.add(u);
-			}
-
-			db.close();
-		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing user data " + e.toString());
-		}
-
-		return sharedUsers;
-
-	}
-
-	public ArrayList<CustomList> getLists() {
-		Log.i("SocialListActivity", "inside getLists");
-		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
-
-		JSONObject json = JSONfunctions.getJSONfromURL(
-				"http://www.zebrafishtec.com/server.php", "getLists");
-
-		try {
-			Log.i("SocialListActivity", "inside Try");
-			JSONArray myLists = json.getJSONArray("lists");
-
-			CustomList newList;
-			String listName, listCreation, listNote;
-			int listID;
-
-			DBHelper db = new DBHelper(this);
-			db.open();
-			// Loop the Array
-			for (int i = 0; i < myLists.length(); i++) {
-				Log.i("SocialListActivity", "inside For");
-				JSONArray e = myLists.getJSONArray(i);
-				listID = e.getInt(0);
-				listName = e.getString(1);
-				listCreation = e.getString(3);
-				listNote = e.getString(4);
-
-				newList = new CustomList(listID, listName);
-				newList.setCreationDate(listCreation);
-				newList.setNote(listNote); // don't read in the list's items
-											// here. do it once a list is
-											// actually clicked (more efficient
-											// and also avoids problems with
-											// parcelable item passing)
-				myCustomLists.add(newList);
-				db.insertList(newList);
-			}
-			Log.i("SocialListActivity", "Outside for");
-			db.close();
-
-		} catch (JSONException e) {
-			Log.e("PULL ITEMS ISSUE", "Error parsing data " + e.toString());
-		}
-		return myCustomLists;
-	} // end getLists()
-
-	public void populateList(CustomList list) {
-		db = new DBHelper(this);
-		db.open();
-		// Item testItem = list.getItem(0);
-		list.pullItems(); // pull the list's items from the server;
-		items = list.getItems();
-		for (Item el : items) {
-			db.insertItem(el);
-			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
-		}
-		db.close();
 	}
 
 }
