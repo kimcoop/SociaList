@@ -155,23 +155,21 @@ public class ItemActivity extends Activity {
 		notes = (EditText) findViewById(R.id.item_notes);
 
 		//toggle is handled onClick for item completion altering
-
+		db.open();
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
 		
-		Log.d("rawAssignee", "" +rawAssignee);
-		
 		int assigneeID;
 		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
-			db.open();
 			assigneeID = db.getUserByName(rawAssignee);
 			item.assignTo(assigneeID);
-			db.updateItem(item);
-			db.close();
 		}
+
+		db.updateItem(item);
+		db.close();
 		
 		Intent in = new Intent();
 	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.

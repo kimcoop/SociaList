@@ -103,6 +103,7 @@
        android:layout_height="wrap_content"
        android:textOn="Completed"
        android:textOff="Not Completed"
+       android:layout_gravity="center"
        android:onClick="onToggleClicked" />
 
     <LinearLayout
