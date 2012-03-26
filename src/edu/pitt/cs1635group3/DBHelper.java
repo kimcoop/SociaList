@@ -196,6 +196,30 @@ public class DBHelper {
 
 		return users;
 	}
+	
+public ArrayList<User> getAllUsers(){
+		
+		ArrayList<User> users = null;
+		String myQuery = "SELECT * FROM user";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null){
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			users = new ArrayList<User> (c.getCount());
+			c.moveToFirst();
+	
+		
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop"); 
+				User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+				users.add(u);
+			    c.moveToNext();
+			}
+			
+		}
+		return users;
+		
+	}
 
 	public String getUserNameByID(int row) {
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
@@ -257,6 +281,31 @@ public class DBHelper {
 		initialValues.put(KEY_CREATOR_ID, list.getCreator());
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		return db.insert(LIST_TABLE, null, initialValues);
+	}
+	
+	public ArrayList<CustomList> getAllLists(){
+		
+		ArrayList<CustomList> lists = null;
+		String myQuery = "SELECT * FROM list";// WHERE parent_id = " + ID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null){
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
+			lists = new ArrayList<CustomList> (c.getCount());
+			c.moveToFirst();
+	
+		
+			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop"); 
+				CustomList l = new CustomList(c.getInt(0), c.getString(1));
+				l.setCreator(c.getInt(2));
+				l.setCreationDate(c.getString(3));
+				lists.add(l);
+			    c.moveToNext();
+			}
+		}
+		return lists;
+		
 	}
 	
 	public CustomList getListByID(int i) {
