@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="List name"
+            android:text="@string/list_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="14dp" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:padding="2dp"
-        android:text="List items"
+        android:text="@string/List_items"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="14dp" />
 
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="2dp"
-        android:text="No items in list" />
+        android:text="@string/No_items_in_list" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -64,21 +64,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addListItem"
-            android:text="Add List Item" />
+            android:text="@string/Add_List_Item" />
 
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="saveList"
-            android:text="Save" />
+            android:text="@string/Save" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="deleteList"
-            android:text="Delete" />
+            android:text="@string/Delete" />
     </LinearLayout>
 
 </LinearLayout>

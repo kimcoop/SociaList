@@ -47,4 +47,31 @@
         <item>Send Email</item>
     </string-array>
 
+    <!-- editlist.xml -->
+    <string name="List_name">List name</string>
+    <string name="List_items">List items</string>
+    <string name="No_items_in_list">No items in list</string>
+    <string name="Add_List_Item">Add List Item</string>
+    <string name="Save">Save</string>
+    <string name="Delete">Delete</string>
+    
+    <!-- footer.xml -->
+    <string name="Create_New_List">Create New List</string>
+    
+    <!-- header.xml -->
+    <string name="My_Lists">My Lists</string>
+    
+    <!-- insidelist_layout.xml -->
+    <string name="My_list_stuff">My list stuff</string>
+
+    <!-- item.xml -->
+    <!-- <string name="Delete">Delete</string> -->
+    <!-- <string name="Save">Save</string> -->
+    <string name="Next_Item">Next Item</string>
+    <string name="Prev_Item">Prev Item</string>
+    
+    <!-- listplaceholder.xml -->
+    <string name="Create_New_List">Create New List</string>
+    <string name="No_lists">No lists</string>
+    
 </resources>
