@@ -76,6 +76,30 @@ public final class R {
         public static final int splash=0x7f03000a;
     }
     public static final class string {
+        public static final int Add_List_Item=0x7f040017;
+        /**  listplaceholder.xml 
+         */
+        public static final int Create_New_List=0x7f04001e;
+        public static final int Delete=0x7f040019;
+        public static final int List_items=0x7f040015;
+        /**  editlist.xml 
+         */
+        public static final int List_name=0x7f040014;
+        /**  header.xml 
+         */
+        public static final int My_Lists=0x7f04001a;
+        /**  insidelist_layout.xml 
+         */
+        public static final int My_list_stuff=0x7f04001b;
+        /**  item.xml 
+ <string name="Delete">Delete</string> 
+ <string name="Save">Save</string> 
+         */
+        public static final int Next_Item=0x7f04001c;
+        public static final int No_items_in_list=0x7f040016;
+        public static final int No_lists=0x7f04001f;
+        public static final int Prev_Item=0x7f04001d;
+        public static final int Save=0x7f040018;
         public static final int app_name=0x7f040001;
         public static final int assign_button=0x7f040005;
         public static final int complete_button=0x7f040006;

@@ -55,9 +55,6 @@
     <string name="Save">Save</string>
     <string name="Delete">Delete</string>
     
-    <!-- footer.xml -->
-    <string name="Create_New_List">Create New List</string>
-    
     <!-- header.xml -->
     <string name="My_Lists">My Lists</string>
     
