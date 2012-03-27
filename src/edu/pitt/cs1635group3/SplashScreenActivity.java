@@ -20,54 +20,55 @@ public class SplashScreenActivity extends Activity {
 	ArrayList<CustomList> lists = null;
 	ArrayList<User> users = null;
 	ArrayList<Item> items = null;
-
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splash);
-
-		// thread for displaying the SplashScreen
-		Thread splashTread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					/*
-					 * int waited = 0; while(_active && (waited < _splashTime))
-					 * { sleep(100); if(_active) { waited += 100; } }
-					 */
-
-					if (lists == null) {
-						lists = getLists();
-
-						for (CustomList list : lists) {
-							populateList(list);
-						}
-					}
-					if (users == null) {
-						users = getUsers();
-					}
-
-				} finally {
-					finish();
-					startActivity(new Intent(
-							"edu.pitt.cs1635group3.SociaListActivity"));
-					stop();
-				}
-			}
-		};
-		splashTread.start();
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			_active = false;
-		}
-		return true;
-	}
-
-	public ArrayList<User> getUsers() {
+    
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash);
+        
+        // thread for displaying the SplashScreen
+        Thread splashTread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    /*int waited = 0;
+                    while(_active && (waited < _splashTime)) {
+                        sleep(100);
+                        if(_active) {
+                            waited += 100;
+                        }
+                    }*/
+                	
+                	if (lists == null){
+            			lists = getLists();
+            		
+            			for(CustomList list : lists){
+            				populateList(list);
+            			}
+                	}
+            		if (users == null){
+            			users = getUsers();
+            		}
+                
+                } finally {
+                    finish();
+                    startActivity(new Intent("edu.pitt.cs1635group3.SociaListActivity"));
+                    stop();
+                }
+            }
+        };
+        splashTread.start();
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            _active = false;
+        }
+        return true;
+    }
+    public ArrayList<User> getUsers() {
 		// pull in users from the server. do this only once
 
 		ArrayList<User> sharedUsers = new ArrayList<User>();

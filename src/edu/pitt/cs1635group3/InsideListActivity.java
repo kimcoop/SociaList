@@ -177,6 +177,7 @@ public class InsideListActivity extends ListActivity {
 		complete_button.setSelected(false);
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
+//<<<<<<< HEAD
 
 	/*
 	 * public void flipButtons(View v) {
@@ -195,6 +196,7 @@ public class InsideListActivity extends ListActivity {
 	 */
 
 	public void inviteToList(View v) {
+
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
