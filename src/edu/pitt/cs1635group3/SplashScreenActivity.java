@@ -50,7 +50,7 @@ public class SplashScreenActivity extends Activity {
             		if (users == null){
             			users = getUsers();
             		}
-                	
+                
                 } finally {
                     finish();
                     startActivity(new Intent("edu.pitt.cs1635group3.SociaListActivity"));
