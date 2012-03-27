@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:background="#323331"
         android:padding="4dp"
-        android:text="My Lists"
+        android:text="@string/My_Lists"
         android:textSize="16dip" />
     <!--
     <Spinner

@@ -102,7 +102,6 @@ public class InsideListActivity extends ListActivity {
 		intent.putExtra("list", list); // TODO - needed here?
 		setResult(Activity.RESULT_OK, intent);
 		super.onBackPressed();
-
 	}
 
 	@Override
