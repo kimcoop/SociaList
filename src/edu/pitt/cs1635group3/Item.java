@@ -29,7 +29,8 @@ public class Item implements Parcelable {
 	}
 
 	public Item(HashMap<String, String> item) {
-		name = item.get(0);
+		name = item.get("name");
+		Log.i("Item.java", "Name of item =" + name);
 		assignee = -1;
 	}
 
