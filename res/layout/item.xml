@@ -96,7 +96,15 @@
         android:padding="4.0dp"
         android:textSize="12dp" >
     </EditText>
-    
+        
+     <ToggleButton 
+       android:id="@+id/item_completion"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textOn="Completed"
+       android:textOff="Not Completed"
+       android:layout_gravity="center"
+       android:onClick="onToggleClicked" />
 
     <LinearLayout
         android:layout_width="fill_parent"

@@ -17,9 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class ItemActivity extends Activity {
 	
@@ -51,6 +53,8 @@ public class ItemActivity extends Activity {
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 		
+		ToggleButton itemCompletion = (ToggleButton) findViewById(R.id.item_completion);
+		
 		//swiper = (View) findViewById(R.id.swiper);
 		notes.setOnTouchListener(gestureListener);
 
@@ -67,6 +71,8 @@ public class ItemActivity extends Activity {
 		prevItem = db.getItem(item.getPrev());
 		nextItem = db.getItem(item.getNext());
 
+		itemCompletion.setChecked(item.isCompleted());
+		
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 
@@ -96,6 +102,17 @@ public class ItemActivity extends Activity {
 			}
 		});
 
+	}
+	
+	public void onToggleClicked(View v) {
+	    // Perform action on clicks
+	    if (((ToggleButton) v).isChecked()) {
+	        item.setCompleted(true);
+	        Log.d("TOGGLE", "Item completed");
+	    } else {
+	        item.setCompleted(false);
+	        Log.d("TOGGLE", "Item completed");
+	    }
 	}
 	
 	public void assignItemTo(String user) {
@@ -137,19 +154,22 @@ public class ItemActivity extends Activity {
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 
+		//toggle is handled onClick for item completion altering
+		db.open();
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
+		
 		int assigneeID;
-		if (rawAssignee != "" && rawAssignee != null) {
-			db.open();
+		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
 			assigneeID = db.getUserByName(rawAssignee);
 			item.assignTo(assigneeID);
-			db.updateItem(item);
-			db.close();
 		}
+
+		db.updateItem(item);
+		db.close();
 		
 		Intent in = new Intent();
 	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
