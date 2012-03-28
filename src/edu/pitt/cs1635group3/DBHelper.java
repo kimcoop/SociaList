@@ -26,7 +26,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
+/**
+ * Simple notes database access helper class. Defines the basic CRUD operations
+ * for the notepad example, and gives the ability to list all notes as well as
+ * retrieve or modify a specific note.
+ * 
+ * This has been improved from the first version of this tutorial through the
+ * addition of better error handling and also using returning a Cursor instead
+ * of using a collection of inner classes (which is less scalable and not
+ * recommended).
+ */
 public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
@@ -48,6 +57,11 @@ public class DBHelper {
 	public static final String KEY_ITEM_NEXT = "next_id";
 	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE
 																// ANDROID APP
+																// (wont come
+																// from server.
+																// will
+																// initialize to
+																// false!!)
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_NAME = "name";
@@ -113,11 +127,8 @@ public class DBHelper {
 		this.mCtx = ctx;
 	}
 
-	public long abandonShip() {
-		Log.i("CLEARING DB", "removing tables: list, user, item");
-		db.delete("list", null, null);
-		db.delete("user", null, null);
-		return db.delete("item", null, null);
+	public boolean abandonShip() {
+		return db.delete("list", null, null) > 0;
 	}
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -128,6 +139,9 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
+			db.delete("list", null, null);
+			db.delete("item", null, null);
+			db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -162,7 +176,7 @@ public class DBHelper {
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
 		initialValues.put(KEY_USER_LAST, u.getLastName());
-//		Log.i("DB USER", "Inserted user " + u.getName());
+		Log.i("DB USER", "Inserted user " + u.getName());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
@@ -199,10 +213,12 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
 			users = new ArrayList<User>(c.getCount());
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop");
 				User u = new User(c.getInt(0), c.getString(1), c.getString(2));
 				users.add(u);
 				c.moveToNext();
@@ -284,10 +300,12 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
+			Log.i("DBHelper", "In IF and c = " + c.getCount());
 			lists = new ArrayList<CustomList>(c.getCount());
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
+				Log.i("DBHelper", "In While loop");
 				CustomList l = new CustomList(c.getInt(0), c.getString(1));
 				l.setCreator(c.getInt(2));
 				l.setCreationDate(c.getString(3));
@@ -360,8 +378,11 @@ public class DBHelper {
 		initialValues.put(KEY_ITEM_NEXT, i.getNext());
 		initialValues.put(KEY_ITEM_SELECTED, 0); // On insertion, no item will
 													// ever be selected.
+													// (Right?) - Kim
 
-		Log.e("INSERTED ITEM", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
+		Log.d("LEGIT INSERTED ITEM", ""+initialValues);
+
+		Log.e("INSERT ID", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
 	}
 
 	public boolean deleteItem(Item i) {
@@ -376,7 +397,7 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		Log.i("DB ITEM", "Querying for item whose ID = " + row);
+		Log.i("DB ITEM", "Querying for item ID = " + row);
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -408,6 +429,9 @@ public class DBHelper {
 		i.setSelected(c.getInt(13)); // when we're pulling items from the db,
 										// this is when we check if it's
 										// selected.
+
+		Log.i("ITEM FROM DB", "From db, item inserted ID= " + i.getID());
+
 		return i;
 	}
 
@@ -435,7 +459,8 @@ public class DBHelper {
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		Log.d("UPDATED ITEM", "Item " + i.getName());
+		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " assigned to "
+				+ i.getAssignee() + " and isSelected " + i.isSelected());
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 

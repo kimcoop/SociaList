@@ -64,10 +64,11 @@ public class InsideListActivity extends ListActivity {
 		Bundle extras = i.getExtras();
 		db = new DBHelper(this);
 		db.open();
-
-		list = db.getListByID(extras.getInt("ListID")); 
-
+		list = db.getListByID(extras.getInt("ListID"));
 		items = db.getItemsForListByID(extras.getInt("ListID"));
+
+
+		Log.e("LIST ID", " List is " +list.getName());
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
@@ -177,6 +178,7 @@ public class InsideListActivity extends ListActivity {
 		complete_button.setSelected(false);
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
+//<<<<<<< HEAD
 
 	/*
 	 * public void flipButtons(View v) {
@@ -195,6 +197,7 @@ public class InsideListActivity extends ListActivity {
 	 */
 
 	public void inviteToList(View v) {
+
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 

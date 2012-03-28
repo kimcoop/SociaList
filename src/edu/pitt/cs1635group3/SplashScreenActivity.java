@@ -36,18 +36,9 @@ public class SplashScreenActivity extends Activity {
 					 * int waited = 0; while(_active && (waited < _splashTime))
 					 * { sleep(100); if(_active) { waited += 100; } }
 					 */
-					
-					db = new DBHelper(SplashScreenActivity.this);
-					db.open();
-					db.abandonShip();
-					db.close();
 
 					if (lists == null) {
 						lists = getLists();
-
-						for (CustomList list : lists) {
-							populateList(list);
-						}
 					}
 					if (users == null) {
 						users = getUsers();
@@ -89,7 +80,6 @@ public class SplashScreenActivity extends Activity {
 			db.open();
 
 			for (int i = 0; i < myUsers.length(); i++) {
-				Log.i("SocialListActivity", "getUsersMethod");
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2));
 				db.insertUser(u);
@@ -116,7 +106,7 @@ public class SplashScreenActivity extends Activity {
 			Log.i("SocialListActivity", "inside Try");
 			JSONArray myLists = json.getJSONArray("lists");
 
-			CustomList newList;
+			CustomList list;
 			String listName, listCreation, listNote;
 			int listID;
 
@@ -124,38 +114,31 @@ public class SplashScreenActivity extends Activity {
 			db.open();
 			// Loop the Array
 			for (int i = 0; i < myLists.length(); i++) {
-				Log.i("SocialListActivity", "inside For");
 				JSONArray e = myLists.getJSONArray(i);
 				listID = e.getInt(0);
 				listName = e.getString(1);
 				listCreation = e.getString(3);
 				listNote = e.getString(4);
 
-				newList = new CustomList(listID, listName);
-				newList.setCreationDate(listCreation);
-				newList.setNote(listNote);
-				myCustomLists.add(newList);
-				db.insertList(newList);
+				list = new CustomList(listID, listName);
+				list.setCreationDate(listCreation);
+				list.setNote(listNote);
+				myCustomLists.add(list);
+				db.insertList(list);
+				
+				list.pullItems(); // pull the list's items from the server
+				items = list.getItems();
+				for (Item el : items) {
+					db.insertItem(el);
+				}
+				
+				
 			}
-			Log.i("SocialListActivity", "Outside for");
 			db.close();
 
 		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing data " + e.toString());
+			Log.e("SPLASH SCR. ACTIVITY", "Error parsing data " + e.toString());
 		}
 		return myCustomLists;
 	} // end getLists()
-
-	public void populateList(CustomList list) {
-		db = new DBHelper(this);
-		db.open();
-		// Item testItem = list.getItem(0);
-		list.pullItems(); // pull the list's items from the server
-		items = list.getItems();
-		for (Item el : items) {
-			db.insertItem(el);
-			Log.i("ITEM INSERTION", "Inserted item with ID " + el.getID());
-		}
-		db.close();
-	}
 }

@@ -58,6 +58,7 @@ public class SociaListActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 
 	} // end onCreate
+	
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -70,7 +71,6 @@ public class SociaListActivity extends ListActivity {
 		activeListPosition = position - 1; // for intent
 
 		Intent intent = new Intent(this, InsideListActivity.class);
-		intent.putExtra("List", list);
 		intent.putExtra("ListID", list.getID());
 		startActivityForResult(intent, 0);
 	}
@@ -79,7 +79,7 @@ public class SociaListActivity extends ListActivity {
 
 		Intent intent = new Intent(SociaListActivity.this,
 				CreateListActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, 1);
 
 	}
 
@@ -95,6 +95,9 @@ public class SociaListActivity extends ListActivity {
 				lists.set(activeListPosition, updatedList);
 			}
 		}
+		if(resultCode==1){ // force refresh the view
+    		startActivity(getIntent()); finish();       
+    	}
 
 	}
 

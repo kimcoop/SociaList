@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="@string/label_name"
-            android:textSize="14dp"
+        	android:textSize="16dip"
        		android:layout_marginLeft="5dp" />
 
         <EditText
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="@string/label_quantity"
-            android:textSize="14dp"
+        	android:textSize="16dip"
        		android:layout_marginLeft="5dp" />
 
         <EditText
@@ -72,12 +72,13 @@
 
     <TextView
         android:id="@+id/item_creation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
         android:padding="4.0dp"
-        android:text="@+id/item_creation" />
+        android:text="@+id/item_creation"
+        android:textSize="16dip" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -92,7 +93,8 @@
             android:layout_height="wrap_content"
             android:padding="4.0dp"
             android:text="@string/label_assignee"
-       		android:layout_marginLeft="5dp" />
+       		android:layout_marginLeft="5dp"
+        	android:textSize="16dip" />
 
         <EditText
             android:id="@+id/item_assignee"
@@ -111,7 +113,8 @@
         android:layout_height="wrap_content"
         android:padding="4.0dp"
         android:text="@string/label_notes"
-       android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:textSize="16dip" />
 
     <EditText
         android:id="@+id/item_notes"

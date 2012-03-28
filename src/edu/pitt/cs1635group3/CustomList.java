@@ -17,12 +17,14 @@ public class CustomList implements Parcelable {
 	protected ArrayList<Item> listItems;
 
 	public CustomList() {
+		listItems = new  ArrayList<Item>();
 	}
 
 	public CustomList(int ID, String name) {
 		this.ID = ID;
 		this.name = name;
 		this.populated = 0;
+		listItems = new  ArrayList<Item>();
 	}
 
 	/*
@@ -94,9 +96,14 @@ public class CustomList implements Parcelable {
 	}
 
 	public ArrayList<Item> getItems() {
-		return listItems;
+		//if(listItems.size() == 0){
+			//return null;
+		//}
+		//else{
+			return listItems;
+		//}
 	}
-
+	
 	public Item getItem(int i) {
 
 		if (listItems != null && i < listItems.size()) {
@@ -132,10 +139,7 @@ public class CustomList implements Parcelable {
 		int i = listItems.indexOf(item);
 
 		if (i > 0)
-			return listItems.get(i - 1); // Thoughts on this - If we're doing
-											// this lookup often, better to
-											// store item's position as item
-											// var?
+			return listItems.get(i - 1);
 		else
 			return listItems.get(listItems.size() - 1); // otherwise pass the
 														// last list item
@@ -143,7 +147,6 @@ public class CustomList implements Parcelable {
 
 	public void pullItems() {
 
-		if (listItems == null) {
 			this.populated = 1;
 			Log.d("PullItems()", "List ID = "+this.ID+ " . populated? " + this.populated);
 
@@ -211,7 +214,6 @@ public class CustomList implements Parcelable {
 			} catch (JSONException e) {
 				Log.e("log_tag", "Error parsing data " + e.toString());
 			}
-		}
 	}
 
 	public int describeContents() {

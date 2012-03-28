@@ -24,7 +24,7 @@
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:padding="2dp"
-            android:text="@+id/list_name"
+            android:hint="List Name Here"
             android:textSize="12dp" />
     </LinearLayout>
 

@@ -1,17 +1,10 @@
 package edu.pitt.cs1635group3;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,16 +12,15 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.telephony.SmsManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.ListView;
+
 import android.widget.Spinner;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 public class InviteActivity extends Activity {
