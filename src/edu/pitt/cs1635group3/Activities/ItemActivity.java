@@ -197,29 +197,57 @@ public class ItemActivity extends Activity {
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
+	
+	public void deleteWithList() {
+		//TODO - delete item and parent list
+	}
 
+	public void deleteAndExit() {
+		db.open();
+		db.deleteItem(item);
+		db.close();
+		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
+
+		Intent in = new Intent();
+		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
+							// items.
+		finish();
+	}
+	
+	
 	public void deleteItem(View v) {
 
 		prevItem.setNext(nextItem.getID()); // set the previous item's next item
 											// to the next
 		nextItem.setPrev(prevItem.getID());
-		
-		
-		
-		
-		Log.e("RELINKING", "Prev item is " +prevItem.getName()+ " , next Item is " +nextItem.getName());
 
-		db.open();
-		db.updateItem(prevItem);
-		db.updateItem(nextItem);
-		db.deleteItem(item);
-		db.close();
-
-		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
-		Intent in = new Intent();
-		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
-							// items.
-		finish();
+		
+		if (prevItem.getID() == item.getID() || nextItem.getID() == item.getID()) { // if this is the last item in the list, inform user and give option to delete whole list
+				// new prompt("Deleting the final list item. Also delete the list? Y/N")  
+	        
+	        AlertDialog builder = new AlertDialog.Builder(this)
+            //builder.setIcon(R.drawable.alert_dialog_icon)
+            .setTitle("Deleting final list item. Also delete the list?")
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	deleteWithList();
+                }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+        			deleteAndExit();
+                }
+            })
+            .create();
+	        builder.show();			
+			
+		} else {
+			db.open();
+			db.updateItem(prevItem);
+			db.updateItem(nextItem);
+			db.close();
+			deleteAndExit(item);
+		}
 
 	}
 

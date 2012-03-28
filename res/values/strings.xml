@@ -59,7 +59,7 @@
     <string name="My_Lists">My Lists</string>
     
     <!-- insidelist_layout.xml -->
-    <string name="My_list_stuff">No lists</string>
+    <string name="My_list_stuff">No items in list</string>
 
     <!-- item.xml -->
     <!-- <string name="Delete">Delete</string> -->

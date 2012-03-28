@@ -34,7 +34,7 @@ public final class R {
         public static final int buttons_helper=0x7f070008;
         public static final int check=0x7f070023;
         public static final int complete_button=0x7f07000a;
-        public static final int delete_button=0x7f07001d;
+        public static final int delete_button=0x7f07001e;
         public static final int do_email_picker=0x7f07000f;
         public static final int edit_list_name=0x7f070001;
         public static final int element_subtitle=0x7f070026;
@@ -62,7 +62,7 @@ public final class R {
         public static final int new_list_button=0x7f070006;
         public static final int next_button=0x7f070020;
         public static final int prev_button=0x7f07001f;
-        public static final int save_button=0x7f07001e;
+        public static final int save_button=0x7f07001d;
         public static final int send_button=0x7f070011;
         public static final int sublabel=0x7f070024;
         public static final int swiper=0x7f070012;
