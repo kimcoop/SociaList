@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".SociaListActivity"
+            android:name=".Activities.SociaListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="edu.pitt.cs1635group3.SociaListActivity" />
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         
-       <activity android:name=".SplashScreenActivity"
+       <activity android:name=".Activities.SplashScreenActivity"
            		 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                  android:label="@string/app_name">
             <intent-filter>
@@ -31,13 +31,13 @@
         </activity>
         
         
-        <activity android:name=".InsideListActivity" >
+        <activity android:name=".Activities.InsideListActivity" >
         </activity>
-        <activity android:name=".ItemActivity" >
+        <activity android:name=".Activities.ItemActivity" >
         </activity>
-        <activity android:name=".CreateListActivity" >
+        <activity android:name=".Activities.CreateListActivity" >
         </activity>
-        <activity android:name=".InviteActivity" >
+        <activity android:name=".Activities.InviteActivity" >
         </activity>
     </application>
 
