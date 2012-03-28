@@ -56,8 +56,8 @@ public final class R {
         public static final int label_quantity=0x7f060016;
         public static final int list_name=0x7f060002;
         public static final int new_list_button=0x7f060007;
-        public static final int next_button=0x7f060020;
-        public static final int prev_button=0x7f060021;
+        public static final int next_button=0x7f060021;
+        public static final int prev_button=0x7f060020;
         public static final int save_button=0x7f06001f;
         public static final int send_button=0x7f060013;
         public static final int sublabel=0x7f060025;

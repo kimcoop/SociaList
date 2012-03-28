@@ -3,59 +3,79 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/label_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#323331"
+        android:padding="4dp"
+        android:text="Editing Item"
+        android:textSize="16dip"
+        android:layout_marginBottom="5dp" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp" >
 
         <TextView
             android:id="@+id/label_name"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="@string/label_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+       		android:layout_marginLeft="5dp" />
 
         <EditText
             android:id="@+id/item_name"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:padding="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="6dp"
             android:text="@+id/item_name"
             android:textSize="12dp" />
+        
     </LinearLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp" >
 
         <TextView
             android:id="@+id/label_quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="@string/label_quantity"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+       		android:layout_marginLeft="5dp" />
 
         <EditText
             android:id="@+id/item_quantity"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:padding="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="6dp"
             android:text="@+id/item_quantity"
             android:textSize="12dp" />
+        
     </LinearLayout>
 
     <TextView
         android:id="@+id/item_creation"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
         android:padding="4.0dp"
         android:text="@+id/item_creation" />
 
@@ -63,22 +83,26 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp" >
 
         <TextView
             android:id="@+id/label_assignee"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="4.0dp"
-            android:text="@string/label_assignee" />
+            android:text="@string/label_assignee"
+       		android:layout_marginLeft="5dp" />
 
         <EditText
             android:id="@+id/item_assignee"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
             android:focusable="false"
-            android:padding="4dp"
-            android:textSize="12dp" />
+            android:padding="6dp"
+            android:textSize="12dp"
+            android:layout_marginRight="5dp" />
+        
     </LinearLayout>
 
     <TextView
@@ -86,25 +110,29 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="4.0dp"
-        android:text="@string/label_notes" />
+        android:text="@string/label_notes"
+       android:layout_marginLeft="5dp" />
 
     <EditText
         android:id="@+id/item_notes"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:inputType="textMultiLine"
-        android:padding="4.0dp"
-        android:textSize="12dp" >
+        android:padding="6.0dp"
+        android:textSize="12dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="0dp" >
     </EditText>
         
      <ToggleButton 
        android:id="@+id/item_completion"
-       android:layout_width="wrap_content"
+       android:layout_width="180dp"
        android:layout_height="wrap_content"
        android:textOn="Completed"
        android:textOff="Not Completed"
        android:layout_gravity="center"
-       android:onClick="onToggleClicked" />
+       android:onClick="onToggleClicked"
+       android:layout_marginBottom="5dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
