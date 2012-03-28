@@ -31,29 +31,29 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class ItemActivity extends Activity {
-	
+
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private GestureDetector gestureDetector;
 	View.OnTouchListener gestureListener;
-	
+
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
-		
+
 		// Gesture detection
-        gestureDetector = new GestureDetector(new MyGestureDetector());
-        gestureListener = new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        };
+		gestureDetector = new GestureDetector(new MyGestureDetector());
+		gestureListener = new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				return gestureDetector.onTouchEvent(event);
+			}
+		};
 		View swiper = (View) findViewById(R.id.swiper);
-        swiper.setOnTouchListener(gestureListener);
+		swiper.setOnTouchListener(gestureListener);
 
 		TextView name, quantity, creation_details, assignee, notes;
 		name = (EditText) findViewById(R.id.item_name);
@@ -61,7 +61,7 @@ public class ItemActivity extends Activity {
 		creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-		
+
 		ToggleButton itemCompletion = (ToggleButton) findViewById(R.id.item_completion);
 
 		Intent i = getIntent();
@@ -78,7 +78,7 @@ public class ItemActivity extends Activity {
 		nextItem = db.getItem(item.getNext());
 
 		itemCompletion.setChecked(item.isCompleted());
-		
+
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 
@@ -109,20 +109,20 @@ public class ItemActivity extends Activity {
 		});
 
 	}
-	
+
 	public void onToggleClicked(View v) {
-	    // Perform action on clicks
-	    if (((ToggleButton) v).isChecked()) {
-	        item.setCompleted(true);
-	        Log.d("TOGGLE", "Item completed");
-	    } else {
-	        item.setCompleted(false);
-	        Log.d("TOGGLE", "Item completed");
-	    }
+		// Perform action on clicks
+		if (((ToggleButton) v).isChecked()) {
+			item.setCompleted(true);
+			Log.d("TOGGLE", "Item completed");
+		} else {
+			item.setCompleted(false);
+			Log.d("TOGGLE", "Item completed");
+		}
 	}
-	
+
 	public void assignItemTo(String user) {
-		
+
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
 		assignee.setText(user);
 		assignee.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +149,15 @@ public class ItemActivity extends Activity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 
 		db.close();
 		Intent in = new Intent();
-	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
-	    finish();
+		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
+							// items.
+		finish();
 		super.onBackPressed();
 	}
 
@@ -170,14 +171,14 @@ public class ItemActivity extends Activity {
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 
-		//toggle is handled onClick for item completion altering
+		// toggle is handled onClick for item completion altering
 		db.open();
 		item.setName(name.getText().toString().trim());
 		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
-		
+
 		int assigneeID;
 		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
 			assigneeID = db.getUserByName(rawAssignee);
@@ -186,16 +187,17 @@ public class ItemActivity extends Activity {
 
 		db.updateItem(item);
 		db.close();
-		
+
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
 
 	public void deleteItem(View v) {
-		
-		prevItem.setNext(nextItem.getID()); // set the previous item's next item to the next
+
+		prevItem.setNext(nextItem.getID()); // set the previous item's next item
+											// to the next
 		nextItem.setPrev(prevItem.getID());
-		
+
 		db.open();
 		db.updateItem(prevItem);
 		db.updateItem(nextItem);
@@ -203,9 +205,9 @@ public class ItemActivity extends Activity {
 		db.close();
 
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
-		
+
 	}
-	
+
 	public void goToPrev() {
 
 		Intent intent = new Intent(this, ItemActivity.class);
@@ -215,10 +217,11 @@ public class ItemActivity extends Activity {
 	}
 
 	public void prevItem(View v) {
-		// calling like this because it's an onclick but we also use it for swipe
+		// calling like this because it's an onclick but we also use it for
+		// swipe
 		goToPrev();
 	}
-	
+
 	public void goToNext() {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", nextItem.getID());
@@ -229,44 +232,44 @@ public class ItemActivity extends Activity {
 	public void nextItem(View v) {
 		goToNext();
 	}
-	
+
 	class MyGestureDetector extends SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-	    Intent intent = new Intent(getBaseContext(), ItemActivity.class);
- 
-            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
-                return false;
-            }
- 
-            // right to left swipe
-            if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            	intent.putExtra("ItemID", item.getNext());
-	    		startActivity(intent);
-	    		finish();
-	    		ItemActivity.this.overridePendingTransition(
-				R.anim.slide_in_right,
-				R.anim.slide_out_left
-    		);
-    	    // right to left swipe
-            }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        	    intent.putExtra("ItemID", item.getPrev());
-	    		startActivity(intent);
-	    		finish();
-	    		ItemActivity.this.overridePendingTransition(
-				R.anim.slide_in_left, 
-				R.anim.slide_out_right
-    		);
-            }
- 
-            return false;
-        }
- 
-        // It is necessary to return true from onDown for the onFling event to register
-        @Override
-        public boolean onDown(MotionEvent e) {
-	        	return true;
-        }
-    }
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			Intent intent = new Intent(getBaseContext(), ItemActivity.class);
+
+			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+				return false;
+			}
+
+			// right to left swipe
+			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				intent.putExtra("ItemID", item.getNext());
+				startActivity(intent);
+				finish();
+				ItemActivity.this.overridePendingTransition(
+						R.anim.slide_in_right, R.anim.slide_out_left);
+				// right to left swipe
+			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				intent.putExtra("ItemID", item.getPrev());
+				startActivity(intent);
+				finish();
+				ItemActivity.this.overridePendingTransition(
+						R.anim.slide_in_left, R.anim.slide_out_right);
+			}
+
+			return false;
+		}
+
+		// It is necessary to return true from onDown for the onFling event to
+		// register
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return true;
+		}
+	}
 
 }

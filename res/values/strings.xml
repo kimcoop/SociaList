@@ -34,12 +34,12 @@
 
     <!-- Invite -->
     <string name="send_button">Send Invitation</string>
-    <string name="invite_activity_title">Invite</string>
-    <string name="invite_method_label">Invite through..</string>
-    <string name="invite_message_preview_title">Invite message:</string>
-    <string name="pick_contact_label">Pick Contacts</string>
-    <string name="invite_email_hint">number or email</string>
-    <string name="message_preview">message preview</string>
+    <string name="invite_activity_title">Invite to List</string>
+    <string name="invite_method_label">Invite method</string>
+    <string name="invite_message_preview_title">Invite message</string>
+    <string name="pick_contact_label">Pick Contact</string>
+    <string name="invite_email_hint">Number or email</string>
+    <string name="message_preview">Message preview</string>
     <string name="invitetypeprompt">Pick type of invite...</string>
 
     <string-array name="invitetypelist">
@@ -59,7 +59,7 @@
     <string name="My_Lists">My Lists</string>
     
     <!-- insidelist_layout.xml -->
-    <string name="My_list_stuff">My list stuff</string>
+    <string name="My_list_stuff">No lists</string>
 
     <!-- item.xml -->
     <!-- <string name="Delete">Delete</string> -->
