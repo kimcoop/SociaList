@@ -71,11 +71,17 @@ public class ItemActivity extends Activity {
 		db = new DBHelper(this);
 		db.open();
 
-		Log.d("ITEM RECEIVED", "Item ID = " + itemID);
 		item = db.getItem(itemID);
 
-		prevItem = db.getItem(item.getPrev());
-		nextItem = db.getItem(item.getNext());
+		int prevID, nextID;
+		prevID = item.getPrev();
+		nextID = item.getNext();
+		Log.d("ITEM RECEIVED", "Item ID = " + itemID+" nextID is " +nextID);
+		
+		if (prevID > 0) prevItem = db.getItem(prevID);
+		else prevItem = item;
+		if (nextID > 0) nextItem = db.getItem(nextID);
+		else nextItem = item;
 
 		itemCompletion.setChecked(item.isCompleted());
 
@@ -197,6 +203,11 @@ public class ItemActivity extends Activity {
 		prevItem.setNext(nextItem.getID()); // set the previous item's next item
 											// to the next
 		nextItem.setPrev(prevItem.getID());
+		
+		
+		
+		
+		Log.e("RELINKING", "Prev item is " +prevItem.getName()+ " , next Item is " +nextItem.getName());
 
 		db.open();
 		db.updateItem(prevItem);
@@ -205,6 +216,10 @@ public class ItemActivity extends Activity {
 		db.close();
 
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
+		Intent in = new Intent();
+		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
+							// items.
+		finish();
 
 	}
 

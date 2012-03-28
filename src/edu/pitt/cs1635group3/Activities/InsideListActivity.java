@@ -99,7 +99,8 @@ public class InsideListActivity extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==1){ // force refresh the view
-    		startActivity(getIntent()); finish();       
+    		startActivity(getIntent()); 
+    		finish();       
     	}
     }
 
@@ -126,6 +127,13 @@ public class InsideListActivity extends ListActivity {
 			i.setSelected(false);
 			db.updateItem(i);
 		}
+		
+		if (items.size() ==1 ) { // if there is only one item in the list, it doesn't link prev and next correctly 
+			item.setPrev(item.getID());					// long term TODO, but for now, fix it here
+			item.setNext(item.getID());
+			db.updateItem(item);
+		}
+		
 		db.close();
 
 		Log.d("PASSING ITEM", "Item " +item.getName()+". ID passing as " + item.getID());
@@ -186,24 +194,7 @@ public class InsideListActivity extends ListActivity {
 		complete_button.setSelected(false);
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-//<<<<<<< HEAD
-
-	/*
-	 * public void flipButtons(View v) {
-	 * 
-	 * if (inviteUp) { invite_button.setVisibility(View.GONE);
-	 * complete_button.setVisibility(View.VISIBLE);
-	 * assign_button.setVisibility(View.VISIBLE);
-	 * buttons_helper.setVisibility(View.VISIBLE); inviteUp = false; } else {
-	 * invite_button.setVisibility(View.VISIBLE);
-	 * complete_button.setVisibility(View.GONE);
-	 * assign_button.setVisibility(View.GONE);
-	 * 
-	 * //assign_button.setVisibility(View.VISIBLE); // remove this for final //
-	 * product (testing now) buttons_helper.setVisibility(View.GONE); inviteUp =
-	 * true; } <<<<<<< HEAD }
-	 */
-
+	
 	public void inviteToList(View v) {
 
 		Intent i = getIntent();

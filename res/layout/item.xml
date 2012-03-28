@@ -148,18 +148,18 @@
         android:padding="2dp" >
 
         <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="deleteItem"
-            android:text="@string/Delete" />
-
-        <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="saveItem"
             android:text="@string/Save" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="deleteItem"
+            android:text="@string/Delete" />
 
         <Button
             android:id="@+id/prev_button"
