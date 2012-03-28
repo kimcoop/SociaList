@@ -391,6 +391,7 @@ public class DBHelper {
 		// May need to write a method like deleteItem(prevItem, Item, nextItem)
 		// where prevItem and nextItem are just the IDs
 		// of prev and next. Then just reset the wiring.
+		Log.d("DELETE ITEM", "Deleted item whose ID = "+i.getID());
 
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;

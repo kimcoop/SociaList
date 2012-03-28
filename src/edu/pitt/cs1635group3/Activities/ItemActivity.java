@@ -192,12 +192,18 @@ public class ItemActivity extends Activity {
 	}
 
 	public void deleteItem(View v) {
-		Toast.makeText(this, "TODO: deleteItem method in ItemActivity.java",
-				Toast.LENGTH_LONG).show();
+		
+		prevItem.setNext(nextItem.getID()); // set the previous item's next item to the next
+		nextItem.setPrev(prevItem.getID());
+		
+		db.open();
+		db.updateItem(prevItem);
+		db.updateItem(nextItem);
+		db.deleteItem(item);
+		db.close();
 
-		// just gather the item ID, open the db, use the deleteItem method,
-		// reset wiring for linked list,
-		// close the db.
+		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
+		
 	}
 	
 	public void goToPrev() {
@@ -237,6 +243,7 @@ public class ItemActivity extends Activity {
             if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
             	intent.putExtra("ItemID", item.getNext());
 	    		startActivity(intent);
+	    		finish();
 	    		ItemActivity.this.overridePendingTransition(
 				R.anim.slide_in_right,
 				R.anim.slide_out_left
@@ -245,6 +252,7 @@ public class ItemActivity extends Activity {
             }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
         	    intent.putExtra("ItemID", item.getPrev());
 	    		startActivity(intent);
+	    		finish();
 	    		ItemActivity.this.overridePendingTransition(
 				R.anim.slide_in_left, 
 				R.anim.slide_out_right
