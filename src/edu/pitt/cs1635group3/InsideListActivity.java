@@ -99,9 +99,9 @@ public class InsideListActivity extends ListActivity {
 	public void onBackPressed() {
 
 		db.close();
-		Intent intent = new Intent();
-		intent.putExtra("list", list); // TODO - needed here?
-		setResult(Activity.RESULT_OK, intent);
+		Intent in = new Intent();
+	    setResult(0,in);//Requestcode 1. Tell parent activity to refresh items.
+	    finish();
 		super.onBackPressed();
 	}
 

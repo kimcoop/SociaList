@@ -143,6 +143,16 @@ public class ItemActivity extends Activity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
+	
+	@Override
+	public void onBackPressed() {
+
+		db.close();
+		Intent in = new Intent();
+	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
+	    finish();
+		super.onBackPressed();
+	}
 
 	public void saveItem(View v) {
 
@@ -171,14 +181,12 @@ public class ItemActivity extends Activity {
 		db.updateItem(item);
 		db.close();
 		
-		Intent in = new Intent();
-	    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
-	    finish();
+		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
 
 	public void deleteItem(View v) {
-		Toast.makeText(this, "TODO; deleteItem method in ItemActivity.java",
+		Toast.makeText(this, "TODO: deleteItem method in ItemActivity.java",
 				Toast.LENGTH_LONG).show();
 
 		// just gather the item ID, open the db, use the deleteItem method,

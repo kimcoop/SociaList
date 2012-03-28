@@ -39,6 +39,7 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_row, null);
 		}
+		
 		CustomList o = (CustomList) lists.get(position);
 
 		if (o != null) {
@@ -48,12 +49,22 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 			if (name != null)
 				name.setText("" + o.getName());
 			if (note != null) {
-				String listNote = o.getNote();
-				if (listNote == null || listNote.equals("")
-						|| listNote.equals("null"))
-					note.setText("");
-				else
-					note.setText(listNote);
+				DBHelper db = new DBHelper(getContext());
+				db.open();
+				
+				ArrayList<Item> items = db.getItemsForListByID(o.getID());
+				int numItems = 0, completedItems = 0, unassignedItems = 0;
+				String summary = "";
+				for (Item i : items) {
+					numItems++;
+					if (i.isCompleted()) completedItems++;
+					if (i.getAssignee() <= 0) unassignedItems++;
+				}
+				summary = numItems +" items (" +completedItems+ " completed, " +unassignedItems+ " unassigned)";
+				note.setText(summary);
+				
+				db.close();
+				
 			}
 		}
 

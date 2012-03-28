@@ -39,7 +39,7 @@ public class SociaListActivity extends ListActivity {
 
 		db = new DBHelper(this);
 		db.open();
-		lists = db.getAllLists();
+		lists = db.getAllLists(); // TODO: for user ID...
 		users = db.getAllUsers(); 
 		db.close();
 
@@ -68,8 +68,6 @@ public class SociaListActivity extends ListActivity {
 		CustomList list = (CustomList) this.getListAdapter().getItem(
 				position - 1); // not sure why the -1 is needed but it is
 
-		activeListPosition = position - 1; // for intent
-
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("ListID", list.getID());
 		startActivityForResult(intent, 0);
@@ -79,7 +77,7 @@ public class SociaListActivity extends ListActivity {
 
 		Intent intent = new Intent(SociaListActivity.this,
 				CreateListActivity.class);
-		startActivityForResult(intent, 1);
+		startActivityForResult(intent, 0);
 
 	}
 
@@ -87,15 +85,10 @@ public class SociaListActivity extends ListActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == 0) {
-			if (resultCode == Activity.RESULT_OK) {
-				CustomList updatedList = data.getParcelableExtra("list");
-				Log.d("ACTIVITY RETURN", "updatedList is populated? "
-						+ updatedList.isPopulated());
-				lists.set(activeListPosition, updatedList);
-			}
-		}
-		if(resultCode==1){ // force refresh the view
+		Toast.makeText(this, "result force update?", Toast.LENGTH_LONG);
+		
+		
+		if(resultCode==1 || resultCode==0){ // force refresh the view
     		startActivity(getIntent()); finish();       
     	}
 
