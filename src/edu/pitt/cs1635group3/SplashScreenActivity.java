@@ -36,6 +36,11 @@ public class SplashScreenActivity extends Activity {
 					 * int waited = 0; while(_active && (waited < _splashTime))
 					 * { sleep(100); if(_active) { waited += 100; } }
 					 */
+					
+					db = new DBHelper(SplashScreenActivity.this);
+					db.open();
+					db.abandonShip();
+					db.close();
 
 					if (lists == null) {
 						lists = getLists();
