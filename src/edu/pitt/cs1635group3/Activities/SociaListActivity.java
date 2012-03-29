@@ -98,9 +98,10 @@ public class SociaListActivity extends ListActivity {
     		startActivity(getIntent()); 
     		finish();       
     	}else if (resultCode==2) { // coming from ItemActivity, where we have deleted the last item and user wants to remove the list.
+
+    		Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT).show();
     		startActivity(getIntent());  // force refresh
     		finish();
-    		Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT).show();
     	}
 
 	}

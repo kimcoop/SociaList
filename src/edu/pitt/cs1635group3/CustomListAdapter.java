@@ -54,13 +54,15 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 				
 				ArrayList<Item> items = db.getItemsForListByID(o.getID());
 				int numItems = 0, completedItems = 0, unassignedItems = 0;
-				String summary = "";
+				String summary = "", pluralizer = " items";
 				for (Item i : items) {
 					numItems++;
 					if (i.isCompleted()) completedItems++;
 					if (i.getAssignee() <= 0) unassignedItems++;
 				}
-				summary = numItems +" items (" +completedItems+ " completed, " +unassignedItems+ " unassigned)";
+				
+				if (numItems == 1) pluralizer = " item";
+				summary = numItems + pluralizer + " (" +completedItems+ " completed, " +unassignedItems+ " unassigned)";
 				note.setText(summary);
 				
 				db.close();

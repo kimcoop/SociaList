@@ -222,7 +222,6 @@ public class ItemActivity extends Activity {
 
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
-							// items.
 		finish();
 	}
 	
@@ -235,7 +234,6 @@ public class ItemActivity extends Activity {
 
 		
 		if (prevItem.getID() == item.getID() || nextItem.getID() == item.getID()) { // if this is the last item in the list, inform user and give option to delete whole list
-				// new prompt("Deleting the final list item. Also delete the list? Y/N")  
 	        
 	        AlertDialog builder = new AlertDialog.Builder(this)
             //builder.setIcon(R.drawable.alert_dialog_icon)
