@@ -139,9 +139,9 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			//db.delete("list", null, null);
-			//db.delete("item", null, null);
-			//db.delete("user", null, null);
+			db.delete("list", null, null);
+			db.delete("item", null, null);
+			db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -282,6 +282,18 @@ public class DBHelper {
 	/*
 	 * LIST METHODS
 	 */
+	
+	public boolean deleteList(CustomList list) {
+
+		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
+				new String[] { String.valueOf(list.getID()) }) > 0;
+	}
+	
+	public boolean deleteListByID(int listID) {
+
+		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?", 
+				new String[] { String.valueOf(listID) }) > 0;
+	}
 
 	public long insertList(CustomList list) {
 		Log.i("INSERTING LIST", "Here" + list.getName());
@@ -380,18 +392,11 @@ public class DBHelper {
 													// ever be selected.
 													// (Right?) - Kim
 
-		Log.d("LEGIT INSERTED ITEM", ""+initialValues);
-
-		Log.e("INSERT ID", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
+		Log.e("INSERTED ITEM", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
 	}
 
 	public boolean deleteItem(Item i) {
-		// NOTE - Items are in a doubly-linked list. Make sure you do this
-		// appropriately so the links stayed wrapped around.
-		// May need to write a method like deleteItem(prevItem, Item, nextItem)
-		// where prevItem and nextItem are just the IDs
-		// of prev and next. Then just reset the wiring.
-		Log.d("DELETE ITEM", "Deleted item whose ID = "+i.getID());
+		// Note - whenever this is called, be sure to update the encompassing list structure, since items are doubly-linked.
 
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;

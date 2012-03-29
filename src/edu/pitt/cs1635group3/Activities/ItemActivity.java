@@ -199,7 +199,19 @@ public class ItemActivity extends Activity {
 	}
 	
 	public void deleteWithList() {
-		//TODO - delete item and parent list
+		//delete item and parent list
+		Intent intent = new Intent(this, SociaListActivity.class);
+		//String listName = ""; TODO - get list name to pass to Toast
+	//	intent.putExtra("listName", )
+		
+		db.open();
+		db.deleteItem(item);
+		db.deleteListByID(item.getParentID());
+		db.close();
+
+		startActivityForResult(intent, 2);
+		finish();
+		
 	}
 
 	public void deleteAndExit() {
@@ -246,7 +258,7 @@ public class ItemActivity extends Activity {
 			db.updateItem(prevItem);
 			db.updateItem(nextItem);
 			db.close();
-			deleteAndExit(item);
+			deleteAndExit();
 		}
 
 	}

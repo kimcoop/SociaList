@@ -93,12 +93,14 @@ public class SociaListActivity extends ListActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		Toast.makeText(this, "result force update?", Toast.LENGTH_LONG);
-		
 		
 		if(resultCode==1 || resultCode==0){ // force refresh the view
-    		startActivity(getIntent()); finish();       
+    		startActivity(getIntent()); 
+    		finish();       
+    	}else if (resultCode==2) { // coming from ItemActivity, where we have deleted the last item and user wants to remove the list.
+    		startActivity(getIntent());  // force refresh
+    		finish();
+    		Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT).show();
     	}
 
 	}
