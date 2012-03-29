@@ -55,13 +55,13 @@ public class SplashScreenActivity extends Activity {
 		splashTread.start();
 	}
 
-	@Override
+	/*@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			_active = false;
 		}
 		return true;
-	}
+	}*/
 
 	public ArrayList<User> getUsers() {
 		// pull in users from the server. do this only once

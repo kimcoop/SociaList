@@ -166,7 +166,33 @@ public class CreateListActivity extends ListActivity {
 				int listSize = newList.getItems().size();
 				for (int i = 0; i < listSize; i++) { // make linked list
 					
-					if(listSize > 1 && i < listSize){
+					if(listSize-1 == i){
+						//At the last index
+						itemA = newList.getItem(i);
+						itemB = newList.getItem(0);
+						//itemC = newList.getItem(1);
+						
+						itemA.setNext(itemB.getID());
+						//itemB.setPrev(itemA.getID());
+						//itemB.setNext(itemC.getID());
+						Log.d("CreateListActivity", "ItemA's next is" + newList.getItem(0).getID());
+						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
+						
+						//db.insertItem(itemB);
+					}
+					else if(listSize > 1 && i == 0){
+						//Two or more items in the list, insert the first two
+						itemA = newList.getItem(i);
+						itemB = newList.getItem(i + 1);
+						itemC = newList.getItem(listSize-1);
+						itemA.setNext(itemB.getID());
+						itemA.setPrev(itemC.getID());
+						itemB.setPrev(itemA.getID());
+						
+						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
+						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
+					}
+					else if(listSize > 1 && i < listSize){
 						//Two or more items in the list
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
@@ -176,20 +202,7 @@ public class CreateListActivity extends ListActivity {
 						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
 						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
 					}
-					else if(listSize == i){
-						//At the last index
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(0);
-						//itemC = newList.getItem(1);
-						
-						itemA.setNext(itemB.getID());
-						itemB.setPrev(itemA.getID());
-						//itemB.setNext(itemC.getID());
-						Log.d("CreateListActivity", "ItemA's next is" + newList.getItem(0).getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
-						
-						db.insertItem(itemB);
-					}
+					
 					else{
 						//Only one item in the list
 						itemA = newList.getItem(0);
@@ -202,6 +215,7 @@ public class CreateListActivity extends ListActivity {
 				}
 			}
 			db.close();
+			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
 			Intent in = new Intent();
 		    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
 		    finish();

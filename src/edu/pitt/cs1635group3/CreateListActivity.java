@@ -159,17 +159,7 @@ public class CreateListActivity extends ListActivity {
 				int listSize = newList.getItems().size();
 				for (int i = 0; i < listSize; i++) { // make linked list
 					
-					if(listSize > 1 && i < listSize){
-						//Two or more items in the list
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(i + 1);
-						itemA.setNext(itemB.getID());
-						itemB.setPrev(itemA.getID());
-						
-						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
-					}
-					else if(listSize == i){
+					if(listSize-1 == i){
 						//At the last index
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(0);
@@ -183,6 +173,17 @@ public class CreateListActivity extends ListActivity {
 						
 						db.insertItem(itemB);
 					}
+					else if(listSize > 1 && i < listSize){
+						//Two or more items in the list
+						itemA = newList.getItem(i);
+						itemB = newList.getItem(i + 1);
+						itemA.setNext(itemB.getID());
+						itemB.setPrev(itemA.getID());
+						
+						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
+						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
+						}
+					
 					else{
 						//Only one item in the list
 						itemA = newList.getItem(0);
