@@ -1,4 +1,4 @@
-package edu.pitt.cs1635group3.Activities;
+package edu.pitt.cs1635group3;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,13 +7,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.DBHelper;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -173,24 +166,12 @@ public class CreateListActivity extends ListActivity {
 						//itemC = newList.getItem(1);
 						
 						itemA.setNext(itemB.getID());
-						//itemB.setPrev(itemA.getID());
+						itemB.setPrev(itemA.getID());
 						//itemB.setNext(itemC.getID());
 						Log.d("CreateListActivity", "ItemA's next is" + newList.getItem(0).getID());
 						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
 						
-						//db.insertItem(itemB);
-					}
-					else if(listSize > 1 && i == 0){
-						//Two or more items in the list, insert the first two
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(i + 1);
-						itemC = newList.getItem(listSize-1);
-						itemA.setNext(itemB.getID());
-						itemA.setPrev(itemC.getID());
-						itemB.setPrev(itemA.getID());
-						
-						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
+						db.insertItem(itemB);
 					}
 					else if(listSize > 1 && i < listSize){
 						//Two or more items in the list
@@ -201,7 +182,7 @@ public class CreateListActivity extends ListActivity {
 						
 						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
 						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
-					}
+						}
 					
 					else{
 						//Only one item in the list
@@ -215,7 +196,6 @@ public class CreateListActivity extends ListActivity {
 				}
 			}
 			db.close();
-			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
 			Intent in = new Intent();
 		    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
 		    finish();
