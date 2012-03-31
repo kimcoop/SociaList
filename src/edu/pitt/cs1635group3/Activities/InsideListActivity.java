@@ -12,6 +12,7 @@ import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.ItemAdapter;
+import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
@@ -91,7 +92,7 @@ public class InsideListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing " + list.getName());
-
+		
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
@@ -138,8 +139,6 @@ public class InsideListActivity extends ListActivity {
 		}
 		
 		db.close();
-
-		Log.d("PASSING ITEM", "Item " +item.getName()+". ID passing as " + item.getID());
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("ItemID", item.getID()); 

@@ -2,9 +2,15 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 import edu.pitt.cs1635group3.R.anim;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
@@ -21,6 +27,7 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -43,7 +50,7 @@ public class ItemActivity extends Activity {
 	
 	private int pos, totalItems;
 
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
 
@@ -178,7 +185,7 @@ public class ItemActivity extends Activity {
 		TextView name, quantity, assignee, notes;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
-		assignee = (TextView) findViewById(R.id.item_assignee);
+		assignee = (TextView) findViewById(R.id.item_assignee);  
 		notes = (EditText) findViewById(R.id.item_notes);
 
 		// toggle is handled onClick for item completion altering
@@ -190,14 +197,16 @@ public class ItemActivity extends Activity {
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
-		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
+		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) { 
 			assigneeID = db.getUserByName(rawAssignee);
-			item.assignTo(assigneeID);
+			item.assignTo(assigneeID); 
 		}
 
-		db.updateItem(item);
+		db.updateItem(item); 
 		db.close();
-
+ 
+		JSONfunctions.postItem(item, "updateItem");
+		
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
@@ -220,6 +229,8 @@ public class ItemActivity extends Activity {
 		db.open();
 		db.deleteItem(item);
 		db.close();
+		
+		JSONfunctions.deleteItem(item.getID()); //for deletions, only pass item's ID
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
 
 		Intent in = new Intent();

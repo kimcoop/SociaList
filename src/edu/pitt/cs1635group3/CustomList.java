@@ -148,13 +148,11 @@ public class CustomList implements Parcelable {
 	public void pullItems() {
 
 			this.populated = 1;
-			Log.d("PullItems()", "List ID = "+this.ID+ " . populated? " + this.populated);
 
 			listItems = new ArrayList<Item>();
 
 			JSONObject json = JSONfunctions
-					.getJSONfromURL("http://www.zebrafishtec.com/server.php",
-							"getItemsForList", ""+this.ID); // must pass the list ID as a String
+					.getJSONfromURL("getItemsForList", ""+this.ID); // must pass the list ID as a String
 
 			try {
 				JSONArray lists = json.getJSONArray("items");
@@ -162,7 +160,7 @@ public class CustomList implements Parcelable {
 				JSONObject e1, e2;
 				Item item1, item2;
 
-				for (int i = 0; i < lists.length()-1; i++) {
+				for (int i = 0; i < lists.length(); i++) {
 
 					if (i == 0) { // do the items two at a time in order to set
 									// prev
@@ -202,8 +200,6 @@ public class CustomList implements Parcelable {
 
 					}
 				}
-
-				Log.i("CustomList", "List Items size = " + listItems.size());
 				
 				listItems.get(0).setPrev(
 						listItems.get(listItems.size() - 1).getID()); // "Loop around":
@@ -242,9 +238,6 @@ public class CustomList implements Parcelable {
 		name = in.readString();
 		note = in.readString();
 		populated = in.readInt();
-		Log.i("Making CustomList from parcel", "Populated? " + populated);
-		// in.readTypedList(listItems, Item.CREATOR);
-		// in.readList(listItems,null);
 	}
 
 }
