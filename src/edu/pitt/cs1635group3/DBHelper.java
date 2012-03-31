@@ -117,7 +117,7 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
-			+ "creation_date text, UNIQUE(id) ON CONFLICT IGNORE)";
+			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
 			+ "list_id integer not null, user_id integer not null)";
