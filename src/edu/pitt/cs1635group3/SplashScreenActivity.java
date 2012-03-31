@@ -55,13 +55,11 @@ public class SplashScreenActivity extends Activity {
 		splashTread.start();
 	}
 
-	/*@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			_active = false;
-		}
-		return true;
-	}*/
+	/*
+	 * @Override public boolean onTouchEvent(MotionEvent event) { if
+	 * (event.getAction() == MotionEvent.ACTION_DOWN) { _active = false; }
+	 * return true; }
+	 */
 
 	public ArrayList<User> getUsers() {
 		// pull in users from the server. do this only once
@@ -125,14 +123,13 @@ public class SplashScreenActivity extends Activity {
 				list.setNote(listNote);
 				myCustomLists.add(list);
 				db.insertList(list);
-				
+
 				list.pullItems(); // pull the list's items from the server
 				items = list.getItems();
 				for (Item el : items) {
 					db.insertItem(el);
 				}
-				
-				
+
 			}
 			db.close();
 

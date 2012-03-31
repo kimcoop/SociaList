@@ -98,22 +98,23 @@ public class DBHelper {
 			+ "completion_date text, "
 			+ "prev_id integer, "
 			+ "next_id integer, "
-			+ "selected integer, " 
-			+ "UNIQUE (id) ON CONFLICT IGNORE)";
-	
-	/*If the default value of the column is a constant NULL, text, 
-	 * blob or signed-number value, then that value is used directly in the new row.
+			+ "selected integer, "
+			+ "UNIQUE (id) ON CONFLICT IGNORE)"; 
 
-If the default value of a column is an expression in parentheses, 
-then the expression is evaluated once for each row inserted and 
-the results used in the new row.
-
-If the default value of a column is CURRENT_TIME, CURRENT_DATE or
- CURRENT_TIMESTAMP, then the value used in the new row is a text
-  representation of the current UTC date and/or time. For CURRENT_TIME,
-   the format of the value is "HH:MM:SS". For CURRENT_DATE, "YYYY-MM-DD". 
-   The format for CURRENT_TIMESTAMP is "YYYY-MM-DD HH:MM:SS".
-*/
+	/*
+	 * If the default value of the column is a constant NULL, text, blob or
+	 * signed-number value, then that value is used directly in the new row.
+	 * 
+	 * If the default value of a column is an expression in parentheses, then
+	 * the expression is evaluated once for each row inserted and the results
+	 * used in the new row.
+	 * 
+	 * If the default value of a column is CURRENT_TIME, CURRENT_DATE or
+	 * CURRENT_TIMESTAMP, then the value used in the new row is a text
+	 * representation of the current UTC date and/or time. For CURRENT_TIME, the
+	 * format of the value is "HH:MM:SS". For CURRENT_DATE, "YYYY-MM-DD". The
+	 * format for CURRENT_TIMESTAMP is "YYYY-MM-DD HH:MM:SS".
+	 */
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
@@ -154,17 +155,18 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			/*
-			 * If you get errors because you wiped your db, remove the next three lines!
-			 * Our version of SQLite does not support "if exists." - Kim
+			 * If you get errors because you wiped your db, remove the next
+			 * three lines! Our version of SQLite does not support "if exists."
+			 * - Kim
 			 */
-			db.delete("list", null, null);
-			db.delete("item", null, null);
-			db.delete("user", null, null);
+			//db.delete("list", null, null);
+			//db.delete("item", null, null);
+			//db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
 			db.execSQL(USER_CREATE);
-			
+
 		}
 
 		@Override
@@ -239,6 +241,8 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 				users.add(u);
 				c.moveToNext();
 			}
+			
+			c.close();
 
 		}
 		return users;
@@ -298,16 +302,16 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 	/*
 	 * LIST METHODS
 	 */
-	
+
 	public boolean deleteList(CustomList list) {
 
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) }) > 0;
 	}
-	
+
 	public boolean deleteListByID(int listID) {
 
-		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?", 
+		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
@@ -406,11 +410,14 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 													// ever be selected.
 													// (Right?) - Kim
 
-		Log.e("INSERTED ITEM", "Item " +i.getName()+ ", "+ db.insert(ITEM_TABLE, null, initialValues));
+		Log.e("INSERTED ITEM",
+				"Item " + i.getName() + ", "
+						+ db.insert(ITEM_TABLE, null, initialValues));
 	}
 
 	public boolean deleteItem(Item i) {
-		// Note - whenever this is called, be sure to update the encompassing list structure, since items are doubly-linked.
+		// Note - whenever this is called, be sure to update the encompassing
+		// list structure, since items are doubly-linked.
 
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
@@ -430,7 +437,8 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 	}
 
 	private Item cursorToItem(Cursor c) {
-		//Log.d("DB", "number of fields is " + c.getCount()+ ". Name is " +c.getString(2)+ " and ID is " +c.getInt(0));
+		// Log.d("DB", "number of fields is " + c.getCount()+ ". Name is "
+		// +c.getString(2)+ " and ID is " +c.getInt(0));
 		Item i = new Item();
 		i.setID(c.getInt(0));
 		i.setName(c.getString(2));

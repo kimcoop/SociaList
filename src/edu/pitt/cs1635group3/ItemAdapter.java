@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.graphics.Paint; 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	Button invite_button;
 	boolean inviteUp;
 	int checkedItems = 0;
+	int checkedCompletedItems = 0;
 
 	DBHelper db;
 
@@ -70,8 +72,10 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			cb = (CheckBox) v.findViewById(R.id.check);
 			// TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
 
-			if (!o.isSelected()) cb.setChecked(false); // This solves the jumping problem [facepalm]
-			
+			if (!o.isSelected())
+				cb.setChecked(false); // This solves the jumping problem
+										// [facepalm]
+
 			if (name != null) {
 				name.setText(o.getName());
 
@@ -95,27 +99,35 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
+					
+					Item activeItem = items.get(position);
 
 					if (isChecked) {
 						checkedItems++;
 					} else {
 						checkedItems--;
+						if (!activeItem.isCompleted()) checkedCompletedItems--; // ultimately we want to change the button to say "mark incomplete" 
+														// if the items selected are all already completed
 					}
 					if (checkedItems == 0) {
 						invite_button.setVisibility(View.VISIBLE);
 						complete_button.setVisibility(View.GONE);
 						assign_button.setVisibility(View.GONE);
-
 					} else if (checkedItems > 0) {
 						invite_button.setVisibility(View.GONE);
 						complete_button.setVisibility(View.VISIBLE);
 						assign_button.setVisibility(View.VISIBLE);
-
+					}
+					
+					if (checkedCompletedItems == 0) { // if the items selected are all marked as completed, this will be 0
+						complete_button.setText("Mark Incomplete");
+						complete_button.setOnClickListener(new OnClickListener() {
+					         public void onClick(View v) {
+					 			Log.e("ITEM ADAPTER", "button is now marking incomplete");
+					         }
+					        }); // reset the function call in calling Activity
 					}
 					// items.get(pos)
-					Item activeItem = items.get(position);
-
-					// activeItem = db.getItem(activeItem.getID());
 					activeItem.setSelected(isChecked);
 					db.updateItem(activeItem); // the item needs to be marked as
 												// selected in the db so

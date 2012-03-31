@@ -39,11 +39,11 @@ public class CreateListActivity extends ListActivity {
 	private ArrayList<HashMap<String, String>> mylist;
 	private EditText listNameSpace;
 	private String listName;
-	
-	int tempListID = 40;	//These will change when we start
-	int tempItemID = 40;	//Pulling IDs from the MySQL
-	int tempCreatorID = 32;	//Database
-	
+
+	int tempListID = 40; // These will change when we start
+	int tempItemID = 40; // Pulling IDs from the MySQL
+	int tempCreatorID = 32; // Database
+
 	DBHelper db;
 
 	@Override
@@ -52,7 +52,7 @@ public class CreateListActivity extends ListActivity {
 		setContentView(R.layout.editlist);
 
 		listNameSpace = (EditText) findViewById(R.id.edit_list_name);
-		//listNameSpace.setText("List name here");
+		// listNameSpace.setText("List name here");
 
 		mylist = new ArrayList<HashMap<String, String>>();
 
@@ -135,11 +135,11 @@ public class CreateListActivity extends ListActivity {
 				|| listName.equals("List name here")) {
 			// invalid name. don't allow save.
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
-			//listNameSpace.setHint("Please enter a list name");
+			// listNameSpace.setHint("Please enter a list name");
 		} else { // allow save
 
 			CustomList newList = new CustomList();
-			newList.setCreator(tempCreatorID);					
+			newList.setCreator(tempCreatorID);
 			newList.setName(listName);
 			// TODO: Get the next valid ID from database to assign to list. For
 			// now, use ID = 40. (Query the whole table, retrieve last row,
@@ -150,8 +150,8 @@ public class CreateListActivity extends ListActivity {
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
 				newItem = new Item(map);
-				//newItem = new Item();
-				//newItem.setName(map.getKey(0));
+				// newItem = new Item();
+				// newItem.setName(map.getKey(0));
 				Log.i("CreateListActivity", "Hashmap exists");
 				newItem.setParent(newList.getID());
 				newItem.setID(tempItemID); // FIX. same problem as above
@@ -162,54 +162,60 @@ public class CreateListActivity extends ListActivity {
 			db.open();
 			db.insertList(newList);
 			Item itemA, itemB, itemC;
-			if(newList.getItems() != null){
+			if (newList.getItems() != null) {
 				int listSize = newList.getItems().size();
 				for (int i = 0; i < listSize; i++) { // make linked list
-					
-					if(listSize-1 == i){
-						//At the last index
+
+					if (listSize - 1 == i) {
+						// At the last index
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(0);
-						//itemC = newList.getItem(1);
-						
+						// itemC = newList.getItem(1);
+
 						itemA.setNext(itemB.getID());
-						//itemB.setPrev(itemA.getID());
-						//itemB.setNext(itemC.getID());
-						Log.d("CreateListActivity", "ItemA's next is" + newList.getItem(0).getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
-						
-						//db.insertItem(itemB);
-					}
-					else if(listSize > 1 && i == 0){
-						//Two or more items in the list, insert the first two
+						// itemB.setPrev(itemA.getID());
+						// itemB.setNext(itemC.getID());
+						Log.d("CreateListActivity", "ItemA's next is"
+								+ newList.getItem(0).getID());
+						Log.d("CreateListActivity",
+								"ItemB's prev is" + itemA.getID());
+
+						// db.insertItem(itemB);
+					} else if (listSize > 1 && i == 0) {
+						// Two or more items in the list, insert the first two
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
-						itemC = newList.getItem(listSize-1);
+						itemC = newList.getItem(listSize - 1);
 						itemA.setNext(itemB.getID());
 						itemA.setPrev(itemC.getID());
 						itemB.setPrev(itemA.getID());
-						
-						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
-					}
-					else if(listSize > 1 && i < listSize){
-						//Two or more items in the list
+
+						Log.d("CreateListActivity",
+								"ItemA's next is" + itemB.getID());
+						Log.d("CreateListActivity",
+								"ItemB's prev is" + itemA.getID());
+					} else if (listSize > 1 && i < listSize) {
+						// Two or more items in the list
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
 						itemA.setNext(itemB.getID());
 						itemB.setPrev(itemA.getID());
-						
-						Log.d("CreateListActivity", "ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity", "ItemB's prev is" + itemA.getID());
+
+						Log.d("CreateListActivity",
+								"ItemA's next is" + itemB.getID());
+						Log.d("CreateListActivity",
+								"ItemB's prev is" + itemA.getID());
 					}
-					
-					else{
-						//Only one item in the list
+
+					else {
+						// Only one item in the list
 						itemA = newList.getItem(0);
 						itemA.setNext(itemA.getID());
 						itemA.setPrev(itemA.getID());
-						Log.d("CreateListActivity", "ItemA's next is" + itemA.getID());
-						Log.d("CreateListActivity", "ItemA's prev is" + itemA.getID());
+						Log.d("CreateListActivity",
+								"ItemA's next is" + itemA.getID());
+						Log.d("CreateListActivity",
+								"ItemA's prev is" + itemA.getID());
 					}
 					db.insertItem(itemA);
 				}
@@ -217,8 +223,9 @@ public class CreateListActivity extends ListActivity {
 			db.close();
 			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
 			Intent in = new Intent();
-		    setResult(1,in);//Requestcode 1. Tell parent activity to refresh items.
-		    finish();
+			setResult(1, in);// Requestcode 1. Tell parent activity to refresh
+								// items.
+			finish();
 
 		}
 

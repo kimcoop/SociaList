@@ -52,7 +52,7 @@ public class InsideListActivity extends ListActivity {
 
 	private CustomList list = null;
 	private ArrayList<Item> items = null;
-	
+
 	private int totalItems;
 
 	private DBHelper db;
@@ -79,8 +79,8 @@ public class InsideListActivity extends ListActivity {
 		list = db.getListByID(extras.getInt("ListID"));
 		items = db.getItemsForListByID(extras.getInt("ListID"));
 		totalItems = items.size();
-		
-		Log.e("LIST ID", " List is " +list.getName());
+
+		Log.e("LIST ID", " List is " + list.getName());
 		db.close();
 
 		ArrayAdapter<Item> adapter = new ItemAdapter(this, R.layout.item_row,
@@ -92,29 +92,30 @@ public class InsideListActivity extends ListActivity {
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("Viewing " + list.getName());
-		
+
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
 
 	}// end onCreate
-	
+
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1){ // force refresh the view
-    		startActivity(getIntent()); 
-    		finish();       
-    	}
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == 1) { // force refresh the view
+			startActivity(getIntent());
+			finish();
+		}
+	}
 
 	@Override
 	public void onBackPressed() {
 
 		db.close();
 		Intent in = new Intent();
-	    setResult(0,in);//Requestcode 1. Tell parent activity to refresh items.
-	    finish();
+		setResult(0, in);// Requestcode 1. Tell parent activity to refresh
+							// items.
+		finish();
 		super.onBackPressed();
 	}
 
@@ -125,26 +126,29 @@ public class InsideListActivity extends ListActivity {
 
 		complete_button.setSelected(false);
 		Item item = (Item) this.getListAdapter().getItem(position - 1);
-		
+
 		db.open();
-		for (Item i : items) {		// this stops the weird jumping when a list item is clicked
+		for (Item i : items) { // this stops the weird jumping when a list item
+								// is clicked
 			i.setSelected(false);
 			db.updateItem(i);
 		}
-		
-		if (items.size() ==1 ) { // if there is only one item in the list, it doesn't link prev and next correctly 
-			item.setPrev(item.getID());					// long term TODO, but for now, fix it here
+
+		if (items.size() == 1) { // if there is only one item in the list, it
+									// doesn't link prev and next correctly
+			item.setPrev(item.getID()); // long term TODO, but for now, fix it
+										// here
 			item.setNext(item.getID());
 			db.updateItem(item);
 		}
-		
+
 		db.close();
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-		intent.putExtra("ItemID", item.getID()); 
-		intent.putExtra("pos", items.indexOf(item)+1);
+		intent.putExtra("ItemID", item.getID());
+		intent.putExtra("pos", items.indexOf(item) + 1);
 		intent.putExtra("totalItems", totalItems);
-        startActivityForResult(intent, 1);
+		startActivityForResult(intent, 1);
 	}
 
 	public void assignItemsTo(String user) {
@@ -183,6 +187,10 @@ public class InsideListActivity extends ListActivity {
 		alert.show();
 
 	}
+	
+	public void uncompleteItems(View v) {
+		
+	}
 
 	public void completeItems(View v) {
 		db.open();
@@ -198,7 +206,7 @@ public class InsideListActivity extends ListActivity {
 		complete_button.setSelected(false);
 		((ItemAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-	
+
 	public void inviteToList(View v) {
 
 		Intent i = getIntent();
@@ -210,6 +218,5 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 
 	}
-	
 
 }

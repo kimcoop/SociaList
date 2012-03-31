@@ -1,6 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
 
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +50,6 @@ public class SociaListActivity extends ListActivity { // ListActivity
 	int activeListPosition;
 	DBHelper db;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -62,7 +59,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		db = new DBHelper(this);
 		db.open();
 		lists = db.getAllLists(); // TODO: for user ID...
-		users = db.getAllUsers(); 
+		users = db.getAllUsers();
 		db.close();
 
 		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
@@ -74,19 +71,20 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		lv.addHeaderView(header);
 		TextView label_header = (TextView) findViewById(R.id.label_header);
 		label_header.setText("My Lists");
-		
+
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
-		
-		
-		Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
-		registrationIntent.putExtra("app", PendingIntent.getBroadcast(this, 0, new Intent(), 0));
-		registrationIntent.putExtra("sender", "zebrafish.technologies@gmail.com");
+
+		Intent registrationIntent = new Intent(
+				"com.google.android.c2dm.intent.REGISTER");
+		registrationIntent.putExtra("app",
+				PendingIntent.getBroadcast(this, 0, new Intent(), 0));
+		registrationIntent.putExtra("sender",
+				"zebrafish.technologies@gmail.com");
 		startService(registrationIntent);
 
 	} // end onCreate
-	
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -112,16 +110,19 @@ public class SociaListActivity extends ListActivity { // ListActivity
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		if(resultCode==1 || resultCode==0){ // force refresh the view
-    		startActivity(getIntent()); 
-    		finish();       
-    	}else if (resultCode==2) { // coming from ItemActivity, where we have deleted the last item and user wants to remove the list.
 
-    		Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT).show();
-    		startActivity(getIntent());  // force refresh
-    		finish();
-    	}
+		if (resultCode == 1 || resultCode == 0) { // force refresh the view
+			startActivity(getIntent());
+			finish();
+		} else if (resultCode == 2) { // coming from ItemActivity, where we have
+										// deleted the last item and user wants
+										// to remove the list.
+
+			Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT)
+					.show();
+			startActivity(getIntent()); // force refresh
+			finish();
+		}
 
 	}
 

@@ -1,4 +1,5 @@
 package edu.pitt.cs1635group3;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,14 +56,14 @@ public class C2DMRegistrationReceiver extends BroadcastReceiver {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		Editor edit = prefs.edit();
-		//edit.putString(SociaListActivity.AUTH, registrationId);
+		// edit.putString(SociaListActivity.AUTH, registrationId);
 		edit.commit();
 	}
 
 	public void createNotification(Context context, String registrationId) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.zebrafish_small,
+		Notification notification = new Notification(R.drawable.icon,
 				"Registration successful", System.currentTimeMillis());
 		// Hide the notification after its selected
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;

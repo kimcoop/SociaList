@@ -7,7 +7,6 @@ import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
