@@ -26,6 +26,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -46,17 +49,17 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class InsideListActivity extends ListActivity {
 
-	CustomList list = null;
-	ArrayList<Item> items = null;
+	private CustomList list = null;
+	private ArrayList<Item> items = null;
+	
+	private int totalItems;
 
-	DBHelper db;
+	private DBHelper db;
 
-	Button assign_button;
-	Button complete_button;
-	Button invite_button;
-	View buttons_helper;
-	ListView lv;
-	boolean inviteUp = true;
+	private Button assign_button, complete_button, invite_button;
+	private View buttons_helper;
+	private ListView lv;
+	private boolean inviteUp = true;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,8 +77,8 @@ public class InsideListActivity extends ListActivity {
 		db.open();
 		list = db.getListByID(extras.getInt("ListID"));
 		items = db.getItemsForListByID(extras.getInt("ListID"));
-
-
+		totalItems = items.size();
+		
 		Log.e("LIST ID", " List is " +list.getName());
 		db.close();
 
@@ -140,6 +143,8 @@ public class InsideListActivity extends ListActivity {
 
 		Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 		intent.putExtra("ItemID", item.getID()); 
+		intent.putExtra("pos", items.indexOf(item)+1);
+		intent.putExtra("totalItems", totalItems);
         startActivityForResult(intent, 1);
 	}
 
@@ -206,5 +211,6 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 
 	}
+	
 
 }

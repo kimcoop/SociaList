@@ -7,12 +7,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.LayoutInflater.Filter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -33,18 +38,33 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
-
+		ViewHolder holder; // When convertView is not null, we can reuse it directly, there is
+	      // no need
+	      // to reinflate it. We only inflate a new View when the convertView
+	      // supplied
+	      // by ListView is null.
+		
+		CustomList o = (CustomList) lists.get(position);
+		
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_row, null);
+			holder = new ViewHolder();
+	        holder.title = (TextView) v.findViewById(R.id.element_title);
+	        holder.subtitle = (TextView) v.findViewById(R.id.element_subtitle);
+	       // holder.delete = (Button) v.findViewById(R.id.delete_list_button);	
+	        
+	        v.setTag(holder);
+	          
+		} else {
+			holder = (ViewHolder) v.getTag(); // get the viewholder back for faster access
 		}
-		
-		CustomList o = (CustomList) lists.get(position);
 
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.element_title);
 			TextView note = (TextView) v.findViewById(R.id.element_subtitle);
+			//Button deleter = (Button) v.findViewById(R.id.delete_list_button);
 
 			if (name != null)
 				name.setText("" + o.getName());
@@ -72,4 +92,10 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 
 		return v;
 	}
+
+	static class ViewHolder {
+		TextView title, subtitle;
+		Button delete;
+	}
+	
 }

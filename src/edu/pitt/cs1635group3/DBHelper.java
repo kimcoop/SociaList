@@ -139,9 +139,9 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.delete("list", null, null);
-			db.delete("item", null, null);
-			db.delete("user", null, null);
+			//db.delete("list", null, null);
+			//db.delete("item", null, null);
+			//db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
