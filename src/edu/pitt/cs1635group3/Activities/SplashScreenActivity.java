@@ -76,8 +76,7 @@ public class SplashScreenActivity extends Activity {
 
 		ArrayList<User> sharedUsers = new ArrayList<User>();
 
-		JSONObject json = JSONfunctions.getJSONfromURL(
-				"http://www.zebrafishtec.com/server.php", "getUsers");
+		JSONObject json = JSONfunctions.getJSONfromURL("getUsers");
 
 		try {
 			JSONArray myUsers = json.getJSONArray("users");
@@ -104,14 +103,12 @@ public class SplashScreenActivity extends Activity {
 	}
 
 	public ArrayList<CustomList> getLists() {
-		Log.i("SocialListActivity", "inside getLists");
+		Log.i("SocialListActivity", "Getting lists from server");
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
-		JSONObject json = JSONfunctions.getJSONfromURL(
-				"http://www.zebrafishtec.com/server.php", "getLists");
+		JSONObject json = JSONfunctions.getJSONfromURL("getLists");
 
 		try {
-			Log.i("SocialListActivity", "inside Try");
 			JSONArray myLists = json.getJSONArray("lists");
 
 			CustomList list;

@@ -14,18 +14,20 @@
             android:id="@+id/label_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dp"
+            android:padding="5dp"
             android:text="@string/List_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/edit_list_name"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:padding="2dp"
+            android:layout_height="wrap_content"
             android:hint="List Name Here"
-            android:textSize="12dp" />
+            android:padding="4dp"
+            android:textSize="14dp"
+            android:layout_margin="3dp" />
+
     </LinearLayout>
 
     <TextView

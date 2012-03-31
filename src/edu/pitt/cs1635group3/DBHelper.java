@@ -90,8 +90,8 @@ public class DBHelper {
 			+ "parent_id integer, "
 			+ "name text not null, "
 			+ "adder_id integer, "
-			+ "add_date text, "
-			+ "quantity integer, "
+			+ "add_date date DEFAULT CURRENT_DATE, "
+			+ "quantity integer DEFAULT '1', "
 			+ "assignee_id integer, "
 			+ "assigner_id integer, "
 			+ "notes text, completed integer, "
@@ -100,10 +100,24 @@ public class DBHelper {
 			+ "next_id integer, "
 			+ "selected integer, " 
 			+ "UNIQUE (id) ON CONFLICT IGNORE)";
+	
+	/*If the default value of the column is a constant NULL, text, 
+	 * blob or signed-number value, then that value is used directly in the new row.
+
+If the default value of a column is an expression in parentheses, 
+then the expression is evaluated once for each row inserted and 
+the results used in the new row.
+
+If the default value of a column is CURRENT_TIME, CURRENT_DATE or
+ CURRENT_TIMESTAMP, then the value used in the new row is a text
+  representation of the current UTC date and/or time. For CURRENT_TIME,
+   the format of the value is "HH:MM:SS". For CURRENT_DATE, "YYYY-MM-DD". 
+   The format for CURRENT_TIMESTAMP is "YYYY-MM-DD HH:MM:SS".
+*/
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "name text not null, creator_id integer not null, "
-			+ "creation_date text, UNIQUE(id) ON CONFLICT IGNORE)";
+			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
 			+ "list_id integer not null, user_id integer not null)";
@@ -139,14 +153,13 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			/*db.delete("list", null, null);
+			/*
+			 * If you get errors because you wiped your db, remove the next three lines!
+			 * Our version of SQLite does not support "if exists." - Kim
+			 */
+			db.delete("list", null, null);
 			db.delete("item", null, null);
-			db.delete("user", null, null);*/
-			
-			//db.execSQL("DROP TABLE IF EXISTS list"); // Doesn't seem to work.
-			//db.execSQL("DROP TABLE IF EXISTS item"); // Maybe not running
-			//db.execSQL("DROP TABLE IF EXISTS user"); // SQLite 3.3+?
-			
+			db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -182,7 +195,6 @@ public class DBHelper {
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
 		initialValues.put(KEY_USER_LAST, u.getLastName());
-		Log.i("DB USER", "Inserted user " + u.getName());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
@@ -219,12 +231,10 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
-			Log.i("DBHelper", "In IF and c = " + c.getCount());
 			users = new ArrayList<User>(c.getCount());
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				Log.i("DBHelper", "In While loop");
 				User u = new User(c.getInt(0), c.getString(1), c.getString(2));
 				users.add(u);
 				c.moveToNext();
@@ -318,12 +328,10 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
-			Log.i("DBHelper", "In IF and c = " + c.getCount());
 			lists = new ArrayList<CustomList>(c.getCount());
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				Log.i("DBHelper", "In While loop");
 				CustomList l = new CustomList(c.getInt(0), c.getString(1));
 				l.setCreator(c.getInt(2));
 				l.setCreationDate(c.getString(3));
@@ -409,7 +417,6 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		Log.i("DB ITEM", "Querying for item ID = " + row);
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -441,8 +448,6 @@ public class DBHelper {
 		i.setSelected(c.getInt(13)); // when we're pulling items from the db,
 										// this is when we check if it's
 										// selected.
-
-		Log.i("ITEM FROM DB", "From db, item inserted ID= " + i.getID());
 
 		return i;
 	}
