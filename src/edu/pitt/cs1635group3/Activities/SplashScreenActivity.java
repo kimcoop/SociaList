@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 public class SplashScreenActivity extends Activity {
-	protected boolean _active = true; 
+	protected boolean _active = true;
 	protected int _splashTime = 5000;
 
 	DBHelper db;

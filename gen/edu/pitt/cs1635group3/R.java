@@ -43,7 +43,7 @@ public final class R {
         public static final int element_subtitle=0x7f070028;
         public static final int element_title=0x7f070027;
         public static final int header_notes=0x7f07001b;
-        public static final int imageView1=0x7f070029;
+        public static final int imageView1=0x7f07002a;
         public static final int inside_layout=0x7f070022;
         public static final int invite_button=0x7f070008;
         public static final int invite_email=0x7f07000f;
@@ -68,6 +68,7 @@ public final class R {
         public static final int result=0x7f070000;
         public static final int save_button=0x7f07001e;
         public static final int send_button=0x7f070012;
+        public static final int splash_text_view=0x7f070029;
         public static final int sublabel=0x7f070025;
         public static final int swiper=0x7f070013;
     }
@@ -136,6 +137,8 @@ public final class R {
         /**  Invite 
          */
         public static final int send_button=0x7f05000c;
-        public static final int splash_screen=0x7f050002;
+        /**  Splash Screen 
+         */
+        public static final int splash_loading=0x7f050002;
     }
 }
