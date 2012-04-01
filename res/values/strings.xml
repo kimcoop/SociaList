@@ -51,11 +51,15 @@
 
     <!-- editlist.xml -->
     <string name="List_name">List name</string>
+    <string name="List_name_here">List name here</string>
     <string name="List_items">List items</string>
     <string name="No_items_in_list">No items in list</string>
     <string name="Add_List_Item">Add List Item</string>
     <string name="Save">Save</string>
     <string name="CancelNewList">Cancel</string>
+    <string name="CID">Custom ID (?)</string>
+    <string name="CID_hint">Letters and numbers are valid</string>
+    <string name="CID_explain">Custom List IDs let users search for your list and use it as a template. Share it with anyone you want to be able to download a copy of your list.</string>
     
     <!-- header.xml -->
     <string name="My_Lists">My Lists</string>

@@ -214,6 +214,20 @@ public class CreateListActivity extends ListActivity {
 		}
 
 	}
+	
+	public void explainCID(View v) {
+		
+
+		new AlertDialog.Builder( this )
+		.setTitle( "Custom List IDs" )
+		.setMessage(getString(R.string.CID_explain))
+		.setPositiveButton( "Got it", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				//do nothing
+			}
+		})
+		.show();		
+	}
 
 	public void cancelNewList(View v) {
 		
