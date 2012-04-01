@@ -191,7 +191,8 @@ public class JSONfunctions {
 			if (i != null) {
 				
 				params.add(new BasicNameValuePair("action", action));
-				params.add(new BasicNameValuePair("id", "" + i.getID()));				
+				params.add(new BasicNameValuePair("id", "" + i.getID()));	
+				params.add(new BasicNameValuePair("custom_id", "" + i.getCustomID()));			
 				params.add(new BasicNameValuePair("name", i.getName()));
 				params.add(new BasicNameValuePair("adder_id", ""+ i.getCreator()));
 

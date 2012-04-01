@@ -40,6 +40,7 @@ public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
 	public static final String LIST_TABLE = "list";
+	public static final String MAP_LIST_USER = "map_list_user";
 	public static final String USER_TABLE = "user";
 
 	public static final String KEY_ITEM_ID = "id";
@@ -55,29 +56,23 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
-	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE
-																// ANDROID APP
-																// (wont come
-																// from server.
-																// will
-																// initialize to
-																// false!!)
+	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE APP
 
 	public static final String KEY_LIST_ID = "id";
+	public static final String KEY_LIST_CUSTOM_ID = "custom_id";
 	public static final String KEY_LIST_NAME = "name";
 	public static final String KEY_CREATOR_ID = "creator_id";
 	public static final String KEY_CREATION_DATE = "creation_date";
 	public static final String KEY_NOTE = "notes";
 
-	public static final String KEY_MAP_ITEM_LIST_ID = "id";
 	public static final String KEY_MAP_LIST_USER_ID = "id";
-	public static final String KEY_MAP_ITEM_ID = "item_id";
 	public static final String KEY_MAP_LIST_ID = "list_id";
 	public static final String KEY_MAP_USER_ID = "user_id";
 
 	public static final String KEY_USER_ID = "id";
 	public static final String KEY_USER_FIRST = "first";
 	public static final String KEY_USER_LAST = "last";
+	public static final String KEY_USER_EMAIL = "email";
 
 	private static final String TAG = "SociaList: DbAdapter";
 	private DatabaseHelper mDbHelper;
@@ -107,7 +102,7 @@ public class DBHelper {
 	 * 
 	 * If the default value of a column is an expression in parentheses, then
 	 * the expression is evaluated once for each row inserted and the results
-	 * used in the new row.
+	 * used in the new row. 
 	 * 
 	 * If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 	 * CURRENT_TIMESTAMP, then the value used in the new row is a text
@@ -117,6 +112,7 @@ public class DBHelper {
 	 */
 
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
+			+ "custom_id text, "
 			+ "name text not null, creator_id integer not null, "
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
@@ -124,7 +120,7 @@ public class DBHelper {
 			+ "list_id integer not null, user_id integer not null)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
-			+ "first text not null, last text not null)";
+			+ "first text not null, last text not null, email text)";
 
 	private static final String DATABASE_NAME = "socialist_db";
 	private static final int DATABASE_VERSION = 1;
@@ -197,6 +193,7 @@ public class DBHelper {
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
 		initialValues.put(KEY_USER_LAST, u.getLastName());
+		initialValues.put(KEY_USER_EMAIL, u.getEmail());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
@@ -237,7 +234,7 @@ public class DBHelper {
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+				User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
 				users.add(u);
 				c.moveToNext();
 			}
@@ -294,7 +291,7 @@ public class DBHelper {
 
 	private User cursorToUser(Cursor c) {
 		// Log.d("DB", "c.getCount() is " +c.getCount());
-		User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
 		c.close();
 		return u;
 	}
@@ -308,12 +305,6 @@ public class DBHelper {
 		// approach 2: create identical new list with the new list ID. delete the old list.
 		
 		ContentValues args = new ContentValues();
-		
-/*public static final String KEY_LIST_ID = "id";
-	public static final String KEY_LIST_NAME = "name";
-	public static final String KEY_CREATOR_ID = "creator_id";
-	public static final String KEY_CREATION_DATE = "creation_date";
-	public static final String KEY_NOTE = "notes";*/
 		
 		args.put(KEY_LIST_ID, newID);
 	
@@ -369,16 +360,35 @@ public class DBHelper {
 		// In order to generate unique PKs that sync with the web server's db, 
 		// PKs are pulled down from the server by allocating uninitialized lists on the web server.
 		// This means that instead of truly "inserting" the new list on the web server, we need to UPDATE
-		// the currently-null list item using the ID.
+		// the currently-null list item using the ID. 
 		
 		Log.i("INSERTING LIST", "Here" + list.getName());
 		JSONfunctions.updateList(list);
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
+		initialValues.put(KEY_LIST_CUSTOM_ID, list.getCustomID());
 		initialValues.put(KEY_LIST_NAME, list.getName());
 		initialValues.put(KEY_CREATOR_ID, list.getCreator());
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		db.insert(LIST_TABLE, null, initialValues);
+	}
+
+	public boolean updateList(CustomList i) {
+		ContentValues args = new ContentValues();
+
+		args.put(KEY_LIST_ID, i.getID());
+		args.put(KEY_LIST_CUSTOM_ID, i.getCustomID());
+		args.put(KEY_LIST_NAME, i.getName());
+		args.put(KEY_CREATOR_ID, i.getCreator());
+		args.put(KEY_CREATION_DATE, i.getCreationDate());
+		
+		JSONfunctions.updateList(i);
+
+		Log.d("UPDATED LIST", "List ID: "+i.getID());
+		
+		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
+				new String[] { String.valueOf(i.getID()) }) > 0;
+
 	}
 
 	public ArrayList<CustomList> getAllLists() {
@@ -392,9 +402,12 @@ public class DBHelper {
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				CustomList l = new CustomList(c.getInt(0), c.getString(1));
-				l.setCreator(c.getInt(2));
-				l.setCreationDate(c.getString(3));
+				CustomList l = new CustomList();
+				l.setID(c.getInt(0));
+				l.setCustomID(c.getString(1));
+				l.setName(c.getString(2));
+				l.setCreator(c.getInt(3));
+				l.setCreationDate(c.getString(4));
 				lists.add(l);
 				c.moveToNext();
 			}
@@ -408,13 +421,17 @@ public class DBHelper {
 
 		String myQuery = "SELECT * FROM list WHERE id = " + i;
 		Cursor c = db.rawQuery(myQuery, null);
+		
 		if (c != null) {
 			c.moveToFirst();
 		}
 
-		CustomList myList = new CustomList(c.getInt(0), c.getString(1));
-		myList.setCreator(c.getInt(2));
-		myList.setCreationDate(c.getString(3));
+		CustomList myList = new CustomList();
+		myList.setID(c.getInt(0));
+		myList.setCustomID(c.getString(1));
+		myList.setName(c.getString(2));
+		myList.setCreator(c.getInt(3));
+		myList.setCreationDate(c.getString(4));
 		c.close();
 		return myList;
 	}

@@ -11,10 +11,24 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class CustomList implements Parcelable {
-	private String name, creationDate, note;
+	private String name, customID, creationDate, note;
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
+	
+	public CustomList(JSONObject e) {
+
+		try {
+			ID = e.getInt("id");
+			customID = e.getString("custom_id");
+			name = e.getString("name");
+			creatorID = e.getInt("creator_id");
+			creationDate = e.getString("creation_date");
+			note = e.getString("note");
+		} catch (JSONException e1) {
+			Log.i("CUSTOM LIST parse problem", e1.toString());
+		}
+	}
 
 	public CustomList() {
 		listItems = new ArrayList<Item>();
@@ -37,6 +51,10 @@ public class CustomList implements Parcelable {
 
 	public void setID(int i) {
 		this.ID = i;
+	}
+	
+	public void setCustomID(String str) {
+		this.customID = str;
 	}
 
 	public void setNote(String n) {
@@ -77,6 +95,10 @@ public class CustomList implements Parcelable {
 
 	public int getID() {
 		return ID;
+	}
+	
+	public String getCustomID() {
+		return customID;
 	}
 
 	public String getName() {
@@ -203,8 +225,6 @@ public class CustomList implements Parcelable {
 				}
 			}
 			
-			Log.v("ABOUT TO BREAK?", "Size of listItems is " +listItems.size());
-
 			listItems.get(0).setPrev(
 					listItems.get(listItems.size() - 1).getID()); // "Loop around":
 

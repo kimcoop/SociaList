@@ -3,12 +3,13 @@ package edu.pitt.cs1635group3;
 public class User {
 
 	private int ID;
-	private String first, last;
+	private String email, first, last;
 
-	public User(int i, String f, String l) {
+	public User(int i, String f, String l, String e) {
 		this.ID = i;
 		this.first = f;
 		this.last = l;
+		this.email = e;
 	}
 
 	public User() {
@@ -25,6 +26,10 @@ public class User {
 	public void setLastName(String s) {
 		this.last = s;
 	}
+	
+	public void setEmail(String s) {
+		this.email = s;
+	}
 
 	public void setID(int i) {
 		this.ID = i;
@@ -33,6 +38,9 @@ public class User {
 	/*
 	 * GETTERS
 	 */
+	public String getEmail() {
+		return email;
+	}
 
 	public String getFirstName() {
 		return first;
