@@ -38,8 +38,8 @@ import android.widget.Toast;
 public class CreateListActivity extends ListActivity {
 
 	private ArrayList<HashMap<String, String>> mylist;
-	private EditText listNameSpace;
-	private String listName;
+	private EditText listNameSpace, CIDSpace;
+	private String listName, CID;
 
 	private int newListPK;
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web servers we allocate (in case of cancel)
@@ -52,7 +52,7 @@ public class CreateListActivity extends ListActivity {
 		setContentView(R.layout.editlist);
 
 		listNameSpace = (EditText) findViewById(R.id.edit_list_name);
-		// listNameSpace.setText("List name here");
+		CIDSpace = (EditText) findViewById(R.id.edit_list_CID);
 
 		mylist = new ArrayList<HashMap<String, String>>();
 		newListPK = -1;
@@ -74,6 +74,7 @@ public class CreateListActivity extends ListActivity {
 		// Store the user's inputted list name prior to list refresh. Restore it
 		// after the list refresh.
 		listName = listNameSpace.getText().toString().trim();
+		CID = CIDSpace.getText().toString().trim();
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New List Item Name");
@@ -98,6 +99,8 @@ public class CreateListActivity extends ListActivity {
 
 				listNameSpace = (EditText) findViewById(R.id.edit_list_name);
 				listNameSpace.setText(listName); // restore list name
+				CIDSpace = (EditText) findViewById(R.id.edit_list_CID);
+				CIDSpace.setText(CID); // restore list name
 
 			}
 		});
@@ -119,11 +122,14 @@ public class CreateListActivity extends ListActivity {
 				|| listName.equals("List name here")) {
 			// invalid name. don't allow save.
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
-			// listNameSpace.setHint("Please enter a list name");
+
+		CID = CIDSpace.getText().toString();
+		
 		} else { // allow save
 
 			CustomList newList = new CustomList();
 			newList.setCreator(33); //TODO ******
+			newList.setCustomID(CID);
 			newList.setName(listName);
 			
 			// get ID better
@@ -239,6 +245,8 @@ public class CreateListActivity extends ListActivity {
 		for (int i : newItemPKs) {		//delete the items as well
 			JSONfunctions.deleteItem(i);
 		}
+		
+		finish();
 
 	}
 }
