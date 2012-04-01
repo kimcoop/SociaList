@@ -89,10 +89,13 @@ public final class R {
     }
     public static final class string {
         public static final int Add_List_Item=0x7f050017;
+        public static final int CancelNewList=0x7f050019;
         /**  listplaceholder.xml 
          */
-        public static final int Create_New_List=0x7f05001e;
-        public static final int Delete=0x7f050019;
+        public static final int Create_New_List=0x7f05001f;
+        /**  item.xml 
+         */
+        public static final int Delete=0x7f05001c;
         public static final int List_items=0x7f050015;
         /**  editlist.xml 
          */
@@ -103,14 +106,10 @@ public final class R {
         /**  insidelist_layout.xml 
          */
         public static final int My_list_stuff=0x7f05001b;
-        /**  item.xml 
- <string name="Delete">Delete</string> 
- <string name="Save">Save</string> 
-         */
-        public static final int Next_Item=0x7f05001c;
+        public static final int Next_Item=0x7f05001d;
         public static final int No_items_in_list=0x7f050016;
-        public static final int No_lists=0x7f05001f;
-        public static final int Prev_Item=0x7f05001d;
+        public static final int No_lists=0x7f050020;
+        public static final int Prev_Item=0x7f05001e;
         public static final int Save=0x7f050018;
         public static final int app_name=0x7f050001;
         public static final int assign_button=0x7f050005;

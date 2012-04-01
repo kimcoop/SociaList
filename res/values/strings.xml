@@ -55,7 +55,7 @@
     <string name="No_items_in_list">No items in list</string>
     <string name="Add_List_Item">Add List Item</string>
     <string name="Save">Save</string>
-    <string name="Delete">Delete</string>
+    <string name="CancelNewList">Cancel</string>
     
     <!-- header.xml -->
     <string name="My_Lists">My Lists</string>
@@ -64,8 +64,7 @@
     <string name="My_list_stuff">No items in list</string>
 
     <!-- item.xml -->
-    <!-- <string name="Delete">Delete</string> -->
-    <!-- <string name="Save">Save</string> -->
+    <string name="Delete">Delete</string>
     <string name="Next_Item">Next Item</string>
     <string name="Prev_Item">Prev Item</string>
     

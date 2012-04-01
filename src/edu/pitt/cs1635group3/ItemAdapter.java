@@ -118,7 +118,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						complete_button.setVisibility(View.VISIBLE);
 						assign_button.setVisibility(View.VISIBLE);
 					}
-					
+					/*
 					if (checkedCompletedItems == 0) { // if the items selected are all marked as completed, this will be 0
 						complete_button.setText("Mark Incomplete");
 						complete_button.setOnClickListener(new OnClickListener() {
@@ -126,7 +126,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					 			Log.e("ITEM ADAPTER", "button is now marking incomplete");
 					         }
 					        }); // reset the function call in calling Activity
-					}
+					}*/
 					// items.get(pos)
 					activeItem.setSelected(isChecked);
 					db.updateItem(activeItem); // the item needs to be marked as

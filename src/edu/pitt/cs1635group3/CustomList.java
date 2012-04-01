@@ -157,6 +157,8 @@ public class CustomList implements Parcelable {
 		try {
 			JSONArray lists = json.getJSONArray("items");
 
+			if (lists.length() >= 1) {
+			
 			JSONObject e1, e2;
 			Item item1, item2;
 
@@ -200,12 +202,15 @@ public class CustomList implements Parcelable {
 
 				}
 			}
+			
+			Log.v("ABOUT TO BREAK?", "Size of listItems is " +listItems.size());
 
 			listItems.get(0).setPrev(
 					listItems.get(listItems.size() - 1).getID()); // "Loop around":
 
 			listItems.get(listItems.size() - 1).setNext(
 					listItems.get(0).getID()); // and
+			}
 
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());

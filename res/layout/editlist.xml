@@ -79,8 +79,8 @@
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="deleteList"
-            android:text="@string/Delete" />
+            android:onClick="cancelNewList"
+            android:text="@string/CancelNewList" />
     </LinearLayout>
 
 </LinearLayout>

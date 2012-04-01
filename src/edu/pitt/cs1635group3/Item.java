@@ -30,7 +30,6 @@ public class Item implements Parcelable {
 
 	public Item(HashMap<String, String> item) {
 		name = item.get("name");
-		Log.i("Item.java", "Name of item =" + name);
 		assignee = -1;
 	}
 
@@ -202,7 +201,6 @@ public class Item implements Parcelable {
 	}
 
 	public void setSelected(int i) {
-		Log.e("ITEM CLASS", "Item " + name + "is selected? " + i);
 		this.selected = (i == 1 ? true : false);
 	}
 

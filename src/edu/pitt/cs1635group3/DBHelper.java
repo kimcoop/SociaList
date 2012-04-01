@@ -302,27 +302,83 @@ public class DBHelper {
 	/*
 	 * LIST METHODS
 	 */
+	
+	public void updateLocalListID(CustomList list, int newID) {
+		//approach 1: replace list ID
+		// approach 2: create identical new list with the new list ID. delete the old list.
+		
+		ContentValues args = new ContentValues();
+		
+/*public static final String KEY_LIST_ID = "id";
+	public static final String KEY_LIST_NAME = "name";
+	public static final String KEY_CREATOR_ID = "creator_id";
+	public static final String KEY_CREATION_DATE = "creation_date";
+	public static final String KEY_NOTE = "notes";*/
+		
+		args.put(KEY_LIST_ID, newID);
+	
+		Log.d("REPLACED LOCAL LIST ID", "New ID is " +newID);
+		
+		db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
+				new String[] { String.valueOf(list.getID()) });	
+	}
+	
+	public int getLocalListID() {
+		// when the user is creating a new list - before it goes to the web server, pull a local primary key.
+		// when it is pushed to the mysql server, update its local ID.
+		
+		String q = "SELECT max(id) from list";
+		Cursor c = db.rawQuery(q, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+
+		int tempID = c.getInt(0) +1; // make it unique
+		c.close();
+		
+		Log.i("LOCAL LIST ID", "Temp list ID is " +tempID);
+		return tempID; 
+	}
+	
 
 	public boolean deleteList(CustomList list) {
-
+		JSONfunctions.deleteList(list.getID());
+		
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) }) > 0;
 	}
 
 	public boolean deleteListByID(int listID) {
 
+		JSONfunctions.deleteList(listID);
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(listID) }) > 0;
 	}
+	
+	public void insertList(CustomList list, boolean fromServer) {
+		//If the list is being pulled from the server, we don't want to recreate it on the server.
+		
+		if (!fromServer) {
+			JSONfunctions.createList(list);
+		}
 
-	public long insertList(CustomList list) {
+		insertList(list);
+	}
+
+	public void insertList(CustomList list) {
+		// In order to generate unique PKs that sync with the web server's db, 
+		// PKs are pulled down from the server by allocating uninitialized lists on the web server.
+		// This means that instead of truly "inserting" the new list on the web server, we need to UPDATE
+		// the currently-null list item using the ID.
+		
 		Log.i("INSERTING LIST", "Here" + list.getName());
+		JSONfunctions.updateList(list);
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
 		initialValues.put(KEY_LIST_NAME, list.getName());
 		initialValues.put(KEY_CREATOR_ID, list.getCreator());
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
-		return db.insert(LIST_TABLE, null, initialValues);
+		db.insert(LIST_TABLE, null, initialValues);
 	}
 
 	public ArrayList<CustomList> getAllLists() {
@@ -343,6 +399,7 @@ public class DBHelper {
 				c.moveToNext();
 			}
 		}
+		c.close();
 		return lists;
 
 	}
@@ -358,6 +415,7 @@ public class DBHelper {
 		CustomList myList = new CustomList(c.getInt(0), c.getString(1));
 		myList.setCreator(c.getInt(2));
 		myList.setCreationDate(c.getString(3));
+		c.close();
 		return myList;
 	}
 
@@ -386,9 +444,21 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
+
+	public void insertItem(Item i, boolean fromServer) {
+		//If the item is being pulled from the server, we don't want to recreate it on the server.
+		
+		if (!fromServer) {
+			JSONfunctions.createItem(i);
+		} 
+		
+		insertItem(i);
+		
+	}
+	
 	public void insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();
-
+		
 		int isCompleted = 0;
 		if (i.isCompleted())
 			isCompleted = 1;
@@ -406,19 +476,23 @@ public class DBHelper {
 		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
 		initialValues.put(KEY_ITEM_PREV, i.getPrev());
 		initialValues.put(KEY_ITEM_NEXT, i.getNext());
-		initialValues.put(KEY_ITEM_SELECTED, 0); // On insertion, no item will
-													// ever be selected.
-													// (Right?) - Kim
+		initialValues.put(KEY_ITEM_SELECTED, 0);
 
-		Log.e("INSERTED ITEM",
-				"Item " + i.getName() + ", "
-						+ db.insert(ITEM_TABLE, null, initialValues));
+		db.insert(ITEM_TABLE, null, initialValues);
+
+		// In order to generate unique PKs that sync with the web server's db, 
+		// PKs are pulled down from the server by allocating uninitialized items on the web server.
+		// This means that instead of truly "inserting" the new item on the web server, we need to UPDATE
+		// the currently-null item using the ID we already have. (Same for lists.)
+		JSONfunctions.updateItem(i);
+		
 	}
 
 	public boolean deleteItem(Item i) {
 		// Note - whenever this is called, be sure to update the encompassing
 		// list structure, since items are doubly-linked.
 
+		JSONfunctions.deleteItem(i.getID());
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}
@@ -483,6 +557,8 @@ public class DBHelper {
 		args.put(KEY_ITEM_PREV, i.getPrev());
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
+
+		JSONfunctions.updateItem(i);
 
 		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " assigned to "
 				+ i.getAssignee() + " and isSelected " + i.isSelected());

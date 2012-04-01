@@ -26,11 +26,83 @@ public class JSONfunctions {
 
 	public static final String URL = "http://www.zebrafishtec.com/server.php";
 
-	/*
-	 * public static void postItem(Item i) {
-	 */
 
+	public static int getItemPK() {
+		return getPK("getItemPK");
+	} 
+	
+	public static int getListPK() {
+		return getPK("getListPK");
+	}
+	
+	
+	public static int getPK(String action) {
+		
+		// initialize
+		InputStream is = null;
+		String result = "";
+		JSONObject jArray = null;
+
+		// http post
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(URL);
+			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("action", action));
+			httppost.setEntity(new UrlEncodedFormEntity(params));
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			is = entity.getContent();
+
+		} catch (Exception e) {
+			Log.e("MYSQL", "Error in http connection " + e.toString());
+		}
+
+		// convert response to string
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					is, "iso-8859-1"), 8);
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+			is.close();
+			result = sb.toString();
+		} catch (Exception e) {
+			Log.e("log_tag", "Error converting result " + e.toString());
+		}
+
+		// try parse the string to a JSON object
+		try {
+			jArray = new JSONObject(result);
+		} catch (JSONException e) {
+			Log.e("GET PK", "Error parsing data " + e.toString());
+		}
+
+		int newPK = -1;
+		
+		try {
+			newPK = jArray.getInt("id");
+			//Log.d("GET PK", "id" + newPK);
+
+		} catch (JSONException e) {
+			Log.e("GET PK", "Error with posting item " + e.toString());
+		}
+
+		return newPK;
+	}
+	
+	
+	public static void deleteList(int id) {
+		deleteObject("deleteList", id);
+	}
+	
 	public static void deleteItem(int id) {
+		deleteObject("deleteItem", id);
+	}
+	
+	public static void deleteObject(String action, int id) {// can use this function for lists and items, so just pass action and ID
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -42,7 +114,7 @@ public class JSONfunctions {
 			HttpPost httppost = new HttpPost(URL);
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
-			params.add(new BasicNameValuePair("action", "deleteItem"));
+			params.add(new BasicNameValuePair("action", action));
 			params.add(new BasicNameValuePair("id", "" + id));
 
 			httppost.setEntity(new UrlEncodedFormEntity(params));
@@ -52,7 +124,7 @@ public class JSONfunctions {
 			is = entity.getContent();
 
 		} catch (Exception e) {
-			Log.e("POST ITEM", "Error in http connection " + e.toString());
+			Log.e("MYSQL DELETION", "Error in http connection " + e.toString());
 		}
 
 		// convert response to string
@@ -78,8 +150,8 @@ public class JSONfunctions {
 		}
 
 		try {
-			JSONArray response = jArray.getJSONArray("response");
-			Log.d("POST ITEM", "response" + response.getString(0));
+			String response = jArray.getString("response");
+			Log.d("POST ITEM", "response" + response);
 
 		} catch (JSONException e) {
 			Log.e("POST ITEM", "Error with posting item " + e.toString());
@@ -87,15 +159,100 @@ public class JSONfunctions {
 
 	}
 	
+	
+	/*
+	 * LISTS
+	 * 
+	 */
+	
+
+	public static void createList(CustomList list) {
+		postList("createList", list); 
+	}
+	
+	public static void updateList(CustomList list) {
+		postList("updateList", list);
+	}
+
+	public static void postList(String action, CustomList i) { // pass the item back
+															// to the server
+
+		// initialize
+		InputStream is = null;
+		String result = "";
+		JSONObject jArray = null;
+
+		// http post
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(URL);
+			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+
+			if (i != null) {
+				
+				params.add(new BasicNameValuePair("action", action));
+				params.add(new BasicNameValuePair("id", "" + i.getID()));				
+				params.add(new BasicNameValuePair("name", i.getName()));
+				params.add(new BasicNameValuePair("adder_id", ""+ i.getCreator()));
+
+				httppost.setEntity(new UrlEncodedFormEntity(params));
+
+			}
+
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			is = entity.getContent();
+
+		} catch (Exception e) {
+			Log.e("PHP LIST", "Error in http connection " + e.toString());
+		}
+
+		// convert response to string
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					is, "iso-8859-1"), 8);
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+			is.close();
+			result = sb.toString();
+		} catch (Exception e) {
+			Log.e("PHP LIST", "Error converting result " + e.toString());
+		}
+
+		// try parse the string to a JSON object
+		try {
+			jArray = new JSONObject(result);
+		} catch (JSONException e) {
+			Log.e("PHP LIST", "Error parsing data " + e.toString());
+		}
+
+		try {
+			String response = jArray.getString("response");
+			Log.d("PHP LIST", "response: " + response);
+
+		} catch (JSONException e) {
+			Log.e("PHP LIST", "Error with posting item " + e.toString());
+		}
+
+	} // end List methods
+	
+	
+	/*
+	 * ITEMS
+	 */
+	
 	public static void createItem(Item i) {
-		postItem(i, "createItem");
+		postItem("createItem", i);
 	}
 	
 	public static void updateItem(Item i) {
-		postItem(i, "updateItem");
+		postItem("updateItem", i);
 	}
 
-	public static void postItem(Item i, String action) { // pass the item back
+	public static void postItem(String action, Item i) { // pass the item back
 															// to the server
 
 		// initialize
@@ -128,6 +285,9 @@ public class JSONfunctions {
 				params.add(new BasicNameValuePair("name", i.getName()));
 				params.add(new BasicNameValuePair("adder_id", ""
 						+ i.getCreator()));
+				
+				if (i.getQuantity() == 0) i.setQuantity(1);
+				
 				params.add(new BasicNameValuePair("quantity", ""
 						+ i.getQuantity()));
 				params.add(new BasicNameValuePair("assignee_id", ""
@@ -177,8 +337,8 @@ public class JSONfunctions {
 		}
 
 		try {
-			JSONArray response = jArray.getJSONArray("response");
-			Log.d("POST ITEM", "response" + response.getString(0));
+			String response = jArray.getString("response");
+			Log.d("POST ITEM", "response" + response);
 
 		} catch (JSONException e) {
 			Log.e("POST ITEM", "Error with posting item " + e.toString());

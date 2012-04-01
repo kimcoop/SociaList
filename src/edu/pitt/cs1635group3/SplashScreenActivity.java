@@ -157,7 +157,7 @@ public class SplashScreenActivity extends Activity {
 				list.setCreationDate(listCreation);
 				list.setNote(listNote);
 				myCustomLists.add(list);
-				db.insertList(list);
+				db.insertList(list, true); // true = from server (acts as a flag)
 				
 				list.pullItems(); // pull the list's items from the server
 				items = list.getItems();
@@ -168,7 +168,7 @@ public class SplashScreenActivity extends Activity {
 		                	splash_tv.setText("Loading: Grabbing ");// + this.listName + "'s item: " + itemName);
 		                }
 		            });
-					db.insertItem(el);
+					db.insertItem(el, true);// true = from server (acts as a flag)
 				}
 			}
 			db.close();

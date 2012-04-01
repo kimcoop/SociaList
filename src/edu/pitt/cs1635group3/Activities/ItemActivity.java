@@ -209,7 +209,6 @@ public class ItemActivity extends Activity {
 		db.updateItem(item);
 		db.close();
 
-		JSONfunctions.postItem(item, "updateItem");
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
@@ -238,10 +237,6 @@ public class ItemActivity extends Activity {
 		db.updateItem(nextItem);
 		db.deleteItem(item);
 		db.close();
-		JSONfunctions.updateItem(prevItem);
-		JSONfunctions.updateItem(nextItem);
-		JSONfunctions.deleteItem(item.getID()); // for deletions, only pass
-												// item's ID
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
 
 		Intent in = new Intent();

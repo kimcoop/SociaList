@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
@@ -40,9 +41,8 @@ public class CreateListActivity extends ListActivity {
 	private EditText listNameSpace;
 	private String listName;
 
-	int tempListID = 40; // These will change when we start
-	int tempItemID = 40; // Pulling IDs from the MySQL
-	int tempCreatorID = 32; // Database
+	private int newListPK;
+	private ArrayList<Integer> newItemPKs; // track the new slices of the web servers we allocate (in case of cancel)
 
 	DBHelper db;
 
@@ -55,16 +55,12 @@ public class CreateListActivity extends ListActivity {
 		// listNameSpace.setText("List name here");
 
 		mylist = new ArrayList<HashMap<String, String>>();
+		newListPK = -1;
+		newItemPKs = new ArrayList<Integer>();
 
 		ListAdapter adapter = new SimpleAdapter(this, mylist,
 				R.layout.list_row, new String[] { "name", "assignee" },
-				new int[] { R.id.element_title, R.id.element_subtitle }); // not
-																			// proper
-																			// use
-																			// of
-																			// list_row.xml,
-																			// but
-																			// works
+				new int[] { R.id.element_title, R.id.element_subtitle });
 
 		final ListView lv = getListView();
 		setListAdapter(adapter);
@@ -100,19 +96,7 @@ public class CreateListActivity extends ListActivity {
 						.notifyDataSetChanged();
 				setContentView(R.layout.editlist);
 
-				listNameSpace = (EditText) findViewById(R.id.edit_list_name); // redeclare
-																				// this
-																				// because
-																				// onCreate
-																				// is
-																				// called
-																				// again
-																				// for
-																				// this
-																				// refresh
-				// Toast.makeText(getBaseContext(),
-				// "original list name is "+listName,
-				// Toast.LENGTH_SHORT).show();
+				listNameSpace = (EditText) findViewById(R.id.edit_list_name);
 				listNameSpace.setText(listName); // restore list name
 
 			}
@@ -128,7 +112,7 @@ public class CreateListActivity extends ListActivity {
 		alert.show();
 	}
 
-	public void saveList(View v) {
+	public void saveList(View v) { 
 
 		listName = listNameSpace.getText().toString();
 		if (listName.equals("") || listName.equals("Please enter a list name")
@@ -139,27 +123,27 @@ public class CreateListActivity extends ListActivity {
 		} else { // allow save
 
 			CustomList newList = new CustomList();
-			newList.setCreator(tempCreatorID);
+			newList.setCreator(33); //TODO ******
 			newList.setName(listName);
-			// TODO: Get the next valid ID from database to assign to list. For
-			// now, use ID = 40. (Query the whole table, retrieve last row,
-			// increment index).
-			newList.setID(tempListID);
-			tempListID++;
+			
+			// get ID better
+			db = new DBHelper(this);
+			db.open();
+						
+			newListPK = JSONfunctions.getListPK(); // get a truly unique ID from server
+			newList.setID(newListPK);
 
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
 				newItem = new Item(map);
-				// newItem = new Item();
-				// newItem.setName(map.getKey(0));
-				Log.i("CreateListActivity", "Hashmap exists");
-				newItem.setParent(newList.getID());
-				newItem.setID(tempItemID); // FIX. same problem as above
-				tempItemID++;
+				newItem.setParent(newListPK);
+				
+				int itemID = JSONfunctions.getItemPK();
+				newItemPKs.add(itemID);
+				newItem.setID(itemID);
 				newList.addItem(newItem);
 			}
-			db = new DBHelper(this);
-			db.open();
+			
 			db.insertList(newList);
 			Item itemA, itemB, itemC;
 			if (newList.getItems() != null) {
@@ -231,12 +215,16 @@ public class CreateListActivity extends ListActivity {
 
 	}
 
-	public void deleteList(View v) {
-		Toast.makeText(getBaseContext(), "TODO: delete list",
-				Toast.LENGTH_SHORT).show();
-
-		// Question - destroy list only for user? Or for every user who shares
-		// it?
+	public void cancelNewList(View v) {
+		
+		//if this button is clicked, then the list wasn't saved to the user's device;
+		// all that happened was we got space on the web server for the list and its items.
+		
+		JSONfunctions.deleteList(newListPK);
+		
+		for (int i : newItemPKs) {		//delete the items as well
+			JSONfunctions.deleteItem(i);
+		}
 
 	}
 }
