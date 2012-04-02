@@ -53,11 +53,11 @@ public final class R {
         public static final int complete_button=0x7f0a0015;
         public static final int delete_button=0x7f0a002a;
         public static final int delete_item_button=0x7f0a0030;
-        public static final int delete_list_swiper=0x7f0a0032;
+        public static final int delete_list_button=0x7f0a0034;
         public static final int do_email_picker=0x7f0a001b;
         public static final int edit_list_CID=0x7f0a000c;
         public static final int edit_list_name=0x7f0a000a;
-        public static final int element_subtitle=0x7f0a0034;
+        public static final int element_subtitle=0x7f0a0035;
         public static final int element_title=0x7f0a0033;
         public static final int header_notes=0x7f0a0026;
         public static final int home_btn_browse=0x7f0a0008;
@@ -68,7 +68,7 @@ public final class R {
         public static final int home_header=0x7f0a0002;
         public static final int home_hoz_grey=0x7f0a0003;
         public static final int home_hoz_light=0x7f0a0001;
-        public static final int imageView1=0x7f0a0036;
+        public static final int imageView1=0x7f0a0038;
         public static final int inside_layout=0x7f0a002d;
         public static final int insidelist_parent=0x7f0a0017;
         public static final int invite_button=0x7f0a0012;
@@ -89,15 +89,17 @@ public final class R {
         public static final int label_list_name=0x7f0a0009;
         public static final int label_name=0x7f0a001f;
         public static final int label_quantity=0x7f0a0021;
+        public static final int list_row=0x7f0a0032;
         public static final int new_list_button=0x7f0a0011;
         public static final int next_button=0x7f0a002c;
         public static final int prev_button=0x7f0a002b;
         public static final int result=0x7f0a0000;
         public static final int save_button=0x7f0a0029;
         public static final int send_button=0x7f0a001d;
-        public static final int splash_text_view=0x7f0a0035;
+        public static final int splash_text_view=0x7f0a0037;
         public static final int sublabel=0x7f0a0031;
         public static final int swiper=0x7f0a001e;
+        public static final int userlists_layout=0x7f0a0036;
     }
     public static final class layout {
         public static final int c2dm_main=0x7f030000;

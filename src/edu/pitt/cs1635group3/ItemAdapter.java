@@ -88,8 +88,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (assignee != null) {
 
 				int userID = o.getAssignee();
-				String assignment = (userID > 0 ? db.getUserByID(userID)
-						.getName() : "Unassigned");
+				//String assignment = (userID > 0 ? db.getUserByID(userID).getName() : "Unassigned");
+				String assignment = "blank for now";
 				assignee.setText(assignment);
 
 			}

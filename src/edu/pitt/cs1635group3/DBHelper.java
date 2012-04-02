@@ -154,7 +154,7 @@ public class DBHelper {
 			/*
 			 * If you get errors because you wiped your db, remove the next
 			 * three lines! Our version of SQLite does not support "if exists."
-			 * - Kim -Hi Kim - Rob
+			 * - Kim
 			 */
 			// db.delete("list", null, null);
 			// db.delete("item", null, null);
@@ -254,7 +254,7 @@ public class DBHelper {
 			c.moveToNext();
 			i++;
 		}
-
+		c.close();
 		return users;
 	}
 
@@ -296,14 +296,15 @@ public class DBHelper {
 	}
 
 	public User getUserByID(int row) {
-		// Log.i("DB USER", "Querying for user ID = " + row);
+
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null)
 			c.moveToFirst();
 
-		User u = cursorToUser(c);
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
+		Log.i("DB USER", "Name is " +u.getName());
 		c.close();
 		return u;
 	}
@@ -332,7 +333,6 @@ public class DBHelper {
 		c.close();
 		return u;
 	}
-
 	/*
 	 * LIST METHODS
 	 */
@@ -368,6 +368,18 @@ public class DBHelper {
 
 		Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
 		return tempID;
+	}
+	public void deleteListAndChildren(CustomList list) {
+		
+		ArrayList<Item> children = list.getItems();
+		for (Item item : children) {
+			JSONfunctions.deleteItem(item.getID()); // TODO - make JSONfunctions method for deleting ArrayList<Item> rather than this
+		}
+		
+		JSONfunctions.deleteList(list.getID());
+				
+		db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
+				new String[] { String.valueOf(list.getID()) });	
 	}
 
 	public boolean deleteList(CustomList list) {

@@ -33,22 +33,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SociaListActivity extends ListActivity { // ListActivity
-	ArrayList<CustomList> lists = null;
-	ArrayList<User> users = null;
 	int activeListPosition;
-	DBHelper db;
-
+	private ArrayList<CustomList> lists = null;
+	private ArrayList<User> users = null;
+	private DBHelper db;
+	private RelativeLayout parentLayout;
 	ArrayAdapter<CustomList> adapter;
 
 	@Override
@@ -64,7 +68,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		db.close();
 
 		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
-
+		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
 		final ListView lv = getListView();
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
@@ -76,13 +80,42 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
 
-		Intent registrationIntent = new Intent(
-				"com.google.android.c2dm.intent.REGISTER");
-		registrationIntent.putExtra("app",
-				PendingIntent.getBroadcast(this, 0, new Intent(), 0));
-		registrationIntent.putExtra("sender",
-				"zebrafish.technologies@gmail.com");
-		startService(registrationIntent);
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                    int pos, long id) {
+            	final View parentView = v;
+            	final int position = pos-1;
+    			final CustomList userlist = lists.get(position);
+    			final String listname = userlist.getName();
+    			
+    			Log.i("LIST LONG PRESS", "List name is " +listname+ " and ID is " +userlist.getID());
+    			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
+
+    			final Button b = (Button) v.findViewById(R.id.delete_list_button);
+    			b.setVisibility(View.VISIBLE);
+    			
+    			b.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View v) {
+						db.open();
+						db.deleteListAndChildren(userlist);
+						db.close();
+						
+		            	Toast.makeText(getBaseContext(), "List " + listname + " deleted.", Toast.LENGTH_SHORT).show();
+		            	b.setVisibility(View.INVISIBLE);
+		            	parentLayout.removeView(parentView);
+		            	adapter.remove(userlist);
+		            	adapter.notifyDataSetChanged();
+					
+					}
+    	        }); 
+            	
+                return true;
+            }
+        }); 
+		
+		
 
 	} // end onCreate
 

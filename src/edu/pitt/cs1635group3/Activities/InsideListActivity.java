@@ -134,14 +134,15 @@ public class InsideListActivity extends ListActivity {
 		});
 
 		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			public boolean onItemLongClick(AdapterView<?> arg0, View v,
-					int pos, long id) {
-				final View parentView = v;
-				final int position = pos - 1;
-				final Item item = items.get(position);
-				final String itemName = item.getName();
-
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                    int pos, long id) {
+            	final View parentView = v;
+            	final int position = pos-1;
+    			final Item item = items.get(position);
+    			final String itemName = item.getName();
+    			
+    			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID());
+    			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
 				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
 				// Mode.DARKEN);
 
@@ -153,8 +154,8 @@ public class InsideListActivity extends ListActivity {
 
 					public void onClick(View v) {
 						db.open();
-						Item prev = db.getItem(item.getNext());
-						Item next = db.getItem(item.getPrev());
+						Item prev = db.getItem(item.getPrev());
+						Item next = db.getItem(item.getNext());
 						prev.setNext(next.getID());
 						next.setPrev(prev.getID());
 
