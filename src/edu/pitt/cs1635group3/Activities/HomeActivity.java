@@ -4,6 +4,7 @@ import edu.pitt.cs1635group3.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class HomeActivity extends Activity {
@@ -12,6 +13,7 @@ public class HomeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
+        Log.d("GOT", "TO THIS POINT OK");
         
     }
     public void myLists(View v) {
