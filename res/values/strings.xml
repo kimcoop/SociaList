@@ -9,6 +9,14 @@
 
     <!-- Headers -->
     <string name="lists">Lists</string>
+    
+    <!-- Dashboard Buttons -->
+    
+    <string name="btn_list">My Lists</string>
+    <string name="btn_manage">Manage Lists</string>
+    <string name="btn_pending">Pending Invites</string>
+    <string name="btn_browse">Browse Lists</string>
+    
 
     <!-- Buttons -->
     <string name="invite_button">Invite…</string>

@@ -155,7 +155,7 @@ If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 		public void onCreate(SQLiteDatabase db) {
 			/*
 			 * If you get errors because you wiped your db, remove the next three lines!
-			 * Our version of SQLite does not support "if exists." - Kim
+			 * Our version of SQLite does not support "if exists." - Kim - Hi Kim -Rob
 			 */
 			db.delete("list", null, null);
 			db.delete("item", null, null);
