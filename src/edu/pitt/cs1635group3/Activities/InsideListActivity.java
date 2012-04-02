@@ -148,11 +148,22 @@ public class InsideListActivity extends ListActivity {
     			b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						
+						totalItems--;
+						
 						db.open();
+						
 						Item prev = db.getItem(item.getPrev());
 						Item next = db.getItem(item.getNext());
-						prev.setNext(next.getID());
-						next.setPrev(prev.getID());
+						
+						prev.setNext(item.getPrev());
+						next.setPrev(item.getNext());
+						
+						
+						if (totalItems==1) { // always this issue with one item in list
+							item.setNext(item.getID());
+							item.setPrev(item.getID());
+						}
 						
 						db.updateItem(prev);
 						db.updateItem(next);

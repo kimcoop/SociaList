@@ -52,7 +52,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-
+		db = new DBHelper(getContext());
 		View v = convertView;
 
 		if (v == null) {
