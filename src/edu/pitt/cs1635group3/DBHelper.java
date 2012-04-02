@@ -153,11 +153,12 @@ public class DBHelper {
 			/*
 			 * If you get errors because you wiped your db, remove the next
 			 * three lines! Our version of SQLite does not support "if exists."
-			 * - Kim
+			 * - Kim 
+			 * -Hi Kim - Rob
 			 */
-			//db.delete("list", null, null);
-			//db.delete("item", null, null);
-			//db.delete("user", null, null);
+			db.delete("list", null, null);
+			db.delete("item", null, null);
+			db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);

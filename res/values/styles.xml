@@ -1,0 +1,47 @@
+<resources>
+    
+
+    <style name="DashboardButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/accent_1</item>
+        <item name="android:background">@null</item>
+    </style>
+    
+    <style name ="hozLine1pxLight">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">1dip</item>
+	    <item name="android:background">#4597fd</item>
+    </style>
+    
+    <style name ="hozLine1pxGrey">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">1dip</item>
+	    <item name="android:background">#30353b</item>
+    </style>
+    
+    <style name ="headerBar">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">50dip</item>
+	    <item name="android:gravity">center</item>
+	    <item name="android:text">@string/app_name</item>
+	    <item name="android:background">#3472bf</item>
+	    <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    
+     <style name ="footerBar">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">30dip</item>
+	    <item name="android:background">#3472bf</item>
+    </style>
+
+
+
+</resources>

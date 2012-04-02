@@ -55,7 +55,7 @@ public class SplashScreenActivity extends Activity {
 				} finally {
 					finish();
 					startActivity(new Intent(
-							"edu.pitt.cs1635group3.SociaListActivity"));
+							"edu.pitt.cs1635group3.HomeActivity"));
 					stop();
 				}
 			}
