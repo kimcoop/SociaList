@@ -187,6 +187,39 @@ public class DBHelper {
 	/*
 	 * USER METHODS
 	 */
+	
+	public void insertOrUpdateUser(User i) { // query to test if exists. if it does, update. if it doesn't, insert.
+
+		String id = i.getID()+"";
+		String myQuery = "SELECT * FROM user WHERE id = " + id;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c.getCount() > 0) {
+			// Item exists
+			Log.i("USER EXISTS", "USER " +i.getName() + " already exists in db. Updating.");
+			c.close();
+			updateUser(i);
+		} else {
+			c.close();
+			insertUser(i);		
+		}
+	}
+	
+
+	public boolean updateUser(User i) {
+		ContentValues args = new ContentValues();
+
+		args.put(KEY_USER_FIRST, i.getFirstName());
+		args.put(KEY_USER_LAST, i.getLastName());
+		args.put(KEY_USER_EMAIL, i.getEmail());
+		
+		Log.d("UPDATED USER", "USER ID: "+i.getID());
+		
+		return db.update(USER_TABLE, args, KEY_USER_ID + "=?",
+				new String[] { String.valueOf(i.getID()) }) > 0;
+
+	}
+
 
 	public long insertUser(User u) {
 		ContentValues initialValues = new ContentValues();
@@ -355,6 +388,24 @@ public class DBHelper {
 
 		insertList(list);
 	}
+	
+	
+	public void insertOrUpdateList(CustomList i) { // query to test if item exists. if it does, update. if it doesn't, insert.
+
+		String id = i.getID()+"";
+		String myQuery = "SELECT * FROM list WHERE id = " + id;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c.getCount() > 0) {
+			// Item exists
+			Log.i("LIST EXISTS", "LIST " +i.getName() + " already exists in db. Updating.");
+			c.close();
+			updateList(i);
+		} else {
+			c.close();
+			insertList(i);		
+		}
+	}
 
 	public void insertList(CustomList list) {
 		// In order to generate unique PKs that sync with the web server's db, 
@@ -386,7 +437,7 @@ public class DBHelper {
 
 		Log.d("UPDATED LIST", "List ID: "+i.getID());
 		
-		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
+		return db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 
 	}
@@ -438,6 +489,7 @@ public class DBHelper {
 
 	public ArrayList<Item> getItemsForListByID(int ID) {
 
+		Log.i("QUERY FOR LIST", "Based on list ID " +ID);
 		ArrayList<Item> items = null;
 		String myQuery = "SELECT * FROM item WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -471,6 +523,23 @@ public class DBHelper {
 		
 		insertItem(i);
 		
+	}
+	
+	public void insertOrUpdateItem(Item i) { // query to test if item exists. if it does, update. if it doesn't, insert.
+
+		String id = i.getID()+"";
+		String myQuery = "SELECT * FROM item WHERE id = " + id;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c.getCount() > 0) {
+			// Item exists
+			Log.i("ITEM EXISTS", "Item " +i.getName() + " already exists in db. Updating.");
+			c.close();
+			updateItem(i);
+		} else {
+			c.close();
+			insertItem(i);		
+		}
 	}
 	
 	public void insertItem(Item i) {
@@ -515,6 +584,8 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
+		Log.v("QUERY FOR ITEM", "Based on item ID " +row);
+		
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -532,8 +603,8 @@ public class DBHelper {
 		// +c.getString(2)+ " and ID is " +c.getInt(0));
 		Item i = new Item();
 		i.setID(c.getInt(0));
-		i.setName(c.getString(2));
 		i.setParent(c.getInt(1));
+		i.setName(c.getString(2));
 		i.setCreator(c.getInt(3));
 		i.setCreationDate(c.getString(4));
 		i.setQuantity(c.getInt(5));
@@ -560,7 +631,7 @@ public class DBHelper {
 		if (i.isSelected())
 			isSelected = 1;
 
-		args.put(KEY_ITEM_ID, i.getID());
+//		args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_PARENT_ID, i.getParentID());
 		args.put(KEY_ITEM_NAME, i.getName());
 		args.put(KEY_ADDER_ID, i.getCreator());
@@ -577,8 +648,8 @@ public class DBHelper {
 
 		JSONfunctions.updateItem(i);
 
-		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " assigned to "
-				+ i.getAssignee() + " and isSelected " + i.isSelected());
+		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " has prev " + i.getPrev() + " and next " +i.getNext());
+
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 

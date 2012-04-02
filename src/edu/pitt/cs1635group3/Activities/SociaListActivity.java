@@ -46,9 +46,10 @@ import android.widget.Toast;
 public class SociaListActivity extends ListActivity { // ListActivity
 	ArrayList<CustomList> lists = null;
 	ArrayList<User> users = null;
-	ArrayList<Item> items = null;
 	int activeListPosition;
 	DBHelper db;
+	
+	ArrayAdapter<CustomList> adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		users = db.getAllUsers();
 		db.close();
 
-		ArrayAdapter<CustomList> adapter = new CustomListAdapter(this,
+		adapter = new CustomListAdapter(this,
 				R.layout.list_row, lists);
 
 		final ListView lv = getListView();
@@ -90,9 +91,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 
-		db.close();
-		CustomList list = (CustomList) this.getListAdapter().getItem(
-				position - 1); // not sure why the -1 is needed but it is
+		CustomList list = adapter.getItem(position - 1);
 
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("ListID", list.getID());

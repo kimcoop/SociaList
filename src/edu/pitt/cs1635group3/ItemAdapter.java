@@ -48,13 +48,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		this.complete_button = complete_button;
 		this.invite_button = invite_button;
 		this.inviteUp = inviteUp;
-
-		db = new DBHelper(getContext());
-		db.open();
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+
 		View v = convertView;
 
 		if (v == null) {
@@ -70,6 +68,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			cb = (CheckBox) v.findViewById(R.id.check);
+			Button b = (Button) v.findViewById(R.id.delete_item_button);
 			// TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
 
 			if (!o.isSelected())
@@ -87,7 +86,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			}
 
 			if (assignee != null) {
-
+ 
 				int userID = o.getAssignee();
 				String assignment = (userID > 0 ? db.getUserByID(userID)
 						.getName() : "Unassigned");
@@ -99,7 +98,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
-					
+					db.open();
 					Item activeItem = items.get(position);
 
 					if (isChecked) {
@@ -135,7 +134,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 												// identify it as needing to be
 												// acted upon for assign or
 												// selected
-
+					db.close();
 				}
 			}); // end onCheckedChangeListener
 

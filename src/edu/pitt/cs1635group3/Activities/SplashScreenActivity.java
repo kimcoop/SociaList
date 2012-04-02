@@ -89,7 +89,7 @@ public class SplashScreenActivity extends Activity {
 			for (int i = 0; i < myUsers.length(); i++) {
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2), e.getString(3));
-				db.insertUser(u);
+				db.insertOrUpdateUser(u);
 				sharedUsers.add(u);
 			}
 
@@ -124,12 +124,12 @@ public class SplashScreenActivity extends Activity {
 				Log.v("JSON LIST", "Name: " +list.getName()+", CID: " +list.getCustomID());
 				
 				myCustomLists.add(list);
-				db.insertList(list);
+				db.insertOrUpdateList(list);
 
 				list.pullItems(); // pull the list's items from the server
 				items = list.getItems();
 				for (Item el : items) {
-					db.insertItem(el);
+					db.insertOrUpdateItem(el);
 				}
 
 			}

@@ -256,6 +256,8 @@ public class JSONfunctions {
 	public static void postItem(String action, Item i) { // pass the item back
 															// to the server
 
+		Log.i("JSON ITEM", "Attempting to post item " +i.getName());
+		
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -299,7 +301,11 @@ public class JSONfunctions {
 				
 				if (i.isCompleted()) params.add(new BasicNameValuePair("completed", "1"));
 				else params.add(new BasicNameValuePair("completed", "0"));
-								
+
+				params.add(new BasicNameValuePair("completion_date", i.getCompletionDate()));
+				
+				Log.i("PREV AND NEXT ID", "For item " +i.getName()+ " are "+(i.getPrev() > 2? i.getPrev(): "NONE") + " and "+(i.getNext() > 2? i.getNext(): "NONE") );
+				
 				params.add(new BasicNameValuePair("prev_id", "" + i.getPrev()));
 				params.add(new BasicNameValuePair("next_id", "" + i.getNext()));
 
@@ -339,7 +345,7 @@ public class JSONfunctions {
 
 		try {
 			String response = jArray.getString("response");
-			Log.d("POST ITEM", "response" + response);
+			Log.d("POST ITEM", "response: " + response);
 
 		} catch (JSONException e) {
 			Log.e("POST ITEM", "Error with posting item " + e.toString());
