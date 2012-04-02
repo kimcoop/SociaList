@@ -29,7 +29,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver {
 	public void createNotification(Context context, String payload) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.zebrafish_small,
+		Notification notification = new Notification(R.drawable.icon,
 				"Message received", System.currentTimeMillis());
 		// Hide the notification after its selected
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;

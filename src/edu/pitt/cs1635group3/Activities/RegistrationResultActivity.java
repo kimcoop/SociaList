@@ -1,4 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
+
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;

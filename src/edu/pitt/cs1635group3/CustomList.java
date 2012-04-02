@@ -11,20 +11,34 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class CustomList implements Parcelable {
-	private String name, creationDate, note;
+	private String name, customID, creationDate, note;
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
+	
+	public CustomList(JSONObject e) {
+
+		try {
+			ID = e.getInt("id");
+			customID = e.getString("custom_id");
+			name = e.getString("name");
+			creatorID = e.getInt("creator_id");
+			creationDate = e.getString("creation_date");
+			note = e.getString("note");
+		} catch (JSONException e1) {
+			Log.i("CUSTOM LIST parse problem", e1.toString());
+		}
+	}
 
 	public CustomList() {
-		listItems = new  ArrayList<Item>();
+		listItems = new ArrayList<Item>();
 	}
 
 	public CustomList(int ID, String name) {
 		this.ID = ID;
 		this.name = name;
 		this.populated = 0;
-		listItems = new  ArrayList<Item>();
+		listItems = new ArrayList<Item>();
 	}
 
 	/*
@@ -37,6 +51,10 @@ public class CustomList implements Parcelable {
 
 	public void setID(int i) {
 		this.ID = i;
+	}
+	
+	public void setCustomID(String str) {
+		this.customID = str;
 	}
 
 	public void setNote(String n) {
@@ -78,6 +96,10 @@ public class CustomList implements Parcelable {
 	public int getID() {
 		return ID;
 	}
+	
+	public String getCustomID() {
+		return customID;
+	}
 
 	public String getName() {
 		return name;
@@ -96,18 +118,18 @@ public class CustomList implements Parcelable {
 	}
 
 	public ArrayList<Item> getItems() {
-		//if(listItems.size() == 0){
-			//return null;
-		//}
-		//else{
-			return listItems;
-		//}
+		// if(listItems.size() == 0){
+		// return null;
+		// }
+		// else{
+		return listItems;
+		// }
 	}
-	
+
 	public Item getItem(int i) {
 
 		if (listItems != null && i < listItems.size()) {
-			Log.d("CustomList", "Returning list item " +listItems.get(i));
+			Log.d("CustomList", "Returning list item " + listItems.get(i));
 			return listItems.get(i);
 		} else {
 			Log.d("CustomList", "No Item at index = " + i);
@@ -147,69 +169,72 @@ public class CustomList implements Parcelable {
 
 	public void pullItems() {
 
-			this.populated = 1;
+		this.populated = 1;
 
-			listItems = new ArrayList<Item>();
+		listItems = new ArrayList<Item>();
 
-			JSONObject json = JSONfunctions
-					.getJSONfromURL("getItemsForList", ""+this.ID); // must pass the list ID as a String
+		JSONObject json = JSONfunctions.getJSONfromURL("getItemsForList", ""
+				+ this.ID); // must pass the list ID as a String
 
-			try {
-				JSONArray lists = json.getJSONArray("items");
+		try {
+			JSONArray lists = json.getJSONArray("items");
 
-				JSONObject e1, e2;
-				Item item1, item2;
+			if (lists.length() >= 1) {
+			
+			JSONObject e1, e2;
+			Item item1, item2;
 
-				for (int i = 0; i < lists.length(); i++) {
+			for (int i = 0; i < lists.length(); i++) {
 
-					if (i == 0) { // do the items two at a time in order to set
-									// prev
-									// and next for each
-						e1 = lists.getJSONObject(i);
-						item1 = new Item(e1);
-						item1.setParent(this.ID);
-						
-						e2 = lists.getJSONObject(i + 1);
-						item2 = new Item(e2);
-						item2.setParent(this.ID);
+				if (i == 0) { // do the items two at a time in order to set
+								// prev
+								// and next for each
+					e1 = lists.getJSONObject(i);
+					item1 = new Item(e1);
+					item1.setParent(this.ID);
 
-						item2.setPrev(item1.getID());
-						item1.setNext(item2.getID());
-						listItems.add(item1);
-						listItems.add(item2);
-						Log.i("LINKING", "Item name " + item2.getName()
-								+ " has previous item " + item1.getName()
-								+ " ID " + item1.getID());
+					e2 = lists.getJSONObject(i + 1);
+					item2 = new Item(e2);
+					item2.setParent(this.ID);
 
-						i += 1;
+					item2.setPrev(item1.getID());
+					item1.setNext(item2.getID());
+					listItems.add(item1);
+					listItems.add(item2);
+					Log.i("LINKING", "Item name " + item2.getName()
+							+ " has previous item " + item1.getName() + " ID "
+							+ item1.getID());
 
-					} else {
-						e1 = lists.getJSONObject(i);
-						item1 = new Item(e1);
-						item1.setParent(this.ID);
+					i += 1;
 
-						Item prev = listItems.get(i - 1);
+				} else {
+					e1 = lists.getJSONObject(i);
+					item1 = new Item(e1);
+					item1.setParent(this.ID);
 
-						prev.setNext(item1.getID());
-						item1.setPrev(prev.getID());
+					Item prev = listItems.get(i - 1);
 
-						Log.i("LINKING", "Item name " + item1.getName()
-								+ " has previous item " + prev.getName()
-								+ " ID " + prev.getID());
-						listItems.add(item1);
+					prev.setNext(item1.getID());
+					item1.setPrev(prev.getID());
 
-					}
+					Log.i("LINKING", "Item name " + item1.getName()
+							+ " has previous item " + prev.getName() + " ID "
+							+ prev.getID());
+					listItems.add(item1);
+
 				}
-				
-				listItems.get(0).setPrev(
-						listItems.get(listItems.size() - 1).getID()); // "Loop around":
-				
-				listItems.get(listItems.size() - 1).setNext(
-						listItems.get(0).getID()); // and
-				
-			} catch (JSONException e) {
-				Log.e("log_tag", "Error parsing data " + e.toString());
 			}
+			
+			listItems.get(0).setPrev(
+					listItems.get(listItems.size() - 1).getID()); // "Loop around":
+
+			listItems.get(listItems.size() - 1).setNext(
+					listItems.get(0).getID()); // and
+			}
+
+		} catch (JSONException e) {
+			Log.e("log_tag", "Error parsing data " + e.toString());
+		}
 	}
 
 	public int describeContents() {

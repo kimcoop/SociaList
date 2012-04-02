@@ -47,14 +47,14 @@ public class ItemActivity extends Activity {
 
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
-	
+
 	private int pos, totalItems;
 
-	public void onCreate(Bundle savedInstanceState) { 
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
 
-		// Gesture detection 
+		// Gesture detection
 		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -76,12 +76,12 @@ public class ItemActivity extends Activity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		int itemID = extras.getInt("ItemID");
-		
+
 		pos = extras.getInt("pos");
 		totalItems = extras.getInt("totalItems");
-		
+
 		TextView nav = (TextView) findViewById(R.id.label_header);
-		nav.setText("Item "+pos+ " of " +totalItems);
+		nav.setText("Item " + pos + " of " + totalItems);
 
 		db = new DBHelper(this);
 		db.open();
@@ -91,11 +91,15 @@ public class ItemActivity extends Activity {
 		int prevID, nextID;
 		prevID = item.getPrev();
 		nextID = item.getNext();
-		
-		if (prevID > 0) prevItem = db.getItem(prevID);
-		else prevItem = item;
-		if (nextID > 0) nextItem = db.getItem(nextID);
-		else nextItem = item;
+
+		if (prevID > 0)
+			prevItem = db.getItem(prevID);
+		else
+			prevItem = item;
+		if (nextID > 0)
+			nextItem = db.getItem(nextID);
+		else
+			nextItem = item;
 
 		itemCompletion.setChecked(item.isCompleted());
 
@@ -185,7 +189,7 @@ public class ItemActivity extends Activity {
 		TextView name, quantity, assignee, notes;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
-		assignee = (TextView) findViewById(R.id.item_assignee);  
+		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 
 		// toggle is handled onClick for item completion altering
@@ -197,24 +201,22 @@ public class ItemActivity extends Activity {
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
-		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) { 
+		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
 			assigneeID = db.getUserByName(rawAssignee);
-			item.assignTo(assigneeID); 
+			item.assignTo(assigneeID);
 		}
 
-		db.updateItem(item); 
+		db.updateItem(item);
 		db.close();
- 
-		JSONfunctions.postItem(item, "updateItem");
-		
+
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
-	
+
 	public void deleteWithList() {
-		//delete item and parent list
+		// delete item and parent list
 		Intent intent = new Intent(this, SociaListActivity.class);
-		
+
 		db.open();
 		db.deleteItem(item);
 		db.deleteListByID(item.getParentID());
@@ -222,47 +224,58 @@ public class ItemActivity extends Activity {
 
 		startActivityForResult(intent, 2);
 		finish();
-		
+
 	}
 
 	public void deleteAndExit() {
+
+		prevItem.setNext(nextItem.getID());
+		nextItem.setPrev(prevItem.getID());
+		
 		db.open();
+		db.updateItem(prevItem);
+		db.updateItem(nextItem);
 		db.deleteItem(item);
 		db.close();
-		
-		JSONfunctions.deleteItem(item.getID()); //for deletions, only pass item's ID
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
 
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 		finish();
 	}
-	
-	
+
 	public void deleteItem(View v) {
 
 		prevItem.setNext(nextItem.getID()); // set the previous item's next item
 											// to the next
 		nextItem.setPrev(prevItem.getID());
-		
-		if (prevItem.getID() == item.getID() || nextItem.getID() == item.getID()) { // if this is the last item in the list, inform user and give option to delete whole list
-	        
-	        AlertDialog builder = new AlertDialog.Builder(this)
-            //builder.setIcon(R.drawable.alert_dialog_icon)
-            .setTitle("Deleting final list item. Also delete the list?")
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                	deleteWithList();
-                }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-        			deleteAndExit();
-                }
-            })
-            .create();
-	        builder.show();			
-			
+
+		if (prevItem.getID() == item.getID()
+				|| nextItem.getID() == item.getID()) { // if this is the last
+														// item in the list,
+														// inform user and give
+														// option to delete
+														// whole list
+
+			AlertDialog builder = new AlertDialog.Builder(this)
+					// builder.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle("Deleting final list item. Also delete the list?")
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									deleteWithList();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									deleteAndExit();
+								}
+							}).create();
+			builder.show();
+
 		} else {
 			db.open();
 			db.updateItem(prevItem);
@@ -278,7 +291,7 @@ public class ItemActivity extends Activity {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", prevItem.getID());
 
-		int prevPos = (pos==1? totalItems: pos-1);
+		int prevPos = (pos == 1 ? totalItems : pos - 1);
 		intent.putExtra("pos", prevPos);
 		intent.putExtra("totalItems", totalItems);
 		startActivity(intent);
@@ -294,8 +307,8 @@ public class ItemActivity extends Activity {
 	public void goToNext() {
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", nextItem.getID());
-		
-		int nextPos = (pos==totalItems? 1: pos+1); 
+
+		int nextPos = (pos == totalItems ? 1 : pos + 1);
 		intent.putExtra("pos", nextPos);
 		intent.putExtra("totalItems", totalItems);
 		startActivity(intent);
@@ -320,8 +333,8 @@ public class ItemActivity extends Activity {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				intent.putExtra("ItemID", item.getNext());
-				int nextPos = (pos==totalItems? 1: pos+1); 
-				intent.putExtra("pos", nextPos);
+				int prevPos = (pos == 1 ? totalItems : pos - 1);
+				intent.putExtra("pos", prevPos);
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();
@@ -331,8 +344,8 @@ public class ItemActivity extends Activity {
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				intent.putExtra("ItemID", item.getPrev());
-				int prevPos = (pos==1? totalItems: pos-1);
-				intent.putExtra("pos", prevPos);
+				int nextPos = (pos == totalItems ? 1 : pos + 1);
+				intent.putExtra("pos", nextPos);
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();
