@@ -141,7 +141,7 @@ public class InsideListActivity extends ListActivity {
     			final Item item = items.get(position);
     			final String itemName = item.getName();
     			
-    			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID());
+    			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID() + " and prev is " +item.getPrev() + " and next is " +item.getNext());
     			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
 				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
 				// Mode.DARKEN);
@@ -158,10 +158,22 @@ public class InsideListActivity extends ListActivity {
 						
 						db.open();
 						
-						Item prev = db.getItem(item.getPrev());
-						Item next = db.getItem(item.getNext());
-						prev.setNext(item.getPrev());
-						next.setPrev(item.getNext());
+						int prevPos, nextPos;
+						if (position==items.size()-1) nextPos = 0;
+						else nextPos = position+1;
+						
+						if (position==0) prevPos = items.size()-1;
+						else prevPos = position-1;
+						
+						Item nextItem, prevItem;
+						nextItem = items.get(nextPos);
+						prevItem = items.get(prevPos);
+						
+						int next = nextItem.getID();
+						int prev = prevItem.getID();
+						
+						prevItem.setNext(next);
+						nextItem.setPrev(prev);
 						
 						
 						if (totalItems==1) { // always this issue with one item in list
@@ -169,9 +181,13 @@ public class InsideListActivity extends ListActivity {
 							item.setPrev(item.getID());
 						}
 
-						db.updateItem(prev);
-						db.updateItem(next);
+						db.updateItem(prevItem);
+						db.updateItem(nextItem);
 						db.deleteItem(item);
+						
+						Log.i("PREV ITEM", "Prev item has next item " +nextItem.getName());
+						Log.i("NEXT ITEM", "NExt item has prev item " +prevItem.getName());
+						
 						db.close();
 
 						Toast.makeText(getBaseContext(),

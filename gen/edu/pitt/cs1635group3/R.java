@@ -38,9 +38,10 @@ public final class R {
         public static final int home_btn_manage=0x7f020005;
         public static final int home_btn_pending=0x7f020006;
         public static final int ic_launcher=0x7f020007;
-        public static final int icon=0x7f020008;
-        public static final int splash=0x7f020009;
-        public static final int zebrafish_small=0x7f02000a;
+        public static final int object_has_note_default=0x7f020008;
+        public static final int object_has_note_pressed=0x7f020009;
+        public static final int object_has_note_selected=0x7f02000a;
+        public static final int splash=0x7f02000b;
     }
     public static final class id {
         public static final int assign_button=0x7f0a0014;
