@@ -56,7 +56,8 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
-	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE APP
+	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE
+																// APP
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_CUSTOM_ID = "custom_id";
@@ -94,7 +95,7 @@ public class DBHelper {
 			+ "prev_id integer, "
 			+ "next_id integer, "
 			+ "selected integer, "
-			+ "UNIQUE (id) ON CONFLICT IGNORE)"; 
+			+ "UNIQUE (id) ON CONFLICT IGNORE)";
 
 	/*
 	 * If the default value of the column is a constant NULL, text, blob or
@@ -102,7 +103,7 @@ public class DBHelper {
 	 * 
 	 * If the default value of a column is an expression in parentheses, then
 	 * the expression is evaluated once for each row inserted and the results
-	 * used in the new row. 
+	 * used in the new row.
 	 * 
 	 * If the default value of a column is CURRENT_TIME, CURRENT_DATE or
 	 * CURRENT_TIMESTAMP, then the value used in the new row is a text
@@ -153,12 +154,11 @@ public class DBHelper {
 			/*
 			 * If you get errors because you wiped your db, remove the next
 			 * three lines! Our version of SQLite does not support "if exists."
-			 * - Kim 
-			 * -Hi Kim - Rob
+			 * - Kim -Hi Kim - Rob
 			 */
-			//db.delete("list", null, null);
-			//db.delete("item", null, null);
-			//db.delete("user", null, null);
+			// db.delete("list", null, null);
+			// db.delete("item", null, null);
+			// db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -188,24 +188,26 @@ public class DBHelper {
 	/*
 	 * USER METHODS
 	 */
-	
-	public void insertOrUpdateUser(User i) { // query to test if exists. if it does, update. if it doesn't, insert.
 
-		String id = i.getID()+"";
+	public void insertOrUpdateUser(User i) { // query to test if exists. if it
+												// does, update. if it doesn't,
+												// insert.
+
+		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM user WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("USER EXISTS", "USER " +i.getName() + " already exists in db. Updating.");
+			Log.i("USER EXISTS", "USER " + i.getName()
+					+ " already exists in db. Updating.");
 			c.close();
 			updateUser(i);
 		} else {
 			c.close();
-			insertUser(i);		
+			insertUser(i);
 		}
 	}
-	
 
 	public boolean updateUser(User i) {
 		ContentValues args = new ContentValues();
@@ -213,14 +215,13 @@ public class DBHelper {
 		args.put(KEY_USER_FIRST, i.getFirstName());
 		args.put(KEY_USER_LAST, i.getLastName());
 		args.put(KEY_USER_EMAIL, i.getEmail());
-		
-		Log.d("UPDATED USER", "USER ID: "+i.getID());
-		
+
+		Log.d("UPDATED USER", "USER ID: " + i.getID());
+
 		return db.update(USER_TABLE, args, KEY_USER_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 
 	}
-
 
 	public long insertUser(User u) {
 		ContentValues initialValues = new ContentValues();
@@ -268,11 +269,12 @@ public class DBHelper {
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
+				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
+						c.getString(3));
 				users.add(u);
 				c.moveToNext();
 			}
-			
+
 			c.close();
 
 		}
@@ -325,7 +327,8 @@ public class DBHelper {
 
 	private User cursorToUser(Cursor c) {
 		// Log.d("DB", "c.getCount() is " +c.getCount());
-		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2),
+				c.getString(3));
 		c.close();
 		return u;
 	}
@@ -333,42 +336,43 @@ public class DBHelper {
 	/*
 	 * LIST METHODS
 	 */
-	
+
 	public void updateLocalListID(CustomList list, int newID) {
-		//approach 1: replace list ID
-		// approach 2: create identical new list with the new list ID. delete the old list.
-		
+		// approach 1: replace list ID
+		// approach 2: create identical new list with the new list ID. delete
+		// the old list.
+
 		ContentValues args = new ContentValues();
-		
+
 		args.put(KEY_LIST_ID, newID);
-	
-		Log.d("REPLACED LOCAL LIST ID", "New ID is " +newID);
-		
+
+		Log.d("REPLACED LOCAL LIST ID", "New ID is " + newID);
+
 		db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
-				new String[] { String.valueOf(list.getID()) });	
+				new String[] { String.valueOf(list.getID()) });
 	}
-	
+
 	public int getLocalListID() {
-		// when the user is creating a new list - before it goes to the web server, pull a local primary key.
+		// when the user is creating a new list - before it goes to the web
+		// server, pull a local primary key.
 		// when it is pushed to the mysql server, update its local ID.
-		
+
 		String q = "SELECT max(id) from list";
 		Cursor c = db.rawQuery(q, null);
 		if (c != null) {
 			c.moveToFirst();
 		}
 
-		int tempID = c.getInt(0) +1; // make it unique
+		int tempID = c.getInt(0) + 1; // make it unique
 		c.close();
-		
-		Log.i("LOCAL LIST ID", "Temp list ID is " +tempID);
-		return tempID; 
+
+		Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
+		return tempID;
 	}
-	
 
 	public boolean deleteList(CustomList list) {
 		JSONfunctions.deleteList(list.getID());
-		
+
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) }) > 0;
 	}
@@ -379,41 +383,47 @@ public class DBHelper {
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(listID) }) > 0;
 	}
-	
+
 	public void insertList(CustomList list, boolean fromServer) {
-		//If the list is being pulled from the server, we don't want to recreate it on the server.
-		
+		// If the list is being pulled from the server, we don't want to
+		// recreate it on the server.
+
 		if (!fromServer) {
 			JSONfunctions.createList(list);
 		}
 
 		insertList(list);
 	}
-	
-	
-	public void insertOrUpdateList(CustomList i) { // query to test if item exists. if it does, update. if it doesn't, insert.
 
-		String id = i.getID()+"";
+	public void insertOrUpdateList(CustomList i) { // query to test if item
+													// exists. if it does,
+													// update. if it doesn't,
+													// insert.
+
+		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM list WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("LIST EXISTS", "LIST " +i.getName() + " already exists in db. Updating.");
+			Log.i("LIST EXISTS", "LIST " + i.getName()
+					+ " already exists in db. Updating.");
 			c.close();
 			updateList(i);
 		} else {
 			c.close();
-			insertList(i);		
+			insertList(i);
 		}
 	}
 
 	public void insertList(CustomList list) {
-		// In order to generate unique PKs that sync with the web server's db, 
-		// PKs are pulled down from the server by allocating uninitialized lists on the web server.
-		// This means that instead of truly "inserting" the new list on the web server, we need to UPDATE
-		// the currently-null list item using the ID. 
-		
+		// In order to generate unique PKs that sync with the web server's db,
+		// PKs are pulled down from the server by allocating uninitialized lists
+		// on the web server.
+		// This means that instead of truly "inserting" the new list on the web
+		// server, we need to UPDATE
+		// the currently-null list item using the ID.
+
 		Log.i("INSERTING LIST", "Here" + list.getName());
 		JSONfunctions.updateList(list);
 		ContentValues initialValues = new ContentValues();
@@ -433,11 +443,11 @@ public class DBHelper {
 		args.put(KEY_LIST_NAME, i.getName());
 		args.put(KEY_CREATOR_ID, i.getCreator());
 		args.put(KEY_CREATION_DATE, i.getCreationDate());
-		
+
 		JSONfunctions.updateList(i);
 
-		Log.d("UPDATED LIST", "List ID: "+i.getID());
-		
+		Log.d("UPDATED LIST", "List ID: " + i.getID());
+
 		return db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 
@@ -473,7 +483,7 @@ public class DBHelper {
 
 		String myQuery = "SELECT * FROM list WHERE id = " + i;
 		Cursor c = db.rawQuery(myQuery, null);
-		
+
 		if (c != null) {
 			c.moveToFirst();
 		}
@@ -490,7 +500,7 @@ public class DBHelper {
 
 	public ArrayList<Item> getItemsForListByID(int ID) {
 
-		Log.i("QUERY FOR LIST", "Based on list ID " +ID);
+		Log.i("QUERY FOR LIST", "Based on list ID " + ID);
 		ArrayList<Item> items = null;
 		String myQuery = "SELECT * FROM item WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -514,38 +524,41 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
-
 	public void insertItem(Item i, boolean fromServer) {
-		//If the item is being pulled from the server, we don't want to recreate it on the server.
-		
+		// If the item is being pulled from the server, we don't want to
+		// recreate it on the server.
+
 		if (!fromServer) {
 			JSONfunctions.createItem(i);
-		} 
-		
-		insertItem(i);
-		
-	}
-	
-	public void insertOrUpdateItem(Item i) { // query to test if item exists. if it does, update. if it doesn't, insert.
+		}
 
-		String id = i.getID()+"";
+		insertItem(i);
+
+	}
+
+	public void insertOrUpdateItem(Item i) { // query to test if item exists. if
+												// it does, update. if it
+												// doesn't, insert.
+
+		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM item WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("ITEM EXISTS", "Item " +i.getName() + " already exists in db. Updating.");
+			Log.i("ITEM EXISTS", "Item " + i.getName()
+					+ " already exists in db. Updating.");
 			c.close();
 			updateItem(i);
 		} else {
 			c.close();
-			insertItem(i);		
+			insertItem(i);
 		}
 	}
-	
+
 	public void insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();
-		
+
 		int isCompleted = 0;
 		if (i.isCompleted())
 			isCompleted = 1;
@@ -567,12 +580,15 @@ public class DBHelper {
 
 		db.insert(ITEM_TABLE, null, initialValues);
 
-		// In order to generate unique PKs that sync with the web server's db, 
-		// PKs are pulled down from the server by allocating uninitialized items on the web server.
-		// This means that instead of truly "inserting" the new item on the web server, we need to UPDATE
-		// the currently-null item using the ID we already have. (Same for lists.)
+		// In order to generate unique PKs that sync with the web server's db,
+		// PKs are pulled down from the server by allocating uninitialized items
+		// on the web server.
+		// This means that instead of truly "inserting" the new item on the web
+		// server, we need to UPDATE
+		// the currently-null item using the ID we already have. (Same for
+		// lists.)
 		JSONfunctions.updateItem(i);
-		
+
 	}
 
 	public boolean deleteItem(Item i) {
@@ -585,8 +601,8 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		Log.v("QUERY FOR ITEM", "Based on item ID " +row);
-		
+		Log.v("QUERY FOR ITEM", "Based on item ID " + row);
+
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -632,7 +648,7 @@ public class DBHelper {
 		if (i.isSelected())
 			isSelected = 1;
 
-//		args.put(KEY_ITEM_ID, i.getID());
+		// args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_PARENT_ID, i.getParentID());
 		args.put(KEY_ITEM_NAME, i.getName());
 		args.put(KEY_ADDER_ID, i.getCreator());
@@ -649,7 +665,9 @@ public class DBHelper {
 
 		JSONfunctions.updateItem(i);
 
-		Log.d("SUCCESS:UPDATE ITEM", "Item " + i.getName() + " has prev " + i.getPrev() + " and next " +i.getNext());
+		Log.d("SUCCESS:UPDATE ITEM",
+				"Item " + i.getName() + " has prev " + i.getPrev()
+						+ " and next " + i.getNext());
 
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;

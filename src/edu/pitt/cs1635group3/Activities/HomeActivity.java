@@ -8,16 +8,16 @@ import android.view.View;
 
 public class HomeActivity extends Activity {
 	/** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard);
-        
-    }
-    public void myLists(View v) {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dashboard);
 
-		Intent intent = new Intent(HomeActivity.this,
-				SociaListActivity.class);
+	}
+
+	public void myLists(View v) {
+
+		Intent intent = new Intent(HomeActivity.this, SociaListActivity.class);
 		startActivityForResult(intent, 0);
 
 	}

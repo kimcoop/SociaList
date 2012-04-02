@@ -42,7 +42,9 @@ public class CreateListActivity extends ListActivity {
 	private String listName, CID;
 
 	private int newListPK;
-	private ArrayList<Integer> newItemPKs; // track the new slices of the web servers we allocate (in case of cancel)
+	private ArrayList<Integer> newItemPKs; // track the new slices of the web
+											// servers we allocate (in case of
+											// cancel)
 
 	DBHelper db;
 
@@ -115,7 +117,7 @@ public class CreateListActivity extends ListActivity {
 		alert.show();
 	}
 
-	public void saveList(View v) { 
+	public void saveList(View v) {
 
 		listName = listNameSpace.getText().toString();
 		if (listName.equals("") || listName.equals("Please enter a list name")
@@ -123,33 +125,34 @@ public class CreateListActivity extends ListActivity {
 			// invalid name. don't allow save.
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
 
-		CID = CIDSpace.getText().toString();
-		
+			CID = CIDSpace.getText().toString();
+
 		} else { // allow save
 
 			CustomList newList = new CustomList();
-			newList.setCreator(33); //TODO ******
+			newList.setCreator(33); // TODO ******
 			newList.setCustomID(CID);
 			newList.setName(listName);
-			
+
 			// get ID better
 			db = new DBHelper(this);
 			db.open();
-						
-			newListPK = JSONfunctions.getListPK(); // get a truly unique ID from server
+
+			newListPK = JSONfunctions.getListPK(); // get a truly unique ID from
+													// server
 			newList.setID(newListPK);
 
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
 				newItem = new Item(map);
 				newItem.setParent(newListPK);
-				
+
 				int itemID = JSONfunctions.getItemPK();
 				newItemPKs.add(itemID);
 				newItem.setID(itemID);
 				newList.addItem(newItem);
 			}
-			
+
 			db.insertList(newList);
 			Item itemA, itemB, itemC;
 			if (newList.getItems() != null) {
@@ -220,32 +223,34 @@ public class CreateListActivity extends ListActivity {
 		}
 
 	}
-	
-	public void explainCID(View v) {
-		
 
-		new AlertDialog.Builder( this )
-		.setTitle( "Custom List IDs" )
-		.setMessage(getString(R.string.CID_explain))
-		.setPositiveButton( "Got it", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				//do nothing
-			}
-		})
-		.show();		
+	public void explainCID(View v) {
+
+		new AlertDialog.Builder(this)
+				.setTitle("Custom List IDs")
+				.setMessage(getString(R.string.CID_explain))
+				.setPositiveButton("Got it",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// do nothing
+							}
+						}).show();
 	}
 
 	public void cancelNewList(View v) {
-		
-		//if this button is clicked, then the list wasn't saved to the user's device;
-		// all that happened was we got space on the web server for the list and its items.
-		
+
+		// if this button is clicked, then the list wasn't saved to the user's
+		// device;
+		// all that happened was we got space on the web server for the list and
+		// its items.
+
 		JSONfunctions.deleteList(newListPK);
-		
-		for (int i : newItemPKs) {		//delete the items as well
+
+		for (int i : newItemPKs) { // delete the items as well
 			JSONfunctions.deleteItem(i);
 		}
-		
+
 		finish();
 
 	}

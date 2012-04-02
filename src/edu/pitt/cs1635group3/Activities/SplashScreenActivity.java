@@ -88,7 +88,8 @@ public class SplashScreenActivity extends Activity {
 
 			for (int i = 0; i < myUsers.length(); i++) {
 				JSONArray e = myUsers.getJSONArray(i);
-				u = new User(e.getInt(0), e.getString(1), e.getString(2), e.getString(3));
+				u = new User(e.getInt(0), e.getString(1), e.getString(2),
+						e.getString(3));
 				db.insertOrUpdateUser(u);
 				sharedUsers.add(u);
 			}
@@ -120,9 +121,11 @@ public class SplashScreenActivity extends Activity {
 			for (int i = 0; i < myLists.length(); i++) {
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1);
-				
-				Log.v("JSON LIST", "Name: " +list.getName()+", CID: " +list.getCustomID());
-				
+
+				Log.v("JSON LIST",
+						"Name: " + list.getName() + ", CID: "
+								+ list.getCustomID());
+
 				myCustomLists.add(list);
 				db.insertOrUpdateList(list);
 

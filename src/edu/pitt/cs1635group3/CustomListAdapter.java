@@ -76,9 +76,10 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 				db.open();
 
 				ArrayList<Item> items = db.getItemsForListByID(o.getID());
-				
-				Log.d("GET ITEMS FOR LIST", "List ID " +o.getID()+ " has "+items.size()+" children.");
-				
+
+				Log.d("GET ITEMS FOR LIST", "List ID " + o.getID() + " has "
+						+ items.size() + " children.");
+
 				int numItems = 0, completedItems = 0, unassignedItems = 0;
 				String summary = "", pluralizer = " items";
 				for (Item i : items) {

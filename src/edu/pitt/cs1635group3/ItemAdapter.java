@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint; 
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +86,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			}
 
 			if (assignee != null) {
- 
+
 				int userID = o.getAssignee();
 				String assignment = (userID > 0 ? db.getUserByID(userID)
 						.getName() : "Unassigned");
@@ -105,8 +105,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						checkedItems++;
 					} else {
 						checkedItems--;
-						if (!activeItem.isCompleted()) checkedCompletedItems--; // ultimately we want to change the button to say "mark incomplete" 
-														// if the items selected are all already completed
+						if (!activeItem.isCompleted())
+							checkedCompletedItems--; // ultimately we want to
+														// change the button to
+														// say "mark incomplete"
+						// if the items selected are all already completed
 					}
 					if (checkedItems == 0) {
 						invite_button.setVisibility(View.VISIBLE);
@@ -118,14 +121,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						assign_button.setVisibility(View.VISIBLE);
 					}
 					/*
-					if (checkedCompletedItems == 0) { // if the items selected are all marked as completed, this will be 0
-						complete_button.setText("Mark Incomplete");
-						complete_button.setOnClickListener(new OnClickListener() {
-					         public void onClick(View v) {
-					 			Log.e("ITEM ADAPTER", "button is now marking incomplete");
-					         }
-					        }); // reset the function call in calling Activity
-					}*/
+					 * if (checkedCompletedItems == 0) { // if the items
+					 * selected are all marked as completed, this will be 0
+					 * complete_button.setText("Mark Incomplete");
+					 * complete_button.setOnClickListener(new OnClickListener()
+					 * { public void onClick(View v) { Log.e("ITEM ADAPTER",
+					 * "button is now marking incomplete"); } }); // reset the
+					 * function call in calling Activity }
+					 */
 					// items.get(pos)
 					activeItem.setSelected(isChecked);
 					db.updateItem(activeItem); // the item needs to be marked as

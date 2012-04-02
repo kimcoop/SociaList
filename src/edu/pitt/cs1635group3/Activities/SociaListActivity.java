@@ -48,7 +48,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 	ArrayList<User> users = null;
 	int activeListPosition;
 	DBHelper db;
-	
+
 	ArrayAdapter<CustomList> adapter;
 
 	@Override
@@ -63,8 +63,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		users = db.getAllUsers();
 		db.close();
 
-		adapter = new CustomListAdapter(this,
-				R.layout.list_row, lists);
+		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
 
 		final ListView lv = getListView();
 

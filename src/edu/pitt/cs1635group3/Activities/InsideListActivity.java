@@ -59,7 +59,7 @@ public class InsideListActivity extends ListActivity {
 	private ArrayList<Item> items = null;
 	private ArrayAdapter<Item> adapter;
 	private RelativeLayout parentLayout;
-		
+
 	private int totalItems;
 
 	private DBHelper db;
@@ -78,21 +78,21 @@ public class InsideListActivity extends ListActivity {
 		invite_button = (Button) findViewById(R.id.invite_button);
 		buttons_helper = (View) findViewById(R.id.buttons_helper);
 		lv = getListView();
-		
+
 		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent);
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-		
+
 		db = new DBHelper(this);
 		db.open();
 		list = db.getListByID(extras.getInt("ListID"));
 		items = db.getItemsForListByID(extras.getInt("ListID"));
 		totalItems = items.size();
 		db.close();
-				
-		adapter = new ItemAdapter(this, R.layout.item_row,
-				items, assign_button, complete_button, invite_button, inviteUp);
+
+		adapter = new ItemAdapter(this, R.layout.item_row, items,
+				assign_button, complete_button, invite_button, inviteUp);
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		lv.addHeaderView(header);
@@ -102,49 +102,54 @@ public class InsideListActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
-		
-		lv.setOnItemClickListener(new OnItemClickListener() {
-	
-		public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-				long id) {
-			complete_button.setSelected(false);
-			Item item = items.get(pos-1);
-			
-			if (items.size() == 1) { 
-				db.open(); // if there is only one item in the list, it
-										// doesn't link prev and next correctly
-				item.setPrev(item.getID());
-				item.setNext(item.getID());
-				db.updateItem(item);
-				db.close();
-			}
 
-			Intent intent = new Intent(getBaseContext(), ItemActivity.class);
-			intent.putExtra("ItemID", item.getID());
-			
-			Log.i("GOING INTO ITEM", "Passing itemID as " +item.getID()+ " and item is " +item.getName());
-			
-			intent.putExtra("pos", pos); // this is used for displaying "Item X of Y" in the header, so leave it as pos
-			intent.putExtra("totalItems", totalItems);
-			startActivityForResult(intent, 1);			
-		}
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long id) {
+				complete_button.setSelected(false);
+				Item item = items.get(pos - 1);
+
+				if (items.size() == 1) {
+					db.open(); // if there is only one item in the list, it
+								// doesn't link prev and next correctly
+					item.setPrev(item.getID());
+					item.setNext(item.getID());
+					db.updateItem(item);
+					db.close();
+				}
+
+				Intent intent = new Intent(getBaseContext(), ItemActivity.class);
+				intent.putExtra("ItemID", item.getID());
+
+				Log.i("GOING INTO ITEM", "Passing itemID as " + item.getID()
+						+ " and item is " + item.getName());
+
+				intent.putExtra("pos", pos); // this is used for displaying
+												// "Item X of Y" in the header,
+												// so leave it as pos
+				intent.putExtra("totalItems", totalItems);
+				startActivityForResult(intent, 1);
+			}
 		});
-		
+
 		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-            public boolean onItemLongClick(AdapterView<?> arg0, View v,
-                    int pos, long id) {
-            	final View parentView = v;
-            	final int position = pos-1;
-    			final Item item = items.get(position);
-    			final String itemName = item.getName();
-    			
-    			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int pos, long id) {
+				final View parentView = v;
+				final int position = pos - 1;
+				final Item item = items.get(position);
+				final String itemName = item.getName();
 
-    			final Button b = (Button) parentView.findViewById(R.id.delete_item_button);
-    			b.setVisibility(View.VISIBLE);
-    			
-    			b.setOnClickListener(new OnClickListener() {
+				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
+				// Mode.DARKEN);
+
+				final Button b = (Button) parentView
+						.findViewById(R.id.delete_item_button);
+				b.setVisibility(View.VISIBLE);
+
+				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
 						db.open();
@@ -152,24 +157,26 @@ public class InsideListActivity extends ListActivity {
 						Item next = db.getItem(item.getPrev());
 						prev.setNext(next.getID());
 						next.setPrev(prev.getID());
-						
+
 						db.updateItem(prev);
 						db.updateItem(next);
 						db.deleteItem(item);
 						db.close();
-						
-		            	Toast.makeText(getBaseContext(), "Item " + itemName + " deleted.", Toast.LENGTH_SHORT).show();
-		            	b.setVisibility(View.GONE);
-		            	parentLayout.removeView(parentView);
-		            	adapter.remove(item);
-		            	adapter.notifyDataSetChanged();
-					
+
+						Toast.makeText(getBaseContext(),
+								"Item " + itemName + " deleted.",
+								Toast.LENGTH_SHORT).show();
+						b.setVisibility(View.GONE);
+						parentLayout.removeView(parentView);
+						adapter.remove(item);
+						adapter.notifyDataSetChanged();
+
 					}
-    	        }); 
-            	
-                return true;
-            }
-        }); 
+				});
+
+				return true;
+			}
+		});
 
 	}// end onCreate
 
@@ -214,7 +221,13 @@ public class InsideListActivity extends ListActivity {
 	public void assignItems(View v) {
 		// Grab users from the db. Alert Dialog to display all of them.
 		db.open();
-		final CharSequence[] users = db.getUsersForDialog(); // todo - instead of querying every time, cache in activity onCreate method
+		final CharSequence[] users = db.getUsersForDialog(); // todo - instead
+																// of querying
+																// every time,
+																// cache in
+																// activity
+																// onCreate
+																// method
 		db.close();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -227,9 +240,9 @@ public class InsideListActivity extends ListActivity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 	public void uncompleteItems(View v) {
-		
+
 	}
 
 	public void completeItems(View v) {

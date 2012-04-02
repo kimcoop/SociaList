@@ -26,7 +26,7 @@ public class User {
 	public void setLastName(String s) {
 		this.last = s;
 	}
-	
+
 	public void setEmail(String s) {
 		this.email = s;
 	}
