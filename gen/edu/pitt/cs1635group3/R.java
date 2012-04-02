@@ -38,14 +38,14 @@ public final class R {
         public static final int complete_button=0x7f07000d;
         public static final int delete_button=0x7f070022;
         public static final int delete_item_button=0x7f070028;
-        public static final int delete_list_swiper=0x7f07002a;
+        public static final int delete_list_button=0x7f07002c;
         public static final int do_email_picker=0x7f070013;
         public static final int edit_list_CID=0x7f070004;
         public static final int edit_list_name=0x7f070002;
-        public static final int element_subtitle=0x7f07002c;
+        public static final int element_subtitle=0x7f07002d;
         public static final int element_title=0x7f07002b;
         public static final int header_notes=0x7f07001e;
-        public static final int imageView1=0x7f07002e;
+        public static final int imageView1=0x7f070030;
         public static final int inside_layout=0x7f070025;
         public static final int insidelist_parent=0x7f07000f;
         public static final int invite_button=0x7f07000a;
@@ -66,15 +66,17 @@ public final class R {
         public static final int label_list_name=0x7f070001;
         public static final int label_name=0x7f070017;
         public static final int label_quantity=0x7f070019;
+        public static final int list_row=0x7f07002a;
         public static final int new_list_button=0x7f070009;
         public static final int next_button=0x7f070024;
         public static final int prev_button=0x7f070023;
         public static final int result=0x7f070000;
         public static final int save_button=0x7f070021;
         public static final int send_button=0x7f070015;
-        public static final int splash_text_view=0x7f07002d;
+        public static final int splash_text_view=0x7f07002f;
         public static final int sublabel=0x7f070029;
         public static final int swiper=0x7f070016;
+        public static final int userlists_layout=0x7f07002e;
     }
     public static final class layout {
         public static final int c2dm_main=0x7f030000;

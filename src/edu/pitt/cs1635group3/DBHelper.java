@@ -252,7 +252,7 @@ public class DBHelper {
 			c.moveToNext();
 			i++;
 		}
-
+		c.close();
 		return users;
 	}
 
@@ -293,14 +293,15 @@ public class DBHelper {
 	}
 
 	public User getUserByID(int row) {
-		// Log.i("DB USER", "Querying for user ID = " + row);
+
 		String myQuery = "SELECT * FROM user WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null)
 			c.moveToFirst();
 
-		User u = cursorToUser(c);
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
+		Log.i("DB USER", "Name is " +u.getName());
 		c.close();
 		return u;
 	}
@@ -320,13 +321,6 @@ public class DBHelper {
 		int userID = c.getInt(0);
 		c.close();
 		return userID;
-	}
-
-	private User cursorToUser(Cursor c) {
-		// Log.d("DB", "c.getCount() is " +c.getCount());
-		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
-		c.close();
-		return u;
 	}
 
 	/*
@@ -362,6 +356,19 @@ public class DBHelper {
 		
 		Log.i("LOCAL LIST ID", "Temp list ID is " +tempID);
 		return tempID; 
+	}
+	
+	public void deleteListAndChildren(CustomList list) {
+		
+		ArrayList<Item> children = list.getItems();
+		for (Item item : children) {
+			JSONfunctions.deleteItem(item.getID()); // TODO - make JSONfunctions method for deleting ArrayList<Item> rather than this
+		}
+		
+		JSONfunctions.deleteList(list.getID());
+				
+		db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
+				new String[] { String.valueOf(list.getID()) });	
 	}
 	
 

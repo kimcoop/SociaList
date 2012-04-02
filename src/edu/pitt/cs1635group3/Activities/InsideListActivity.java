@@ -139,6 +139,7 @@ public class InsideListActivity extends ListActivity {
     			final Item item = items.get(position);
     			final String itemName = item.getName();
     			
+    			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID());
     			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
 
     			final Button b = (Button) parentView.findViewById(R.id.delete_item_button);
@@ -148,8 +149,8 @@ public class InsideListActivity extends ListActivity {
 
 					public void onClick(View v) {
 						db.open();
-						Item prev = db.getItem(item.getNext());
-						Item next = db.getItem(item.getPrev());
+						Item prev = db.getItem(item.getPrev());
+						Item next = db.getItem(item.getNext());
 						prev.setNext(next.getID());
 						next.setPrev(prev.getID());
 						
