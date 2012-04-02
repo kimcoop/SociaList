@@ -48,11 +48,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SociaListActivity extends ListActivity { // ListActivity
+	int activeListPosition;
 	private ArrayList<CustomList> lists = null;
 	private ArrayList<User> users = null;
 	private DBHelper db;
 	private RelativeLayout parentLayout;
-	
 	ArrayAdapter<CustomList> adapter;
 
 	@Override
@@ -67,11 +67,8 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		users = db.getAllUsers();
 		db.close();
 
+		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
 		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
-		
-		adapter = new CustomListAdapter(this,
-				R.layout.list_row, lists);
-
 		final ListView lv = getListView();
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);

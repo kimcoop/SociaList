@@ -12,14 +12,15 @@ public class HomeActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("GOT", "TO THIS POINT 1");
+        
         setContentView(R.layout.dashboard);
-        Log.d("GOT", "TO THIS POINT OK");
+        Log.d("GOT", "TO THIS POINT 2");
         
     }
-    public void myLists(View v) {
+	public void myLists(View v) {
 
-		Intent intent = new Intent(HomeActivity.this,
-				SociaListActivity.class);
+		Intent intent = new Intent(HomeActivity.this, SociaListActivity.class);
 		startActivityForResult(intent, 0);
 
 	}

@@ -231,7 +231,7 @@ public class ItemActivity extends Activity {
 
 		prevItem.setNext(nextItem.getID());
 		nextItem.setPrev(prevItem.getID());
-		
+
 		db.open();
 		db.updateItem(prevItem);
 		db.updateItem(nextItem);

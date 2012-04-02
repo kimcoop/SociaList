@@ -26,18 +26,16 @@ public class JSONfunctions {
 
 	public static final String URL = "http://www.zebrafishtec.com/server.php";
 
-
 	public static int getItemPK() {
 		return getPK("getItemPK");
-	} 
-	
+	}
+
 	public static int getListPK() {
 		return getPK("getListPK");
 	}
-	
-	
+
 	public static int getPK(String action) {
-		
+
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -81,10 +79,10 @@ public class JSONfunctions {
 		}
 
 		int newPK = -1;
-		
+
 		try {
 			newPK = jArray.getInt("id");
-			//Log.d("GET PK", "id" + newPK);
+			// Log.d("GET PK", "id" + newPK);
 
 		} catch (JSONException e) {
 			Log.e("GET PK", "Error with posting item " + e.toString());
@@ -92,17 +90,20 @@ public class JSONfunctions {
 
 		return newPK;
 	}
-	
-	
+
 	public static void deleteList(int id) {
 		deleteObject("deleteList", id);
 	}
-	
+
 	public static void deleteItem(int id) {
 		deleteObject("deleteItem", id);
 	}
-	
-	public static void deleteObject(String action, int id) {// can use this function for lists and items, so just pass action and ID
+
+	public static void deleteObject(String action, int id) {// can use this
+															// function for
+															// lists and items,
+															// so just pass
+															// action and ID
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -158,24 +159,22 @@ public class JSONfunctions {
 		}
 
 	}
-	
-	
+
 	/*
 	 * LISTS
-	 * 
 	 */
-	
 
 	public static void createList(CustomList list) {
-		postList("createList", list); 
+		postList("createList", list);
 	}
-	
+
 	public static void updateList(CustomList list) {
 		postList("updateList", list);
 	}
 
-	public static void postList(String action, CustomList i) { // pass the item back
-															// to the server
+	public static void postList(String action, CustomList i) { // pass the item
+																// back
+																// to the server
 
 		// initialize
 		InputStream is = null;
@@ -189,12 +188,14 @@ public class JSONfunctions {
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
 			if (i != null) {
-				
+
 				params.add(new BasicNameValuePair("action", action));
-				params.add(new BasicNameValuePair("id", "" + i.getID()));	
-				params.add(new BasicNameValuePair("custom_id", "" + i.getCustomID()));			
+				params.add(new BasicNameValuePair("id", "" + i.getID()));
+				params.add(new BasicNameValuePair("custom_id", ""
+						+ i.getCustomID()));
 				params.add(new BasicNameValuePair("name", i.getName()));
-				params.add(new BasicNameValuePair("adder_id", ""+ i.getCreator()));
+				params.add(new BasicNameValuePair("adder_id", ""
+						+ i.getCreator()));
 
 				httppost.setEntity(new UrlEncodedFormEntity(params));
 
@@ -239,16 +240,15 @@ public class JSONfunctions {
 		}
 
 	} // end List methods
-	
-	
+
 	/*
 	 * ITEMS
 	 */
-	
+
 	public static void createItem(Item i) {
 		postItem("createItem", i);
 	}
-	
+
 	public static void updateItem(Item i) {
 		postItem("updateItem", i);
 	}
@@ -256,8 +256,8 @@ public class JSONfunctions {
 	public static void postItem(String action, Item i) { // pass the item back
 															// to the server
 
-		Log.i("JSON ITEM", "Attempting to post item " +i.getName());
-		
+		Log.i("JSON ITEM", "Attempting to post item " + i.getName());
+
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -288,24 +288,30 @@ public class JSONfunctions {
 				params.add(new BasicNameValuePair("name", i.getName()));
 				params.add(new BasicNameValuePair("adder_id", ""
 						+ i.getCreator()));
-				
-				if (i.getQuantity() == 0) i.setQuantity(1);
-				
+
+				if (i.getQuantity() == 0)
+					i.setQuantity(1);
+
 				params.add(new BasicNameValuePair("quantity", ""
 						+ i.getQuantity()));
 				params.add(new BasicNameValuePair("assignee_id", ""
-						+ i.getAssignee())); 
+						+ i.getAssignee()));
 				params.add(new BasicNameValuePair("assigner_id", ""
 						+ i.getAssigner()));
 				params.add(new BasicNameValuePair("notes", i.getNotes()));
-				
-				if (i.isCompleted()) params.add(new BasicNameValuePair("completed", "1"));
-				else params.add(new BasicNameValuePair("completed", "0"));
 
-				params.add(new BasicNameValuePair("completion_date", i.getCompletionDate()));
-				
-				Log.i("PREV AND NEXT ID", "For item " +i.getName()+ " are "+(i.getPrev() > 2? i.getPrev(): "NONE") + " and "+(i.getNext() > 2? i.getNext(): "NONE") );
-				
+				if (i.isCompleted())
+					params.add(new BasicNameValuePair("completed", "1"));
+				else
+					params.add(new BasicNameValuePair("completed", "0"));
+
+				params.add(new BasicNameValuePair("completion_date", i
+						.getCompletionDate()));
+
+				Log.i("PREV AND NEXT ID", "For item " + i.getName() + " are "
+						+ (i.getPrev() > 2 ? i.getPrev() : "NONE") + " and "
+						+ (i.getNext() > 2 ? i.getNext() : "NONE"));
+
 				params.add(new BasicNameValuePair("prev_id", "" + i.getPrev()));
 				params.add(new BasicNameValuePair("next_id", "" + i.getNext()));
 

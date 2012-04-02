@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:onClick="createNewList"
         android:text="@string/Create_New_List" />
-
+ 
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"

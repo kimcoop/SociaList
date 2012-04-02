@@ -15,7 +15,7 @@ public class CustomList implements Parcelable {
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
-	
+
 	public CustomList(JSONObject e) {
 
 		try {
@@ -52,7 +52,7 @@ public class CustomList implements Parcelable {
 	public void setID(int i) {
 		this.ID = i;
 	}
-	
+
 	public void setCustomID(String str) {
 		this.customID = str;
 	}
@@ -96,7 +96,7 @@ public class CustomList implements Parcelable {
 	public int getID() {
 		return ID;
 	}
-	
+
 	public String getCustomID() {
 		return customID;
 	}
@@ -180,56 +180,56 @@ public class CustomList implements Parcelable {
 			JSONArray lists = json.getJSONArray("items");
 
 			if (lists.length() >= 1) {
-			
-			JSONObject e1, e2;
-			Item item1, item2;
 
-			for (int i = 0; i < lists.length(); i++) {
+				JSONObject e1, e2;
+				Item item1, item2;
 
-				if (i == 0) { // do the items two at a time in order to set
-								// prev
-								// and next for each
-					e1 = lists.getJSONObject(i);
-					item1 = new Item(e1);
-					item1.setParent(this.ID);
+				for (int i = 0; i < lists.length(); i++) {
 
-					e2 = lists.getJSONObject(i + 1);
-					item2 = new Item(e2);
-					item2.setParent(this.ID);
+					if (i == 0) { // do the items two at a time in order to set
+									// prev
+									// and next for each
+						e1 = lists.getJSONObject(i);
+						item1 = new Item(e1);
+						item1.setParent(this.ID);
 
-					item2.setPrev(item1.getID());
-					item1.setNext(item2.getID());
-					listItems.add(item1);
-					listItems.add(item2);
-					Log.i("LINKING", "Item name " + item2.getName()
-							+ " has previous item " + item1.getName() + " ID "
-							+ item1.getID());
+						e2 = lists.getJSONObject(i + 1);
+						item2 = new Item(e2);
+						item2.setParent(this.ID);
 
-					i += 1;
+						item2.setPrev(item1.getID());
+						item1.setNext(item2.getID());
+						listItems.add(item1);
+						listItems.add(item2);
+						Log.i("LINKING", "Item name " + item2.getName()
+								+ " has previous item " + item1.getName()
+								+ " ID " + item1.getID());
 
-				} else {
-					e1 = lists.getJSONObject(i);
-					item1 = new Item(e1);
-					item1.setParent(this.ID);
+						i += 1;
 
-					Item prev = listItems.get(i - 1);
+					} else {
+						e1 = lists.getJSONObject(i);
+						item1 = new Item(e1);
+						item1.setParent(this.ID);
 
-					prev.setNext(item1.getID());
-					item1.setPrev(prev.getID());
+						Item prev = listItems.get(i - 1);
 
-					Log.i("LINKING", "Item name " + item1.getName()
-							+ " has previous item " + prev.getName() + " ID "
-							+ prev.getID());
-					listItems.add(item1);
+						prev.setNext(item1.getID());
+						item1.setPrev(prev.getID());
 
+						Log.i("LINKING", "Item name " + item1.getName()
+								+ " has previous item " + prev.getName()
+								+ " ID " + prev.getID());
+						listItems.add(item1);
+
+					}
 				}
-			}
-			
-			listItems.get(0).setPrev(
-					listItems.get(listItems.size() - 1).getID()); // "Loop around":
 
-			listItems.get(listItems.size() - 1).setNext(
-					listItems.get(0).getID()); // and
+				listItems.get(0).setPrev(
+						listItems.get(listItems.size() - 1).getID()); // "Loop around":
+
+				listItems.get(listItems.size() - 1).setNext(
+						listItems.get(0).getID()); // and
 			}
 
 		} catch (JSONException e) {
