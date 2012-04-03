@@ -17,11 +17,14 @@
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/check"
             android:layout_weight="1"
             android:padding="2dp"
             android:text="@+id/label"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="20dp" >
+
         </TextView>
 
         <CheckBox
@@ -38,18 +41,20 @@
 	        android:id="@+id/delete_item_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Delete"
+	        android:text="@string/Delete"
 	        android:visibility="gone"
 	        android:layout_alignParentRight="true" />
-
+	    
+	    
+<!--             android:layout_marginTop="40px" -->
         <TextView
             android:id="@+id/item_assignee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
             android:padding="2dp"
             android:text="@+id/sublabel"
-            android:textSize="13dp" >
+            android:textSize="13dp"
+            android:layout_below="@+id/item_name" >
         </TextView>
     </RelativeLayout>
 

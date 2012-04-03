@@ -52,7 +52,7 @@ public final class R {
         public static final int button3=0x7f0a0010;
         public static final int button_holder=0x7f0a0018;
         public static final int buttons_helper=0x7f0a0013;
-        public static final int check=0x7f0a002f;
+        public static final int check=0x7f0a002e;
         public static final int complete_button=0x7f0a0015;
         public static final int delete_button=0x7f0a002a;
         public static final int delete_item_button=0x7f0a0030;
@@ -84,7 +84,7 @@ public final class R {
         public static final int item_name=0x7f0a0020;
         public static final int item_notes=0x7f0a0027;
         public static final int item_quantity=0x7f0a0022;
-        public static final int label=0x7f0a002e;
+        public static final int label=0x7f0a002f;
         public static final int label_assignee=0x7f0a0024;
         public static final int label_header=0x7f0a0016;
         public static final int label_list_CID=0x7f0a000b;
