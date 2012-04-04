@@ -23,6 +23,11 @@ public final class R {
     }
     public static final class color {
         public static final int accent_1=0x7f050000;
+        public static final int turquoise_1=0x7f050001;
+        public static final int turquoise_2=0x7f050002;
+        public static final int turquoise_3=0x7f050003;
+        public static final int turquoise_4=0x7f050004;
+        public static final int turquoise_5=0x7f050005;
     }
     public static final class dimen {
         public static final int text_size_large=0x7f060002;
@@ -36,14 +41,20 @@ public final class R {
         public static final int home_btn_list_selected=0x7f020003;
         public static final int home_btn_lists=0x7f020004;
         public static final int home_btn_manage=0x7f020005;
-        public static final int home_btn_pending=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int icon=0x7f020008;
-        public static final int object_has_note_default=0x7f020009;
-        public static final int object_has_note_pressed=0x7f02000a;
-        public static final int object_has_note_selected=0x7f02000b;
-        public static final int splash=0x7f02000c;
-        public static final int zebrafish_small=0x7f02000d;
+        public static final int home_btn_manage_default=0x7f020006;
+        public static final int home_btn_manage_pressed=0x7f020007;
+        public static final int home_btn_manage_selected=0x7f020008;
+        public static final int home_btn_pending=0x7f020009;
+        public static final int home_btn_pending_default=0x7f02000a;
+        public static final int home_btn_pending_pressed=0x7f02000b;
+        public static final int home_btn_pending_selected=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int icon=0x7f02000e;
+        public static final int object_has_note_default=0x7f02000f;
+        public static final int object_has_note_pressed=0x7f020010;
+        public static final int object_has_note_selected=0x7f020011;
+        public static final int splash=0x7f020012;
+        public static final int zebrafish_small=0x7f020013;
     }
     public static final class id {
         public static final int assign_button=0x7f0a0014;

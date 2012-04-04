@@ -1,3 +1,8 @@
 <resources>
     <color name="accent_1">#ff29549f</color>
+    <color name="turquoise_1">#009B95</color>
+    <color name="turquoise_2">#33CDC7</color>
+    <color name="turquoise_3">#5CCDC9</color>
+    <color name="turquoise_4">#006561</color>
+    <color name="turquoise_5">#1D7471</color>
 </resources>
