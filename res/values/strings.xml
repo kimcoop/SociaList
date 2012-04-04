@@ -6,6 +6,9 @@
     
     <!-- Splash Screen -->
     <string name ="splash_loading">Loading: </string>
+    
+    <!--  Home Activity -->
+    <string name="push_explain">Click Ok to be notified of any changes in your lists! (You can always adjust these settings later.)</string>
 
     <!-- Headers -->
     <string name="lists">Lists</string>
