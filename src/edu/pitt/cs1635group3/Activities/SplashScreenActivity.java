@@ -98,7 +98,7 @@ public class SplashScreenActivity extends Activity {
 
 			db.close();
 		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing user data " + e.toString());
+			//Log.e("log_tag", "Error parsing user data " + e.toString());
 		}
 
 		return sharedUsers;
@@ -106,7 +106,7 @@ public class SplashScreenActivity extends Activity {
 	}
 
 	public ArrayList<CustomList> getLists() {
-		Log.i("SocialListActivity", "Getting lists from server");
+		//Log.i("SocialListActivity", "Getting lists from server");
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 
 		JSONObject json = JSONfunctions.getJSONfromURL("getLists");
@@ -124,9 +124,9 @@ public class SplashScreenActivity extends Activity {
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1);
 
-				Log.v("JSON LIST",
+				/**Log.v("JSON LIST",
 						"Name: " + list.getName() + ", CID: "
-								+ list.getCustomID());
+								+ list.getCustomID());*/
 
 				myCustomLists.add(list);
 				db.insertOrUpdateList(list);
@@ -141,7 +141,7 @@ public class SplashScreenActivity extends Activity {
 			db.close();
 
 		} catch (JSONException e) {
-			Log.e("SPLASH SCR. ACTIVITY", "Error parsing data " + e.toString());
+			//Log.e("SPLASH SCR. ACTIVITY", "Error parsing data " + e.toString());
 		}
 		return myCustomLists;
 	} // end getLists()

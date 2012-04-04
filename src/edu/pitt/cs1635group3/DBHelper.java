@@ -202,8 +202,6 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("USER EXISTS", "USER " + i.getName()
-					+ " already exists in db. Updating.");
 			c.close();
 			updateUser(i);
 		} else {
@@ -221,7 +219,7 @@ public class DBHelper {
 		args.put(KEY_USER_DEVICE_TOKEN, i.getDeviceToken());
 		args.put(KEY_USER_DEVICE_ID, i.getDeviceID());
 
-		Log.d("UPDATED USER", "USER ID: " + i.getID());
+		//Log.d("UPDATED USER", "USER ID: " + i.getID());
 
 		return db.update(USER_TABLE, args, KEY_USER_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
@@ -311,7 +309,7 @@ public class DBHelper {
 			c.moveToFirst();
 
 		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
-		Log.i("DB USER", "Name is " +u.getName());
+		//Log.i("DB USER", "Name is " +u.getName());
 		c.close();
 		return u;
 	}
@@ -355,7 +353,7 @@ public class DBHelper {
 
 		args.put(KEY_LIST_ID, newID);
 
-		Log.d("REPLACED LOCAL LIST ID", "New ID is " + newID);
+		//Log.d("REPLACED LOCAL LIST ID", "New ID is " + newID);
 
 		db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) });
@@ -375,7 +373,7 @@ public class DBHelper {
 		int tempID = c.getInt(0) + 1; // make it unique
 		c.close();
 
-		Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
+		//Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
 		return tempID;
 	}
 	public void deleteListAndChildren(CustomList list) {
@@ -427,8 +425,6 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("LIST EXISTS", "LIST " + i.getName()
-					+ " already exists in db. Updating.");
 			c.close();
 			updateList(i);
 		} else {
@@ -445,7 +441,7 @@ public class DBHelper {
 		// server, we need to UPDATE
 		// the currently-null list item using the ID.
 
-		Log.i("INSERTING LIST", "Here" + list.getName());
+		//Log.i("INSERTING LIST", "Here" + list.getName());
 		JSONfunctions.updateList(list);
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
@@ -467,7 +463,7 @@ public class DBHelper {
 
 		JSONfunctions.updateList(i);
 
-		Log.d("UPDATED LIST", "List ID: " + i.getID());
+		//Log.d("UPDATED LIST", "List ID: " + i.getID());
 
 		return db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
@@ -521,7 +517,7 @@ public class DBHelper {
 
 	public ArrayList<Item> getItemsForListByID(int ID) {
 
-		Log.i("QUERY FOR LIST", "Based on list ID " + ID);
+		//Log.i("QUERY FOR LIST", "Based on list ID " + ID);
 		ArrayList<Item> items = null;
 		String myQuery = "SELECT * FROM item WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -567,8 +563,7 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i("ITEM EXISTS", "Item " + i.getName()
-					+ " already exists in db. Updating.");
+			
 			c.close();
 			updateItem(i);
 		} else {
@@ -622,7 +617,7 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		Log.v("QUERY FOR ITEM", "Based on item ID " + row);
+		//Log.v("QUERY FOR ITEM", "Based on item ID " + row);
 
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -685,11 +680,11 @@ public class DBHelper {
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
 		JSONfunctions.updateItem(i);
-
+/**
 		Log.d("SUCCESS:UPDATE ITEM",
 				"Item " + i.getName() + " has prev " + i.getPrev()
 						+ " and next " + i.getNext());
-
+**/
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 

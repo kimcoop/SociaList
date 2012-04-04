@@ -201,9 +201,7 @@ public class CustomList implements Parcelable {
 						item1.setNext(item2.getID());
 						listItems.add(item1);
 						listItems.add(item2);
-						Log.i("LINKING", "Item name " + item2.getName()
-								+ " has previous item " + item1.getName()
-								+ " ID " + item1.getID());
+						
 
 						i += 1;
 
@@ -216,10 +214,6 @@ public class CustomList implements Parcelable {
 
 						prev.setNext(item1.getID());
 						item1.setPrev(prev.getID());
-
-						Log.i("LINKING", "Item name " + item1.getName()
-								+ " has previous item " + prev.getName()
-								+ " ID " + prev.getID());
 						listItems.add(item1);
 
 					}
@@ -233,7 +227,7 @@ public class CustomList implements Parcelable {
 			}
 
 		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing data " + e.toString());
+			//Log.e("log_tag", "Error parsing data " + e.toString());
 		}
 	}
 
