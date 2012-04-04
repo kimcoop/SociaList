@@ -90,6 +90,8 @@ public class SplashScreenActivity extends Activity {
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2),
 						e.getString(3));
+				u.setDeviceToken(e.getString(4));
+				u.setDeviceID(e.getString(5));
 				db.insertOrUpdateUser(u);
 				sharedUsers.add(u);
 			}

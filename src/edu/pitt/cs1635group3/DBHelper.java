@@ -74,6 +74,8 @@ public class DBHelper {
 	public static final String KEY_USER_FIRST = "first";
 	public static final String KEY_USER_LAST = "last";
 	public static final String KEY_USER_EMAIL = "email";
+	public static final String KEY_USER_DEVICE_TOKEN = "device_token";
+	public static final String KEY_USER_DEVICE_ID = "device_id";
 
 	private static final String TAG = "SociaList: DbAdapter";
 	private DatabaseHelper mDbHelper;
@@ -121,7 +123,8 @@ public class DBHelper {
 			+ "list_id integer not null, user_id integer not null)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
-			+ "first text not null, last text not null, email text)";
+			+ "first text not null, last text not null, email text,"
+			+ "device_token text, device_id text)";
 
 	private static final String DATABASE_NAME = "socialist_db";
 	private static final int DATABASE_VERSION = 1;
@@ -215,6 +218,8 @@ public class DBHelper {
 		args.put(KEY_USER_FIRST, i.getFirstName());
 		args.put(KEY_USER_LAST, i.getLastName());
 		args.put(KEY_USER_EMAIL, i.getEmail());
+		args.put(KEY_USER_DEVICE_TOKEN, i.getDeviceToken());
+		args.put(KEY_USER_DEVICE_ID, i.getDeviceID());
 
 		Log.d("UPDATED USER", "USER ID: " + i.getID());
 
@@ -229,6 +234,8 @@ public class DBHelper {
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
 		initialValues.put(KEY_USER_LAST, u.getLastName());
 		initialValues.put(KEY_USER_EMAIL, u.getEmail());
+		initialValues.put(KEY_USER_DEVICE_TOKEN, u.getDeviceToken());
+		initialValues.put(KEY_USER_DEVICE_ID, u.getDeviceID());
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
@@ -330,6 +337,8 @@ public class DBHelper {
 		// Log.d("DB", "c.getCount() is " +c.getCount());
 		User u = new User(c.getInt(0), c.getString(1), c.getString(2),
 				c.getString(3));
+		u.setDeviceToken(c.getString(4));
+		u.setDeviceID(c.getString(5));
 		c.close();
 		return u;
 	}

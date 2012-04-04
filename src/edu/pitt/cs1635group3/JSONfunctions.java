@@ -385,14 +385,7 @@ public class JSONfunctions {
 				params.add(new BasicNameValuePair("action", action));
 
 				if (listID != null) {
-					params.add(new BasicNameValuePair("listID", listID)); // for
-																			// some
-																			// reason
-																			// this
-																			// must
-																			// be
-																			// a
-																			// string
+					params.add(new BasicNameValuePair("listID", listID));
 				}
 
 				httppost.setEntity(new UrlEncodedFormEntity(params));
