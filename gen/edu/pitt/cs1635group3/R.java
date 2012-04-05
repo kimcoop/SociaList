@@ -62,6 +62,7 @@ public final class R {
         public static final int object_has_note_pressed=0x7f020018;
         public static final int object_has_note_selected=0x7f020019;
         public static final int splash=0x7f02001a;
+        public static final int zebrafish_small=0x7f02001b;
     }
     public static final class id {
         public static final int assign_button=0x7f0a0018;
