@@ -1,6 +1,8 @@
 package com.example.push;
 
-
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.provider.Settings;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,9 +74,10 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
 		super.onHandleIntentRecieved(context, intent);
 	}
- 
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -90,6 +93,36 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 		Log.i("PUSH", message);
 		String strTitle = intent.getExtras().getString("title");//title
 		if (message != null) {
+			String app_name = (String) context.getText(R.string.app_name);
+			// Use the Notification manager to send notification 
+			NotificationManager notificationManager = (NotificationManager) 
+			context.getSystemService(Context.NOTIFICATION_SERVICE); 
+			// Create a notification using android stat_notify_chat icon. 
+			Notification notification = new 
+			Notification(R.drawable.icon, app_name + ": " + 
+			message, 0); 
+			 Intent app; 
+			 
+			//message="upload"; 
+			if (message.contains("upload")) 
+				app = new Intent(context, HomeActivity.class); 
+			else 
+				app = new Intent(context, HomeActivity.class); 
+			
+			// Create a pending intent to call the when the notification is clicked 
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, -1, app, 
+			Intent.FLAG_ACTIVITY_NEW_TASK); 
+			notification.when = System.currentTimeMillis(); 
+			notification.flags |= Notification.FLAG_AUTO_CANCEL; 
+			// Set the notification and register the pending intent to it 
+			notification.setLatestEventInfo(context, app_name, message, pendingIntent); 
+			notification.contentIntent = pendingIntent; 
+			 // Trigger the notification 
+			notificationManager.notify(0, notification);
+			
+		}
+			
+			/*
 			if (HomeActivity.getCurrentActivity() == null
 					|| (HomeActivity.getCurrentActivity().hasWindowFocus() == false))
 				return;
@@ -119,7 +152,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 				msg.setText(strTitle + " sent you a message: " + message);
 			}
 			dialog.show();
-		}
+		}*/
 	}
 
 	/*
@@ -135,45 +168,42 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 		// TODO
 		super.onRegistered(context, registrationId);
 
-		/* CUSTOM DIALOG 
+		/*
+		 * CUSTOM DIALOG
+		 * 
+		 * final Dialog dialog = new Dialog(
+		 * PushDemoActivity.getCurrentActivity());
+		 * 
+		 * dialog.setContentView(R.layout.auth_id);
+		 * dialog.setOwnerActivity(PushDemoActivity.getCurrentActivity());
+		 * 
+		 * Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
+		 * okBtn.setOnClickListener(new OnClickListener() {
+		 * 
+		 * public void onClick(View v) { dialog.dismiss(); } }); TextView msg =
+		 * (TextView) dialog .findViewById(R.id.authID); msg.setText("AUTHID= "
+		 * + registrationId);
+		 * 
+		 * dialog.setTitle(R.string.app_name);
+		 * 
+		 * dialog.show();
+		 * 
+		 * /***
+		 */
 
-		final Dialog dialog = new Dialog(
-				PushDemoActivity.getCurrentActivity());
-
-		dialog.setContentView(R.layout.auth_id);
-		dialog.setOwnerActivity(PushDemoActivity.getCurrentActivity());
-
-		Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
-		okBtn.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		TextView msg = (TextView) dialog
-				.findViewById(R.id.authID);
-		msg.setText("AUTHID= " + registrationId);
-
-			dialog.setTitle(R.string.app_name);
-		
-		dialog.show();
-		
-		/****/
-		
-		System.out.println("REG ID " +registrationId);
+		System.out.println("REG ID " + registrationId);
 		Log.e(TAG, ">>>>id recieved" + registrationId);
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
 
-		
 		String deviceId = telephonyManager.getDeviceId();
-		
-		if (deviceId==null || deviceId=="") {
+
+		if (deviceId == null || deviceId == "") {
 			deviceId = "e0a85841763c1192";
 		}
-		
-		System.out.println("Device ID " +deviceId);
-		
+
+		System.out.println("Device ID " + deviceId);
+
 		Log.e(TAG, ">>>>device unique id " + deviceId);
 		// send to server
 		BufferedReader in = null;
