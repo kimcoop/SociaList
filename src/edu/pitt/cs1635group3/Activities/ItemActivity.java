@@ -51,7 +51,6 @@ public class ItemActivity extends SherlockActivity {
 		EditText name, quantity, notes, assignee;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
-		//creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (EditText) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 		

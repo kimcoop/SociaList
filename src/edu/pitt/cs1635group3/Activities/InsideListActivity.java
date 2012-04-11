@@ -1,6 +1,7 @@
 package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,8 +15,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -69,11 +72,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items,
 				assign_button, complete_button, invite_button, inviteUp);
-
-		//View header = getLayoutInflater().inflate(R.layout.header, null);
-		//lv.addHeaderView(header);
-		//TextView label_header = (TextView) findViewById(R.id.label_header);
-		//label_header.setText("Viewing " + list.getName());
+		
 		getSupportActionBar();
 		setTitle(list.getName());
 
@@ -192,6 +191,41 @@ public class InsideListActivity extends SherlockListActivity {
 			finish();
 		}
 	}
+	
+	public void saveRename(String newName) {
+		db.open();
+		list.setName(newName);
+		db.updateList(list);
+		db.close();
+		setTitle(newName); // change the UI
+	}
+	
+	public void rename() {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Rename List");
+	
+		final EditText input = new EditText(this); // Set an EditText view to
+													// get user input
+		alert.setView(input);
+	
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String value = input.getText().toString().trim();
+				saveRename(value);
+			}
+		});
+	
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
+	
+		alert.show();
+	
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -293,7 +327,7 @@ public class InsideListActivity extends SherlockListActivity {
 			//TODO: add list item popup
 			return false;
 		case R.id.menu_rename:
-			// TODO dialog for new list name
+			rename();
 			return true;
 		case R.id.menu_invite:
 			intent = new Intent(this, InviteActivity.class);
