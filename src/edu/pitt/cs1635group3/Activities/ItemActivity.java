@@ -221,8 +221,9 @@ public class ItemActivity extends SherlockActivity {
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 		finish();
 	}
+	
 
-	public void deleteItem(View v) {
+	public void deleteItem() {
 
 		prevItem.setNext(nextItem.getID()); // set the previous item's next item
 											// to the next
@@ -346,7 +347,7 @@ public class ItemActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
+		inflater.inflate(R.menu.item_menu, menu);
 
 		return true;
 	}
@@ -355,15 +356,9 @@ public class ItemActivity extends SherlockActivity {
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
-		case R.id.menu_add:
-			//TODO: add list item popup
-			return false;
-		case R.id.menu_rename:
-			// TODO dialog for new list name
-			return true;
-		case R.id.menu_invite:
-			intent = new Intent(this, InviteActivity.class);
-			startActivity(intent);
+		case R.id.menu_delete:
+			
+			deleteItem();
 			return true;
 
 		default:

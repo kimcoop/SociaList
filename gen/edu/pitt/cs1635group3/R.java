@@ -887,17 +887,16 @@ containing a value of this type.
         public static final int buttonOK=0x7f050030;
         public static final int button_holder=0x7f050043;
         public static final int buttons_helper=0x7f05003e;
-        public static final int check=0x7f050058;
+        public static final int check=0x7f050057;
         public static final int complete_button=0x7f050040;
-        public static final int delete_button=0x7f050054;
-        public static final int delete_item_button=0x7f05005a;
-        public static final int delete_list_button=0x7f05005e;
+        public static final int delete_item_button=0x7f050059;
+        public static final int delete_list_button=0x7f05005d;
         public static final int disableHome=0x7f050009;
         public static final int do_email_picker=0x7f050046;
         public static final int edit_list_CID=0x7f050037;
         public static final int edit_list_name=0x7f050035;
-        public static final int element_subtitle=0x7f05005f;
-        public static final int element_title=0x7f05005d;
+        public static final int element_subtitle=0x7f05005e;
+        public static final int element_title=0x7f05005c;
         public static final int header_notes=0x7f050050;
         public static final int homeAsUp=0x7f050006;
         public static final int home_btn_browse=0x7f05002e;
@@ -908,8 +907,8 @@ containing a value of this type.
         public static final int home_header=0x7f050028;
         public static final int home_hoz_grey=0x7f050029;
         public static final int home_hoz_light=0x7f050027;
-        public static final int imageView1=0x7f050062;
-        public static final int inside_layout=0x7f050057;
+        public static final int imageView1=0x7f050061;
+        public static final int inside_layout=0x7f050056;
         public static final int insidelist_parent=0x7f050042;
         public static final int invite_button=0x7f05003d;
         public static final int invite_email=0x7f050045;
@@ -920,7 +919,7 @@ containing a value of this type.
         public static final int item_name=0x7f05004b;
         public static final int item_notes=0x7f050051;
         public static final int item_quantity=0x7f05004d;
-        public static final int label=0x7f050059;
+        public static final int label=0x7f050058;
         public static final int label_assignee=0x7f05004e;
         public static final int label_header=0x7f050041;
         public static final int label_list_CID=0x7f050036;
@@ -930,28 +929,29 @@ containing a value of this type.
         public static final int label_quantity=0x7f05004c;
         public static final int linearLayoutBottomButtons=0x7f050032;
         public static final int listMode=0x7f050002;
-        public static final int list_row=0x7f05005c;
+        public static final int list_row=0x7f05005b;
         public static final int menu_add=0x7f050063;
+        public static final int menu_delete=0x7f050062;
         public static final int menu_invite=0x7f050066;
         public static final int menu_more=0x7f050064;
         public static final int menu_rename=0x7f050065;
         public static final int new_list_button=0x7f05003c;
-        public static final int next_button=0x7f050056;
+        public static final int next_button=0x7f050055;
         public static final int normal=0x7f050001;
-        public static final int prev_button=0x7f050055;
+        public static final int prev_button=0x7f050054;
         public static final int save_button=0x7f050053;
         public static final int send_button=0x7f050048;
         public static final int showCustom=0x7f050008;
         public static final int showHome=0x7f050005;
         public static final int showTitle=0x7f050007;
-        public static final int splash_text_view=0x7f050061;
-        public static final int sublabel=0x7f05005b;
+        public static final int splash_text_view=0x7f050060;
+        public static final int sublabel=0x7f05005a;
         public static final int swiper=0x7f050049;
         public static final int tabMode=0x7f050003;
         public static final int textViewDialogMessage=0x7f05002f;
         public static final int textViewDialogMessage2=0x7f050031;
         public static final int useLogo=0x7f050004;
-        public static final int userlists_layout=0x7f050060;
+        public static final int userlists_layout=0x7f05005f;
         public static final int wrap_content=0x7f050000;
     }
     public static final class integer {
@@ -996,7 +996,8 @@ containing a value of this type.
         public static final int splash=0x7f030023;
     }
     public static final class menu {
-        public static final int main_menu=0x7f0d0000;
+        public static final int item_menu=0x7f0d0000;
+        public static final int main_menu=0x7f0d0001;
     }
     public static final class string {
         public static final int Add_List_Item=0x7f0a0027;

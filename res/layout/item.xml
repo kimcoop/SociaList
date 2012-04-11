@@ -88,6 +88,14 @@
         
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/item_completion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:onClick="onToggleClicked"
+        android:text="Completed" />
+
     <TextView
         android:id="@+id/header_notes"
         android:layout_width="fill_parent"
@@ -108,16 +116,6 @@
         android:layout_marginTop="0dp" >
     </EditText>
 
-     <CheckBox
-         android:id="@+id/item_completion"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         android:layout_marginBottom="5dp"
-         wrap_content=""
-         android:onClick="onToggleClicked"
-         android:text="Completed" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -132,13 +130,6 @@
             android:layout_height="wrap_content"
             android:onClick="saveItem"
             android:text="@string/Save" />
-
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="deleteItem"
-            android:text="@string/Delete" />
 
         <Button
             android:id="@+id/prev_button"
