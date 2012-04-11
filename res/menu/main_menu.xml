@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_add"
+        android:icon="@drawable/ic_menu_btn_add"
+        android:showAsAction="always"
+        android:title="test"></item>
+    <item
+        android:id="@+id/menu_more"
+        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:showAsAction="always"
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/menu_rename"
+                android:icon="@drawable/ic_menu_edit"
+                android:showAsAction="ifRoom|withText"
+                android:title="Rename List"/>
+            <item
+                android:id="@+id/menu_invite"
+                android:icon="@drawable/ic_menu_invite"
+                android:showAsAction="ifRoom|withText"
+                android:title="Invite To List"/>
+        </menu>
+    </item>
+
+</menu>

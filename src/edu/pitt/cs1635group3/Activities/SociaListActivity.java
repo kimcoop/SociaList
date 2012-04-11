@@ -1,51 +1,26 @@
 package edu.pitt.cs1635group3.Activities;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.CustomListAdapter;
-import edu.pitt.cs1635group3.DBHelper;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
-import android.app.Activity;
 import android.app.ListActivity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.pitt.cs1635group3.CustomList;
+import edu.pitt.cs1635group3.CustomListAdapter;
+import edu.pitt.cs1635group3.DBHelper;
+import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class SociaListActivity extends ListActivity { // ListActivity
 	int activeListPosition;

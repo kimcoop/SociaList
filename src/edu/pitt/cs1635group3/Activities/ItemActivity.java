@@ -1,43 +1,27 @@
 package edu.pitt.cs1635group3.Activities;
 
-import java.util.Locale;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import edu.pitt.cs1635group3.DBHelper;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.JSONfunctions;
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
-import edu.pitt.cs1635group3.R.anim;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
+import edu.pitt.cs1635group3.DBHelper;
+import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.R;
 
-public class ItemActivity extends Activity {
+public class ItemActivity extends SherlockActivity {
 
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -64,14 +48,15 @@ public class ItemActivity extends Activity {
 		View swiper = (View) findViewById(R.id.swiper);
 		swiper.setOnTouchListener(gestureListener);
 
-		TextView name, quantity, creation_details, assignee, notes;
+		TextView name, quantity, assignee, notes;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
-		creation_details = (TextView) findViewById(R.id.item_creation);
+		//creation_details = (TextView) findViewById(R.id.item_creation);
 		assignee = (TextView) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
+		
 
-		ToggleButton itemCompletion = (ToggleButton) findViewById(R.id.item_completion);
+		CheckBox itemCompletion = (CheckBox) findViewById(R.id.item_completion);
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -80,8 +65,9 @@ public class ItemActivity extends Activity {
 		pos = extras.getInt("pos");
 		totalItems = extras.getInt("totalItems");
 
-		TextView nav = (TextView) findViewById(R.id.label_header);
-		nav.setText("Item " + pos + " of " + totalItems);
+
+		getSupportActionBar();
+		setTitle("Item "+ pos + " of " +totalItems);
 
 		db = new DBHelper(this);
 		db.open();
@@ -106,14 +92,6 @@ public class ItemActivity extends Activity {
 		name.setText(item.getName());
 		quantity.setText("" + item.getQuantity());
 
-		String creator;
-		if (item.getCreator() > 0)
-			creator = db.getUserNameByID(item.getCreator());
-		else
-			creator = "";
-		creation_details.setText("Added on " + item.getCreationDate() + " by "
-				+ creator);
-
 		if (item.getAssignee() > 0) {
 			assignee.setText(db.getUserByID(item.getAssignee()).getName());
 		} else {
@@ -135,7 +113,7 @@ public class ItemActivity extends Activity {
 
 	public void onToggleClicked(View v) {
 		// Perform action on clicks
-		if (((ToggleButton) v).isChecked()) {
+		if (((CheckBox) v).isChecked()) {
 			item.setCompleted(true);
 		} else {
 			item.setCompleted(false);
@@ -361,6 +339,35 @@ public class ItemActivity extends Activity {
 		@Override
 		public boolean onDown(MotionEvent e) {
 			return true;
+		}
+	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case R.id.menu_add:
+			//TODO: add list item popup
+			return false;
+		case R.id.menu_rename:
+			// TODO dialog for new list name
+			return true;
+		case R.id.menu_invite:
+			intent = new Intent(this, InviteActivity.class);
+			startActivity(intent);
+			return true;
+
+		default:
+			return false;
 		}
 	}
 

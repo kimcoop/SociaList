@@ -1,9 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
 
-import com.example.push.*;
-import com.google.android.c2dm.*;
-
-import edu.pitt.cs1635group3.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,6 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.push.C2DMReceiver;
+import com.google.android.c2dm.C2DMessaging;
+
+import edu.pitt.cs1635group3.R;
 
 public class HomeActivity extends Activity {
 	/** Called when the activity is first created. */

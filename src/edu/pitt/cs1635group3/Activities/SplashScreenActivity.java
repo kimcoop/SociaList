@@ -6,19 +6,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MotionEvent;
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.User;
-import edu.pitt.cs1635group3.R.layout;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 
 public class SplashScreenActivity extends Activity {
 	protected boolean _active = true;

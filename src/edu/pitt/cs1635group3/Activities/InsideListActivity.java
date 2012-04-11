@@ -1,59 +1,35 @@
 package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.ItemAdapter;
-import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
-
-public class InsideListActivity extends ListActivity {
+public class InsideListActivity extends SherlockListActivity {
 
 	private CustomList list = null;
 	private ArrayList<Item> items = null;
@@ -94,10 +70,12 @@ public class InsideListActivity extends ListActivity {
 		adapter = new ItemAdapter(this, R.layout.item_row, items,
 				assign_button, complete_button, invite_button, inviteUp);
 
-		View header = getLayoutInflater().inflate(R.layout.header, null);
-		lv.addHeaderView(header);
-		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("Viewing " + list.getName());
+		//View header = getLayoutInflater().inflate(R.layout.header, null);
+		//lv.addHeaderView(header);
+		//TextView label_header = (TextView) findViewById(R.id.label_header);
+		//label_header.setText("Viewing " + list.getName());
+		getSupportActionBar();
+		setTitle(list.getName());
 
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
@@ -108,14 +86,14 @@ public class InsideListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long id) {
 				complete_button.setSelected(false);
-				Item item = items.get(pos - 1);
+				Item item = items.get(pos);
 
 				if (items.size() == 1) {
 					db.open(); // if there is only one item in the list, it
 								// doesn't link prev and next correctly
 					item.setPrev(item.getID());
 					item.setNext(item.getID());
-					db.updateItem(item);
+					db.updateItem(item, false);
 					db.close();
 				}
 
@@ -125,7 +103,7 @@ public class InsideListActivity extends ListActivity {
 				Log.i("GOING INTO ITEM", "Passing itemID as " + item.getID()
 						+ " and item is " + item.getName());
 
-				intent.putExtra("pos", pos); // this is used for displaying
+				intent.putExtra("pos", pos+1); // this is used for displaying
 												// "Item X of Y" in the header,
 												// so leave it as pos
 				intent.putExtra("totalItems", totalItems);
@@ -300,5 +278,35 @@ public class InsideListActivity extends ListActivity {
 		startActivity(intent);
 
 	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case R.id.menu_add:
+			//TODO: add list item popup
+			return false;
+		case R.id.menu_rename:
+			// TODO dialog for new list name
+			return true;
+		case R.id.menu_invite:
+			intent = new Intent(this, InviteActivity.class);
+			startActivity(intent);
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
 
 }

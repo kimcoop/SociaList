@@ -654,8 +654,9 @@ public class DBHelper {
 
 		return i;
 	}
+	
+	public boolean updateItem(Item i, boolean doCloud) {
 
-	public boolean updateItem(Item i) {
 		ContentValues args = new ContentValues();
 
 		int isCompleted = 0, isSelected = 0;
@@ -679,14 +680,14 @@ public class DBHelper {
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		JSONfunctions.updateItem(i);
-/**
-		Log.d("SUCCESS:UPDATE ITEM",
-				"Item " + i.getName() + " has prev " + i.getPrev()
-						+ " and next " + i.getNext());
-**/
+		if (doCloud) JSONfunctions.updateItem(i);
+		
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
+	}
+
+	public boolean updateItem(Item i) {
+		return updateItem(i, false);
 
 	}
 }

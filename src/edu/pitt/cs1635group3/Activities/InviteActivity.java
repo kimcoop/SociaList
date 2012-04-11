@@ -3,28 +3,21 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-
 import android.widget.EditText;
-
 import android.widget.Spinner;
-
 import android.widget.Toast;
+import edu.pitt.cs1635group3.R;
 
 public class InviteActivity extends Activity {
 

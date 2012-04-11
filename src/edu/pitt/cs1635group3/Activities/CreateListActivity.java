@@ -1,22 +1,8 @@
 package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.DBHelper;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.JSONfunctions;
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -25,15 +11,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.EditText;
 import android.widget.Toast;
+import edu.pitt.cs1635group3.CustomList;
+import edu.pitt.cs1635group3.DBHelper;
+import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.JSONfunctions;
+import edu.pitt.cs1635group3.R;
 
 public class CreateListActivity extends ListActivity {
 

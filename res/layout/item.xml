@@ -4,16 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:id="@+id/swiper">
-    
-    <TextView
-        android:id="@+id/label_header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#323331"
-        android:padding="4dp"
-        android:text="Editing Item"
-        android:textSize="16dip"
-        android:layout_marginBottom="9dp" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,17 +61,6 @@
         
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/item_creation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:padding="4.0dp"
-        android:text="@+id/item_creation"
-        android:textSize="16dip"
-       	android:layout_marginLeft="5dp" />
-
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -128,16 +107,16 @@
         android:layout_margin="5dp"
         android:layout_marginTop="0dp" >
     </EditText>
-        
-     <ToggleButton 
-       android:id="@+id/item_completion"
-       android:layout_width="180dp"
-       android:layout_height="wrap_content"
-       android:textOn="Completed"
-       android:textOff="Not Completed"
-       android:layout_gravity="center"
-       android:onClick="onToggleClicked"
-       android:layout_marginBottom="5dp" />
+
+     <CheckBox
+         android:id="@+id/item_completion"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:layout_marginBottom="5dp"
+         wrap_content=""
+         android:onClick="onToggleClicked"
+         android:text="Completed" />
 
     <LinearLayout
         android:layout_width="fill_parent"

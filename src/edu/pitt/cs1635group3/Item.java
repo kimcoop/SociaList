@@ -2,7 +2,6 @@ package edu.pitt.cs1635group3;
 
 import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
