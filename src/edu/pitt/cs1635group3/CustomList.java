@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -167,7 +168,7 @@ public class CustomList implements Parcelable {
 														// last list item
 	}
 
-	public void pullItems() {
+	public void pullItems(Context context) {
 
 		this.populated = 1;
 
@@ -191,14 +192,14 @@ public class CustomList implements Parcelable {
 									// and next for each
 						e1 = lists.getJSONObject(i);
 						item1 = new Item(e1);
-						item1.setParent(this.ID);
+						item1.setParent(context, this.ID);
 
 						e2 = lists.getJSONObject(i + 1);
 						item2 = new Item(e2);
-						item2.setParent(this.ID);
+						item2.setParent(context, this.ID);
 
-						item2.setPrev(item1.getID());
-						item1.setNext(item2.getID());
+						item2.setPrev(context, item1.getID());
+						item1.setNext(context, item2.getID());
 						listItems.add(item1);
 						listItems.add(item2);
 						
@@ -208,21 +209,21 @@ public class CustomList implements Parcelable {
 					} else {
 						e1 = lists.getJSONObject(i);
 						item1 = new Item(e1);
-						item1.setParent(this.ID);
+						item1.setParent(context, this.ID);
 
 						Item prev = listItems.get(i - 1);
 
-						prev.setNext(item1.getID());
-						item1.setPrev(prev.getID());
+						prev.setNext(context, item1.getID());
+						item1.setPrev(context, prev.getID());
 						listItems.add(item1);
 
 					}
 				}
 
-				listItems.get(0).setPrev(
+				listItems.get(0).setPrev(context, 
 						listItems.get(listItems.size() - 1).getID()); // "Loop around":
 
-				listItems.get(listItems.size() - 1).setNext(
+				listItems.get(listItems.size() - 1).setNext(context, 
 						listItems.get(0).getID()); // and
 			}
 
@@ -257,6 +258,15 @@ public class CustomList implements Parcelable {
 		name = in.readString();
 		note = in.readString();
 		populated = in.readInt();
+	}
+
+	public void updateName(Context context, String newName) {
+		setName(newName);
+		DBHelper db = new DBHelper(context);
+		db.open();
+		db.updateList(this);
+		db.close();
+		
 	}
 
 }

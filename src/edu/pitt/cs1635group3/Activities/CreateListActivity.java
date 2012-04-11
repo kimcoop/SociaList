@@ -3,8 +3,13 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,7 +27,7 @@ import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
 
-public class CreateListActivity extends ListActivity {
+public class CreateListActivity extends SherlockListActivity {
 
 	private ArrayList<HashMap<String, String>> mylist;
 	private EditText listNameSpace, CIDSpace;
@@ -32,6 +37,7 @@ public class CreateListActivity extends ListActivity {
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web
 											// servers we allocate (in case of
 											// cancel)
+	Context context;
 
 	DBHelper db;
 
@@ -39,6 +45,10 @@ public class CreateListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editlist);
+		context = this;
+
+		getSupportActionBar();
+		setTitle("New List");
 
 		listNameSpace = (EditText) findViewById(R.id.edit_list_name);
 		CIDSpace = (EditText) findViewById(R.id.edit_list_CID);
@@ -51,12 +61,17 @@ public class CreateListActivity extends ListActivity {
 				R.layout.list_row, new String[] { "name", "assignee" },
 				new int[] { R.id.element_title, R.id.element_subtitle });
 
-		final ListView lv = getListView();
 		setListAdapter(adapter);
 
 	}
 
-	public void addListItem(View v) {
+	public void addListItem() {
+		
+		/*
+		 * ROB - when you're working on this, may want to consider moving this function into the List class?
+		 * Only since it's called at least twice in our app (creation of new list, editing list). I don't think
+		 * it would be hard, just pass the Activity context as a param to the method in the class.
+		 */
 
 		// Whenever the list gets refreshed, the other layout pieces (List name)
 		// get refreshed too.
@@ -132,11 +147,11 @@ public class CreateListActivity extends ListActivity {
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
 				newItem = new Item(map);
-				newItem.setParent(newListPK);
+				newItem.setParent(context, newListPK);
 
 				int itemID = JSONfunctions.getItemPK();
 				newItemPKs.add(itemID);
-				newItem.setID(itemID);
+				newItem.setID(context, itemID);
 				newList.addItem(newItem);
 			}
 
@@ -152,7 +167,7 @@ public class CreateListActivity extends ListActivity {
 						itemB = newList.getItem(0);
 						// itemC = newList.getItem(1);
 
-						itemA.setNext(itemB.getID());
+						itemA.setNext(context, itemB.getID());
 						// itemB.setPrev(itemA.getID());
 						// itemB.setNext(itemC.getID());
 						Log.d("CreateListActivity", "ItemA's next is"
@@ -166,9 +181,9 @@ public class CreateListActivity extends ListActivity {
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
 						itemC = newList.getItem(listSize - 1);
-						itemA.setNext(itemB.getID());
-						itemA.setPrev(itemC.getID());
-						itemB.setPrev(itemA.getID());
+						itemA.setNext(context, itemB.getID());
+						itemA.setPrev(context, itemC.getID());
+						itemB.setPrev(context, itemA.getID());
 
 						Log.d("CreateListActivity",
 								"ItemA's next is" + itemB.getID());
@@ -178,8 +193,8 @@ public class CreateListActivity extends ListActivity {
 						// Two or more items in the list
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
-						itemA.setNext(itemB.getID());
-						itemB.setPrev(itemA.getID());
+						itemA.setNext(context, itemB.getID());
+						itemB.setPrev(context, itemA.getID());
 
 						Log.d("CreateListActivity",
 								"ItemA's next is" + itemB.getID());
@@ -190,8 +205,8 @@ public class CreateListActivity extends ListActivity {
 					else {
 						// Only one item in the list
 						itemA = newList.getItem(0);
-						itemA.setNext(itemA.getID());
-						itemA.setPrev(itemA.getID());
+						itemA.setNext(context, itemA.getID());
+						itemA.setPrev(context, itemA.getID());
 						Log.d("CreateListActivity",
 								"ItemA's next is" + itemA.getID());
 						Log.d("CreateListActivity",
@@ -240,5 +255,31 @@ public class CreateListActivity extends ListActivity {
 
 		finish();
 
+	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.new_list_menu, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case R.id.menu_add:
+			addListItem();
+			return false;
+		case R.id.menu_invite:
+			intent = new Intent(this, InviteActivity.class);
+			startActivity(intent);
+			return true;
+
+		default:
+			return false;
+		}
 	}
 }

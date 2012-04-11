@@ -6,6 +6,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,12 +32,16 @@ public class ItemActivity extends SherlockActivity {
 
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
+	
+	private Context context;
 
 	private int pos, totalItems;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
+		
+		context = this;
 
 		// Gesture detection
 		gestureDetector = new GestureDetector(new MyGestureDetector());
@@ -113,9 +118,9 @@ public class ItemActivity extends SherlockActivity {
 	public void onToggleClicked(View v) {
 		// Perform action on clicks
 		if (((CheckBox) v).isChecked()) {
-			item.setCompleted(true);
+			item.setCompleted(context, true);
 		} else {
-			item.setCompleted(false);
+			item.setCompleted(context, false);
 		}
 	}
 
@@ -170,21 +175,17 @@ public class ItemActivity extends SherlockActivity {
 		notes = (EditText) findViewById(R.id.item_notes);
 
 		// toggle is handled onClick for item completion altering
-		db.open();
-		item.setName(name.getText().toString().trim());
-		item.setQuantity(Integer.parseInt(quantity.getText().toString().trim()));
-		item.setNotes(notes.getText().toString().trim());
+		item.setName(context, name.getText().toString().trim());
+		item.setQuantity(context, Integer.parseInt(quantity.getText().toString().trim()));
+		item.setNotes(context, notes.getText().toString().trim());
 
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
 		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
 			assigneeID = db.getUserByName(rawAssignee);
-			item.assignTo(assigneeID);
+			item.assignTo(context, assigneeID);
 		}
-
-		db.updateItem(item);
-		db.close();
 
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
@@ -206,14 +207,9 @@ public class ItemActivity extends SherlockActivity {
 
 	public void deleteAndExit() {
 
-		prevItem.setNext(nextItem.getID());
-		nextItem.setPrev(prevItem.getID());
+		prevItem.setNext(context, nextItem.getID());
+		nextItem.setPrev(context, prevItem.getID());
 
-		db.open();
-		db.updateItem(prevItem);
-		db.updateItem(nextItem);
-		db.deleteItem(item);
-		db.close();
 		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
 
 		Intent in = new Intent();
@@ -224,9 +220,9 @@ public class ItemActivity extends SherlockActivity {
 
 	public void deleteItem() {
 
-		prevItem.setNext(nextItem.getID()); // set the previous item's next item
+		prevItem.setNext(context, nextItem.getID()); // set the previous item's next item
 											// to the next
-		nextItem.setPrev(prevItem.getID());
+		nextItem.setPrev(context, prevItem.getID());
 
 		if (prevItem.getID() == item.getID()
 				|| nextItem.getID() == item.getID()) { // if this is the last
@@ -255,10 +251,8 @@ public class ItemActivity extends SherlockActivity {
 			builder.show();
 
 		} else {
-			db.open();
-			db.updateItem(prevItem);
-			db.updateItem(nextItem);
-			db.close();
+			prevItem.update(context);
+			nextItem.update(context);
 			deleteAndExit();
 		}
 

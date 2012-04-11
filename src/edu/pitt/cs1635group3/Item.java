@@ -5,12 +5,15 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 public class Item implements Parcelable {
 
+	DBHelper db;
+	
 	private String name, creationDate, notes, completionDate;
 	private int parentID, ID, quantity, assigner, assignee, creator; // use
 																		// parentID
@@ -134,73 +137,98 @@ public class Item implements Parcelable {
 	/*
 	 * SETTERS
 	 */
+	
+	public void update(Context context) { // General method used for any updates
 
-	public void setID(int i) {
+		db = new DBHelper(context);
+		db.open();
+		db.updateItem(this);
+		db.close();
+	}
+
+	public void setID(Context context, int i) {
 		this.ID = i;
+		update(context);
 	}
 
-	public void setNext(int i) {
+	public void setNext(Context context, int i) {
 		this.nextID = i;
+		update(context);
 	}
 
-	public void setPrev(int i) {
+	public void setPrev(Context context, int i) {
 		this.prevID = i;
+		update(context);
 	}
 
-	public void setParent(int parent) {
+	public void setParent(Context context, int parent) {
 		this.parentID = parent;
+		update(context);
 	}
 
-	public void setName(String name) {
+	public void setName(Context context, String name) {
 		this.name = name;
+		update(context);
 	}
 
-	public void setAssigner(int i) {
+	public void setAssigner(Context context, int i) {
 		this.assigner = i;
+		update(context);
 	}
 
-	public void assignTo(int i) {
+	public void assignTo(Context context, int i) {
 		this.assignee = i;
+		update(context);
 	}
 
-	public void setQuantity(int q) {
+	public void setQuantity(Context context, int q) {
 		this.quantity = q;
+		update(context);
 	}
 
-	public void setNotes(String n) {
+	public void setNotes(Context context, String n) {
 		this.notes = n;
+		update(context);
 	}
 
-	public void setCreator(int i) {
+	public void setCreator(Context context, int i) {
 		this.creator = i;
+		update(context);
 	}
 
-	public void setCompleted(boolean b) {
+	public void setCompleted(Context context, boolean b) {
 		this.completed = b;
+		update(context);
 	}
 
-	public void setCompleted(int i) {
+	public void setCompleted(Context context, int i) {
 		this.completed = (i == 1 ? true : false);
+		update(context);
 	}
 
-	public void setCompleted() {
+	public void setCompleted(Context context) {
 		this.completed = true;
+		update(context);
 	}
 
-	public void setCreationDate(String string) {
+	public void setCreationDate(Context context, String string) {
 		this.creationDate = string;
+		update(context);
 	}
 
-	public void setCompletionDate(String string) {
+	public void setCompletionDate(Context context, String string) {
 		this.completionDate = string;
+		update(context);
 	}
 
-	public void setSelected(boolean selected) {
+	public void setSelected(Context context, boolean selected) {
 		this.selected = selected;
+		update(context);
 	}
 
-	public void setSelected(int i) {
+	public void setSelected(Context context, int i) {
 		this.selected = (i == 1 ? true : false);
+		update(context);
 	}
 
 	/*
@@ -263,6 +291,76 @@ public class Item implements Parcelable {
 
 		prevID = in.readInt();
 		nextID = in.readInt();
+	}
+	
+	/*
+	 * THESE METHODS ARE DEPRECATED
+	 * USE ABOVE METHODS
+	 */
+	
+	public void setID(int i) {
+		this.ID = i;
+	}
+
+	public void setNext(int i) {
+		this.nextID = i;
+	}
+
+	public void setPrev(int i) {
+		this.prevID = i;
+	}
+
+	public void setParent(int parent) {
+		this.parentID = parent;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAssigner(int i) {
+		this.assigner = i;
+	}
+
+	public void assignTo(int i) {
+		this.assignee = i;
+	}
+
+	public void setQuantity(int q) {
+		this.quantity = q;
+	}
+
+	public void setNotes(String n) {
+		this.notes = n;
+	}
+
+	public void setCreator(int i) {
+		this.creator = i;
+	}
+
+	public void setCompleted(int i) {
+		this.completed = (i == 1 ? true : false);
+	}
+
+	public void setCompleted() {
+		this.completed = true;
+	}
+
+	public void setCreationDate(String string) {
+		this.creationDate = string;
+	}
+
+	public void setCompletionDate(String string) {
+		this.completionDate = string;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public void setSelected(int i) {
+		Log.e("ITEM CLASS", "Item " + name + "is selected? " + i);
+		this.selected = (i == 1 ? true : false);
 	}
 
 }

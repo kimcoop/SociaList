@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -26,11 +27,14 @@ public class SplashScreenActivity extends Activity {
 	ArrayList<User> users = null;
 	ArrayList<Item> items = null;
 
-	/** Called when the activity is first created. */
+	
+	Context context;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		context = this;
 
 		// thread for displaying the SplashScreen
 		Thread splashTread = new Thread() {
@@ -128,7 +132,7 @@ public class SplashScreenActivity extends Activity {
 				myCustomLists.add(list);
 				db.insertOrUpdateList(list);
 
-				list.pullItems(); // pull the list's items from the server
+				list.pullItems(context); // pull the list's items from the server
 				items = list.getItems();
 				for (Item el : items) {
 					db.insertOrUpdateItem(el);

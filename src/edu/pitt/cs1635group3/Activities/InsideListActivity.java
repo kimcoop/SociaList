@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,15 +43,23 @@ public class InsideListActivity extends SherlockListActivity {
 	private int totalItems;
 
 	private DBHelper db;
+	Context context;
 
 	private Button assign_button, complete_button, invite_button;
 	private View buttons_helper;
 	private ListView lv;
 	private boolean inviteUp = true;
+	
+	CharSequence users[];
+	protected ArrayList<Item> selectedItems;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
+		context = this;
+		
+		selectedItems = new ArrayList<Item>(); // track the items checked (not used yet)
+		
 
 		assign_button = (Button) findViewById(R.id.assign_button);
 		complete_button = (Button) findViewById(R.id.complete_button);
@@ -63,11 +72,14 @@ public class InsideListActivity extends SherlockListActivity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		db = new DBHelper(this);
+		db = new DBHelper(context);
 		db.open();
 		list = db.getListByID(extras.getInt("ListID"));
 		items = db.getItemsForListByID(extras.getInt("ListID"));
 		totalItems = items.size();
+		
+		users = db.getUsersForDialog();
+		
 		db.close();
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items,
@@ -88,15 +100,11 @@ public class InsideListActivity extends SherlockListActivity {
 				Item item = items.get(pos);
 
 				if (items.size() == 1) {
-					db.open(); // if there is only one item in the list, it
-								// doesn't link prev and next correctly
-					item.setPrev(item.getID());
-					item.setNext(item.getID());
-					db.updateItem(item, false);
-					db.close();
+					item.setPrev(context, item.getID());
+					item.setNext(context, item.getID());
 				}
 
-				Intent intent = new Intent(getBaseContext(), ItemActivity.class);
+				Intent intent = new Intent(context, ItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
 
 				intent.putExtra("pos", pos+1); // this is used for displaying
@@ -111,14 +119,11 @@ public class InsideListActivity extends SherlockListActivity {
             public boolean onItemLongClick(AdapterView<?> arg0, View v,
                     int pos, long id) {
             	final View parentView = v;
-            	final int position = pos-1;
+            	final int position = pos;
     			final Item item = items.get(position);
     			final String itemName = item.getName();
     			
     			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID() + " and prev is " +item.getPrev() + " and next is " +item.getNext());
-    			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
-				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
-				// Mode.DARKEN);
 
 				final Button b = (Button) parentView
 						.findViewById(R.id.delete_item_button);
@@ -146,23 +151,21 @@ public class InsideListActivity extends SherlockListActivity {
 						int next = nextItem.getID();
 						int prev = prevItem.getID();
 						
-						prevItem.setNext(next);
-						nextItem.setPrev(prev);
+						prevItem.setNext(context, next);
+						nextItem.setPrev(context, prev);
 						
 						
 						if (totalItems==1) { // always this issue with one item in list
-							item.setNext(item.getID());
-							item.setPrev(item.getID());
+							item.setNext(context, item.getID());
+							item.setPrev(context, item.getID());
 						}
 
-						db.updateItem(prevItem);
-						db.updateItem(nextItem);
-						db.deleteItem(item);
+						db.deleteItem(item); // todo - can we do this inside Item.java?
+						
+						db.close();
 						
 						Log.i("PREV ITEM", "Prev item has next item " +nextItem.getName());
 						Log.i("NEXT ITEM", "NExt item has prev item " +prevItem.getName());
-						
-						db.close();
 
 						Toast.makeText(getBaseContext(),
 								"Item " + itemName + " deleted.",
@@ -193,11 +196,10 @@ public class InsideListActivity extends SherlockListActivity {
 	}
 	
 	public void saveRename(String newName) {
-		db.open();
-		list.setName(newName);
-		db.updateList(list);
-		db.close();
-		setTitle(newName); // change the UI
+		
+		list.updateName(context, newName);
+		setTitle(newName);
+		
 	}
 	
 	public void rename() {
@@ -240,33 +242,21 @@ public class InsideListActivity extends SherlockListActivity {
 	public void assignItemsTo(String user) {
 
 		db.open();
-
 		int userID = db.getUserByName(user);
+		db.close();
 
 		for (Item item : items) {
 			if (item.isSelected()) {
-				item.assignTo(userID);
-				item.setSelected(false);
-				db.updateItem(item);
+				item.assignTo(context, userID);
+				item.setSelected(context, false);
 			}
 		}
 
 		adapter.notifyDataSetChanged();
-
-		db.close();
 	}
 
 	public void assignItems(View v) {
 		// Grab users from the db. Alert Dialog to display all of them.
-		db.open();
-		final CharSequence[] users = db.getUsersForDialog(); // todo - instead
-																// of querying
-																// every time,
-																// cache in
-																// activity
-																// onCreate
-																// method
-		db.close();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -288,8 +278,8 @@ public class InsideListActivity extends SherlockListActivity {
 
 		for (Item item : items) {
 			if (item.isSelected()) {
-				item.setCompleted();
-				item.setSelected(false);
+				item.setCompleted(context);
+				item.setSelected(context, false);
 				db.updateItem(item);
 			}
 		}

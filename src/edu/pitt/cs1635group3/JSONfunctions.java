@@ -22,6 +22,7 @@ import android.util.Log;
 public class JSONfunctions {
 
 	public static final String URL = "http://www.zebrafishtec.com/server.php";
+	public static final String TAG = "JSONfunctions";
 
 	public static int getItemPK() {
 		return getPK("getItemPK");

@@ -2,7 +2,11 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
-import android.app.ListActivity;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +26,7 @@ import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.User;
 
-public class SociaListActivity extends ListActivity { // ListActivity
+public class SociaListActivity extends SherlockListActivity { // ListActivity
 	int activeListPosition;
 	private ArrayList<CustomList> lists = null;
 	private ArrayList<User> users = null;
@@ -32,9 +36,10 @@ public class SociaListActivity extends ListActivity { // ListActivity
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
+		getSupportActionBar();
+		setTitle("Lists");
 
 		db = new DBHelper(this);
 		db.open();
@@ -46,11 +51,6 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
 		final ListView lv = getListView();
 
-		View header = getLayoutInflater().inflate(R.layout.header, null);
-		lv.addHeaderView(header);
-		TextView label_header = (TextView) findViewById(R.id.label_header);
-		label_header.setText("My Lists");
-
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
@@ -60,7 +60,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
             public boolean onItemLongClick(AdapterView<?> arg0, View v,
                     int pos, long id) {
             	final View parentView = v;
-            	final int position = pos-1;
+            	final int position = pos;
     			final CustomList userlist = lists.get(position);
     			final String listname = userlist.getName();
     			
@@ -98,7 +98,7 @@ public class SociaListActivity extends ListActivity { // ListActivity
 		super.onListItemClick(l, v, position, id);
 		// Get the item that was clicked
 
-		CustomList list = adapter.getItem(position - 1);
+		CustomList list = adapter.getItem(position);
 
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("ListID", list.getID());
@@ -130,6 +130,29 @@ public class SociaListActivity extends ListActivity { // ListActivity
 			finish();
 		}
 
+	}
+	
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.home_lists_menu, menu); //todo - alter the menu (make new)
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case R.id.menu_add:
+			intent = new Intent(this, CreateListActivity.class);
+			startActivity(intent);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 }

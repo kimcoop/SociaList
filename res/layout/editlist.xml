@@ -90,13 +90,6 @@
         android:gravity="center" >
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addListItem"
-            android:text="@string/Add_List_Item" />
-
-        <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

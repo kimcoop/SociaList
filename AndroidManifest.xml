@@ -69,15 +69,21 @@
             uiOptions="splitActionBarWhenNarrow" >
         </activity>
         
-        <activity android:name=".Activities.CreateListActivity" >
+        <activity android:name=".Activities.CreateListActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            uiOptions="splitActionBarWhenNarrow" >
         </activity>
-        <activity android:name=".Activities.InviteActivity" >
+        <activity android:name=".Activities.InviteActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity android:name=".Activities.RegistrationResultActivity" >
         </activity>
         <activity android:name=".Activities.MessageReceivedActivity" >
         </activity>
-        <activity android:name=".Activities.SociaListActivity" >
+        <activity android:name=".Activities.SociaListActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            uiOptions="splitActionBarWhenNarrow" >
         </activity>
         
         

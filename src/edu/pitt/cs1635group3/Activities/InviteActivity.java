@@ -3,7 +3,11 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,11 +23,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import edu.pitt.cs1635group3.R;
 
-public class InviteActivity extends Activity {
+public class InviteActivity extends SherlockActivity {
 
 	private static final String DEBUG_TAG = "InviteActivity";
 	private static final int CONTACT_PICKER_RESULT = 1001;
-
+	
+	
 	String message = "";
 	String email = "";
 	String phone = "";
@@ -32,6 +37,8 @@ public class InviteActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.invite);
+		getSupportActionBar();
+		setTitle("Invite to List");
 
 		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
 
@@ -225,6 +232,30 @@ public class InviteActivity extends Activity {
 
 		}
 
+	}
+	
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu); //todo - alter the menu (make new)
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case R.id.menu_add:
+			return false;
+		case R.id.menu_invite:
+			return false;
+
+		default:
+			return false;
+		}
 	}
 
 }
