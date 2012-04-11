@@ -48,11 +48,11 @@ public class ItemActivity extends SherlockActivity {
 		View swiper = (View) findViewById(R.id.swiper);
 		swiper.setOnTouchListener(gestureListener);
 
-		TextView name, quantity, assignee, notes;
+		EditText name, quantity, notes, assignee;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		//creation_details = (TextView) findViewById(R.id.item_creation);
-		assignee = (TextView) findViewById(R.id.item_assignee);
+		assignee = (EditText) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
 		
 

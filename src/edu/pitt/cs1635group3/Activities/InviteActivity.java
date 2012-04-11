@@ -33,11 +33,7 @@ public class InviteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.invite);
 
-		Intent i = getIntent();
-		Bundle extras = i.getExtras();
-
-		message = "Hey! I shared a awesome list on SociaList with you! Download the app and add list: 60012-"
-				+ extras.getInt("ListID");
+		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
 
 		EditText messageEntry = (EditText) findViewById(R.id.invite_message_preview);
 		messageEntry.setText(message);

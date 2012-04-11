@@ -897,7 +897,7 @@ containing a value of this type.
         public static final int edit_list_name=0x7f050035;
         public static final int element_subtitle=0x7f05005e;
         public static final int element_title=0x7f05005c;
-        public static final int header_notes=0x7f050050;
+        public static final int header_notes=0x7f050051;
         public static final int homeAsUp=0x7f050006;
         public static final int home_btn_browse=0x7f05002e;
         public static final int home_btn_list=0x7f05002b;
@@ -915,9 +915,9 @@ containing a value of this type.
         public static final int invite_message_preview=0x7f050047;
         public static final int invite_type_spinner=0x7f050044;
         public static final int item_assignee=0x7f05004f;
-        public static final int item_completion=0x7f050052;
+        public static final int item_completion=0x7f050050;
         public static final int item_name=0x7f05004b;
-        public static final int item_notes=0x7f050051;
+        public static final int item_notes=0x7f050052;
         public static final int item_quantity=0x7f05004d;
         public static final int label=0x7f050058;
         public static final int label_assignee=0x7f05004e;

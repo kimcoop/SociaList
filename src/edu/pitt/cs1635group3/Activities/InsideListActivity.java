@@ -100,9 +100,6 @@ public class InsideListActivity extends SherlockListActivity {
 				Intent intent = new Intent(getBaseContext(), ItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
 
-				Log.i("GOING INTO ITEM", "Passing itemID as " + item.getID()
-						+ " and item is " + item.getName());
-
 				intent.putExtra("pos", pos+1); // this is used for displaying
 												// "Item X of Y" in the header,
 												// so leave it as pos

@@ -34,7 +34,7 @@ public class HomeActivity extends Activity {
         Log.d("HOME ACTIVITY", "Got here");
         setContentView(R.layout.dashboard);
 		curActivity = this;
-        
+        /*
         
         new AlertDialog.Builder(this)
 		.setTitle("Push Notifications")
@@ -54,7 +54,7 @@ public class HomeActivity extends Activity {
 				}).show();
         
         
-        
+        */
     }
 	
     public void myLists(View v) {
