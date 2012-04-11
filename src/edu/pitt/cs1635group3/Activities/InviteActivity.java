@@ -3,11 +3,7 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,13 +17,21 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import edu.pitt.cs1635group3.R;
 
 public class InviteActivity extends SherlockActivity {
 
+	private static final String TAG = "InviteActivity";
 	private static final String DEBUG_TAG = "InviteActivity";
 	private static final int CONTACT_PICKER_RESULT = 1001;
 	
+	protected static Context context;
 	
 	String message = "";
 	String email = "";
@@ -37,6 +41,7 @@ public class InviteActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.invite);
+		context = this;
 		getSupportActionBar();
 		setTitle("Invite to List");
 

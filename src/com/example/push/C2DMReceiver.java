@@ -193,23 +193,28 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 		String deviceId = telephonyManager.getDeviceId();
 
 		if (deviceId == null || deviceId == "") {
-			deviceId = "e0a85841763c1192";
+			deviceId = "e0a85841763c1192"; // BAD - FIX
 		}
+		String requestToCloud = "";
+		String userID = "35"; // FOR NOW
 
 		System.out.println("Device ID " + deviceId);
-
 		Log.e(TAG, ">>>>device unique id " + deviceId);
+		
 		// send to server
 		BufferedReader in = null;
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet();
 			try {
-				request.setURI(new URI(
-						"http://www.zebrafishtec.com/register_token.php?deviceid="
-								+ URLEncoder.encode(telephonyManager
-										.getDeviceId()) + "&devicetoken="
-								+ URLEncoder.encode(registrationId).toString()));
+				requestToCloud = "http://www.zebrafishtec.com/register_token.php?"
+								+"device_id="
+								+ URLEncoder.encode(deviceId) 
+								+ "&device_token="
+								+ URLEncoder.encode(registrationId).toString()
+								+ "&user_id=" + userID;
+				
+				request.setURI(new URI(requestToCloud));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

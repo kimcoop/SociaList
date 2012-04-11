@@ -24,37 +24,25 @@ import edu.pitt.cs1635group3.R;
 
 public class HomeActivity extends Activity {
 	/** Called when the activity is first created. */
-	private static Activity curActivity = null;
 	private EditText messageText = null;
+	
+	private static Activity currActivity;
+	private static Context context;
+	private static final String TAG = "HomeActivity";
 	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("HOME ACTIVITY", "Got here");
+        Log.d(TAG, "Got here");
         setContentView(R.layout.dashboard);
-		curActivity = this;
-        /*
-        
-        new AlertDialog.Builder(this)
-		.setTitle("Push Notifications")
-		.setMessage(getString(R.string.push_explain))
-		.setNegativeButton("No thanks",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,
-					int which) {
-				// do nothing
-			}
-		})
-		.setPositiveButton("Sure!",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,
-							int which) {
-						showPushNotificationDialog();
-					}
-				}).show();
+		context = this;
+		currActivity = this;
+		
+		showPushNotificationDialog();
         
         
-        */
+        
     }
 	
     public void myLists(View v) {
@@ -68,7 +56,7 @@ public class HomeActivity extends Activity {
 	 * Show push notification dialog.
 	 */
 	public void showPushNotificationDialog() {
-		Log.i("CLICKED BTN", "Show push notification dialog");
+		Log.i(TAG, "Show push notification dialog");
 
 		final SharedPreferences prefs = getSharedPreferences(
 				C2DMessaging.PREFERENCE, Context.MODE_PRIVATE);
@@ -81,12 +69,13 @@ public class HomeActivity extends Activity {
 			}
 		}
 		
-		if (prefs.contains("dm_registration")) {
-			return;
-		}
+		if (!prefs.contains("dm_registration")) {
+			Log.i(TAG, "Device already registered ");
+			//return;
+		} else { // don't reshow the push notifications prompt if they've already registered
 		
 
-		Log.i("PUSH", "Here 1");
+		Log.i(TAG, "Here 1");
 
 		if (Build.VERSION.SDK_INT >= 8) {
 
@@ -119,12 +108,13 @@ public class HomeActivity extends Activity {
 			};
 			ok_btn.setOnClickListener(l);
 			dialogok.show();
+			}
 		}
 	} // end showPushNotificationDialog()
 	
 
 	public static Activity getCurrentActivity() {
 		// TODO Auto-generated method stub
-		return curActivity;
+		return currActivity;
 	}
 }

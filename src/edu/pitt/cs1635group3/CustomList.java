@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import zebrafish.util.DBHelper;
+import zebrafish.util.JSONfunctions;
+
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,6 +19,8 @@ public class CustomList implements Parcelable {
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
+	
+	private static final String TAG = "CUSTOM LIST";
 
 	public CustomList(JSONObject e) {
 
@@ -27,7 +32,7 @@ public class CustomList implements Parcelable {
 			creationDate = e.getString("creation_date");
 			note = e.getString("note");
 		} catch (JSONException e1) {
-			Log.i("CUSTOM LIST parse problem", e1.toString());
+			Log.i(TAG, e1.toString());
 		}
 	}
 
@@ -84,8 +89,10 @@ public class CustomList implements Parcelable {
 
 	public void attachItems(ArrayList<Item> children) {
 		if (listItems == null) {
-			Log.i("IN ATTACHITEMS()", "listItems == null");
+			Log.i(TAG, "IN ATTACHITEMS(), listItems == null");
 			listItems = new ArrayList<Item>(children.size());
+		} else {
+			Log.i(TAG, "AttachItems(): ListItems was not null. Why?");
 		}
 		this.listItems = children;
 	}
@@ -166,70 +173,6 @@ public class CustomList implements Parcelable {
 		else
 			return listItems.get(listItems.size() - 1); // otherwise pass the
 														// last list item
-	}
-
-	public void pullItems(Context context) {
-
-		this.populated = 1;
-
-		listItems = new ArrayList<Item>();
-
-		JSONObject json = JSONfunctions.getJSONfromURL("getItemsForList", ""
-				+ this.ID); // must pass the list ID as a String
-
-		try {
-			JSONArray lists = json.getJSONArray("items");
-
-			if (lists.length() >= 1) {
-
-				JSONObject e1, e2;
-				Item item1, item2;
-
-				for (int i = 0; i < lists.length(); i++) {
-
-					if (i == 0) { // do the items two at a time in order to set
-									// prev
-									// and next for each
-						e1 = lists.getJSONObject(i);
-						item1 = new Item(e1);
-						item1.setParent(context, this.ID);
-
-						e2 = lists.getJSONObject(i + 1);
-						item2 = new Item(e2);
-						item2.setParent(context, this.ID);
-
-						item2.setPrev(context, item1.getID());
-						item1.setNext(context, item2.getID());
-						listItems.add(item1);
-						listItems.add(item2);
-						
-
-						i += 1;
-
-					} else {
-						e1 = lists.getJSONObject(i);
-						item1 = new Item(e1);
-						item1.setParent(context, this.ID);
-
-						Item prev = listItems.get(i - 1);
-
-						prev.setNext(context, item1.getID());
-						item1.setPrev(context, prev.getID());
-						listItems.add(item1);
-
-					}
-				}
-
-				listItems.get(0).setPrev(context, 
-						listItems.get(listItems.size() - 1).getID()); // "Loop around":
-
-				listItems.get(listItems.size() - 1).setNext(context, 
-						listItems.get(0).getID()); // and
-			}
-
-		} catch (JSONException e) {
-			//Log.e("log_tag", "Error parsing data " + e.toString());
-		}
 	}
 
 	public int describeContents() {

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import zebrafish.util.DBHelper;
+
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,7 +14,8 @@ import android.util.Log;
 
 public class Item implements Parcelable {
 
-	DBHelper db;
+	private DBHelper db;
+	private static final String TAG = "ITEM";
 	
 	private String name, creationDate, notes, completionDate;
 	private int parentID, ID, quantity, assigner, assignee, creator; // use
@@ -359,7 +362,6 @@ public class Item implements Parcelable {
 	}
 
 	public void setSelected(int i) {
-		Log.e("ITEM CLASS", "Item " + name + "is selected? " + i);
 		this.selected = (i == 1 ? true : false);
 	}
 

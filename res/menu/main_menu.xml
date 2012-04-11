@@ -4,7 +4,7 @@
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_menu_btn_add"
         android:showAsAction="always"
-        android:title="test"></item>
+        android:title="test"/>
     <item
         android:id="@+id/menu_more"
         android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"

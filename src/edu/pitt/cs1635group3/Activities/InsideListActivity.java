@@ -1,7 +1,8 @@
 package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import zebrafish.util.DBHelper;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -28,7 +28,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.ItemAdapter;
 import edu.pitt.cs1635group3.R;
@@ -40,10 +39,12 @@ public class InsideListActivity extends SherlockListActivity {
 	private ArrayAdapter<Item> adapter;
 	private RelativeLayout parentLayout;
 
+	private static final String TAG = "InsideListActivity";
+
 	private int totalItems;
 
 	private DBHelper db;
-	Context context;
+	protected Context context;
 
 	private Button assign_button, complete_button, invite_button;
 	private View buttons_helper;
@@ -123,7 +124,7 @@ public class InsideListActivity extends SherlockListActivity {
     			final Item item = items.get(position);
     			final String itemName = item.getName();
     			
-    			Log.i("LONG PRESS", "Item name is " +itemName+ " and ID is " +item.getID() + " and prev is " +item.getPrev() + " and next is " +item.getNext());
+    			//Log.i(TAG, "Item name is " +itemName+ " and ID is " +item.getID() + " and prev is " +item.getPrev() + " and next is " +item.getNext());
 
 				final Button b = (Button) parentView
 						.findViewById(R.id.delete_item_button);
@@ -164,8 +165,8 @@ public class InsideListActivity extends SherlockListActivity {
 						
 						db.close();
 						
-						Log.i("PREV ITEM", "Prev item has next item " +nextItem.getName());
-						Log.i("NEXT ITEM", "NExt item has prev item " +prevItem.getName());
+						Log.i(TAG, "Prev item has next item " +nextItem.getName());
+						Log.i(TAG, "NExt item has prev item " +prevItem.getName());
 
 						Toast.makeText(getBaseContext(),
 								"Item " + itemName + " deleted.",
@@ -295,7 +296,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
 		intent.putExtra("ListID", extras.getInt("ListID"));
-		Log.i("INVITE TO", "ListID: " + extras.getInt("ListID"));
+		Log.i(TAG, "ListID: " + extras.getInt("ListID"));
 		startActivity(intent);
 
 	}

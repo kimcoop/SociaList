@@ -2,11 +2,9 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
-import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import zebrafish.util.DBHelper;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,26 +16,34 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.CustomListAdapter;
-import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.User;
 
 public class SociaListActivity extends SherlockListActivity { // ListActivity
-	int activeListPosition;
+	private int activeListPosition;
 	private ArrayList<CustomList> lists = null;
 	private ArrayList<User> users = null;
 	private DBHelper db;
 	private RelativeLayout parentLayout;
-	ArrayAdapter<CustomList> adapter;
+	private ArrayAdapter<CustomList> adapter;
+	
+	private Context context;
+	private static final String TAG = "SociaListActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
+		context = this;
 		getSupportActionBar();
 		setTitle("Lists");
 
@@ -64,7 +70,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
     			final CustomList userlist = lists.get(position);
     			final String listname = userlist.getName();
     			
-    			Log.i("LIST LONG PRESS", "List name is " +listname+ " and ID is " +userlist.getID());
+    			Log.i(TAG, "List name is " +listname+ " and ID is " +userlist.getID());
     			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
 
     			final Button b = (Button) v.findViewById(R.id.delete_list_button);

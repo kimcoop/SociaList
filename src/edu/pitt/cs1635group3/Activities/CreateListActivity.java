@@ -3,10 +3,8 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import zebrafish.util.DBHelper;
+import zebrafish.util.JSONfunctions;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,13 +16,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.DBHelper;
 import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.JSONfunctions;
 import edu.pitt.cs1635group3.R;
 
 public class CreateListActivity extends SherlockListActivity {

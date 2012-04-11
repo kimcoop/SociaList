@@ -2,6 +2,8 @@ package edu.pitt.cs1635group3;
 
 import java.util.ArrayList;
 
+import zebrafish.util.DBHelper;
+
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -18,19 +20,22 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
 	private final ArrayList<Item> items;
-	Button assign_button;
-	Button complete_button;
-	Button invite_button;
-	boolean inviteUp;
-	int checkedItems = 0;
-	int checkedCompletedItems = 0;
+	private Button assign_button;
+	private Button complete_button;
+	private Button invite_button;
+	private boolean inviteUp;
+	private int checkedItems = 0;
+	private int checkedCompletedItems = 0;
+	
+	private static final String TAG = "ItemAdapter";
+	private DBHelper db;
+	protected Context context;
 
-	DBHelper db;
-
-	public ItemAdapter(Context context, int textViewResourceId,
+	public ItemAdapter(Context c, int textViewResourceId,
 			ArrayList<Item> items, Button assign_button,
 			Button complete_button, Button invite_button, boolean inviteUp) {
-		super(context, textViewResourceId, items);
+		super(c, textViewResourceId, items);
+		context = c;
 		this.items = items;
 		this.assign_button = assign_button;
 		this.complete_button = complete_button;
@@ -109,16 +114,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						complete_button.setVisibility(View.VISIBLE);
 						assign_button.setVisibility(View.VISIBLE);
 					}
-					/*
-					 * if (checkedCompletedItems == 0) { // if the items
-					 * selected are all marked as completed, this will be 0
-					 * complete_button.setText("Mark Incomplete");
-					 * complete_button.setOnClickListener(new OnClickListener()
-					 * { public void onClick(View v) { Log.e("ITEM ADAPTER",
-					 * "button is now marking incomplete"); } }); // reset the
-					 * function call in calling Activity }
-					 */
-					// items.get(pos)
+
 					activeItem.setSelected(isChecked);
 					db.updateItem(activeItem); // the item needs to be marked as
 												// selected in the db so

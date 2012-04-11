@@ -1,15 +1,12 @@
 package edu.pitt.cs1635group3.Activities;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
+import zebrafish.util.DBHelper;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -18,9 +15,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.pitt.cs1635group3.DBHelper;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class ItemActivity extends SherlockActivity {
 
@@ -34,6 +37,7 @@ public class ItemActivity extends SherlockActivity {
 	private DBHelper db;
 	
 	private Context context;
+	private static final String TAG = "ITEM ACTIVITY";
 
 	private int pos, totalItems;
 
@@ -182,9 +186,11 @@ public class ItemActivity extends SherlockActivity {
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
-		if (rawAssignee != "" && rawAssignee != null && !rawAssignee.isEmpty()) {
-			assigneeID = db.getUserByName(rawAssignee);
+		if (rawAssignee != "") { 
+			assigneeID = User.getUserByName(context, rawAssignee);
 			item.assignTo(context, assigneeID);
+		} else {
+			Log.e(TAG, "Cannot assign item to null user");
 		}
 
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
