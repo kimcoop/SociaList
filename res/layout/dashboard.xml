@@ -16,7 +16,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/white">
     
     <View android:id="@+id/home_hoz_light"
         style="@style/hozLine1pxLight"
@@ -45,18 +46,24 @@
 	        android:text="@string/btn_list"
 	        android:drawableTop="@drawable/home_btn_lists" 
 	        android:onClick="myLists"/>
+	    
 	    <Button android:id="@+id/home_btn_manage"
 	        style="@style/DashboardButton"
 	        android:text="@string/btn_manage"
-	        android:drawableTop="@drawable/home_btn_manage" />
+	        android:drawableTop="@drawable/home_btn_manage"
+	        android:onClick="myItems" />
+	    
 	    <Button android:id="@+id/home_btn_pending"
 	        style="@style/DashboardButton"
 	        android:text="@string/btn_pending"
-	        android:drawableTop="@drawable/home_btn_pending" />
+	        android:drawableTop="@drawable/home_btn_pending"
+	        android:onClick="myPendingInvites" />
+	    
 	    <Button android:id="@+id/home_btn_browse"
 	        style="@style/DashboardButton"
 	        android:text="@string/btn_browse"
-	        android:drawableTop="@drawable/home_btn_browse" />
+	        android:drawableTop="@drawable/home_btn_browse"
+	        android:onClick="browseForListByID" />
 
 	</edu.pitt.cs1635group3.DashboardLayout>
     

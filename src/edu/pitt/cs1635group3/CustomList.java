@@ -20,6 +20,8 @@ public class CustomList implements Parcelable {
 	private int populated;
 	protected ArrayList<Item> listItems;
 	
+	private static DBHelper db;
+	
 	private static final String TAG = "CUSTOM LIST";
 
 	public CustomList(JSONObject e) {
@@ -210,6 +212,37 @@ public class CustomList implements Parcelable {
 		db.updateList(this);
 		db.close();
 		
+	}
+	
+	/*
+	 * CLASS METHODS
+	 */
+
+	public static void insertOrUpdateLists(Context context, ArrayList<CustomList> myCustomLists) {
+		db = new DBHelper(context);
+		db.open();
+		
+		for (CustomList c : myCustomLists) {
+			db.insertOrUpdateList(c);
+		}
+		db.close();
+		
+	}
+
+	public static CustomList getListByID(Context context, int i) {
+		db = new DBHelper(context);
+		db.open();
+		CustomList c = db.getListByID(i);
+		db.close();
+		return c;
+	}
+
+	public static ArrayList<Item> getItemsForListByID(Context context, int i) {
+		db = new DBHelper(context);
+		db.open();
+		ArrayList<Item> items = db.getItemsForListByID(i);
+		db.close();
+		return items;
 	}
 
 }

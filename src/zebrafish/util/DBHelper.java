@@ -74,6 +74,8 @@ public class DBHelper {
 	public static final String KEY_MAP_LIST_USER_ID = "id";
 	public static final String KEY_MAP_LIST_ID = "list_id";
 	public static final String KEY_MAP_USER_ID = "user_id";
+	public static final String KEY_MAP_PENDING = "pending";
+	public static final String KEY_MAP_INVITE_DATE = "invite_date";
 
 	public static final String KEY_USER_ID = "id";
 	public static final String KEY_USER_FIRST = "first";
@@ -85,6 +87,9 @@ public class DBHelper {
 	private static final String TAG = "SociaList: DbAdapter";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase db;
+	
+	private static final boolean NO_PUSH_TO_CLOUD = false;
+	private static final boolean PUSH_TO_CLOUD = true;
 
 	/**
 	 * Database creation sql statement
@@ -104,28 +109,13 @@ public class DBHelper {
 			+ "selected integer, "
 			+ "UNIQUE (id) ON CONFLICT IGNORE)";
 
-	/*
-	 * If the default value of the column is a constant NULL, text, blob or
-	 * signed-number value, then that value is used directly in the new row.
-	 * 
-	 * If the default value of a column is an expression in parentheses, then
-	 * the expression is evaluated once for each row inserted and the results
-	 * used in the new row.
-	 * 
-	 * If the default value of a column is CURRENT_TIME, CURRENT_DATE or
-	 * CURRENT_TIMESTAMP, then the value used in the new row is a text
-	 * representation of the current UTC date and/or time. For CURRENT_TIME, the
-	 * format of the value is "HH:MM:SS". For CURRENT_DATE, "YYYY-MM-DD". The
-	 * format for CURRENT_TIMESTAMP is "YYYY-MM-DD HH:MM:SS".
-	 */
-
 	private static final String LIST_CREATE = "create table list (id integer primary key autoincrement, "
 			+ "custom_id text, "
 			+ "name text not null, creator_id integer not null, "
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
-			+ "list_id integer not null, user_id integer not null)";
+			+ "list_id integer not null, user_id integer not null, pending integer not null default 1, invite_date date)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
 			+ "first text not null, last text not null, email text,"
@@ -145,10 +135,6 @@ public class DBHelper {
 	 */
 	public DBHelper(Context ctx) {
 		this.mCtx = ctx;
-	}
-
-	public boolean abandonShip() {
-		return db.delete("list", null, null) > 0;
 	}
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -224,8 +210,6 @@ public class DBHelper {
 		args.put(KEY_USER_DEVICE_TOKEN, i.getDeviceToken());
 		args.put(KEY_USER_DEVICE_ID, i.getDeviceID());
 
-		//Log.d("UPDATED USER", "USER ID: " + i.getID());
-
 		return db.update(USER_TABLE, args, KEY_USER_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 
@@ -242,7 +226,7 @@ public class DBHelper {
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
-	public CharSequence[] getUsersForDialog() { // TODO - make this take ListID
+	public CharSequence[] getUsersForDialog(int id) { // TODO - make this take ListID
 												// as a param
 
 		CharSequence[] users;
@@ -393,7 +377,7 @@ public class DBHelper {
 		db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) });	
 	}
-
+ 
 	public boolean deleteList(CustomList list) {
 		JSONfunctions.deleteList(list.getID());
 
@@ -408,17 +392,6 @@ public class DBHelper {
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
-	public void insertList(CustomList list, boolean fromServer) {
-		// If the list is being pulled from the server, we don't want to
-		// recreate it on the server.
-
-		if (!fromServer) {
-			JSONfunctions.createList(list);
-		}
-
-		insertList(list);
-	}
-
 	public void insertOrUpdateList(CustomList i) { // query to test if item
 													// exists. if it does,
 													// update. if it doesn't,
@@ -431,14 +404,19 @@ public class DBHelper {
 		if (c.getCount() > 0) {
 			// Item exists
 			c.close();
-			updateList(i);
+			updateList(i, NO_PUSH_TO_CLOUD);
 		} else {
 			c.close();
-			insertList(i);
+			insertList(i, NO_PUSH_TO_CLOUD);
 		}
 	}
-
+	
 	public void insertList(CustomList list) {
+		// by default, push to server.
+		insertList(list, PUSH_TO_CLOUD);
+	}
+
+	public void insertList(CustomList list, boolean pushToCloud) {
 		// In order to generate unique PKs that sync with the web server's db,
 		// PKs are pulled down from the server by allocating uninitialized lists
 		// on the web server.
@@ -446,27 +424,35 @@ public class DBHelper {
 		// server, we need to UPDATE
 		// the currently-null list item using the ID.
 
-		//Log.i("INSERTING LIST", "Here" + list.getName());
-		JSONfunctions.updateList(list);
+		int userID = list.getCreator();
+		
+		if (pushToCloud) JSONfunctions.updateList(list);
+		
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
 		initialValues.put(KEY_LIST_CUSTOM_ID, list.getCustomID());
 		initialValues.put(KEY_LIST_NAME, list.getName());
-		initialValues.put(KEY_CREATOR_ID, list.getCreator());
+		initialValues.put(KEY_CREATOR_ID, userID);
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		db.insert(LIST_TABLE, null, initialValues);
+		
+	}
+	
+	public void updateList(CustomList list) {
+		// by default, push to server.
+		insertList(list, true);
 	}
 
-	public boolean updateList(CustomList i) {
+	public boolean updateList(CustomList i, boolean pushToCloud) {
 		ContentValues args = new ContentValues();
+
+		if (pushToCloud) JSONfunctions.updateList(i);
 
 		args.put(KEY_LIST_ID, i.getID());
 		args.put(KEY_LIST_CUSTOM_ID, i.getCustomID());
 		args.put(KEY_LIST_NAME, i.getName());
 		args.put(KEY_CREATOR_ID, i.getCreator());
 		args.put(KEY_CREATION_DATE, i.getCreationDate());
-
-		JSONfunctions.updateList(i);
 
 		//Log.d("UPDATED LIST", "List ID: " + i.getID());
 
@@ -478,7 +464,7 @@ public class DBHelper {
 	public ArrayList<CustomList> getAllLists() {
 
 		ArrayList<CustomList> lists = null;
-		String myQuery = "SELECT * FROM list";// WHERE parent_id = " + ID;
+		String myQuery = "SELECT * FROM list";// WHERE user_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
@@ -692,7 +678,8 @@ public class DBHelper {
 	}
 
 	public boolean updateItem(Item i) {
-		return updateItem(i, false);
+		return updateItem(i, PUSH_TO_CLOUD);
 
 	}
+
 }

@@ -22,7 +22,6 @@ import edu.pitt.cs1635group3.User;
 public class SplashScreenActivity extends Activity {
 	protected boolean _active = true;
 	protected int _splashTime = 5000;
-
 	
 	protected Context context;
 	private static final String TAG = "SplashScreenActivity";
@@ -44,7 +43,6 @@ public class SplashScreenActivity extends Activity {
 					 */
 
 					JSONfunctions.getLists(context);
-					JSONfunctions.getUsers(context);
 
 				} finally {
 					finish();

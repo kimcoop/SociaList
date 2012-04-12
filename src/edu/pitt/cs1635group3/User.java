@@ -1,7 +1,13 @@
 package edu.pitt.cs1635group3;
 
+import java.util.ArrayList;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import zebrafish.util.DBHelper;
+import zebrafish.util.JSONfunctions;
 
 public class User {
 
@@ -89,6 +95,15 @@ public class User {
 	 * CLASS METHODS
 	 */
 	
+	public static int getCurrUser(Context context) {
+		SharedPreferences prefs;
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        
+        int id = prefs.getInt("userID", 0); // how many times app has been launched
+        return id;
+	}
+	
 	public static int getUserByName(Context context, String rawAssignee) {
 		// this method will be changing to ID rather than name
 		int id;
@@ -97,6 +112,31 @@ public class User {
 		id = db.getUserByName(rawAssignee);
 		db.close();
 		return id;
+	}
+	
+	public static void insertOrUpdateUsers(Context context, ArrayList<User> users) {
+		db = new DBHelper(context);
+		db.open();
+		
+		for (User u : users) {
+			db.insertOrUpdateUser(u);
+		}
+		db.close();
+	}
+
+	public static CharSequence[] getUsersForDialog(Context context, int id) {
+		CharSequence[] users;
+		db = new DBHelper(context);
+		db.open();
+		users = db.getUsersForDialog(id);
+		db.close();
+		return users;
+	}
+
+	public static int storeUser(String email, String pass) {
+		int uID;
+		uID = JSONfunctions.storeUser(email, pass);
+		return uID;
 	}
 
 }

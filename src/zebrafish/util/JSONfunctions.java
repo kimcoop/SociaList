@@ -84,15 +84,11 @@ public class JSONfunctions {
 	}
 
 	public static void deleteList(int id) {
-		post("deleteList", id);
+		post("deleteList", ""+id);
 	}
 
 	public static void deleteItem(int id) {
-		post("deleteItem", id);
-	}
-	
-	public static void post(String action, int id) {
-		post(action, ""+id); // convert int to String to pass
+		post("deleteItem", ""+id);
 	}
 	
 	public static void post(String action, String objID) {
@@ -114,7 +110,6 @@ public class JSONfunctions {
 		} catch (Exception e) {
 			Log.e(TAG +" - post", "Error in http connection " + e.toString());
 		}
-		
 
 		result = getResult(is);
 		resp = getResponse(result, "response");
@@ -175,18 +170,17 @@ public class JSONfunctions {
 	
 	public static String getResponse(String res, String which) {
 
-		JSONObject jArray = null;
+		JSONObject jObj = null;
 		String response = "";
 		
 		try { // try parse the string to a JSON object
-			jArray = new JSONObject(res);
+			jObj = new JSONObject(res);
 		} catch (JSONException e) {
 			Log.e(TAG + "- getResponse", "Error parsing data " + e.toString());
 		}
 
 		try {
-			response = jArray.getString(which);
-			Log.d(TAG + "- getResponse", "ALL CLEAR: " + response);
+			response = jObj.getString(which);
 
 		} catch (JSONException e) {
 			Log.e(TAG + "- getResponse", "Error with posting item " + e.toString());
@@ -199,48 +193,45 @@ public class JSONfunctions {
 	 * LISTS
 	 */
 
-	public static void createList(CustomList list) {
-		postList("createList", list);
-	}
+	public static void createList(CustomList list, int userID) {
+		// This is called after we've already snatched the PK from the web server.
+		// So the list (even though we're currently creating it) already is initialized on the server.
+		
+		updateList(list);
+	} // end CreateList
 
 	public static void updateList(CustomList list) {
-		postList("updateList", list);
-	}
-
-	public static void postList(String action, CustomList c) { // pass the item
-																// back
-																// to the server
 
 		// initialize
 		InputStream is = null;
 		String result = "", resp = "";
-		JSONObject jArray = null;
 
 		// http post
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = PostParams.formatListParams(action, c);
+			ArrayList<NameValuePair> params = PostParams.formatListParams("updateList", list);
 			httppost.setEntity(new UrlEncodedFormEntity(params));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();
 
 		} catch (Exception e) {
-			Log.e("PHP LIST", "Error in http connection " + e.toString());
+			Log.e(TAG, "POSTLIST: Error in http connection " + e.toString());
 		}
 		result = getResult(is);
 		resp = getResponse(result, "response");
 		Log.i(TAG, resp);
+		
+	} // end UpdateList
 
-	} // end List methods
 
 	/*
 	 * ITEMS
 	 */
 
 	public static void createItem(Item i) {
-		postItem("createItem", i);
+		postItem("updateItem", i);
 	}
 
 	public static void updateItem(Item i) {
@@ -250,7 +241,7 @@ public class JSONfunctions {
 	public static void postItem(String action, Item i) { // pass the item back
 															// to the server
 
-		Log.i(TAG + "- POST ITEM", "Posting: " + i.getName());
+		//Log.i(TAG + "- POST ITEM", "Posting: " + i.getName());
 
 		// initialize
 		InputStream is = null;
@@ -260,8 +251,7 @@ public class JSONfunctions {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-			params = PostParams.formatParams(action, i);
+			ArrayList<NameValuePair> params = PostParams.formatParams(action, i);
 			httppost.setEntity(new UrlEncodedFormEntity(params));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
@@ -282,80 +272,68 @@ public class JSONfunctions {
 	}
 
 	public static JSONObject getJSONfromURL(String a) {
-		return getJSONfromURL(a, null);
+		return postForJSONObject(a, null);
 	}
 
-
-	public static JSONObject getJSONfromURL(String action, int listID) {
-		return getJSONfromURL(action, ""+listID);
+	public static JSONObject getJSONfromURL(String action, int objID) {
+		return postForJSONObject(action, ""+objID);
 	}
 	
-	public static JSONObject getJSONfromURL(String action, String listID) {
-		return postForJSONObject(action, listID);
-	} // end getJSON
-	
-	public static ArrayList<User> getUsers(Context context) {
+	public static void getUsers(Context context, int listID) {
 		// pull in users from the server. do this only once
 
-		ArrayList<User> sharedUsers = new ArrayList<User>();
-		JSONObject json = JSONfunctions.getJSONfromURL("getUsers");
+		ArrayList<User> users = new ArrayList<User>();
+		JSONObject json = JSONfunctions.postForJSONObject("getUsers", ""+listID);
 
 		try {
 			JSONArray myUsers = json.getJSONArray("users");
 
 			User u;
-
-			db = new DBHelper(context);
-			db.open();
-
+			
 			for (int i = 0; i < myUsers.length(); i++) {
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2),
 						e.getString(3));
-				u.setDeviceToken(e.getString(4));
-				u.setDeviceID(e.getString(5));
-				db.insertOrUpdateUser(u);
-				sharedUsers.add(u);
+				u.setDeviceToken(e.getString(4)); //todo remove
+				u.setDeviceID(e.getString(5)); //todo remove - Kim
+				
+				users.add(u);
 			}
 
-			db.close();
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in getUsers(): " + e.toString());
 		}
+		
+		if (users!= null) User.insertOrUpdateUsers(context, users); // insert into db all users at once
+		else Log.i(TAG, "No users for list: ID " +listID);
 
-		return sharedUsers;
-
-	}// end getUsers(Context);
-	
-
+	}// end getUsers(Context)
 
 	public static void getLists(Context context) {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
-		ArrayList<Item> items = null;
-
 		JSONObject json = JSONfunctions.getJSONfromURL("getLists");
 
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
 
 			CustomList list;
+			int listID;
 			JSONObject e1;
-
-			db = new DBHelper(context);
-			db.open();
 
 			for (int i = 0; i < myLists.length(); i++) {
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1);
 
 				myCustomLists.add(list);
-				db.insertOrUpdateList(list);
 
-				getListItems(context, list.getID()); // pull the list's items from the server
-
+				listID = list.getID();
+				getListItems(context, listID); // pull the list's items from the server
+				getUsers(context, listID); // pull the list's users too
+				
 			}
-			db.close();
+			
+			CustomList.insertOrUpdateLists(context, myCustomLists);
 
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in getLists(): " +e.toString());
@@ -419,6 +397,63 @@ public class JSONfunctions {
 		} catch (JSONException e) {
 			Log.e(TAG, "PullItems(): " + e.toString());
 		}
+		
+		//return listItems;
+		Item.insertOrUdpateItems(context, listItems);
+
+	}
+
+	public static ArrayList<CustomList> getRefreshLists(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static int storeUser(String email, String pw) {
+
+		// initialize
+		InputStream is = null;
+		String result = "";
+		JSONObject jArray = null;
+		ArrayList<String> vals = new ArrayList<String>(4);
+		vals.add(email);
+		vals.add(pw);
+		/* TODO
+		vals.add(fname);
+		vals.add(lname);*/
+
+		// http post
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(URL);
+			ArrayList<NameValuePair> params = PostParams.formatParams("storeUser", email, pw);
+			httppost.setEntity(new UrlEncodedFormEntity(params));
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			is = entity.getContent();
+
+		} catch (Exception e) {
+			Log.e(TAG + " - register user", "Error in http connection " + e.toString());
+		}
+
+		result = getResult(is);
+
+		// try parse the string to a JSON object
+		try {
+			jArray = new JSONObject(result);
+		} catch (JSONException e) {
+			Log.e(TAG, "Error parsing data " + e.toString());
+		}
+
+		int uID = -1;
+
+		try {
+			uID = jArray.getInt("response");
+
+		} catch (JSONException e) {
+			Log.e(TAG, "Error with getting user ID " + e.toString());
+		}
+
+		return uID;
 	}
 
 }

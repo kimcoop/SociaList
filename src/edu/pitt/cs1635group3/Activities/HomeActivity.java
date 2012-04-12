@@ -10,81 +10,141 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class HomeActivity extends Activity {
-	/** Called when the activity is first created. */
+
 	private EditText messageText = null;
-	
-	private static Activity currActivity;
 	private static Context context;
 	private static final String TAG = "HomeActivity";
+	
+	private static SharedPreferences prefs;
+	
+	private int userID;
 	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Got here");
         setContentView(R.layout.dashboard);
 		context = this;
-		currActivity = this;
-		
-		showPushNotificationDialog();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        
+        int counter = prefs.getInt("counter", 0); // how many times app has been launched
+        Log.i(TAG, "From sharedPrefs, counter is " +counter);
         
         
+        if (counter==0) { // then user isn't registered yet, so register
+    		showRegisterDialog();
+    		showPushNotificationDialog();
+        }
+        
+        userID = prefs.getInt("userID", 0);
+        Log.i(TAG, "User ID here is " +userID);
+
+        Editor e = prefs.edit();
+        e.putInt("counter", ++counter); // inc the counter
+        e.commit(); // Very important
         
     }
 	
-    public void myLists(View v) {
-
-		Intent intent = new Intent(HomeActivity.this, SociaListActivity.class);
-		startActivityForResult(intent, 0);
-
-	}
     
-    /**
-	 * Show push notification dialog.
-	 */
+    public void showRegisterDialog() {
+        
+		final Dialog dialogok = new Dialog(this);
+
+		dialogok.setContentView(R.layout.dialog_register);
+		dialogok.setOwnerActivity(this);
+		dialogok.setTitle("App Registration");
+		TextView tv = (TextView) dialogok
+				.findViewById(R.id.textViewDialogMessage);
+		tv.setText("Set up a password to enable app use on other devices.");
+		Button ok_btn = (Button) dialogok.findViewById(R.id.buttonOK);
+		Button cancel_btn = (Button) dialogok.findViewById(R.id.buttonCancel);
+
+		final EditText txtvEmail = (EditText) dialogok.findViewById(R.id.txtvEmail);
+		
+		OnClickListener l_ok = new OnClickListener() {
+			public void onClick(View v) {//
+				
+				String email = txtvEmail.getText().toString().trim();
+
+				EditText txtvPass = (EditText) dialogok.findViewById(R.id.txtvEmail);
+				String pass = txtvPass.getText().toString().trim();
+				
+				storeUser(email, pass);
+				dialogok.dismiss();
+			}
+		};
+		
+		OnClickListener l_cancel = new OnClickListener() {
+			public void onClick(View v) {//
+				dialogok.dismiss();
+			}
+		};
+		
+		ok_btn.setOnClickListener(l_ok);
+		cancel_btn.setOnClickListener(l_cancel);
+
+	    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+	        .showSoftInput(txtvEmail, InputMethodManager.SHOW_FORCED);
+		
+		dialogok.show();
+		
+	} // end showRegisterDialog
+    
+    
+	protected void storeUser(String email, String pass) {
+		// pass the ID back to shared prefs to recall later
+		userID = User.storeUser(email, pass);
+		Editor e = prefs.edit();
+        e.putInt("userID", userID);
+        e.commit();
+        
+        Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG);
+	}
+
+
 	public void showPushNotificationDialog() {
 		Log.i(TAG, "Show push notification dialog");
 
-		final SharedPreferences prefs = getSharedPreferences(
-				C2DMessaging.PREFERENCE, Context.MODE_PRIVATE);
-		if (C2DMessaging.shouldRegisterForPush(getApplicationContext())) {
+		prefs = getSharedPreferences(C2DMessaging.PREFERENCE, Context.MODE_PRIVATE);
+		
+		if (C2DMessaging.shouldRegisterForPush(context)) {
 			if ((Build.VERSION.SDK_INT >= 8)
 					&& (C2DMessaging
-							.shouldRegisterForPush(getApplicationContext()))) {
-				C2DMReceiver.refreshAppC2DMRegistrationState(
-						getApplicationContext(), true);
+							.shouldRegisterForPush(context))) {
+				C2DMReceiver.refreshAppC2DMRegistrationState(context, true);
 			}
 		}
 		
-		if (!prefs.contains("dm_registration")) {
+		if (prefs.contains("dm_registration")) {
 			Log.i(TAG, "Device already registered ");
-			//return;
+			return;
 		} else { // don't reshow the push notifications prompt if they've already registered
-		
-
-		Log.i(TAG, "Here 1");
 
 		if (Build.VERSION.SDK_INT >= 8) {
 
 			Editor e = prefs.edit();
 			e.putString("dm_registration", "");
 			e.commit();
-			C2DMessaging.setRegisterForPush(getApplicationContext(), true);
-			C2DMReceiver.refreshAppC2DMRegistrationState(
-					getApplicationContext(), true);
+			C2DMessaging.setRegisterForPush(context, true);
+			C2DMReceiver.refreshAppC2DMRegistrationState(context, true);
 
 		} else {
 			final Dialog dialogok = new Dialog(this);
@@ -102,8 +162,7 @@ public class HomeActivity extends Activity {
 					Editor e = prefs.edit();
 					e.putString("dm_registration", "");
 					e.commit();
-					C2DMessaging.setRegisterForPush(getApplicationContext(),
-							false);
+					C2DMessaging.setRegisterForPush(context, false);
 				}
 			};
 			ok_btn.setOnClickListener(l);
@@ -113,8 +172,27 @@ public class HomeActivity extends Activity {
 	} // end showPushNotificationDialog()
 	
 
-	public static Activity getCurrentActivity() {
-		// TODO Auto-generated method stub
-		return currActivity;
+    public void myLists(View v) {
+		Intent intent = new Intent(context, SociaListActivity.class);
+		startActivityForResult(intent, 0);
 	}
+    
+
+    public void myItems(View v) {
+		Intent intent = new Intent(context, ItemsActivity.class);
+		startActivity(intent);
+	}
+    
+
+    public void myPendingInvites(View v) {
+		Intent intent = new Intent(context, PendingInvitesActivity.class);
+		startActivity(intent);
+	}
+    
+
+    public void browseForListById(View v) {
+		Intent intent = new Intent(context, BrowseForListActivity.class);
+		startActivity(intent);
+	}
+
 }

@@ -3,14 +3,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:id="@+id/userlists_layout">
-    
-    <Button
-        android:id="@+id/new_list_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="createNewList"
-        android:text="@string/Create_New_List" />
  
     <ListView
         android:id="@id/android:list"

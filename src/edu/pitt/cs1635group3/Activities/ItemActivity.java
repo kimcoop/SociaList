@@ -62,7 +62,6 @@ public class ItemActivity extends SherlockActivity {
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		assignee = (EditText) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-		
 
 		CheckBox itemCompletion = (CheckBox) findViewById(R.id.item_completion);
 
@@ -142,9 +141,7 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void selectAssignee(View v) {
-		db.open();
-		final CharSequence[] users = db.getUsersForDialog();
-		db.close();
+		final CharSequence[] users = User.getUsersForDialog(context, item.getParentID());
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -182,13 +179,15 @@ public class ItemActivity extends SherlockActivity {
 		item.setName(context, name.getText().toString().trim());
 		item.setQuantity(context, Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
+		item.setAssigner(User.getCurrUser(context));
 
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
 		if (rawAssignee != "") { 
 			assigneeID = User.getUserByName(context, rawAssignee);
-			item.assignTo(context, assigneeID);
+			Log.i(TAG, "Assignee ID is " +assigneeID);
+			//TODO item.assignTo(context, assigneeID);
 		} else {
 			Log.e(TAG, "Cannot assign item to null user");
 		}
@@ -355,8 +354,11 @@ public class ItemActivity extends SherlockActivity {
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
+		case 0:
+			intent = new Intent(this, HomeActivity.class);
+			startActivity(intent);
+			return true;
 		case R.id.menu_delete:
-			
 			deleteItem();
 			return true;
 

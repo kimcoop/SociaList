@@ -16,7 +16,7 @@
     <!-- Dashboard Buttons -->
     
     <string name="btn_list">My Lists</string>
-    <string name="btn_manage">Manage Lists</string>
+    <string name="btn_manage">My Items</string>
     <string name="btn_pending">Pending Invites</string>
     <string name="btn_browse">Browse Lists</string>
     

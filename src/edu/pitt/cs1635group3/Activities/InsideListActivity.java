@@ -31,6 +31,7 @@ import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.ItemAdapter;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class InsideListActivity extends SherlockListActivity {
 
@@ -73,15 +74,11 @@ public class InsideListActivity extends SherlockListActivity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 
-		db = new DBHelper(context);
-		db.open();
-		list = db.getListByID(extras.getInt("ListID"));
-		items = db.getItemsForListByID(extras.getInt("ListID"));
+		list = CustomList.getListByID(context, extras.getInt("ListID"));
+		items = CustomList.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
 		
-		users = db.getUsersForDialog();
-		
-		db.close();
+		users = User.getUsersForDialog(context, list.getID());
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items,
 				assign_button, complete_button, invite_button, inviteUp);
@@ -162,7 +159,6 @@ public class InsideListActivity extends SherlockListActivity {
 						}
 
 						db.deleteItem(item); // todo - can we do this inside Item.java?
-						
 						db.close();
 						
 						Log.i(TAG, "Prev item has next item " +nextItem.getName());
@@ -242,9 +238,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 	public void assignItemsTo(String user) {
 
-		db.open();
-		int userID = db.getUserByName(user);
-		db.close();
+		int userID = User.getUserByName(context, user);
 
 		for (Item item : items) {
 			if (item.isSelected()) {
@@ -275,16 +269,13 @@ public class InsideListActivity extends SherlockListActivity {
 	}
 
 	public void completeItems(View v) {
-		db.open();
 
 		for (Item item : items) {
 			if (item.isSelected()) {
 				item.setCompleted(context);
 				item.setSelected(context, false);
-				db.updateItem(item);
 			}
 		}
-		db.close();
 		adapter.notifyDataSetChanged();
 		complete_button.setSelected(false);
 	}
@@ -314,11 +305,20 @@ public class InsideListActivity extends SherlockListActivity {
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
+		case 0:
+			intent = new Intent(this, HomeActivity.class);
+			startActivity(intent);
+			return true;
 		case R.id.menu_add:
 			//TODO: add list item popup
 			return false;
 		case R.id.menu_rename:
 			rename();
+			return true;
+		case R.id.menu_manage_users:
+			intent = new Intent(this, ManageListUsersActivity.class);
+			intent.putExtra("listID", list.getID());
+			startActivity(intent);
 			return true;
 		case R.id.menu_invite:
 			intent = new Intent(this, InviteActivity.class);

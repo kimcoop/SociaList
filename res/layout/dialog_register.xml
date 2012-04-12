@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:paddingLeft="5dp"
+	android:paddingRight="5dp"
+	android:layout_width="300dp"
+	android:layout_height="wrap_content">
+    
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_marginBottom="5dp"
+		android:background="#cccccc"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+	<TextView
+		android:id="@+id/textViewDialogMessage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textColor="#eeeeee"
+		android:textSize="16sp"
+		android:layout_marginBottom="2dp"
+		android:editable="true" />
+	
+	<EditText
+	    android:id="@+id/txtvEmail"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:hint="Email"
+	    android:textColor="#eeeeee"
+	    android:textSize="16sp"
+        android:editable="true" >
+
+		<requestFocus />
+
+	</EditText>
+	
+	<EditText
+	    android:id="@+id/txtvPassword"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:hint="Password"
+	    android:inputType="textVisiblePassword"
+	    android:singleLine="true"
+	    android:textColor="#eeeeee"
+	    android:textSize="16sp" />
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" >
+	
+		<Button
+			android:id="@+id/buttonOK"
+			android:layout_marginTop="15dp"
+			android:layout_marginBottom="5dp"
+			android:text="OK"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1.0" />
+		
+		
+		<Button
+			android:id="@+id/buttonCancel"
+			android:layout_marginTop="15dp"
+			android:layout_marginBottom="5dp"
+			android:text="Cancel"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1.0" />
+	
+	</LinearLayout>
+	
+	
+</LinearLayout>

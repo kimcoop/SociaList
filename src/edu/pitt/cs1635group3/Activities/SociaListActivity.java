@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
+import zebrafish.util.JSONfunctions;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	
 	private Context context;
 	private static final String TAG = "SociaListActivity";
+	private ListView lv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 
 		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
 		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
-		final ListView lv = getListView();
+		lv = getListView();
 
 		setListAdapter(adapter);
 		lv.setClickable(true);
@@ -83,7 +85,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 						db.deleteListAndChildren(userlist);
 						db.close();
 						
-		            	Toast.makeText(getBaseContext(), "List " + listname + " deleted.", Toast.LENGTH_SHORT).show();
+		            	Toast.makeText(getBaseContext(), "List deleted.", Toast.LENGTH_SHORT).show();
 		            	b.setVisibility(View.INVISIBLE);
 		            	parentLayout.removeView(parentView);
 		            	adapter.remove(userlist);
@@ -124,8 +126,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode == 1 || resultCode == 0) { // force refresh the view
-			startActivity(getIntent());
-			finish();
+			adapter.notifyDataSetChanged();
 		} else if (resultCode == 2) { // coming from ItemActivity, where we have
 										// deleted the last item and user wants
 										// to remove the list.
@@ -156,6 +157,9 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 			intent = new Intent(this, CreateListActivity.class);
 			startActivity(intent);
 			return true;
+		case R.id.menu_refresh:
+			lists = JSONfunctions.getRefreshLists(context); //TODO
+			adapter.notifyDataSetChanged();
 		default:
 			return false;
 		}

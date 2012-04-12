@@ -27,6 +27,7 @@ import com.actionbarsherlock.view.MenuItem;
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class CreateListActivity extends SherlockListActivity {
 
@@ -131,9 +132,10 @@ public class CreateListActivity extends SherlockListActivity {
 			CID = CIDSpace.getText().toString();
 
 		} else { // allow save
-
+			int userID = User.getCurrUser(context);
+			
 			CustomList newList = new CustomList();
-			newList.setCreator(33); // TODO ******
+			newList.setCreator(userID); 
 			newList.setCustomID(CID);
 			newList.setName(listName);
 

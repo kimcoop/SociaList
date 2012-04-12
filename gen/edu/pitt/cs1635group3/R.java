@@ -192,6 +192,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonStyleSmall=0x7f010019;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int customFont=0x7f010051;
         /**  Specifies a layout for custom navigation. Overrides navigationMode. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -603,16 +611,17 @@ containing a value of this type.
         public static final int abs__bright_foreground_inverse_holo_dark=0x7f070006;
         public static final int abs__bright_foreground_inverse_holo_light=0x7f070007;
         public static final int abs__holo_blue_light=0x7f070008;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f07000f;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f070010;
-        public static final int abs__primary_text_holo_dark=0x7f070011;
-        public static final int abs__primary_text_holo_light=0x7f070012;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f070010;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f070011;
+        public static final int abs__primary_text_holo_dark=0x7f070012;
+        public static final int abs__primary_text_holo_light=0x7f070013;
         public static final int accent_1=0x7f070009;
         public static final int turquoise_1=0x7f07000a;
         public static final int turquoise_2=0x7f07000b;
         public static final int turquoise_3=0x7f07000c;
         public static final int turquoise_4=0x7f07000d;
         public static final int turquoise_5=0x7f07000e;
+        public static final int white=0x7f07000f;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -832,22 +841,27 @@ containing a value of this type.
         public static final int home_btn_pending_default=0x7f02006f;
         public static final int home_btn_pending_pressed=0x7f020070;
         public static final int home_btn_pending_selected=0x7f020071;
-        public static final int ic_launcher=0x7f020072;
-        public static final int ic_media_next=0x7f020073;
-        public static final int ic_media_previous=0x7f020074;
-        public static final int ic_menu_btn_add=0x7f020075;
-        public static final int ic_menu_delete=0x7f020076;
-        public static final int ic_menu_edit=0x7f020077;
-        public static final int ic_menu_invite=0x7f020078;
-        public static final int ic_menu_moreoverflow_normal_holo_dark=0x7f020079;
-        public static final int ic_menu_start_conversation=0x7f02007a;
-        public static final int ic_popup_sync_1=0x7f02007b;
-        public static final int icon=0x7f02007c;
-        public static final int object_has_note_default=0x7f02007d;
-        public static final int object_has_note_pressed=0x7f02007e;
-        public static final int object_has_note_selected=0x7f02007f;
-        public static final int splash=0x7f020080;
-        public static final int zebrafish_small=0x7f020081;
+        public static final int ic_ab_back_holo_dark=0x7f020072;
+        public static final int ic_launcher=0x7f020073;
+        public static final int ic_media_next=0x7f020074;
+        public static final int ic_media_previous=0x7f020075;
+        public static final int ic_menu_allfriends=0x7f020076;
+        public static final int ic_menu_btn_add=0x7f020077;
+        public static final int ic_menu_delete=0x7f020078;
+        public static final int ic_menu_edit=0x7f020079;
+        public static final int ic_menu_friendslist=0x7f02007a;
+        public static final int ic_menu_help=0x7f02007b;
+        public static final int ic_menu_home=0x7f02007c;
+        public static final int ic_menu_invite=0x7f02007d;
+        public static final int ic_menu_moreoverflow_normal_holo_dark=0x7f02007e;
+        public static final int ic_menu_refresh=0x7f02007f;
+        public static final int ic_menu_start_conversation=0x7f020080;
+        public static final int icon=0x7f020081;
+        public static final int object_has_note_default=0x7f020082;
+        public static final int object_has_note_pressed=0x7f020083;
+        public static final int object_has_note_selected=0x7f020084;
+        public static final int splash=0x7f020085;
+        public static final int zebrafish_small=0x7f020086;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050022;
@@ -879,24 +893,24 @@ containing a value of this type.
         public static final int abs__title=0x7f05001b;
         public static final int abs__titleDivider=0x7f05001c;
         public static final int abs__up=0x7f05000b;
-        public static final int assign_button=0x7f05003e;
-        public static final int button1=0x7f050039;
-        public static final int button3=0x7f05003a;
+        public static final int assign_button=0x7f050040;
+        public static final int button1=0x7f05003b;
+        public static final int button3=0x7f05003c;
         public static final int buttonCancel=0x7f050033;
         public static final int buttonOK=0x7f050030;
-        public static final int button_holder=0x7f050042;
-        public static final int buttons_helper=0x7f05003d;
-        public static final int check=0x7f050056;
-        public static final int complete_button=0x7f05003f;
-        public static final int delete_item_button=0x7f050058;
-        public static final int delete_list_button=0x7f05005c;
+        public static final int button_holder=0x7f050044;
+        public static final int buttons_helper=0x7f05003f;
+        public static final int check=0x7f050058;
+        public static final int complete_button=0x7f050041;
+        public static final int delete_item_button=0x7f05005a;
+        public static final int delete_list_button=0x7f05005e;
         public static final int disableHome=0x7f050009;
-        public static final int do_email_picker=0x7f050045;
-        public static final int edit_list_CID=0x7f050037;
-        public static final int edit_list_name=0x7f050035;
-        public static final int element_subtitle=0x7f05005d;
-        public static final int element_title=0x7f05005b;
-        public static final int header_notes=0x7f050050;
+        public static final int do_email_picker=0x7f050047;
+        public static final int edit_list_CID=0x7f050039;
+        public static final int edit_list_name=0x7f050037;
+        public static final int element_subtitle=0x7f05005f;
+        public static final int element_title=0x7f05005d;
+        public static final int header_notes=0x7f050052;
         public static final int homeAsUp=0x7f050006;
         public static final int home_btn_browse=0x7f05002e;
         public static final int home_btn_list=0x7f05002b;
@@ -906,51 +920,55 @@ containing a value of this type.
         public static final int home_header=0x7f050028;
         public static final int home_hoz_grey=0x7f050029;
         public static final int home_hoz_light=0x7f050027;
-        public static final int imageView1=0x7f050060;
-        public static final int inside_layout=0x7f050055;
-        public static final int insidelist_parent=0x7f050041;
-        public static final int invite_button=0x7f05003c;
-        public static final int invite_email=0x7f050044;
-        public static final int invite_message_preview=0x7f050046;
-        public static final int invite_type_spinner=0x7f050043;
-        public static final int item_assignee=0x7f05004e;
-        public static final int item_completion=0x7f05004f;
-        public static final int item_name=0x7f05004a;
-        public static final int item_notes=0x7f050051;
-        public static final int item_quantity=0x7f05004c;
-        public static final int label=0x7f050057;
-        public static final int label_assignee=0x7f05004d;
-        public static final int label_header=0x7f050040;
-        public static final int label_list_CID=0x7f050036;
-        public static final int label_list_items=0x7f050038;
-        public static final int label_list_name=0x7f050034;
-        public static final int label_name=0x7f050049;
-        public static final int label_quantity=0x7f05004b;
+        public static final int imageView1=0x7f050062;
+        public static final int inside_layout=0x7f050057;
+        public static final int insidelist_parent=0x7f050043;
+        public static final int invite_button=0x7f05003e;
+        public static final int invite_email=0x7f050046;
+        public static final int invite_message_preview=0x7f050048;
+        public static final int invite_type_spinner=0x7f050045;
+        public static final int item_assignee=0x7f050050;
+        public static final int item_completion=0x7f050051;
+        public static final int item_name=0x7f05004c;
+        public static final int item_notes=0x7f050053;
+        public static final int item_quantity=0x7f05004e;
+        public static final int label=0x7f050059;
+        public static final int label_assignee=0x7f05004f;
+        public static final int label_header=0x7f050042;
+        public static final int label_list_CID=0x7f050038;
+        public static final int label_list_items=0x7f05003a;
+        public static final int label_list_name=0x7f050036;
+        public static final int label_name=0x7f05004b;
+        public static final int label_quantity=0x7f05004d;
         public static final int linearLayoutBottomButtons=0x7f050032;
         public static final int listMode=0x7f050002;
-        public static final int list_row=0x7f05005a;
-        public static final int menu_add=0x7f050061;
-        public static final int menu_delete=0x7f050062;
-        public static final int menu_invite=0x7f050065;
-        public static final int menu_more=0x7f050063;
-        public static final int menu_rename=0x7f050064;
-        public static final int new_list_button=0x7f05003b;
-        public static final int next_button=0x7f050054;
+        public static final int list_row=0x7f05005c;
+        public static final int menu_add=0x7f050064;
+        public static final int menu_delete=0x7f050065;
+        public static final int menu_invite=0x7f050069;
+        public static final int menu_manage_users=0x7f050068;
+        public static final int menu_more=0x7f050066;
+        public static final int menu_refresh=0x7f050063;
+        public static final int menu_rename=0x7f050067;
+        public static final int new_list_button=0x7f05003d;
+        public static final int next_button=0x7f050056;
         public static final int normal=0x7f050001;
-        public static final int prev_button=0x7f050053;
-        public static final int save_button=0x7f050052;
-        public static final int send_button=0x7f050047;
+        public static final int prev_button=0x7f050055;
+        public static final int save_button=0x7f050054;
+        public static final int send_button=0x7f050049;
         public static final int showCustom=0x7f050008;
         public static final int showHome=0x7f050005;
         public static final int showTitle=0x7f050007;
-        public static final int splash_text_view=0x7f05005f;
-        public static final int sublabel=0x7f050059;
-        public static final int swiper=0x7f050048;
+        public static final int splash_text_view=0x7f050061;
+        public static final int sublabel=0x7f05005b;
+        public static final int swiper=0x7f05004a;
         public static final int tabMode=0x7f050003;
         public static final int textViewDialogMessage=0x7f05002f;
         public static final int textViewDialogMessage2=0x7f050031;
+        public static final int txtvEmail=0x7f050034;
+        public static final int txtvPassword=0x7f050035;
         public static final int useLogo=0x7f050004;
-        public static final int userlists_layout=0x7f05005e;
+        public static final int userlists_layout=0x7f050060;
         public static final int wrap_content=0x7f050000;
     }
     public static final class integer {
@@ -980,19 +998,21 @@ containing a value of this type.
         public static final int dashboard=0x7f030014;
         public static final int dialog_ok=0x7f030015;
         public static final int dialog_push_notification=0x7f030016;
-        public static final int editlist=0x7f030017;
-        public static final int footer=0x7f030018;
-        public static final int footer_insidelist=0x7f030019;
-        public static final int header=0x7f03001a;
-        public static final int insidelist_layout=0x7f03001b;
-        public static final int invite=0x7f03001c;
-        public static final int item=0x7f03001d;
-        public static final int item_row=0x7f03001e;
-        public static final int list_row=0x7f03001f;
-        public static final int listplaceholder=0x7f030020;
-        public static final int sherlock_spinner_dropdown_item=0x7f030021;
-        public static final int sherlock_spinner_item=0x7f030022;
-        public static final int splash=0x7f030023;
+        public static final int dialog_register=0x7f030017;
+        public static final int editlist=0x7f030018;
+        public static final int footer=0x7f030019;
+        public static final int footer_insidelist=0x7f03001a;
+        public static final int header=0x7f03001b;
+        public static final int insidelist_layout=0x7f03001c;
+        public static final int invite=0x7f03001d;
+        public static final int item=0x7f03001e;
+        public static final int item_row=0x7f03001f;
+        public static final int list_row=0x7f030020;
+        public static final int listplaceholder=0x7f030021;
+        public static final int manage_list_users=0x7f030022;
+        public static final int sherlock_spinner_dropdown_item=0x7f030023;
+        public static final int sherlock_spinner_item=0x7f030024;
+        public static final int splash=0x7f030025;
     }
     public static final class menu {
         public static final int home_lists_menu=0x7f0d0000;
@@ -3022,5 +3042,32 @@ containing a value of this type.
           @attr name android:windowSplitActionBar
         */
         public static final int SherlockTheme_windowSplitActionBar = 48;
+        /** Attributes that can be used with a TextViewPlus.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #TextViewPlus_customFont edu.pitt.cs1635group3:customFont}</code></td><td></td></tr>
+           </table>
+           @see #TextViewPlus_customFont
+         */
+        public static final int[] TextViewPlus = {
+            0x7f010051
+        };
+        /**
+          <p>This symbol is the offset where the {@link edu.pitt.cs1635group3.R.attr#customFont}
+          attribute's value can be found in the {@link #TextViewPlus} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:customFont
+        */
+        public static final int TextViewPlus_customFont = 0;
     };
 }

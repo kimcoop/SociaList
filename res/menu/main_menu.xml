@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_menu_btn_add"
@@ -7,7 +7,7 @@
         android:title="test"/>
     <item
         android:id="@+id/menu_more"
-        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
         android:showAsAction="always"
         android:title="">
         <menu>
@@ -16,6 +16,13 @@
                 android:icon="@drawable/ic_menu_edit"
                 android:showAsAction="ifRoom|withText"
                 android:title="Rename List"/>
+            
+            <item
+                android:id="@+id/menu_manage_users"
+                android:icon="@drawable/ic_menu_friendslist"
+                android:showAsAction="ifRoom|withText"
+                android:title="Manage Users"/>
+            
             <item
                 android:id="@+id/menu_invite"
                 android:icon="@drawable/ic_menu_invite"

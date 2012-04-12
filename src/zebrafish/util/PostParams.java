@@ -19,87 +19,96 @@ public class PostParams {
 		if (action == "updateItem") { // if item is to be updated, we
 										// need to also pass its ID and
 										// add_date
-			params.add(new BasicNameValuePair("action", "updateItem"));
-			params.add(new BasicNameValuePair("add_date", i
+			params.add(param("action", "updateItem"));
+			params.add(param("objID", "" + i.getID()));
+			
+			params.add(param("add_date", i
 					.getCreationDate()));
-			params.add(new BasicNameValuePair("id", "" + i.getID()));
 		} else {
-			params.add(new BasicNameValuePair("action", "createItem"));
+			params.add(param("action", "createItem"));
 		}
 		// the following attributes will need to be updated regardless
 		// of action
-		params.add(new BasicNameValuePair("parent_id", ""
+		params.add(param("parent_id", ""
 				+ i.getParentID()));
-		params.add(new BasicNameValuePair("name", i.getName()));
-		params.add(new BasicNameValuePair("adder_id", ""
+		params.add(param("name", i.getName()));
+		params.add(param("adder_id", ""
 				+ i.getCreator()));
 
 		if (i.getQuantity() == 0)
 			i.setQuantity(1);
 
-		params.add(new BasicNameValuePair("quantity", ""
+		params.add(param("quantity", ""
 				+ i.getQuantity()));
-		params.add(new BasicNameValuePair("assignee_id", ""
+		params.add(param("assignee_id", ""
 				+ i.getAssignee()));
-		params.add(new BasicNameValuePair("assigner_id", ""
+		params.add(param("assigner_id", ""
 				+ i.getAssigner()));
-		params.add(new BasicNameValuePair("notes", i.getNotes()));
+		params.add(param("notes", i.getNotes()));
 
 		if (i.isCompleted())
-			params.add(new BasicNameValuePair("completed", "1"));
+			params.add(param("completed", "1"));
 		else
-			params.add(new BasicNameValuePair("completed", "0"));
+			params.add(param("completed", "0"));
 
-		params.add(new BasicNameValuePair("completion_date", i
+		params.add(param("completion_date", i
 				.getCompletionDate()));
 
 		Log.i("PREV AND NEXT ID", "For item " + i.getName() + " are "
 				+ (i.getPrev() > 2 ? i.getPrev() : "NONE") + " and "
 				+ (i.getNext() > 2 ? i.getNext() : "NONE"));
 
-		params.add(new BasicNameValuePair("prev_id", "" + i.getPrev()));
-		params.add(new BasicNameValuePair("next_id", "" + i.getNext()));
+		params.add(param("prev_id", "" + i.getPrev()));
+		params.add(param("next_id", "" + i.getNext()));
 		
 		return params;
-		
+		 
 	}
-	
 
-
-	public static ArrayList<NameValuePair> formatParams(String action, int objID) {
-		return formatParams(action, ""+objID);
-	}
-	
-	public static ArrayList<NameValuePair> formatParams(String action, String objID) {
+	public static ArrayList<NameValuePair> formatParams(String action, String email, String pass) {
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("action", action));
+		params.add(param("action", action));
+		params.add(param("email", email));
+		params.add(param("password", pass));
+		return params;		
+	}
+	
+	public static ArrayList<NameValuePair> formatParams(String action, String id) {
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(param("action", action));
 
-		if (objID != null) {
-			params.add(new BasicNameValuePair("objID", objID));
+		if (id != null) {
+			params.add(param("objID", id));
 		} else { // This is ok for now, but objID should be populated for getLists(user ID) and getUser(List ID)
-			//Log.e(TAG, "TODO: Bad params. action: " +action+ "& objID: " + objID);
+			//Log.e(TAG, "TODO: Bad params. action: " +action+ "& objID: " + id);
 		}
+		
+		Log.d(TAG, "PARAMS: action: " +action+ "&objID: " + id);
 		
 		return params;		
 	}
 	
 	public static ArrayList<NameValuePair> formatListParams(String action, CustomList myList) {
-		 ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
 		if (myList != null) {
 
-			params.add(new BasicNameValuePair("action", action));
-			params.add(new BasicNameValuePair("id", "" + myList.getID()));
-			params.add(new BasicNameValuePair("custom_id", ""
+			params.add(param("action", action));
+			params.add(param("id", "" + myList.getID()));
+			params.add(param("custom_id", ""
 					+ myList.getCustomID()));
-			params.add(new BasicNameValuePair("name", myList.getName()));
-			params.add(new BasicNameValuePair("adder_id", ""
+			params.add(param("name", myList.getName()));
+			params.add(param("adder_id", ""
 					+ myList.getCreator()));
+			// creation date handled as now() by MySQL
 
 		}
 		
 		return params;
-
+	}
+	
+	public static BasicNameValuePair param(String param, String content) {
+		return new BasicNameValuePair(param, content);
 	}
 
 	

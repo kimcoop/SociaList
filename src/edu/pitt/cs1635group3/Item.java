@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -14,7 +15,7 @@ import android.util.Log;
 
 public class Item implements Parcelable {
 
-	private DBHelper db;
+	private static DBHelper db;
 	private static final String TAG = "ITEM";
 	
 	private String name, creationDate, notes, completionDate;
@@ -363,6 +364,22 @@ public class Item implements Parcelable {
 
 	public void setSelected(int i) {
 		this.selected = (i == 1 ? true : false);
+	}
+	
+	/*
+	 * CLASS METHODS
+	 */
+
+	public static void insertOrUdpateItems(Context context,
+			ArrayList<Item> items) {
+		db = new DBHelper(context);
+		db.open();
+		
+		for (Item item : items) {
+			db.insertOrUpdateItem(item);
+		}
+		db.close();
+		
 	}
 
 }
