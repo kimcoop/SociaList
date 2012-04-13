@@ -22,7 +22,6 @@ import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.User;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -87,7 +86,7 @@ public class DBHelper {
 	private static final String TAG = "SociaList: DbAdapter";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase db;
-	
+
 	private static final boolean NO_PUSH_TO_CLOUD = false;
 	private static final boolean PUSH_TO_CLOUD = true;
 
@@ -226,8 +225,9 @@ public class DBHelper {
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
-	public CharSequence[] getUsersForDialog(int id) { // TODO - make this take ListID
-												// as a param
+	public CharSequence[] getUsersForDialog(int id) { // TODO - make this take
+														// ListID
+		// as a param
 
 		CharSequence[] users;
 
@@ -297,8 +297,9 @@ public class DBHelper {
 		if (c != null)
 			c.moveToFirst();
 
-		User u = new User(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
-		//Log.i("DB USER", "Name is " +u.getName());
+		User u = new User(c.getInt(0), c.getString(1), c.getString(2),
+				c.getString(3));
+		// Log.i("DB USER", "Name is " +u.getName());
 		c.close();
 		return u;
 	}
@@ -329,6 +330,7 @@ public class DBHelper {
 		c.close();
 		return u;
 	}
+
 	/*
 	 * LIST METHODS
 	 */
@@ -342,7 +344,7 @@ public class DBHelper {
 
 		args.put(KEY_LIST_ID, newID);
 
-		//Log.d("REPLACED LOCAL LIST ID", "New ID is " + newID);
+		// Log.d("REPLACED LOCAL LIST ID", "New ID is " + newID);
 
 		db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) });
@@ -362,22 +364,26 @@ public class DBHelper {
 		int tempID = c.getInt(0) + 1; // make it unique
 		c.close();
 
-		//Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
+		// Log.i("LOCAL LIST ID", "Temp list ID is " + tempID);
 		return tempID;
 	}
+
 	public void deleteListAndChildren(CustomList list) {
-		
+
 		ArrayList<Item> children = list.getItems();
 		for (Item item : children) {
-			JSONfunctions.deleteItem(item.getID()); // TODO - make JSONfunctions method for deleting ArrayList<Item> rather than this
+			JSONfunctions.deleteItem(item.getID()); // TODO - make JSONfunctions
+													// method for deleting
+													// ArrayList<Item> rather
+													// than this
 		}
-		
+
 		JSONfunctions.deleteList(list.getID());
-				
+
 		db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
-				new String[] { String.valueOf(list.getID()) });	
+				new String[] { String.valueOf(list.getID()) });
 	}
- 
+
 	public boolean deleteList(CustomList list) {
 		JSONfunctions.deleteList(list.getID());
 
@@ -410,7 +416,7 @@ public class DBHelper {
 			insertList(i, NO_PUSH_TO_CLOUD);
 		}
 	}
-	
+
 	public void insertList(CustomList list) {
 		// by default, push to server.
 		insertList(list, PUSH_TO_CLOUD);
@@ -425,9 +431,10 @@ public class DBHelper {
 		// the currently-null list item using the ID.
 
 		int userID = list.getCreator();
-		
-		if (pushToCloud) JSONfunctions.updateList(list);
-		
+
+		if (pushToCloud)
+			JSONfunctions.updateList(list);
+
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
 		initialValues.put(KEY_LIST_CUSTOM_ID, list.getCustomID());
@@ -435,9 +442,9 @@ public class DBHelper {
 		initialValues.put(KEY_CREATOR_ID, userID);
 		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
 		db.insert(LIST_TABLE, null, initialValues);
-		
+
 	}
-	
+
 	public void updateList(CustomList list) {
 		// by default, push to server.
 		insertList(list, true);
@@ -446,7 +453,8 @@ public class DBHelper {
 	public boolean updateList(CustomList i, boolean pushToCloud) {
 		ContentValues args = new ContentValues();
 
-		if (pushToCloud) JSONfunctions.updateList(i);
+		if (pushToCloud)
+			JSONfunctions.updateList(i);
 
 		args.put(KEY_LIST_ID, i.getID());
 		args.put(KEY_LIST_CUSTOM_ID, i.getCustomID());
@@ -454,7 +462,7 @@ public class DBHelper {
 		args.put(KEY_CREATOR_ID, i.getCreator());
 		args.put(KEY_CREATION_DATE, i.getCreationDate());
 
-		//Log.d("UPDATED LIST", "List ID: " + i.getID());
+		// Log.d("UPDATED LIST", "List ID: " + i.getID());
 
 		return db.update(LIST_TABLE, args, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
@@ -508,7 +516,7 @@ public class DBHelper {
 
 	public ArrayList<Item> getItemsForListByID(int ID) {
 
-		//Log.i("QUERY FOR LIST", "Based on list ID " + ID);
+		// Log.i("QUERY FOR LIST", "Based on list ID " + ID);
 		ArrayList<Item> items = null;
 		String myQuery = "SELECT * FROM item WHERE parent_id = " + ID;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -554,7 +562,7 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			
+
 			c.close();
 			updateItem(i);
 		} else {
@@ -608,7 +616,7 @@ public class DBHelper {
 	}
 
 	public Item getItem(int row) {
-		//Log.v("QUERY FOR ITEM", "Based on item ID " + row);
+		// Log.v("QUERY FOR ITEM", "Based on item ID " + row);
 
 		String myQuery = "SELECT * FROM item WHERE id = " + row;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -645,7 +653,7 @@ public class DBHelper {
 
 		return i;
 	}
-	
+
 	public boolean updateItem(Item i, boolean doCloud) {
 
 		ContentValues args = new ContentValues();
@@ -671,8 +679,9 @@ public class DBHelper {
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		if (doCloud) JSONfunctions.updateItem(i);
-		
+		if (doCloud)
+			JSONfunctions.updateItem(i);
+
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}

@@ -26,7 +26,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	private boolean inviteUp;
 	private int checkedItems = 0;
 	private int checkedCompletedItems = 0;
-	
+
 	private static final String TAG = "ItemAdapter";
 	private DBHelper db;
 	protected Context context;
@@ -82,7 +82,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 				int userID = o.getAssignee();
 				db.open();
-				String assignment = (userID > 0 ? db.getUserByID(userID).getName() : "Unassigned");
+				String assignment = (userID > 0 ? db.getUserByID(userID)
+						.getName() : "Unassigned");
 				db.close();
 				assignee.setText(assignment);
 

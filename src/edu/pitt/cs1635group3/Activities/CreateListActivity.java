@@ -68,11 +68,13 @@ public class CreateListActivity extends SherlockListActivity {
 	}
 
 	public void addListItem() {
-		
+
 		/*
-		 * ROB - when you're working on this, may want to consider moving this function into the List class?
-		 * Only since it's called at least twice in our app (creation of new list, editing list). I don't think
-		 * it would be hard, just pass the Activity context as a param to the method in the class.
+		 * ROB - when you're working on this, may want to consider moving this
+		 * function into the List class? Only since it's called at least twice
+		 * in our app (creation of new list, editing list). I don't think it
+		 * would be hard, just pass the Activity context as a param to the
+		 * method in the class.
 		 */
 
 		// Whenever the list gets refreshed, the other layout pieces (List name)
@@ -133,9 +135,9 @@ public class CreateListActivity extends SherlockListActivity {
 
 		} else { // allow save
 			int userID = User.getCurrUser(context);
-			
+
 			CustomList newList = new CustomList();
-			newList.setCreator(userID); 
+			newList.setCreator(userID);
 			newList.setCustomID(CID);
 			newList.setName(listName);
 
@@ -259,7 +261,6 @@ public class CreateListActivity extends SherlockListActivity {
 		finish();
 
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

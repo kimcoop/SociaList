@@ -51,7 +51,7 @@ public class InsideListActivity extends SherlockListActivity {
 	private View buttons_helper;
 	private ListView lv;
 	private boolean inviteUp = true;
-	
+
 	CharSequence users[];
 	protected ArrayList<Item> selectedItems;
 
@@ -59,9 +59,9 @@ public class InsideListActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
-		
-		selectedItems = new ArrayList<Item>(); // track the items checked (not used yet)
-		
+
+		selectedItems = new ArrayList<Item>(); // track the items checked (not
+												// used yet)
 
 		assign_button = (Button) findViewById(R.id.assign_button);
 		complete_button = (Button) findViewById(R.id.complete_button);
@@ -75,14 +75,15 @@ public class InsideListActivity extends SherlockListActivity {
 		Bundle extras = i.getExtras();
 
 		list = CustomList.getListByID(context, extras.getInt("ListID"));
-		items = CustomList.getItemsForListByID(context, extras.getInt("ListID"));
+		items = CustomList
+				.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
-		
+
 		users = User.getUsersForDialog(context, list.getID());
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items,
 				assign_button, complete_button, invite_button, inviteUp);
-		
+
 		getSupportActionBar();
 		setTitle(list.getName());
 
@@ -105,23 +106,26 @@ public class InsideListActivity extends SherlockListActivity {
 				Intent intent = new Intent(context, ItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
 
-				intent.putExtra("pos", pos+1); // this is used for displaying
-												// "Item X of Y" in the header,
-												// so leave it as pos
+				intent.putExtra("pos", pos + 1); // this is used for displaying
+													// "Item X of Y" in the
+													// header,
+													// so leave it as pos
 				intent.putExtra("totalItems", totalItems);
 				startActivityForResult(intent, 1);
 			}
 		});
 
 		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> arg0, View v,
-                    int pos, long id) {
-            	final View parentView = v;
-            	final int position = pos;
-    			final Item item = items.get(position);
-    			final String itemName = item.getName();
-    			
-    			//Log.i(TAG, "Item name is " +itemName+ " and ID is " +item.getID() + " and prev is " +item.getPrev() + " and next is " +item.getNext());
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int pos, long id) {
+				final View parentView = v;
+				final int position = pos;
+				final Item item = items.get(position);
+				final String itemName = item.getName();
+
+				// Log.i(TAG, "Item name is " +itemName+ " and ID is "
+				// +item.getID() + " and prev is " +item.getPrev() +
+				// " and next is " +item.getNext());
 
 				final Button b = (Button) parentView
 						.findViewById(R.id.delete_item_button);
@@ -130,39 +134,46 @@ public class InsideListActivity extends SherlockListActivity {
 				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
-						
+
 						totalItems--;
-						
+
 						db.open();
-						
+
 						int prevPos, nextPos;
-						if (position==items.size()-1) nextPos = 0;
-						else nextPos = position+1;
-						
-						if (position==0) prevPos = items.size()-1;
-						else prevPos = position-1;
-						
+						if (position == items.size() - 1)
+							nextPos = 0;
+						else
+							nextPos = position + 1;
+
+						if (position == 0)
+							prevPos = items.size() - 1;
+						else
+							prevPos = position - 1;
+
 						Item nextItem, prevItem;
 						nextItem = items.get(nextPos);
 						prevItem = items.get(prevPos);
-						
+
 						int next = nextItem.getID();
 						int prev = prevItem.getID();
-						
+
 						prevItem.setNext(context, next);
 						nextItem.setPrev(context, prev);
-						
-						
-						if (totalItems==1) { // always this issue with one item in list
+
+						if (totalItems == 1) { // always this issue with one
+												// item in list
 							item.setNext(context, item.getID());
 							item.setPrev(context, item.getID());
 						}
 
-						db.deleteItem(item); // todo - can we do this inside Item.java?
+						db.deleteItem(item); // todo - can we do this inside
+												// Item.java?
 						db.close();
-						
-						Log.i(TAG, "Prev item has next item " +nextItem.getName());
-						Log.i(TAG, "NExt item has prev item " +prevItem.getName());
+
+						Log.i(TAG,
+								"Prev item has next item " + nextItem.getName());
+						Log.i(TAG,
+								"NExt item has prev item " + prevItem.getName());
 
 						Toast.makeText(getBaseContext(),
 								"Item " + itemName + " deleted.",
@@ -180,8 +191,6 @@ public class InsideListActivity extends SherlockListActivity {
 		});
 
 	}// end onCreate
-	
-	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -191,39 +200,39 @@ public class InsideListActivity extends SherlockListActivity {
 			finish();
 		}
 	}
-	
+
 	public void saveRename(String newName) {
-		
+
 		list.updateName(context, newName);
 		setTitle(newName);
-		
+
 	}
-	
+
 	public void rename() {
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Rename List");
-	
+
 		final EditText input = new EditText(this); // Set an EditText view to
 													// get user input
 		alert.setView(input);
-	
+
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
 				saveRename(value);
 			}
 		});
-	
+
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// Canceled.
 					}
 				});
-	
+
 		alert.show();
-	
+
 	}
 
 	@Override
@@ -291,7 +300,6 @@ public class InsideListActivity extends SherlockListActivity {
 		startActivity(intent);
 
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -310,7 +318,7 @@ public class InsideListActivity extends SherlockListActivity {
 			startActivity(intent);
 			return true;
 		case R.id.menu_add:
-			//TODO: add list item popup
+			// TODO: add list item popup
 			return false;
 		case R.id.menu_rename:
 			rename();
@@ -329,6 +337,5 @@ public class InsideListActivity extends SherlockListActivity {
 			return false;
 		}
 	}
-
 
 }

@@ -30,9 +30,9 @@ public class InviteActivity extends SherlockActivity {
 	private static final String TAG = "InviteActivity";
 	private static final String DEBUG_TAG = "InviteActivity";
 	private static final int CONTACT_PICKER_RESULT = 1001;
-	
+
 	protected static Context context;
-	
+
 	String message = "";
 	String email = "";
 	String phone = "";
@@ -238,13 +238,12 @@ public class InviteActivity extends SherlockActivity {
 		}
 
 	}
-	
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu); //todo - alter the menu (make new)
+		inflater.inflate(R.menu.main_menu, menu); // todo - alter the menu (make
+													// new)
 
 		return true;
 	}

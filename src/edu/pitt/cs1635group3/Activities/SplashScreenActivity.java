@@ -22,10 +22,10 @@ import edu.pitt.cs1635group3.User;
 public class SplashScreenActivity extends Activity {
 	protected boolean _active = true;
 	protected int _splashTime = 5000;
-	
+
 	protected Context context;
 	private static final String TAG = "SplashScreenActivity";
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,5 +63,4 @@ public class SplashScreenActivity extends Activity {
 		return true;
 	}
 
-	
 }

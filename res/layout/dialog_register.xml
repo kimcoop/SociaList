@@ -9,8 +9,8 @@
     
 	<LinearLayout
 		android:orientation="vertical"
-		android:layout_marginBottom="5dp"
-		android:background="#cccccc"
+		android:layout_marginBottom="2dp"
+		android:background="@color/turquoise_2"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
 	
@@ -28,23 +28,47 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:hint="Email"
-	    android:textColor="#eeeeee"
+	    android:textColor="@color/dark_grey"
 	    android:textSize="16sp"
         android:editable="true" >
 
 		<requestFocus />
 
 	</EditText>
+
+	<EditText
+	    android:id="@+id/txtvFname"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:editable="true"
+	    android:hint="@string/firstName"
+	    android:textColor="@color/dark_grey"
+	    android:textSize="16sp" />
+
+	<EditText
+	    android:id="@+id/txtvLname"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:editable="true"
+	    android:hint="@string/lastName"
+	    android:textColor="@color/dark_grey"
+	    android:textSize="16sp" />
 	
 	<EditText
 	    android:id="@+id/txtvPassword"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:hint="Password"
-	    android:inputType="textVisiblePassword"
+	    android:inputType="textPassword"
 	    android:singleLine="true"
-	    android:textColor="#eeeeee"
+	    android:textColor="@color/dark_grey"
 	    android:textSize="16sp" />
+
+	<CheckBox
+	    android:id="@+id/chboxPush"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Allow push notifications" />
 	
 	<LinearLayout
 		android:orientation="horizontal"

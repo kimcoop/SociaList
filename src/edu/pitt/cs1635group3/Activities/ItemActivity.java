@@ -35,7 +35,7 @@ public class ItemActivity extends SherlockActivity {
 
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
-	
+
 	private Context context;
 	private static final String TAG = "ITEM ACTIVITY";
 
@@ -44,7 +44,7 @@ public class ItemActivity extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
-		
+
 		context = this;
 
 		// Gesture detection
@@ -72,9 +72,8 @@ public class ItemActivity extends SherlockActivity {
 		pos = extras.getInt("pos");
 		totalItems = extras.getInt("totalItems");
 
-
 		getSupportActionBar();
-		setTitle("Item "+ pos + " of " +totalItems);
+		setTitle("Item " + pos + " of " + totalItems);
 
 		db = new DBHelper(this);
 		db.open();
@@ -141,7 +140,8 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void selectAssignee(View v) {
-		final CharSequence[] users = User.getUsersForDialog(context, item.getParentID());
+		final CharSequence[] users = User.getUsersForDialog(context,
+				item.getParentID());
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -177,17 +177,18 @@ public class ItemActivity extends SherlockActivity {
 
 		// toggle is handled onClick for item completion altering
 		item.setName(context, name.getText().toString().trim());
-		item.setQuantity(context, Integer.parseInt(quantity.getText().toString().trim()));
+		item.setQuantity(context,
+				Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
 		item.setAssigner(User.getCurrUser(context));
 
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
-		if (rawAssignee != "") { 
+		if (rawAssignee != "") {
 			assigneeID = User.getUserByName(context, rawAssignee);
-			Log.i(TAG, "Assignee ID is " +assigneeID);
-			//TODO item.assignTo(context, assigneeID);
+			Log.i(TAG, "Assignee ID is " + assigneeID);
+			// TODO item.assignTo(context, assigneeID);
 		} else {
 			Log.e(TAG, "Cannot assign item to null user");
 		}
@@ -221,12 +222,12 @@ public class ItemActivity extends SherlockActivity {
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 		finish();
 	}
-	
 
 	public void deleteItem() {
 
-		prevItem.setNext(context, nextItem.getID()); // set the previous item's next item
-											// to the next
+		prevItem.setNext(context, nextItem.getID()); // set the previous item's
+														// next item
+		// to the next
 		nextItem.setPrev(context, prevItem.getID());
 
 		if (prevItem.getID() == item.getID()
@@ -340,7 +341,6 @@ public class ItemActivity extends SherlockActivity {
 			return true;
 		}
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

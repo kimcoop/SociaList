@@ -1,6 +1,5 @@
 package com.example.push;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +17,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -68,7 +69,37 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		Log.i(TAG, "C2DM Receiver invoked");
+		
+		if (intent.getAction().equals("com.google.android.c2dm.intent.REGISTRATION")) {
+			String registration = intent.getStringExtra("registration_id");
+		    if (intent.getStringExtra("error") != null) {
+		        // Registration failed, should try again later.
+		        Log.d("C2DM", "registration failed");
+		        String error = intent.getStringExtra("error");
+		        if(error == "SERVICE_NOT_AVAILABLE"){
+		            Log.d("c2dm", "SERVICE_NOT_AVAILABLE");
+		        }else if(error == "ACCOUNT_MISSING"){
+		            Log.d("c2dm", "ACCOUNT_MISSING");
+		        }else if(error == "AUTHENTICATION_FAILED"){
+		            Log.d("c2dm", "AUTHENTICATION_FAILED");
+		        }else if(error == "TOO_MANY_REGISTRATIONS"){
+		            Log.d("c2dm", "TOO_MANY_REGISTRATIONS");
+		        }else if(error == "INVALID_SENDER"){
+		            Log.d("c2dm", "INVALID_SENDER");
+		        }else if(error == "PHONE_REGISTRATION_ERROR"){
+		            Log.d("c2dm", "PHONE_REGISTRATION_ERROR");
+		        }
+		    } else if (intent.getStringExtra("unregistered") != null) {
+		        //HERE IS WHERE ARRIVES THE SEND NOTIFICATION (NOT THE UNREGISTER NOTIFICATION)
+		        Log.d("C2DM", "unregistered: "+intent.getStringExtra("unregistered"));
 
+		    } else if (registration != null) {
+		        Log.d("C2DM", registration);
+		        /* SENDING THE AUTH TOKET TO SERVER */
+		    }
+	    }
+		
 		super.onHandleIntentRecieved(context, intent);
 	}
 
@@ -81,72 +112,63 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	 */
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		
-		
-		String message = intent.getExtras().getString("message");//message
+
+		String message = intent.getExtras().getString("message");// message
 		Log.i("PUSH", message);
-		String strTitle = intent.getExtras().getString("title");//title
+		String strTitle = intent.getExtras().getString("title");// title
 		if (message != null) {
 			String app_name = (String) context.getText(R.string.app_name);
-			// Use the Notification manager to send notification 
-			NotificationManager notificationManager = (NotificationManager) 
-			context.getSystemService(Context.NOTIFICATION_SERVICE); 
-			// Create a notification using android stat_notify_chat icon. 
-			Notification notification = new 
-			Notification(R.drawable.icon, app_name + ": " + 
-			message, 0); 
-			 Intent app; 
-			 
-			//message="upload"; 
-			if (message.contains("upload")) 
-				app = new Intent(context, HomeActivity.class); 
-			else 
-				app = new Intent(context, HomeActivity.class); 
-			
-			// Create a pending intent to call the when the notification is clicked 
-			PendingIntent pendingIntent = PendingIntent.getActivity(context, -1, app, 
-			Intent.FLAG_ACTIVITY_NEW_TASK); 
-			notification.when = System.currentTimeMillis(); 
-			notification.flags |= Notification.FLAG_AUTO_CANCEL; 
-			// Set the notification and register the pending intent to it 
-			notification.setLatestEventInfo(context, app_name, message, pendingIntent); 
-			notification.contentIntent = pendingIntent; 
-			 // Trigger the notification 
+			// Use the Notification manager to send notification
+			NotificationManager notificationManager = (NotificationManager) context
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			// Create a notification using android stat_notify_chat icon.
+			Notification notification = new Notification(R.drawable.icon,
+					app_name + ": " + message, 0);
+			Intent app;
+
+			// message="upload";
+			if (message.contains("upload"))
+				app = new Intent(context, HomeActivity.class);
+			else
+				app = new Intent(context, HomeActivity.class);
+
+			// Create a pending intent to call the when the notification is
+			// clicked
+			PendingIntent pendingIntent = PendingIntent.getActivity(context,
+					-1, app, Intent.FLAG_ACTIVITY_NEW_TASK);
+			notification.when = System.currentTimeMillis();
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
+			// Set the notification and register the pending intent to it
+			notification.setLatestEventInfo(context, app_name, message,
+					pendingIntent);
+			notification.contentIntent = pendingIntent;
+			// Trigger the notification
 			notificationManager.notify(0, notification);
-			
+
 		}
-			
-			/*
-			if (HomeActivity.getCurrentActivity() == null
-					|| (HomeActivity.getCurrentActivity().hasWindowFocus() == false))
-				return;
 
-			final Dialog dialog = new Dialog(
-					HomeActivity.getCurrentActivity());
-
-			dialog.setContentView(R.layout.dialog_ok);
-			dialog.setOwnerActivity(HomeActivity.getCurrentActivity());
-
-			Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
-			okBtn.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View v) {
-					dialog.dismiss();
-				}
-			});
-			TextView msg = (TextView) dialog
-					.findViewById(R.id.textViewDialogMessage);
-
-			if (strTitle.contains(context.getResources().getString(
-					R.string.app_name))) {
-				dialog.setTitle(R.string.app_name);
-				msg.setText(message);
-			} else {
-				dialog.setTitle(R.string.app_name);
-				msg.setText(strTitle + " sent you a message: " + message);
-			}
-			dialog.show();
-		}*/
+		/*
+		 * if (HomeActivity.getCurrentActivity() == null ||
+		 * (HomeActivity.getCurrentActivity().hasWindowFocus() == false))
+		 * return;
+		 * 
+		 * final Dialog dialog = new Dialog( HomeActivity.getCurrentActivity());
+		 * 
+		 * dialog.setContentView(R.layout.dialog_ok);
+		 * dialog.setOwnerActivity(HomeActivity.getCurrentActivity());
+		 * 
+		 * Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
+		 * okBtn.setOnClickListener(new OnClickListener() {
+		 * 
+		 * public void onClick(View v) { dialog.dismiss(); } }); TextView msg =
+		 * (TextView) dialog .findViewById(R.id.textViewDialogMessage);
+		 * 
+		 * if (strTitle.contains(context.getResources().getString(
+		 * R.string.app_name))) { dialog.setTitle(R.string.app_name);
+		 * msg.setText(message); } else { dialog.setTitle(R.string.app_name);
+		 * msg.setText(strTitle + " sent you a message: " + message); }
+		 * dialog.show(); }
+		 */
 	}
 
 	/*
@@ -162,30 +184,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 		// TODO
 		super.onRegistered(context, registrationId);
 
-		/*
-		 * CUSTOM DIALOG
-		 * 
-		 * final Dialog dialog = new Dialog(
-		 * PushDemoActivity.getCurrentActivity());
-		 * 
-		 * dialog.setContentView(R.layout.auth_id);
-		 * dialog.setOwnerActivity(PushDemoActivity.getCurrentActivity());
-		 * 
-		 * Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
-		 * okBtn.setOnClickListener(new OnClickListener() {
-		 * 
-		 * public void onClick(View v) { dialog.dismiss(); } }); TextView msg =
-		 * (TextView) dialog .findViewById(R.id.authID); msg.setText("AUTHID= "
-		 * + registrationId);
-		 * 
-		 * dialog.setTitle(R.string.app_name);
-		 * 
-		 * dialog.show();
-		 * 
-		 * /***
-		 */
-
-		System.out.println("REG ID " + registrationId);
+		Log.i(TAG, "REG ID " + registrationId);
 		Log.e(TAG, ">>>>id recieved" + registrationId);
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
@@ -196,11 +195,13 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 			deviceId = "e0a85841763c1192"; // BAD - FIX
 		}
 		String requestToCloud = "";
-		String userID = "35"; // FOR NOW
+		String userID;
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		userID = ""+prefs.getInt("userID", 0);
 
 		System.out.println("Device ID " + deviceId);
 		Log.e(TAG, ">>>>device unique id " + deviceId);
-		
+
 		// send to server
 		BufferedReader in = null;
 		try {
@@ -208,12 +209,14 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 			HttpGet request = new HttpGet();
 			try {
 				requestToCloud = "http://www.zebrafishtec.com/register_token.php?"
-								+"device_id="
-								+ URLEncoder.encode(deviceId) 
-								+ "&device_token="
-								+ URLEncoder.encode(registrationId).toString()
-								+ "&user_id=" + userID;
+						+ "device_id="
+						+ URLEncoder.encode(deviceId)
+						+ "&device_token="
+						+ URLEncoder.encode(registrationId).toString()
+						+ "&user_id=" + userID;
 				
+				Log.d(TAG, "Pushing request: "+requestToCloud);
+
 				request.setURI(new URI(requestToCloud));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();

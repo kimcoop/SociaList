@@ -17,7 +17,7 @@ public class Item implements Parcelable {
 
 	private static DBHelper db;
 	private static final String TAG = "ITEM";
-	
+
 	private String name, creationDate, notes, completionDate;
 	private int parentID, ID, quantity, assigner, assignee, creator; // use
 																		// parentID
@@ -141,7 +141,7 @@ public class Item implements Parcelable {
 	/*
 	 * SETTERS
 	 */
-	
+
 	public void update(Context context) { // General method used for any updates
 
 		db = new DBHelper(context);
@@ -296,12 +296,11 @@ public class Item implements Parcelable {
 		prevID = in.readInt();
 		nextID = in.readInt();
 	}
-	
+
 	/*
-	 * THESE METHODS ARE DEPRECATED
-	 * USE ABOVE METHODS
+	 * THESE METHODS ARE DEPRECATED USE ABOVE METHODS
 	 */
-	
+
 	public void setID(int i) {
 		this.ID = i;
 	}
@@ -365,7 +364,7 @@ public class Item implements Parcelable {
 	public void setSelected(int i) {
 		this.selected = (i == 1 ? true : false);
 	}
-	
+
 	/*
 	 * CLASS METHODS
 	 */
@@ -374,12 +373,12 @@ public class Item implements Parcelable {
 			ArrayList<Item> items) {
 		db = new DBHelper(context);
 		db.open();
-		
+
 		for (Item item : items) {
 			db.insertOrUpdateItem(item);
 		}
 		db.close();
-		
+
 	}
 
 }

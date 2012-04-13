@@ -36,7 +36,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	private DBHelper db;
 	private RelativeLayout parentLayout;
 	private ArrayAdapter<CustomList> adapter;
-	
+
 	private Context context;
 	private static final String TAG = "SociaListActivity";
 	private ListView lv;
@@ -65,40 +65,42 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 
 		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-            public boolean onItemLongClick(AdapterView<?> arg0, View v,
-                    int pos, long id) {
-            	final View parentView = v;
-            	final int position = pos;
-    			final CustomList userlist = lists.get(position);
-    			final String listname = userlist.getName();
-    			
-    			Log.i(TAG, "List name is " +listname+ " and ID is " +userlist.getID());
-    			//parentView.getBackground().setColorFilter(Color.parseColor("#323331"), Mode.DARKEN);
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int pos, long id) {
+				final View parentView = v;
+				final int position = pos;
+				final CustomList userlist = lists.get(position);
+				final String listname = userlist.getName();
 
-    			final Button b = (Button) v.findViewById(R.id.delete_list_button);
-    			b.setVisibility(View.VISIBLE);
-    			
-    			b.setOnClickListener(new OnClickListener() {
+				Log.i(TAG, "List name is " + listname + " and ID is "
+						+ userlist.getID());
+				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
+				// Mode.DARKEN);
+
+				final Button b = (Button) v
+						.findViewById(R.id.delete_list_button);
+				b.setVisibility(View.VISIBLE);
+
+				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
 						db.open();
 						db.deleteListAndChildren(userlist);
 						db.close();
-						
-		            	Toast.makeText(getBaseContext(), "List deleted.", Toast.LENGTH_SHORT).show();
-		            	b.setVisibility(View.INVISIBLE);
-		            	parentLayout.removeView(parentView);
-		            	adapter.remove(userlist);
-		            	adapter.notifyDataSetChanged();
-					
+
+						Toast.makeText(getBaseContext(), "List deleted.",
+								Toast.LENGTH_SHORT).show();
+						b.setVisibility(View.INVISIBLE);
+						parentLayout.removeView(parentView);
+						adapter.remove(userlist);
+						adapter.notifyDataSetChanged();
+
 					}
-    	        }); 
-            	
-                return true;
-            }
-        }); 
-		
-		
+				});
+
+				return true;
+			}
+		});
 
 	} // end onCreate
 
@@ -138,13 +140,12 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		}
 
 	}
-	
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.home_lists_menu, menu); //todo - alter the menu (make new)
+		inflater.inflate(R.menu.home_lists_menu, menu); // todo - alter the menu
+														// (make new)
 
 		return true;
 	}
@@ -158,7 +159,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 			startActivity(intent);
 			return true;
 		case R.id.menu_refresh:
-			lists = JSONfunctions.getRefreshLists(context); //TODO
+			lists = JSONfunctions.getRefreshLists(context); // TODO
 			adapter.notifyDataSetChanged();
 		default:
 			return false;

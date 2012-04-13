@@ -14,9 +14,9 @@ public class User {
 	private int ID;
 	private String email, first, last;
 	private String deviceToken, deviceID;
-	
+
 	// CLASS VARIABLES
-	private static final String TAG="USER";
+	private static final String TAG = "USER";
 	private static DBHelper db;
 
 	public User(int i, String f, String l, String e) {
@@ -36,11 +36,11 @@ public class User {
 	public void setDeviceToken(String s) {
 		this.deviceToken = s;
 	}
-	
+
 	public void setDeviceID(String s) {
 		this.deviceID = s;
 	}
-	
+
 	public void setFirstName(String s) {
 		this.first = s;
 	}
@@ -60,17 +60,15 @@ public class User {
 	/*
 	 * GETTERS
 	 */
-	
-	
+
 	public String getDeviceToken() {
 		return deviceToken;
 	}
-	
+
 	public String getDeviceID() {
 		return deviceID;
 	}
-	
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -90,20 +88,21 @@ public class User {
 	public int getID() {
 		return ID;
 	}
-	
+
 	/*
 	 * CLASS METHODS
 	 */
-	
+
 	public static int getCurrUser(Context context) {
 		SharedPreferences prefs;
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        
-        int id = prefs.getInt("userID", 0); // how many times app has been launched
-        return id;
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+		int id = prefs.getInt("userID", 0); // how many times app has been
+											// launched
+		return id;
 	}
-	
+
 	public static int getUserByName(Context context, String rawAssignee) {
 		// this method will be changing to ID rather than name
 		int id;
@@ -113,11 +112,12 @@ public class User {
 		db.close();
 		return id;
 	}
-	
-	public static void insertOrUpdateUsers(Context context, ArrayList<User> users) {
+
+	public static void insertOrUpdateUsers(Context context,
+			ArrayList<User> users) {
 		db = new DBHelper(context);
 		db.open();
-		
+
 		for (User u : users) {
 			db.insertOrUpdateUser(u);
 		}
@@ -133,9 +133,9 @@ public class User {
 		return users;
 	}
 
-	public static int storeUser(String email, String pass) {
+	public static int storeUser(String fname, String lname, String email, String pass) {
 		int uID;
-		uID = JSONfunctions.storeUser(email, pass);
+		uID = JSONfunctions.storeUser(fname, lname, email, pass);
 		return uID;
 	}
 
