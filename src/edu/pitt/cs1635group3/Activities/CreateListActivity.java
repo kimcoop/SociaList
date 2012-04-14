@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3.Activities;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -273,16 +274,14 @@ public class CreateListActivity extends SherlockListActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.menu_add:
+		if (item.getItemId() == R.id.menu_add) {
 			addListItem();
 			return false;
-		case R.id.menu_invite:
+		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
 			startActivity(intent);
 			return true;
-
-		default:
+		} else {
 			return false;
 		}
 	}

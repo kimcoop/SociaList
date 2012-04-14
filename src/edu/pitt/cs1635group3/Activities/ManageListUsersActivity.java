@@ -57,19 +57,17 @@ public class ManageListUsersActivity extends SherlockActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.menu_add:
+		if (item.getItemId() == R.id.menu_add) {
 			// TODO: add user item popup
 			return false;
-		case R.id.menu_rename:
+		} else if (item.getItemId() == R.id.menu_rename) {
 			// rename();
 			return true;
-		case R.id.menu_invite:
+		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
 			startActivity(intent);
 			return true;
-
-		default:
+		} else {
 			return false;
 		}
 	}

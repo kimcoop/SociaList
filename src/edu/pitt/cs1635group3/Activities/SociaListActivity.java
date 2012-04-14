@@ -153,7 +153,24 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
+		
+		
+		if (item.getItemId() == R.id.menu_add) {
+			intent = new Intent(this, CreateListActivity.class);
+			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.menu_refresh) {
+			lists = JSONfunctions.getRefreshLists(context); // TODO
+			adapter.notifyDataSetChanged();
+			return false;
+		} else {
+			return false;
+		}
+		
+	}
+		
+		
+		/*switch (item.getItemId()) {
 		case R.id.menu_add:
 			intent = new Intent(this, CreateListActivity.class);
 			startActivity(intent);
@@ -164,6 +181,6 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		default:
 			return false;
 		}
-	}
+	}*/
 
 }

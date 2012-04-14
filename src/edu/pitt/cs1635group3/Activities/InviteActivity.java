@@ -251,13 +251,11 @@ public class InviteActivity extends SherlockActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.menu_add:
+		if (item.getItemId() == R.id.menu_add) {
 			return false;
-		case R.id.menu_invite:
+		} else if (item.getItemId() == R.id.menu_invite) {
 			return false;
-
-		default:
+		} else {
 			return false;
 		}
 	}
