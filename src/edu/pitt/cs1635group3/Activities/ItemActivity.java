@@ -184,7 +184,7 @@ public class ItemActivity extends SherlockActivity {
 				Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
 		item.setAssigner(User.getCurrUser(context));
-
+/*
 		String rawAssignee = assignee.getText().toString().trim();
 
 		int assigneeID;
@@ -195,7 +195,7 @@ public class ItemActivity extends SherlockActivity {
 		} else {
 			Log.e(TAG, "Cannot assign item to null user");
 		}
-
+*/
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
