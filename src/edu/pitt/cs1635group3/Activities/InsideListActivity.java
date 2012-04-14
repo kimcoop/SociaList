@@ -317,7 +317,7 @@ public class InsideListActivity extends SherlockListActivity {
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_add) {
-			// TODO: add list item popup
+			addItem();
 			return false;
 		} else if (item.getItemId() == R.id.menu_rename) {
 			rename();
@@ -334,6 +334,37 @@ public class InsideListActivity extends SherlockListActivity {
 		} else {
 			return false;
 		}
+	}
+	public void addItem(){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("New List Item Name");
+		
+		final EditText input = new EditText(this); // Set an EditText view to
+		// get user input
+		alert.setView(input);
+		
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String value = input.getText().toString().trim();
+				Item i = new Item();
+				
+				i.setName(value);
+				i.setCreator(33);
+				items.add(i);
+				
+				adapter.notifyDataSetChanged();
+			}
+		});
+
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
+
+		alert.show();
+		
 	}
 
 }
