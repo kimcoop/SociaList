@@ -53,6 +53,9 @@ public class HomeActivity extends Activity {
 		if (counter == 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
 		}
+		
+		//for debug
+		registerPushNotification();
 
 		userID = prefs.getInt("userID", 0);
 		Log.i(TAG, "User ID here is " + userID);
@@ -134,33 +137,40 @@ public class HomeActivity extends Activity {
 		
 		if (allowPush) {
 			registerPushNotification();
+			Log.d(TAG, "allowPush checked -> registerPushNotification()");
 		}
 
 		Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG).show();
 	}
 
 	public void registerPushNotification() {
-
-		prefs = getSharedPreferences(C2DMessaging.PREFERENCE,
-				Context.MODE_PRIVATE);
-
-		if (C2DMessaging.shouldRegisterForPush(context)) {
+		
+		Log.d(TAG, "in registerPushNotification()");
+ 
+		final SharedPreferences c2dmPrefs = getSharedPreferences(
+				C2DMessaging.PREFERENCE, Context.MODE_PRIVATE);
+		if (C2DMessaging.shouldRegisterForPush(getApplicationContext())) {
 			if ((Build.VERSION.SDK_INT >= 8)
-					&& (C2DMessaging.shouldRegisterForPush(context))) {
-				C2DMReceiver.refreshAppC2DMRegistrationState(context, true);
+					&& (C2DMessaging
+							.shouldRegisterForPush(getApplicationContext()))) {
+				C2DMReceiver.refreshAppC2DMRegistrationState(
+						getApplicationContext(), true);
 			}
 		}
 
-		if (prefs.contains("dm_registration")) {
-			Log.i(TAG, "Device already registered. Unregistering for debug ");
-			C2DMessaging.unregister(context);
-			return;
-		} else { // don't reshow the push notifications prompt if they've
+		if (c2dmPrefs.contains("dm_registration")) {
+			Log.i(TAG, "Device already registered.");
+			//C2DMessaging.unregister(context);
+			//return;
+		} 
+		
+		//else { // don't reshow the push notifications prompt if they've
 					// already registered
+		if (true) {
 			Log.i(TAG, "Registering device");
 			if (Build.VERSION.SDK_INT >= 8) {
 
-				Editor e = prefs.edit();
+				Editor e = c2dmPrefs.edit();
 				e.putString("dm_registration", "");
 				e.commit();
 				C2DMessaging.setRegisterForPush(context, true);
@@ -179,7 +189,7 @@ public class HomeActivity extends Activity {
 				OnClickListener l = new OnClickListener() {
 					public void onClick(View v) {
 						dialogok.dismiss();
-						Editor e = prefs.edit();
+						Editor e = c2dmPrefs.edit();
 						e.putString("dm_registration", "");
 						e.commit();
 						C2DMessaging.setRegisterForPush(context, false);//user phone does not support push
