@@ -138,5 +138,9 @@ public class User {
 		uID = JSONfunctions.storeUser(fname, lname, email, pass);
 		return uID;
 	}
+	
+	public static int getCurrentUser(Context context) {
+		 return PreferenceManager.getDefaultSharedPreferences(context).getInt("userID", 0);
+	}
 
 }

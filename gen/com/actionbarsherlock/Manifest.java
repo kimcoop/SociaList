@@ -9,8 +9,6 @@ package com.actionbarsherlock;
 
 public final class Manifest {
     public static final class permission {
-        /**  C2DM Permissions 
-         */
-        public static final String C2D_MESSAGE="com.example.push.permission.C2D_MESSAGE";
+        public static final String C2D_MESSAGE="edu.pitt.cs1635group3.permission.C2D_MESSAGE";
     }
 }

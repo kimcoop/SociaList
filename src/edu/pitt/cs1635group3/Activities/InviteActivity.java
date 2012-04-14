@@ -24,6 +24,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.User;
 
 public class InviteActivity extends SherlockActivity {
 
@@ -32,6 +33,7 @@ public class InviteActivity extends SherlockActivity {
 	private static final int CONTACT_PICKER_RESULT = 1001;
 
 	protected static Context context;
+	private static int userID;
 
 	String message = "";
 	String email = "";
@@ -44,6 +46,10 @@ public class InviteActivity extends SherlockActivity {
 		context = this;
 		getSupportActionBar();
 		setTitle("Invite to List");
+		
+
+		int uID = User.getCurrentUser(context);
+		Log.i(TAG, "User ID fetched: " +uID);
 
 		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
 

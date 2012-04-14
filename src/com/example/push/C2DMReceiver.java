@@ -39,10 +39,10 @@ import edu.pitt.cs1635group3.Activities.HomeActivity;
 public class C2DMReceiver extends C2DMBaseReceiver {
 
 	/** The Constant TAG. */
-	static final String TAG = C2DMConfig.makeLogTag(C2DMReceiver.class);
+	static final String TAG = "MY C2DM";
 
 	/**
-	 * Instantiates a new c2 dm receiver.
+	 * Instantiates a new c2dm receiver.
 	 */
 	public C2DMReceiver() {
 		super(C2DMConfig.C2DM_GOOGLE_ACCOUNT);
@@ -70,36 +70,6 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(TAG, "C2DM Receiver invoked");
-		
-		if (intent.getAction().equals("com.google.android.c2dm.intent.REGISTRATION")) {
-			String registration = intent.getStringExtra("registration_id");
-		    if (intent.getStringExtra("error") != null) {
-		        // Registration failed, should try again later.
-		        Log.d("C2DM", "registration failed");
-		        String error = intent.getStringExtra("error");
-		        if(error == "SERVICE_NOT_AVAILABLE"){
-		            Log.d("c2dm", "SERVICE_NOT_AVAILABLE");
-		        }else if(error == "ACCOUNT_MISSING"){
-		            Log.d("c2dm", "ACCOUNT_MISSING");
-		        }else if(error == "AUTHENTICATION_FAILED"){
-		            Log.d("c2dm", "AUTHENTICATION_FAILED");
-		        }else if(error == "TOO_MANY_REGISTRATIONS"){
-		            Log.d("c2dm", "TOO_MANY_REGISTRATIONS");
-		        }else if(error == "INVALID_SENDER"){
-		            Log.d("c2dm", "INVALID_SENDER");
-		        }else if(error == "PHONE_REGISTRATION_ERROR"){
-		            Log.d("c2dm", "PHONE_REGISTRATION_ERROR");
-		        }
-		    } else if (intent.getStringExtra("unregistered") != null) {
-		        //HERE IS WHERE ARRIVES THE SEND NOTIFICATION (NOT THE UNREGISTER NOTIFICATION)
-		        Log.d("C2DM", "unregistered: "+intent.getStringExtra("unregistered"));
-
-		    } else if (registration != null) {
-		        Log.d("C2DM", registration);
-		        /* SENDING THE AUTH TOKET TO SERVER */
-		    }
-	    }
-		
 		super.onHandleIntentRecieved(context, intent);
 	}
 
@@ -147,28 +117,6 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
 		}
 
-		/*
-		 * if (HomeActivity.getCurrentActivity() == null ||
-		 * (HomeActivity.getCurrentActivity().hasWindowFocus() == false))
-		 * return;
-		 * 
-		 * final Dialog dialog = new Dialog( HomeActivity.getCurrentActivity());
-		 * 
-		 * dialog.setContentView(R.layout.dialog_ok);
-		 * dialog.setOwnerActivity(HomeActivity.getCurrentActivity());
-		 * 
-		 * Button okBtn = (Button) dialog.findViewById(R.id.buttonOK);
-		 * okBtn.setOnClickListener(new OnClickListener() {
-		 * 
-		 * public void onClick(View v) { dialog.dismiss(); } }); TextView msg =
-		 * (TextView) dialog .findViewById(R.id.textViewDialogMessage);
-		 * 
-		 * if (strTitle.contains(context.getResources().getString(
-		 * R.string.app_name))) { dialog.setTitle(R.string.app_name);
-		 * msg.setText(message); } else { dialog.setTitle(R.string.app_name);
-		 * msg.setText(strTitle + " sent you a message: " + message); }
-		 * dialog.show(); }
-		 */
 	}
 
 	/*
@@ -208,9 +156,10 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet();
 			try {
+				
 				requestToCloud = "http://www.zebrafishtec.com/register_token.php?"
-						+ "device_id="
-						+ URLEncoder.encode(deviceId)
+						+ "device_id=" 
+						+ URLEncoder.encode(deviceId).toString()
 						+ "&device_token="
 						+ URLEncoder.encode(registrationId).toString()
 						+ "&user_id=" + userID;

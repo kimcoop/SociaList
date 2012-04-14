@@ -61,6 +61,7 @@ public class C2DMessaging {
 	 * Unregister the application. New messages will be blocked by server.
 	 */
 	public static void unregister(Context context) {
+		Log.d(TAG, "unregistering device");
 		Intent regIntent = new Intent(REQUEST_UNREGISTRATION_INTENT);
 		regIntent.setPackage(GSF_PACKAGE);
 		regIntent.putExtra(EXTRA_APPLICATION_PENDING_INTENT,
