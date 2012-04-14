@@ -73,9 +73,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				if (!comments.equals(""))
 				{
 					img.setVisibility(View.VISIBLE);
-					LayoutParams params = (RelativeLayout.LayoutParams)name.getLayoutParams();
-					params.addRule(RelativeLayout.LEFT_OF, R.id.chat_bubble);
-					name.setLayoutParams(params);
+//					LayoutParams params = (RelativeLayout.LayoutParams)name.getLayoutParams();
+//					params.addRule(RelativeLayout.LEFT_OF, R.id.chat_bubble);
+//					name.setLayoutParams(params);
 				}
 			}
 			if (!o.isSelected())
