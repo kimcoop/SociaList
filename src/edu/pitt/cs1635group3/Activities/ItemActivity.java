@@ -344,7 +344,29 @@ public class ItemActivity extends SherlockActivity {
 			return true;
 		}
 	}
+	
+	/*PLUS/MINUS BUTTONS FOR ITEM QTY*/
+	public void plusButtonPressed (View v)
+	{
+		EditText t = (EditText) findViewById(R.id.item_quantity);
+		String s = t.getText().toString();
+		int i = Integer.parseInt(s);
+		i++;
+		t.setText(""+i);
+	}
 
+	public void minusButtonPressed (View v)
+	{
+		EditText t = (EditText) findViewById(R.id.item_quantity);
+		String s = t.getText().toString();
+		int i = Integer.parseInt(s);
+		if (i > 0)
+		{
+			i--;
+			t.setText(""+i);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();

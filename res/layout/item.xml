@@ -37,28 +37,45 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp" >
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/label_quantity"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:padding="2dp"
             android:text="@string/label_quantity"
-        	android:textSize="16dip"
-       		android:layout_marginLeft="5dp" />
+            android:textSize="16dip" />
 
         <EditText
             android:id="@+id/item_quantity"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="0.33"
             android:padding="6dp"
             android:text="@+id/item_quantity"
+            android:inputType="number"
             android:textSize="12dp" />
-        
+
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:text="@string/minus"
+            android:onClick="minusButtonPressed" />
+
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:text="@string/plus"
+            android:onClick="plusButtonPressed" />
     </LinearLayout>
 
     <LinearLayout
