@@ -312,28 +312,26 @@ public class InsideListActivity extends SherlockListActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case 0:
+		if (item.getItemId() == 0) {
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 			return true;
-		case R.id.menu_add:
+		} else if (item.getItemId() == R.id.menu_add) {
 			// TODO: add list item popup
 			return false;
-		case R.id.menu_rename:
+		} else if (item.getItemId() == R.id.menu_rename) {
 			rename();
 			return true;
-		case R.id.menu_manage_users:
+		} else if (item.getItemId() == R.id.menu_manage_users) {
 			intent = new Intent(this, ManageListUsersActivity.class);
 			intent.putExtra("listID", list.getID());
 			startActivity(intent);
 			return true;
-		case R.id.menu_invite:
+		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
 			startActivity(intent);
 			return true;
-
-		default:
+		} else {
 			return false;
 		}
 	}

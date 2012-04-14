@@ -353,16 +353,14 @@ public class ItemActivity extends SherlockActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case 0:
+		if (item.getItemId() == 0) {
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 			return true;
-		case R.id.menu_delete:
+		} else if (item.getItemId() == R.id.menu_delete) {
 			deleteItem();
 			return true;
-
-		default:
+		} else {
 			return false;
 		}
 	}
