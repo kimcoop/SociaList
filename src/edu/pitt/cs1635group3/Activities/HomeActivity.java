@@ -57,7 +57,7 @@ public class HomeActivity extends Activity {
 		//for debug
 		registerPushNotification();
 
-		userID = User.getCurrentUser(context);
+		userID = User.getCurrUser(context);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter

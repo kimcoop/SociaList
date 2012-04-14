@@ -279,7 +279,7 @@ public class JSONfunctions {
 	}
 
 	public static JSONObject getJSONfromURL(Context context, String a) {
-		int uID = User.getCurrentUser(context);
+		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " +uID);										
 		return postForJSONObject(a, ""+uID);
 	}

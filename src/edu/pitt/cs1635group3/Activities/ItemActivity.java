@@ -47,7 +47,7 @@ public class ItemActivity extends SherlockActivity {
 		setContentView(R.layout.item);
 
 		context = this;
-		int uID = User.getCurrentUser(context);
+		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " +uID);	
 
 		// Gesture detection

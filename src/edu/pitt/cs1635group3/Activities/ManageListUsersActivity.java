@@ -33,7 +33,7 @@ public class ManageListUsersActivity extends SherlockActivity {
 		setContentView(R.layout.manage_list_users);
 		context = this;
 
-		int uID = User.getCurrentUser(context);
+		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " +uID);	
 
 		listID = getIntent().getExtras().getInt("listID");

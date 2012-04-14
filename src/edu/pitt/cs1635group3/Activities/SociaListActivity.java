@@ -47,7 +47,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 		context = this;
-		int uID = User.getCurrentUser(context);
+		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " +uID);	
 		getSupportActionBar();
 		setTitle("Lists");

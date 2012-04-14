@@ -48,7 +48,7 @@ public class InviteActivity extends SherlockActivity {
 		setTitle("Invite to List");
 		
 
-		int uID = User.getCurrentUser(context);
+		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " +uID);
 
 		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
