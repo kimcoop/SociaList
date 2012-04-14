@@ -23,6 +23,7 @@ import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.User;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class JSONfunctions {
@@ -114,7 +115,7 @@ public class JSONfunctions {
 
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		Log.i(TAG, resp);
+		//Log.i(TAG, resp);
 
 	}
 
@@ -226,7 +227,7 @@ public class JSONfunctions {
 		}
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		Log.i(TAG, resp);
+		//Log.i(TAG, resp);
 
 	} // end UpdateList
 
@@ -269,16 +270,18 @@ public class JSONfunctions {
 
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		Log.i(TAG, resp);
+		//Log.i(TAG, resp);
 
 	} // end postItem
 
-	public static JSONObject getJSONfromURL() {
-		return getJSONfromURL(null);
+	public static JSONObject getJSONfromURL(Context context) {
+		return getJSONfromURL(context, null);
 	}
 
-	public static JSONObject getJSONfromURL(String a) {
-		return postForJSONObject(a, null);
+	public static JSONObject getJSONfromURL(Context context, String a) {
+		int uID = User.getCurrentUser(context);
+		Log.i(TAG, "User ID fetched: " +uID);										
+		return postForJSONObject(a, ""+uID);
 	}
 
 	public static JSONObject getJSONfromURL(String action, int objID) {
@@ -322,7 +325,7 @@ public class JSONfunctions {
 	public static void getLists(Context context) {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
-		JSONObject json = JSONfunctions.getJSONfromURL("getLists");
+		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
 
 		try {
 			JSONArray myLists = json.getJSONArray("lists");

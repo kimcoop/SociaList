@@ -66,13 +66,12 @@ public class PostParams {
 
 		if (id != null) {
 			params.add(param("objID", id));
-		} else { // This is ok for now, but objID should be populated for
-					// getLists(user ID) and getUser(List ID)
-			// Log.e(TAG, "TODO: Bad params. action: " +action+ "& objID: " +
-			// id);
 		}
+		
+		if (action.equals("getLists")) {
 
-		Log.d(TAG, "PARAMS: action: " + action + "&objID: " + id);
+			Log.d(TAG, "TAKE USER ID: action: " + action + "&objID: " + id);
+		}
 
 		return params;
 	}

@@ -33,10 +33,10 @@ public class HomeActivity extends Activity {
 	private EditText messageText = null;
 	private static Context context;
 	private static final String TAG = "HomeActivity";
+	
+	private static int userID;
 
 	private static SharedPreferences prefs;
-
-	private int userID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,7 @@ public class HomeActivity extends Activity {
 		//for debug
 		registerPushNotification();
 
-		userID = prefs.getInt("userID", 0);
-		Log.i(TAG, "User ID here is " + userID);
+		userID = User.getCurrentUser(context);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter

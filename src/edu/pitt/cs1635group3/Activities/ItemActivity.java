@@ -38,6 +38,7 @@ public class ItemActivity extends SherlockActivity {
 
 	private Context context;
 	private static final String TAG = "ITEM ACTIVITY";
+	private static int userID;
 
 	private int pos, totalItems;
 
@@ -46,6 +47,8 @@ public class ItemActivity extends SherlockActivity {
 		setContentView(R.layout.item);
 
 		context = this;
+		int uID = User.getCurrentUser(context);
+		Log.i(TAG, "User ID fetched: " +uID);	
 
 		// Gesture detection
 		gestureDetector = new GestureDetector(new MyGestureDetector());

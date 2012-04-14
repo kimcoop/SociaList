@@ -40,15 +40,21 @@ public class CreateListActivity extends SherlockListActivity {
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web
 											// servers we allocate (in case of
 											// cancel)
-	Context context;
-
-	DBHelper db;
+	
+	private static Context context;
+	private static String TAG = "CreateListActivity";
+	
+	private static DBHelper db;
+	private static int userID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editlist);
 		context = this;
+		
+		int uID = User.getCurrentUser(context);
+		Log.i(TAG, "User ID fetched: " +uID);	
 
 		getSupportActionBar();
 		setTitle("New List");

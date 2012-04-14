@@ -39,6 +39,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 
 	private Context context;
 	private static final String TAG = "SociaListActivity";
+	private static int userID;
 	private ListView lv;
 
 	@Override
@@ -46,6 +47,8 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 		context = this;
+		int uID = User.getCurrentUser(context);
+		Log.i(TAG, "User ID fetched: " +uID);	
 		getSupportActionBar();
 		setTitle("Lists");
 
