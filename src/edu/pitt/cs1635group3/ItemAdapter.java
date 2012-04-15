@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
@@ -62,12 +65,25 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			cb = (CheckBox) v.findViewById(R.id.check);
 			Button b = (Button) v.findViewById(R.id.delete_item_button);
-			// TextView snippit = (TextView) v.findViewById(R.id.item_snippit);
-
+			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
+			
+			String comments = o.getNotes();
+			if (comments != null)
+			{
+				if (!comments.equals(""))
+				{
+					img.setVisibility(View.VISIBLE);
+//					LayoutParams params = (RelativeLayout.LayoutParams)name.getLayoutParams();
+//					params.addRule(RelativeLayout.LEFT_OF, R.id.chat_bubble);
+//					name.setLayoutParams(params);
+				}
+			}
 			if (!o.isSelected())
 				cb.setChecked(false); // This solves the jumping problem
 										// [facepalm]
 
+			
+			
 			if (name != null) {
 				name.setText(o.getName());
 

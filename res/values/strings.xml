@@ -82,6 +82,8 @@
     <string name="Delete">Delete</string>
     <string name="Next_Item">Next Item</string>
     <string name="Prev_Item">Prev Item</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
     
     <!-- listplaceholder.xml -->
     <string name="Create_New_List">Create New List</string>
