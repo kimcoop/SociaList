@@ -326,15 +326,16 @@ public class JSONfunctions {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
-
+		Log.i(TAG, json.toString()+"");
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
 
 			CustomList list;
 			int listID;
 			JSONObject e1;
-
+			
 			for (int i = 0; i < myLists.length(); i++) {
+				Log.i(TAG, myLists.length() + "THIS IS THE LENGTH!!!!!");
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1);
 

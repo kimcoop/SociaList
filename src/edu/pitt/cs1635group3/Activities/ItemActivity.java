@@ -41,6 +41,8 @@ public class ItemActivity extends SherlockActivity {
 	private static int userID;
 
 	private int pos, totalItems;
+	
+	private boolean itemUpdated = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +56,9 @@ public class ItemActivity extends SherlockActivity {
 		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
+				/*if(itemUpdated){
+					saveItem(v);
+				}*/
 				return gestureDetector.onTouchEvent(event);
 			}
 		};
@@ -122,7 +127,11 @@ public class ItemActivity extends SherlockActivity {
 
 	public void onToggleClicked(View v) {
 		// Perform action on clicks
+		
+		itemUpdated = true;					//Might not actually be true need to see
+											//if it changed from the original state
 		if (((CheckBox) v).isChecked()) {
+			
 			item.setCompleted(context, true);
 		} else {
 			item.setCompleted(context, false);
@@ -132,14 +141,18 @@ public class ItemActivity extends SherlockActivity {
 	public void assignItemTo(String user) {
 
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
-		assignee.setText(user);
-		assignee.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				selectAssignee(v);
-			}
-		});
-		// item.assignTo(userID); -- Don't do this here. Do on save
+		if(!(user.compareTo(assignee.toString()) == 0)){
+			//The user who item is being assigned to has changed
+			itemUpdated = true;
+			assignee.setText(user);
+			assignee.setOnClickListener(new View.OnClickListener() {
+	
+				public void onClick(View v) {
+					selectAssignee(v);
+				}
+			});
+			// item.assignTo(userID); -- Don't do this here. Do on save
+		}
 	}
 
 	public void selectAssignee(View v) {
@@ -161,6 +174,9 @@ public class ItemActivity extends SherlockActivity {
 	public void onBackPressed() {
 
 		db.close();
+		if(itemUpdated){
+			saveItem(this.getCurrentFocus());
+		}
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 							// items.
@@ -268,7 +284,10 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void goToPrev() {
-
+		
+		if(itemUpdated){
+			saveItem(this.getCurrentFocus());
+		}
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", prevItem.getID());
 
@@ -286,6 +305,10 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void goToNext() {
+		
+		if(itemUpdated){
+			saveItem(this.getCurrentFocus());
+		}
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", nextItem.getID());
 
@@ -313,6 +336,7 @@ public class ItemActivity extends SherlockActivity {
 			// right to left swipe
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				
 				intent.putExtra("ItemID", item.getNext());
 				int prevPos = (pos == 1 ? totalItems : pos - 1);
 				intent.putExtra("pos", prevPos);
@@ -348,6 +372,8 @@ public class ItemActivity extends SherlockActivity {
 	/*PLUS/MINUS BUTTONS FOR ITEM QTY*/
 	public void plusButtonPressed (View v)
 	{
+		itemUpdated = true;					//Might not actually be true need to see
+											//if it changed from the original state
 		EditText t = (EditText) findViewById(R.id.item_quantity);
 		String s = t.getText().toString();
 		int i = Integer.parseInt(s);
@@ -357,6 +383,8 @@ public class ItemActivity extends SherlockActivity {
 
 	public void minusButtonPressed (View v)
 	{
+		itemUpdated = true;					//Might not actually be true need to see
+											//if it changed from the original state
 		EditText t = (EditText) findViewById(R.id.item_quantity);
 		String s = t.getText().toString();
 		int i = Integer.parseInt(s);
