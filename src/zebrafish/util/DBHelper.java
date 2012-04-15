@@ -562,10 +562,11 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-
+			Log.i(TAG,"insertOrUpdateItem UPDATE");
 			c.close();
 			updateItem(i);
 		} else {
+			Log.i(TAG,"insertOrUpdateItem Insert");
 			c.close();
 			insertItem(i);
 		}
@@ -574,6 +575,8 @@ public class DBHelper {
 	public void insertItem(Item i) {
 		ContentValues initialValues = new ContentValues();
 
+		long ret;
+		
 		int isCompleted = 0;
 		if (i.isCompleted())
 			isCompleted = 1;
@@ -593,7 +596,9 @@ public class DBHelper {
 		initialValues.put(KEY_ITEM_NEXT, i.getNext());
 		initialValues.put(KEY_ITEM_SELECTED, 0);
 
-		db.insert(ITEM_TABLE, null, initialValues);
+		ret = db.insert(ITEM_TABLE, null, initialValues);
+		
+		Log.i(TAG, "db.insert returned = " + ret);
 
 		// In order to generate unique PKs that sync with the web server's db,
 		// PKs are pulled down from the server by allocating uninitialized items

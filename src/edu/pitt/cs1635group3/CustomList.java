@@ -103,6 +103,69 @@ public class CustomList implements Parcelable {
 		}
 		this.listItems = children;
 	}
+	
+	public void setLinks(Context context){
+		Item itemA, itemB, itemC;
+		ArrayList<Item> items = new ArrayList<Item>();;
+		int listSize = this.getItems().size();
+		Log.d("CustomList.java", "listSize = " + listSize);
+		for (int i = 0; i < listSize; i++) { // make linked list
+
+			if (listSize - 1 == i) {
+				// At the last index
+				itemA = this.getItem(i);
+				itemB = this.getItem(0);
+				// itemC = newList.getItem(1);
+
+				itemA.setNext(itemB.getID());
+				// itemB.setPrev(itemA.getID());
+				// itemB.setNext(itemC.getID());
+				Log.d("CustomList.java", "ItemA's next is"
+						+ this.getItem(0).getID());
+				Log.d("CustomList.java",
+						"ItemB's prev is" + itemA.getID());
+
+				// db.insertItem(itemB);
+			} else if (listSize > 1 && i == 0) {
+				// Two or more items in the list, insert the first two
+				itemA = this.getItem(i);
+				itemB = this.getItem(i + 1);
+				itemC = this.getItem(listSize - 1);
+				itemA.setNext(itemB.getID());
+				itemA.setPrev(itemC.getID());
+				itemB.setPrev(itemA.getID());
+
+				Log.d("CustomList.java",
+						"ItemA's next is" + itemB.getID());
+				Log.d("CustomList.java",
+						"ItemB's prev is" + itemA.getID());
+			} else if (listSize > 1 && i < listSize) {
+				// Two or more items in the list
+				itemA = this.getItem(i);
+				itemB = this.getItem(i + 1);
+				itemA.setNext(itemB.getID());
+				itemB.setPrev(itemA.getID());
+
+				Log.d("CustomList.java",
+						"ItemA's next is" + itemB.getID());
+				Log.d("CustomList.java",
+						"ItemB's prev is" + itemA.getID());
+			}
+
+			else {
+				// Only one item in the list
+				itemA = this.getItem(0);
+				itemA.setNext(itemA.getID());
+				itemA.setPrev(itemA.getID());
+				Log.d("CustomList.java",
+						"ItemA's next is" + itemA.getID());
+				Log.d("CustomList.java",
+						"ItemA's prev is" + itemA.getID());
+			}
+			items.add(itemA);
+		}
+		Item.insertOrUdpateItems(context, items);
+	}
 
 	/*
 	 * GETTERS
@@ -250,6 +313,8 @@ public class CustomList implements Parcelable {
 		db.close();
 		return items;
 	}
+	
+	
 
 
 }

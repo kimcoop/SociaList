@@ -380,5 +380,6 @@ public class Item implements Parcelable {
 		db.close();
 
 	}
+	
 
 }

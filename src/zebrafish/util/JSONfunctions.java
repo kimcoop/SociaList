@@ -270,7 +270,7 @@ public class JSONfunctions {
 
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		//Log.i(TAG, resp);
+		Log.i(TAG, resp);
 
 	} // end postItem
 

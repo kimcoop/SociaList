@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
+import zebrafish.util.JSONfunctions;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -51,6 +53,9 @@ public class InsideListActivity extends SherlockListActivity {
 	private View buttons_helper;
 	private ListView lv;
 	private boolean inviteUp = true;
+	private boolean newItems = false;
+	private static int userID;
+	private ArrayList<Integer> newItemPKs;
 
 	CharSequence users[];
 	protected ArrayList<Item> selectedItems;
@@ -59,6 +64,8 @@ public class InsideListActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
+		
+		userID = User.getCurrUser(context);
 
 		selectedItems = new ArrayList<Item>(); // track the items checked (not
 												// used yet)
@@ -73,6 +80,8 @@ public class InsideListActivity extends SherlockListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
+		
+		newItemPKs = new ArrayList<Integer>();
 
 		list = CustomList.getListByID(context, extras.getInt("ListID"));
 		items = CustomList
@@ -237,10 +246,18 @@ public class InsideListActivity extends SherlockListActivity {
 
 	@Override
 	public void onBackPressed() {
-
+		
+		if(newItems){
+			list.attachItems(items);
+			Log.i(TAG,"Back button pressed");
+			int listSize = list.getItems().size();
+			Log.d(TAG, "listSize = " + listSize);
+			list.setLinks(context);
+		}
 		Intent in = new Intent();
-		setResult(0, in);// Requestcode 1. Tell parent activity to refresh
+		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 							// items.
+		
 		finish();
 		super.onBackPressed();
 	}
@@ -349,10 +366,17 @@ public class InsideListActivity extends SherlockListActivity {
 				Item i = new Item();
 				
 				i.setName(value);
-				i.setCreator(33);
+				i.setCreator(userID);
+				i.setParent(list.getID());
+				
+				int itemID = JSONfunctions.getItemPK();
+				newItemPKs.add(itemID);
+				i.setID(context, itemID);
+				
 				items.add(i);
 				
 				adapter.notifyDataSetChanged();
+				newItems = true;
 			}
 		});
 
@@ -363,7 +387,10 @@ public class InsideListActivity extends SherlockListActivity {
 					}
 				});
 
-		alert.show();
+		//alert.show();
+		AlertDialog dialog = alert.create(); 
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
+		dialog.show();
 		
 	}
 
