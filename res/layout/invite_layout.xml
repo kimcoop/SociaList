@@ -26,17 +26,17 @@
         android:gravity="center" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/accept_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="saveList"
+            android:onClick="acceptSelected"
             android:text="Accept Invite" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/ignore_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="cancelNewList"
+            android:onClick="ignoreSelected"
             android:text="Ignore Invite" />
     </LinearLayout>
 

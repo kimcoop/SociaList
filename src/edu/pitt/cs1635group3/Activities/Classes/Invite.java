@@ -50,8 +50,29 @@ public class Invite {
 	}
 	
 	/*
+	 * SETTERS
+	 */
+
+	
+	public void accept(Context context) {
+		pending = false;
+		db = new DBHelper(context);
+		db.open();
+		//db action here for accept
+		db.close();
+	}
+	
+	
+	/*
 	 * CLASS METHODS
 	 */
+	
+	public static void ignore(Context context, Invite i) {
+		db = new DBHelper(context);
+		db.open();
+		//invites = db.ignoreInvite(i.ID); TODO
+		db.close();
+	}
 
 	public static ArrayList<Invite> getInvites(Context context, int userID) {
 		

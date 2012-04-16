@@ -40,8 +40,9 @@ import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 
 public class PendingInvitesActivity extends SherlockListActivity { // ListActivity
-	private ArrayList<Invite> invites = null;
+	private ArrayList<Invite> invites;
 	private ArrayAdapter<Invite> adapter;
+	private ArrayList<Invite> selectedInvites;
 
 	private Context context;
 	private static final String TAG = "PendingInvitesActivity";
@@ -68,6 +69,20 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
 
+	}
+	
+	public void acceptSelected(View v) {
+		selectedInvites = ((InviteAdapter) adapter).getSelected();
+		for (Invite i : selectedInvites) {
+			i.accept(context);
+		}
+	}
+	
+	public void ignoreSelected(View v) {
+		selectedInvites = ((InviteAdapter) adapter).getSelected();
+		for (Invite i : selectedInvites) {
+			Invite.ignore(context, i); // class method
+		}
 	}
 
 	@Override

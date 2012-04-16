@@ -18,17 +18,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class InviteAdapter extends ArrayAdapter<Invite> {
 
 	private final ArrayList<Invite> invites;
+	private final ArrayList<Invite> selected;
+	private final static String TAG = "InviteAdapter";
 	private DBHelper db;
 
 	public InviteAdapter(Context context, int textViewResourceId,
 			ArrayList<Invite> invites) {
 		super(context, textViewResourceId, invites);
 		this.invites = invites;
+		this.selected = new ArrayList<Invite>(); // populated on any checkbox action (removed when unchecked)
 		this.db = new DBHelper(context);
 	}
 
@@ -37,7 +42,7 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 		View v = convertView;
 		ViewHolder holder;
 
-		Invite o = (Invite) invites.get(position);
+		final Invite o = (Invite) invites.get(position);
 
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
@@ -50,6 +55,15 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 					.findViewById(R.id.element_subtitle);
 			holder.element_checkbox = (CheckBox) v
 					.findViewById(R.id.element_checkbox);
+			
+			holder.element_checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+						if (isChecked) selected.add(o);
+						else selected.remove(o);
+					}
+				});
 
 			v.setTag(holder);
 
@@ -68,7 +82,7 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 			}
 
 			if (subtitle != null) {
-				subtitle.setText(o.inviteDate);
+				subtitle.setText(o.inviteDate + " is the date");
 			}
 
 			if (cb != null) {
@@ -82,6 +96,13 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 	static class ViewHolder {
 		TextView element_title, element_subtitle;
 		CheckBox element_checkbox;
+		
+	}
+	
+	public ArrayList<Invite> getSelected() { // return an arrayList of the currently-checked items
+		Log.i(TAG, "Returning selected items " +selected.size());
+		return selected;
+		
 	}
 
 }
