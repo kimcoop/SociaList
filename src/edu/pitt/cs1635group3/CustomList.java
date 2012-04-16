@@ -306,6 +306,23 @@ public class CustomList implements Parcelable {
 		db.close();
 		return items;
 	}
+
+	public static ArrayList<CustomList> getAllLists(Context context, int uID) {
+		db = new DBHelper(context);
+		db.open();
+		ArrayList<CustomList> lists = db.getAllLists(); // todo for uID..
+		db.close();
+		return lists;
+		
+	}
+
+	public static void deleteListAndChildren(Context context,
+			CustomList userlist) {
+		db = new DBHelper(context);
+		db.open();
+		db.deleteListAndChildren(userlist);
+		db.close();		
+	}
 	
 	
 

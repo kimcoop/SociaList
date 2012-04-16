@@ -379,6 +379,14 @@ public class Item implements Parcelable {
 		db.close();
 
 	}
+
+	public static void deleteItem(Context context, Item item) {
+		db = new DBHelper(context);
+		db.open();
+		db.deleteItem(item);
+		db.close();
+		
+	}
 	
 
 }

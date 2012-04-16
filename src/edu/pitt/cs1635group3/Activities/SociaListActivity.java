@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
+import zebrafish.util.UIUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,10 +30,7 @@ import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.User;
 
 public class SociaListActivity extends SherlockListActivity { // ListActivity
-	private int activeListPosition;
 	private ArrayList<CustomList> lists = null;
-	private ArrayList<User> users = null;
-	private DBHelper db;
 	private RelativeLayout parentLayout;
 	private ArrayAdapter<CustomList> adapter;
 
@@ -46,17 +44,13 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listplaceholder);
 		context = this;
-		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);	
+		userID = User.getCurrUser(context);
+		Log.i(TAG, "User ID fetched: " +userID);	
 		getSupportActionBar();
 		setTitle("Lists");
 
-		db = new DBHelper(this);
-		db.open();
-		lists = db.getAllLists(); // TODO: for user ID...
-		users = db.getAllUsers();
-		db.close();
-
+		lists = CustomList.getAllLists(context, userID); // TODO: for user ID...
+		
 		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
 		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
 		lv = getListView();
@@ -72,12 +66,6 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				final View parentView = v;
 				final int position = pos;
 				final CustomList userlist = lists.get(position);
-				final String listname = userlist.getName();
-
-				Log.i(TAG, "List name is " + listname + " and ID is "
-						+ userlist.getID());
-				// parentView.getBackground().setColorFilter(Color.parseColor("#323331"),
-				// Mode.DARKEN);
 
 				final Button b = (Button) v
 						.findViewById(R.id.delete_list_button);
@@ -86,12 +74,10 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
-						db.open();
-						db.deleteListAndChildren(userlist);
-						db.close();
+						
+						CustomList.deleteListAndChildren(context, userlist);
 
-						Toast.makeText(getBaseContext(), "List deleted.",
-								Toast.LENGTH_SHORT).show();
+						UIUtil.showMessage(context, "List deleted.");
 						b.setVisibility(View.INVISIBLE);
 						parentLayout.removeView(parentView);
 						adapter.remove(userlist);
@@ -134,8 +120,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 										// deleted the last item and user wants
 										// to remove the list.
 
-			Toast.makeText(this, "Item and list deleted.", Toast.LENGTH_SHORT)
-					.show();
+			UIUtil.showMessage(context, "Item and list deleted.");
 			startActivity(getIntent()); // force refresh
 			finish();
 		}
@@ -145,8 +130,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.home_lists_menu, menu); // todo - alter the menu
-														// (make new)
+		inflater.inflate(R.menu.home_lists_menu, menu);
 
 		return true;
 	}
@@ -169,19 +153,5 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		}
 		
 	}
-		
-		
-		/*switch (item.getItemId()) {
-		case R.id.menu_add:
-			intent = new Intent(this, CreateListActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.menu_refresh:
-			lists = JSONfunctions.getRefreshLists(context); // TODO
-			adapter.notifyDataSetChanged();
-		default:
-			return false;
-		}
-	}*/
 
 }

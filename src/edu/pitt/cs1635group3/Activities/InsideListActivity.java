@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
+import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,8 +45,6 @@ public class InsideListActivity extends SherlockListActivity {
 	private static final String TAG = "InsideListActivity";
 
 	private int totalItems;
-
-	private DBHelper db;
 	protected Context context;
 
 	private Button assign_button, complete_button, invite_button;
@@ -131,10 +130,6 @@ public class InsideListActivity extends SherlockListActivity {
 				final Item item = items.get(position);
 				final String itemName = item.getName();
 
-				// Log.i(TAG, "Item name is " +itemName+ " and ID is "
-				// +item.getID() + " and prev is " +item.getPrev() +
-				// " and next is " +item.getNext());
-
 				final Button b = (Button) parentView
 						.findViewById(R.id.delete_item_button);
 				b.setVisibility(View.VISIBLE);
@@ -144,8 +139,6 @@ public class InsideListActivity extends SherlockListActivity {
 					public void onClick(View v) {
 
 						totalItems--;
-
-						db.open();
 
 						int prevPos, nextPos;
 						if (position == items.size() - 1)
@@ -174,18 +167,9 @@ public class InsideListActivity extends SherlockListActivity {
 							item.setPrev(context, item.getID());
 						}
 
-						db.deleteItem(item); // todo - can we do this inside
-												// Item.java?
-						db.close();
+						Item.deleteItem(context, item);
 
-						Log.i(TAG,
-								"Prev item has next item " + nextItem.getName());
-						Log.i(TAG,
-								"NExt item has prev item " + prevItem.getName());
-
-						Toast.makeText(getBaseContext(),
-								"Item " + itemName + " deleted.",
-								Toast.LENGTH_SHORT).show();
+						UIUtil.showMessage(context, "Item deleted");
 						b.setVisibility(View.GONE);
 						parentLayout.removeView(parentView);
 						adapter.remove(item);
