@@ -1,10 +1,10 @@
 package zebrafish.util;
 
 import java.io.IOException;
-import edu.pitt.cs1635group3.R;
 
 import android.content.Context;
 import android.widget.Toast;
+import edu.pitt.cs1635group3.R;
 
 
 public final class UIUtil {

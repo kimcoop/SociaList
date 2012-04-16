@@ -17,9 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import service.UpdateItemAsyncServiceCall;
-
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import edu.pitt.cs1635group3.CustomList;
@@ -346,7 +343,7 @@ public class JSONfunctions {
 
 			}
 
-			CustomList.insertOrUpdateLists(context, myCustomLists);
+			CustomList.insertOrUpdateLists(context, myCustomLists, NO_PUSH_TO_CLOUD);
 
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in getLists(): " + e.toString());

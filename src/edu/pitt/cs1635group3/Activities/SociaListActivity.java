@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -104,7 +103,6 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				return true;
 			}
 		});
-
 	} // end onCreate
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {

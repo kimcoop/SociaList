@@ -1,23 +1,12 @@
 package edu.pitt.cs1635group3.Activities;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
 
 public class SplashScreenActivity extends Activity {
 	protected boolean _active = true;

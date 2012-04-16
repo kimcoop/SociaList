@@ -1,20 +1,15 @@
 package edu.pitt.cs1635group3.Activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.User;

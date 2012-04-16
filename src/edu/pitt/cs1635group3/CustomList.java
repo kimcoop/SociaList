@@ -280,12 +280,12 @@ public class CustomList implements Parcelable {
 	 */
 
 	public static void insertOrUpdateLists(Context context,
-			ArrayList<CustomList> myCustomLists) {
+			ArrayList<CustomList> myCustomLists, boolean pushToCloud) {
 		db = new DBHelper(context);
 		db.open();
 
 		for (CustomList c : myCustomLists) {
-			db.insertOrUpdateList(c);
+			db.insertOrUpdateList(c, pushToCloud);
 		}
 		db.close();
 

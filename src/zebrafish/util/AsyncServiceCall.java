@@ -2,7 +2,6 @@
 package zebrafish.util;
 
 import java.io.IOException;
-import edu.pitt.cs1635group3.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;

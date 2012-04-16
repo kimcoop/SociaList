@@ -19,7 +19,7 @@ package zebrafish.util;
 import java.util.ArrayList;
 
 import service.ItemUpdateTask;
-
+import service.ListUpdateTask;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -391,7 +391,7 @@ public class DBHelper {
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
-	public void insertOrUpdateList(CustomList i) { // query to test if item
+	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { // query to test if item
 													// exists. if it does,
 													// update. if it doesn't,
 													// insert.
@@ -403,16 +403,11 @@ public class DBHelper {
 		if (c.getCount() > 0) {
 			// Item exists
 			c.close();
-			updateList(i, NO_PUSH_TO_CLOUD);
+			updateList(i, pushToCloud);
 		} else {
 			c.close();
-			insertList(i, NO_PUSH_TO_CLOUD);
+			insertList(i, pushToCloud);
 		}
-	}
-
-	public void insertList(CustomList list) {
-		// by default, push to server.
-		insertList(list, PUSH_TO_CLOUD);
 	}
 
 	public void insertList(CustomList list, boolean pushToCloud) {
@@ -425,8 +420,9 @@ public class DBHelper {
 
 		int userID = list.getCreator();
 
-		if (pushToCloud)
-			JSONfunctions.updateList(list);
+		if (pushToCloud) {
+			new ListUpdateTask().update(list);
+		}
 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LIST_ID, list.getID());
@@ -446,8 +442,9 @@ public class DBHelper {
 	public boolean updateList(CustomList i, boolean pushToCloud) {
 		ContentValues args = new ContentValues();
 
-		if (pushToCloud)
-			JSONfunctions.updateList(i);
+		if (pushToCloud) {
+			new ListUpdateTask().update(i);
+		}
 
 		args.put(KEY_LIST_ID, i.getID());
 		args.put(KEY_LIST_CUSTOM_ID, i.getCustomID());
@@ -589,7 +586,9 @@ public class DBHelper {
 		// the currently-null item using the ID we already have. (Same for
 		// lists.)
 		
-		if (pushToCloud) JSONfunctions.updateItem(i);
+		if (pushToCloud) {
+			new ItemUpdateTask().update(i);
+		}
 
 	}
 
@@ -666,7 +665,6 @@ public class DBHelper {
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
 		if (pushToCloud) {
-			//JSONfunctions.updateItem(i);
 			new ItemUpdateTask().update(i);
 		}
 
