@@ -1,29 +1,22 @@
 package edu.pitt.cs1635group3;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import zebrafish.util.DBHelper;
-import zebrafish.util.JSONfunctions;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.SimpleAdapter;
 
 public class CustomList implements Parcelable {
 	private String name, customID, creationDate, note;
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
+	public boolean NO_PUSH_TO_CLOUD = false;
 
 	private static DBHelper db;
 
@@ -104,7 +97,7 @@ public class CustomList implements Parcelable {
 		this.listItems = children;
 	}
 	
-	public void setLinks(Context context){
+	public void setLinks(Context context) {
 		Item itemA, itemB, itemC;
 		ArrayList<Item> items = new ArrayList<Item>();;
 		int listSize = this.getItems().size();
@@ -164,7 +157,7 @@ public class CustomList implements Parcelable {
 			}
 			items.add(itemA);
 		}
-		Item.insertOrUdpateItems(context, items);
+		Item.insertOrUpdateItems(context, items, NO_PUSH_TO_CLOUD);
 	}
 
 	/*

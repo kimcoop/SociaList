@@ -18,9 +18,7 @@ package zebrafish.util;
 
 import java.util.ArrayList;
 
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.User;
+import service.ItemUpdateTask;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,6 +27,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import edu.pitt.cs1635group3.CustomList;
+import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.User;
 
 /**
  * Simple notes database access helper class. Defines the basic CRUD operations
@@ -83,7 +84,7 @@ public class DBHelper {
 	public static final String KEY_USER_DEVICE_TOKEN = "device_token";
 	public static final String KEY_USER_DEVICE_ID = "device_id";
 
-	private static final String TAG = "SociaList: DbAdapter";
+	private static final String TAG = "DB HELPER";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase db;
 
@@ -144,14 +145,6 @@ public class DBHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			/*
-			 * If you get errors because you wiped your db, remove the next
-			 * three lines! Our version of SQLite does not support "if exists."
-			 * - Kim
-			 */
-			// db.delete("list", null, null);
-			// db.delete("item", null, null);
-			// db.delete("user", null, null);
 			db.execSQL(ITEM_CREATE);
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
@@ -540,19 +533,7 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
-	public void insertItem(Item i, boolean fromServer) {
-		// If the item is being pulled from the server, we don't want to
-		// recreate it on the server.
-
-		if (!fromServer) {
-			JSONfunctions.createItem(i);
-		}
-
-		insertItem(i);
-
-	}
-
-	public void insertOrUpdateItem(Item i) { // query to test if item exists. if
+	public void insertOrUpdateItem(Item i, boolean pushToCloud) { // query to test if item exists. if
 												// it does, update. if it
 												// doesn't, insert.
 
@@ -562,17 +543,17 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			Log.i(TAG,"insertOrUpdateItem UPDATE");
+			//Log.i(TAG,"insertOrUpdateItem UPDATE");
 			c.close();
-			updateItem(i);
+			updateItem(i, pushToCloud);
 		} else {
-			Log.i(TAG,"insertOrUpdateItem Insert");
+			//Log.i(TAG,"insertOrUpdateItem Insert");
 			c.close();
-			insertItem(i);
+			insertItem(i, pushToCloud);
 		}
 	}
 
-	public void insertItem(Item i) {
+	public void insertItem(Item i, boolean pushToCloud) {
 		ContentValues initialValues = new ContentValues();
 
 		long ret;
@@ -607,7 +588,8 @@ public class DBHelper {
 		// server, we need to UPDATE
 		// the currently-null item using the ID we already have. (Same for
 		// lists.)
-		JSONfunctions.updateItem(i);
+		
+		if (pushToCloud) JSONfunctions.updateItem(i);
 
 	}
 
@@ -659,7 +641,7 @@ public class DBHelper {
 		return i;
 	}
 
-	public boolean updateItem(Item i, boolean doCloud) {
+	public boolean updateItem(Item i, boolean pushToCloud) {
 
 		ContentValues args = new ContentValues();
 
@@ -669,7 +651,6 @@ public class DBHelper {
 		if (i.isSelected())
 			isSelected = 1;
 
-		// args.put(KEY_ITEM_ID, i.getID());
 		args.put(KEY_PARENT_ID, i.getParentID());
 		args.put(KEY_ITEM_NAME, i.getName());
 		args.put(KEY_ADDER_ID, i.getCreator());
@@ -684,8 +665,10 @@ public class DBHelper {
 		args.put(KEY_ITEM_NEXT, i.getNext());
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
-		if (doCloud)
-			JSONfunctions.updateItem(i);
+		if (pushToCloud) {
+			//JSONfunctions.updateItem(i);
+			new ItemUpdateTask().update(i);
+		}
 
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;

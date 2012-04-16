@@ -2,12 +2,11 @@ package edu.pitt.cs1635group3;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class User {
 

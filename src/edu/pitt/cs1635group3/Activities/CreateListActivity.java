@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +34,7 @@ public class CreateListActivity extends SherlockListActivity {
 	private ArrayList<HashMap<String, String>> mylist;
 	private EditText listNameSpace, CIDSpace;
 	private String listName, CID;
+	public boolean PUSH_TO_CLOUD = true;
 
 	private int newListPK;
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web
@@ -168,6 +168,8 @@ public class CreateListActivity extends SherlockListActivity {
 			}
 
 			db.insertList(newList);
+			db.close();
+			
 			Item itemA, itemB, itemC;
 			if (newList.getItems() != null) {
 				int listSize = newList.getItems().size();
@@ -177,57 +179,34 @@ public class CreateListActivity extends SherlockListActivity {
 						// At the last index
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(0);
-						// itemC = newList.getItem(1);
-
-						itemA.setNext(context, itemB.getID());
-						// itemB.setPrev(itemA.getID());
-						// itemB.setNext(itemC.getID());
-						Log.d("CreateListActivity", "ItemA's next is"
-								+ newList.getItem(0).getID());
-						Log.d("CreateListActivity",
-								"ItemB's prev is" + itemA.getID());
-
-						// db.insertItem(itemB);
+						itemA.setNext(itemB.getID());
+						
 					} else if (listSize > 1 && i == 0) {
 						// Two or more items in the list, insert the first two
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
 						itemC = newList.getItem(listSize - 1);
-						itemA.setNext(context, itemB.getID());
-						itemA.setPrev(context, itemC.getID());
-						itemB.setPrev(context, itemA.getID());
+						itemA.setNext(itemB.getID());
+						itemA.setPrev(itemC.getID());
+						itemB.setPrev(itemA.getID());
 
-						Log.d("CreateListActivity",
-								"ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity",
-								"ItemB's prev is" + itemA.getID());
 					} else if (listSize > 1 && i < listSize) {
 						// Two or more items in the list
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(i + 1);
-						itemA.setNext(context, itemB.getID());
-						itemB.setPrev(context, itemA.getID());
-
-						Log.d("CreateListActivity",
-								"ItemA's next is" + itemB.getID());
-						Log.d("CreateListActivity",
-								"ItemB's prev is" + itemA.getID());
+						itemA.setNext(itemB.getID());
+						itemB.setPrev(itemA.getID());
 					}
 
 					else {
 						// Only one item in the list
 						itemA = newList.getItem(0);
-						itemA.setNext(context, itemA.getID());
-						itemA.setPrev(context, itemA.getID());
-						Log.d("CreateListActivity",
-								"ItemA's next is" + itemA.getID());
-						Log.d("CreateListActivity",
-								"ItemA's prev is" + itemA.getID());
+						itemA.setNext(itemA.getID());
+						itemA.setPrev(itemA.getID());
 					}
-					db.insertItem(itemA);
+					Item.insertOrUpdateItems(context, newList.getItems(), PUSH_TO_CLOUD);
 				}
 			}
-			db.close();
 			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
 			Intent in = new Intent();
 			setResult(1, in);// Requestcode 1. Tell parent activity to refresh

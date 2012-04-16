@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import zebrafish.util.DBHelper;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -368,14 +367,14 @@ public class Item implements Parcelable {
 	/*
 	 * CLASS METHODS
 	 */
-
-	public static void insertOrUdpateItems(Context context,
-			ArrayList<Item> items) {
+	
+	public static void insertOrUpdateItems(Context context,
+			ArrayList<Item> items, boolean pushToCloud) {
 		db = new DBHelper(context);
 		db.open();
 
 		for (Item item : items) {
-			db.insertOrUpdateItem(item);
+			db.insertOrUpdateItem(item, pushToCloud);
 		}
 		db.close();
 

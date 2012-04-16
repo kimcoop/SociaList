@@ -1,94 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Zebrafish Technologies = best group ever!</string>
-    <string name="app_name">SociaList</string>
-    
-    <!-- Splash Screen -->
-    <string name ="splash_loading">Loading: </string>
-    
-    <!--  Home Activity -->
-    <string name="push_explain">Allow push notifications? (You can always change this later.)</string>
+	<string name="hello">Zebrafish Technologies = best group ever!</string>
+	<string name="app_name">SociaList</string>
 
-    <!-- Headers -->
-    <string name="lists">Lists</string>
-    
-    <!-- Dashboard Buttons -->
-    
-    <string name="btn_list">My Lists</string>
-    <string name="btn_manage">My Items</string>
-    <string name="btn_pending">Pending Invites</string>
-    <string name="btn_browse">Browse Lists</string>
-    
+	<!-- Splash Screen -->
+	<string name="splash_loading">Loading: </string>
 
-    <!-- Buttons -->
-    <string name="invite_button">Invite…</string>
-    <string name="assign_button">Assign To…</string>
-    <string name="complete_button">Mark Completed</string>
-    <string name="label_notes">Notes:</string>
-    <string name="label_name">Item:</string>
-    <string name="label_quantity">Quantity:</string>
-    <string name="label_assignee">Assigned to:</string>
-    <string name="default_sort_text">Sort By</string>
+	<!-- Home Activity -->
+	<string name="push_explain">Allow push notifications? (You can always change
+		this later.)</string>
 
-    <string-array name="default_sorts">
-        <item>Dated Added</item>
-        <item>Assigned To Me</item>
-        <item>Unassigned</item>
-        <item>Ascending</item>
-        <item>Descending</item>
-    </string-array>
-    <string-array name="shared_users">
-        <item>Jim Cervone</item>
-        <item>Brendan Liu</item>
-        <item>Rob Filippi</item>
-        <item>Kim Cooperrider</item>
-    </string-array>
+	<!-- Headers -->
+	<string name="lists">Lists</string>
 
-    <!-- Invite -->
-    <string name="send_button">Send Invitation</string>
-    <string name="invite_activity_title">Invite to List</string>
-    <string name="invite_method_label">Invite method</string>
-    <string name="invite_message_preview_title">Invite message</string>
-    <string name="pick_contact_label">Pick Contact</string>
-    <string name="invite_email_hint">Number or email</string>
-    <string name="message_preview">Message preview</string>
-    <string name="invitetypeprompt">Pick type of invite...</string>
+	<!-- Dashboard Buttons -->
 
-    <string-array name="invitetypelist">
-        <item>Send SMS</item>
-        <item>Send Email</item>
-    </string-array>
+	<string name="btn_list">My Lists</string>
+	<string name="btn_manage">My Items</string>
+	<string name="btn_pending">Pending Invites</string>
+	<string name="btn_browse">Browse Lists</string>
 
-    <!-- editlist.xml -->
-    <string name="List_name">List name     </string>
-    <string name="List_name_here">Like "Groceries"</string>
-    <string name="List_items">List items</string>
-    <string name="No_items_in_list">No items in list</string>
-    <string name="Add_List_Item">Add Item</string>
-    <string name="Save">Save</string>
-    <string name="CancelNewList">Cancel</string>
-    <string name="CID">Custom ID (?)</string>
-    <string name="CID_hint">Like "MyDinnerParty88"</string>
-    <string name="CID_explain">Custom List IDs let users search for your list and use it as a template. Share it with anyone you want to be able to download a copy of your list.</string>
-    
-    <!-- header.xml -->
-    <string name="My_Lists">My Lists</string>
-    
-    <!-- insidelist_layout.xml -->
-    <string name="My_list_stuff">There aren\'t any items yet! Add some by clicking the "Add Item" icon".</string>
 
-    <!-- item.xml -->
-    <string name="Delete">Delete</string>
-    <string name="Next_Item">Next Item</string>
-    <string name="Prev_Item">Prev Item</string>
-    <string name="plus">+</string>
-    <string name="minus">-</string>
-    
-    <!-- listplaceholder.xml -->
-    <string name="Create_New_List">Create New List</string>
-    <string name="No_lists">No lists</string>
-    <string name="firstName">First Name</string>
-    <string name="lastName">Last name</string>
-        
+	<!-- Buttons -->
+	<string name="invite_button">Invite…</string>
+	<string name="assign_button">Assign To…</string>
+	<string name="complete_button">Mark Completed</string>
+	<string name="label_notes">Notes:</string>
+	<string name="label_name">Item:</string>
+	<string name="label_quantity">Quantity:</string>
+	<string name="label_assignee">Assigned to:</string>
+	<string name="default_sort_text">Sort By</string>
+
+	<string-array name="default_sorts">
+		<item>Dated Added</item>
+		<item>Assigned To Me</item>
+		<item>Unassigned</item>
+		<item>Ascending</item>
+		<item>Descending</item>
+	</string-array>
+	<string-array name="shared_users">
+		<item>Jim Cervone</item>
+		<item>Brendan Liu</item>
+		<item>Rob Filippi</item>
+		<item>Kim Cooperrider</item>
+	</string-array>
+
+	<!-- Invite -->
+	<string name="send_button">Send Invitation</string>
+	<string name="invite_activity_title">Invite to List</string>
+	<string name="invite_method_label">Invite method</string>
+	<string name="invite_message_preview_title">Invite message</string>
+	<string name="pick_contact_label">Pick Contact</string>
+	<string name="invite_email_hint">Number or email</string>
+	<string name="message_preview">Message preview</string>
+	<string name="invitetypeprompt">Pick type of invite...</string>
+
+	<string-array name="invitetypelist">
+		<item>Send SMS</item>
+		<item>Send Email</item>
+	</string-array>
+
+	<!-- editlist.xml -->
+	<string name="List_name">List name     </string>
+	<string name="List_name_here">Like "Groceries"</string>
+	<string name="List_items">List items</string>
+	<string name="No_items_in_list">No items in list</string>
+	<string name="Add_List_Item">Add Item</string>
+	<string name="Save">Save</string>
+	<string name="CancelNewList">Cancel</string>
+	<string name="CID">Custom ID (?)</string>
+	<string name="CID_hint">Like "MyDinnerParty88"</string>
+	<string name="CID_explain">Custom List IDs let users search for your list and
+		use it as a template. Share it with anyone you want to be able to
+		download a copy of your list.</string>
+
+	<!-- header.xml -->
+	<string name="My_Lists">My Lists</string>
+
+	<!-- insidelist_layout.xml -->
+	<string name="My_list_stuff">There aren\'t any items yet! Add some by clicking
+		the "Add Item" icon".</string>
+
+	<!-- item.xml -->
+	<string name="Delete">Delete</string>
+	<string name="Next_Item">Next Item</string>
+	<string name="Prev_Item">Prev Item</string>
+	<string name="plus">+</string>
+	<string name="minus">-</string>
+
+	<!-- listplaceholder.xml -->
+	<string name="Create_New_List">Create New List</string>
+	<string name="No_lists">No lists</string>
+	<string name="firstName">First Name</string>
+	<string name="lastName">Last name</string>
+
+	<!-- Async Stuff -->
+	<string name="network_access_failure">It was not possible to access the network. Check
+		your internet connection.</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="try_again">Would you like to try again?</string>
+	<string name="unknown_failure">There was an expected error.</string>
+    <string name="processing_wait">Processing. Please wait...</string>
+    <string name="removing_wait">Removing. Please wait...</string>
+    <string name="deleting_wait">Deleting. Please wait...</string>
+    <string name="creating_wait">Creating. Please wait...</string>
+    <string name="adding_wait">Adding. Please wait...</string>
+
 </resources>

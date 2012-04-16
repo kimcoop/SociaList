@@ -3,7 +3,6 @@ package edu.pitt.cs1635group3;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;

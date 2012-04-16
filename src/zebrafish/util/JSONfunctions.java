@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,19 +17,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import service.UpdateItemAsyncServiceCall;
+
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.User;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
-import android.util.Log;
-
 public class JSONfunctions {
 
-	public static final String URL = "http://www.zebrafishtec.com/server.php";
+	public static final String URL = Config.URL;
 	public static final String TAG = "JSONFUNCTIONS";
 	public static DBHelper db;
+	public static final boolean NO_PUSH_TO_CLOUD = false;
 
 	public static int getItemPK() {
 		return getPK("getItemPK");
@@ -243,11 +244,8 @@ public class JSONfunctions {
 		postItem("updateItem", i);
 	}
 
-	public static void postItem(String action, Item i) { // pass the item back
-															// to the server
-
-		// Log.i(TAG + "- POST ITEM", "Posting: " + i.getName());
-
+	public static void postItem(String action, Item i) {
+		
 		// initialize
 		InputStream is = null;
 		String result = "", resp = "";
@@ -374,14 +372,14 @@ public class JSONfunctions {
 					if (i == 0) {
 						e1 = items.getJSONObject(i);
 						item1 = new Item(e1);
-						item1.setParent(context, listID);
+						item1.setParent(listID);
 
 						e2 = items.getJSONObject(i + 1);
 						item2 = new Item(e2);
-						item2.setParent(context, listID);
+						item2.setParent(listID);
 
-						item2.setPrev(context, item1.getID());
-						item1.setNext(context, item2.getID());
+						item2.setPrev(item1.getID());
+						item1.setNext(item2.getID());
 						listItems.add(item1);
 						listItems.add(item2);
 
@@ -390,22 +388,21 @@ public class JSONfunctions {
 					} else {
 						e1 = items.getJSONObject(i);
 						item1 = new Item(e1);
-						item1.setParent(context, listID);
+						item1.setParent(listID);
 
 						Item prev = listItems.get(i - 1);
 
-						prev.setNext(context, item1.getID());
-						item1.setPrev(context, prev.getID());
+						prev.setNext(item1.getID());
+						item1.setPrev(prev.getID());
 						listItems.add(item1);
 
 					}
 				}
 
-				listItems.get(0).setPrev(context,
-						listItems.get(listItems.size() - 1).getID()); // "Loop around":
-
-				listItems.get(listItems.size() - 1).setNext(context,
-						listItems.get(0).getID()); // and
+				listItems.get(0).setPrev(listItems.get(listItems.size() - 1).getID()); // "Loop around"
+				listItems.get(listItems.size() - 1).setNext(listItems.get(0).getID()); // and
+				
+				Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
 			}
 
 		} catch (JSONException e) {
@@ -413,7 +410,7 @@ public class JSONfunctions {
 		}
 
 		// return listItems;
-		Item.insertOrUdpateItems(context, listItems);
+		Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
 
 	}
 

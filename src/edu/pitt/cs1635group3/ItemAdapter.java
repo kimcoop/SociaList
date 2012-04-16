@@ -3,7 +3,6 @@ package edu.pitt.cs1635group3;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
-
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ItemAdapter extends ArrayAdapter<Item> {

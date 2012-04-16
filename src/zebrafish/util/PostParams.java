@@ -1,7 +1,6 @@
 package zebrafish.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
