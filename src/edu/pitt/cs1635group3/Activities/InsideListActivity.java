@@ -31,8 +31,10 @@ import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
+import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 import edu.pitt.cs1635group3.Adapters.ItemAdapter;
 
 public class InsideListActivity extends SherlockListActivity {
@@ -47,53 +49,61 @@ public class InsideListActivity extends SherlockListActivity {
 	private int totalItems;
 	protected Context context;
 
-	private Button assign_button, complete_button, invite_button;
-	private View buttons_helper;
+	protected Button assignButton, completeButton, inviteButton;
+	private View buttonsHelper;
 	private ListView lv;
-	private boolean inviteUp = true;
 	private boolean newItems = false;
 	private static int userID;
 	private ArrayList<Integer> newItemPKs;
 
-	CharSequence users[];
-	protected ArrayList<Item> selectedItems;
+	private CharSequence users[];
+	private ArrayList<Item> selected;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
-
 		userID = User.getCurrUser(context);
-
-		selectedItems = new ArrayList<Item>(); // track the items checked (not
-												// used yet)
-
-		assign_button = (Button) findViewById(R.id.assign_button);
-		complete_button = (Button) findViewById(R.id.complete_button);
-		invite_button = (Button) findViewById(R.id.invite_button);
-		buttons_helper = (View) findViewById(R.id.buttons_helper);
-		lv = getListView();
-
-		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent);
+		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used for deletions
+		newItemPKs = new ArrayList<Integer>(); // used for additions
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-
-		newItemPKs = new ArrayList<Integer>();
 
 		list = CustomList.getListByID(context, extras.getInt("ListID"));
 		items = CustomList
 				.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
 
-		users = User.getUsersForDialog(context, list.getID());
-
-		adapter = new ItemAdapter(this, R.layout.item_row, items,
-				assign_button, complete_button, invite_button, inviteUp);
-
 		getSupportActionBar();
 		setTitle(list.getName());
 
+		selected = new ArrayList<Item>(); // track the items checked. used for button click events
+
+		assignButton = (Button) findViewById(R.id.assign_button);
+		assignButton.setOnClickListener(new Button.OnClickListener() {  
+			public void onClick(View v) {
+				assign();
+			}
+		});
+		completeButton = (Button) findViewById(R.id.complete_button);
+		completeButton.setOnClickListener(new Button.OnClickListener() {  
+			public void onClick(View v) {
+				complete();
+			}
+		});
+		inviteButton = (Button) findViewById(R.id.invite_button);
+		inviteButton.setOnClickListener(new Button.OnClickListener() {  
+			public void onClick(View v) {
+				invite();
+			}
+		});
+		buttonsHelper = (View) findViewById(R.id.buttons_helper);
+		lv = getListView();
+
+		users = User.getUsersForDialog(context, list.getID());
+
+		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton, completeButton, inviteButton);
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
@@ -102,7 +112,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long id) {
-				complete_button.setSelected(false);
+				completeButton.setSelected(false);
 				Item item = items.get(pos);
 
 				if (items.size() == 1) {
@@ -112,11 +122,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 				Intent intent = new Intent(context, ItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
-
-				intent.putExtra("pos", pos + 1); // this is used for displaying
-													// "Item X of Y" in the
-													// header,
-													// so leave it as pos
+				intent.putExtra("pos", pos + 1); // Display item X of Y
 				intent.putExtra("totalItems", totalItems);
 				startActivityForResult(intent, 1);
 			}
@@ -162,7 +168,7 @@ public class InsideListActivity extends SherlockListActivity {
 						nextItem.setPrev(context, prev);
 
 						if (totalItems == 1) { // always this issue with one
-												// item in list
+							// item in list
 							item.setNext(context, item.getID());
 							item.setPrev(context, item.getID());
 						}
@@ -206,7 +212,7 @@ public class InsideListActivity extends SherlockListActivity {
 		alert.setTitle("Rename List");
 
 		final EditText input = new EditText(this); // Set an EditText view to
-													// get user input
+		// get user input
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -218,10 +224,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// Canceled.
-					}
-				});
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
 
 		alert.show();
 
@@ -239,28 +245,26 @@ public class InsideListActivity extends SherlockListActivity {
 		}
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
-							// items.
+		// items.
 
 		finish();
 		super.onBackPressed();
 	}
 
 	public void assignItemsTo(String user) {
+		selected = getSelectedItems();
+		
+		int assignee = User.getUserByName(context, user); // this is weak - Kim
 
-		int userID = User.getUserByName(context, user);
-
-		for (Item item : items) {
-			if (item.isSelected()) {
-				item.assignTo(context, userID);
-				item.setSelected(context, false);
-			}
+		for (Item item : selected) {
+			Log.i(TAG, "Assigning " +item.getName() + " to " +assignee);
+			item.assignTo(context, assignee);
 		}
 
 		adapter.notifyDataSetChanged();
 	}
 
-	public void assignItems(View v) {
-		// Grab users from the db. Alert Dialog to display all of them.
+	public void assign() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -273,23 +277,34 @@ public class InsideListActivity extends SherlockListActivity {
 		alert.show();
 	}
 
-	public void uncompleteItems(View v) {
+	public void uncomplete() {
+		// TODO - test to see if all selected items are uncompleted
+		selected = getSelectedItems();
 
+		for (Item item : selected) {
+			// item.setUnCompleted(context); TODO (easy)
+		}
+
+		adapter.notifyDataSetChanged();
 	}
 
-	public void completeItems(View v) {
+	public void complete() {
+		selected = getSelectedItems();
 
-		for (Item item : items) {
-			if (item.isSelected()) {
-				item.setCompleted(context);
-				item.setSelected(context, false);
-			}
+		for (Item item : selected) {
+			item.setCompleted(context);
 		}
 		adapter.notifyDataSetChanged();
-		complete_button.setSelected(false);
 	}
 
-	public void inviteToList(View v) {
+	public ArrayList<Item> getSelectedItems() {
+		// called multiple times because there are many actions that require use
+		// of selected items
+		selected = ((ItemAdapter) adapter).getSelected();
+		return selected;
+	}
+
+	public void invite() {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -366,10 +381,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// Canceled.
-					}
-				});
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
 
 		// alert.show();
 		AlertDialog dialog = alert.create();

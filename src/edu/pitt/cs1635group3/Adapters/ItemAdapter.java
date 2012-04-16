@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3.Adapters;
 import java.util.ArrayList;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
@@ -10,6 +11,7 @@ import edu.pitt.cs1635group3.R.layout;
 import zebrafish.util.DBHelper;
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,33 +26,32 @@ import android.widget.TextView;
 public class ItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
-	private final ArrayList<Item> items;
-	private Button assign_button;
-	private Button complete_button;
-	private Button invite_button;
-	private boolean inviteUp;
-	private int checkedItems = 0;
-	private int checkedCompletedItems = 0;
+	private final ArrayList<Item> items;	// all the items
+	private final ArrayList<Item> selected; // track the selected items (checkboxes)
+	protected Button assignBtn, completeBtn, inviteBtn; // properly handle button display
 
 	private static final String TAG = "ItemAdapter";
 	private DBHelper db;
 	protected Context context;
 
 	public ItemAdapter(Context c, int textViewResourceId,
-			ArrayList<Item> items, Button assign_button,
-			Button complete_button, Button invite_button, boolean inviteUp) {
+			ArrayList<Item> items, Button assignButton, Button completeButton,
+			Button inviteButton) {
 		super(c, textViewResourceId, items);
-		context = c;
+		this.context = c;
 		this.items = items;
-		this.assign_button = assign_button;
-		this.complete_button = complete_button;
-		this.invite_button = invite_button;
-		this.inviteUp = inviteUp;
+		this.selected = new ArrayList<Item>();
+		this.db = new DBHelper(context);
+		
+		assignBtn  = assignButton;
+		completeBtn = completeButton;
+		inviteBtn = inviteButton;
+		
 	}
+	
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		db = new DBHelper(getContext());
 		View v = convertView;
 
 		if (v == null) {
@@ -59,13 +60,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			v = vi.inflate(R.layout.item_row, null);
 		}
 
-		Item o = items.get(position);
-		CheckBox cb;
+		final Item o = items.get(position);
 
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
-			cb = (CheckBox) v.findViewById(R.id.check);
+			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
 			Button b = (Button) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
 
@@ -73,31 +73,26 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (comments != null) {
 				if (!comments.equals("")) {
 					img.setVisibility(View.VISIBLE);
-					// LayoutParams params =
-					// (RelativeLayout.LayoutParams)name.getLayoutParams();
-					// params.addRule(RelativeLayout.LEFT_OF, R.id.chat_bubble);
-					// name.setLayoutParams(params);
 				}
 			}
-			if (!o.isSelected())
-				cb.setChecked(false); // This solves the jumping problem
-										// [facepalm]
+			
+			if (!o.isSelected()) {
+				cb.setChecked(false);
+			}
 
 			if (name != null) {
 				name.setText(o.getName());
-
-				if (o.isCompleted()) {
+				
+				if (cb != null && o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
 				}
-
 			}
-
 			if (assignee != null) {
 
-				int userID = o.getAssignee();
+				int itemUser = o.getAssignee();
 				db.open();
-				String assignment = (userID > 0 ? db.getUserByID(userID)
+				String assignment = (itemUser > 0 ? db.getUserByID(itemUser)
 						.getName() : "Unassigned");
 				db.close();
 				assignee.setText(assignment);
@@ -108,66 +103,49 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
-					db.open();
-					Item activeItem = items.get(position);
-
 					if (isChecked) {
-						checkedItems++;
+						selected.add(o);
+						Log.i(TAG, "Adding " +o.getName() + " to selected: " +selected.size());
 					} else {
-						checkedItems--;
-						if (!activeItem.isCompleted())
-							checkedCompletedItems--; // ultimately we want to
-														// change the button to
-														// say "mark incomplete"
-						// if the items selected are all already completed
+						selected.remove(o);
+						Log.i(TAG, "Removing " +o.getName() + " from selected: " +selected.size() );
 					}
-					if (checkedItems == 0) {
-						invite_button.setVisibility(View.VISIBLE);
-						complete_button.setVisibility(View.GONE);
-						assign_button.setVisibility(View.GONE);
-					} else if (checkedItems > 0) {
-						invite_button.setVisibility(View.GONE);
-						complete_button.setVisibility(View.VISIBLE);
-						assign_button.setVisibility(View.VISIBLE);
-					}
-
-					activeItem.setSelected(isChecked);
-					db.updateItem(activeItem); // the item needs to be marked as
-												// selected in the db so
-												// InsideListActivity can
-												// identify it as needing to be
-												// acted upon for assign or
-												// selected
-					db.close();
+					handleButtons();
 				}
 			}); // end onCheckedChangeListener
 
-			/*
-			 * String note = o.getNotes(); if (snippit != null && note != null)
-			 * { snippit.setVisibility(View.VISIBLE); snippit.setText(note); }
-			 */// TODO - in item_row.xml, use this field for note snippit
-
-		}
+		} // end if o!= null
+		
 		return v;
 	}
+	
+	public void handleButtons() {
 
-	public void flipButtons() {
-
-		if (inviteUp) {
-			invite_button.setVisibility(View.GONE);
-			complete_button.setVisibility(View.VISIBLE);
-			assign_button.setVisibility(View.VISIBLE);
-			inviteUp = false;
-		} else {
-			invite_button.setVisibility(View.VISIBLE);
-			complete_button.setVisibility(View.GONE);
-			assign_button.setVisibility(View.GONE);
-
-			// assign_button.setVisibility(View.VISIBLE); // remove this for
-			// final
-			// product (testing now)
-			inviteUp = true;
+		if (assignBtn != null && completeBtn != null & inviteBtn != null) {
+		
+			if (selected.size() == 0) { // button display based on number selected items
+				showInvite();
+			} else {
+				showActionButtons();
+			}
 		}
+	}
+	
+	public ArrayList<Item> getSelected() { // return an arrayList of the currently-checked items
+		Log.i(TAG, "Returning selected items " +selected.size());
+		return selected;
+	}
+
+	public void showInvite() {
+		inviteBtn.setVisibility(View.VISIBLE);
+		completeBtn.setVisibility(View.GONE);
+		assignBtn.setVisibility(View.GONE);
+	}
+	
+	public void showActionButtons() {
+		inviteBtn.setVisibility(View.GONE);
+		completeBtn.setVisibility(View.VISIBLE);
+		assignBtn.setVisibility(View.VISIBLE);
 	}
 
 }
