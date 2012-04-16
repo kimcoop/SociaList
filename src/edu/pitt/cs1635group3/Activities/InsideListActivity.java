@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -110,10 +112,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+			public void onItemClick(AdapterView<?> parentView, final View v, int pos,
 					long id) {
-				completeButton.setSelected(false);
-				Item item = items.get(pos);
+
+				Item item = adapter.getItem(pos);
 
 				if (items.size() == 1) {
 					item.setPrev(context, item.getID());

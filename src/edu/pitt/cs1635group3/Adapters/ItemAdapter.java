@@ -46,7 +46,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		assignBtn  = assignButton;
 		completeBtn = completeButton;
 		inviteBtn = inviteButton;
-		
 	}
 	
 
