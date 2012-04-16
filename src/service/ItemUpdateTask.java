@@ -1,25 +1,10 @@
 package service;
 
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.R;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import zebrafish.util.Config;
 import zebrafish.util.JSONfunctions;
-
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
+import edu.pitt.cs1635group3.Item;
 
 public class ItemUpdateTask {
 	public static final String TAG = "ItemUpdateTask";

@@ -167,7 +167,7 @@ public class CreateListActivity extends SherlockListActivity {
 				newList.addItem(newItem);
 			}
 
-			db.insertList(newList);
+			db.insertList(newList, PUSH_TO_CLOUD);
 			db.close();
 			
 			Item itemA, itemB, itemC;
