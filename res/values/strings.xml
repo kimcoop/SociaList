@@ -19,7 +19,7 @@
 	<string name="btn_list">My Lists</string>
 	<string name="btn_manage">My Items</string>
 	<string name="btn_pending">Pending Invites</string>
-	<string name="btn_browse">Browse Lists</string>
+	<string name="btn_browse">Browse For List</string>
 
 
 	<!-- Buttons -->
@@ -107,5 +107,9 @@
     <string name="deleting_wait">Deleting. Please wait...</string>
     <string name="creating_wait">Creating. Please wait...</string>
     <string name="adding_wait">Adding. Please wait...</string>
+    
+    <!-- Pending Lists -->
+    <string name="accept_invites">Accept Invite(s)</string>
+    <string name="ignore_invites">Ignore Invites(s)</string>
 
 </resources>

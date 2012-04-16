@@ -23,6 +23,7 @@ import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class HomeActivity extends Activity {
@@ -59,6 +60,10 @@ public class HomeActivity extends Activity {
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
 		e.commit(); // Very important
+		
+		Button pending = (Button) findViewById(R.id.home_btn_pending);
+		int numInvites = Invite.getInvites(context, userID).size();
+		pending.setText("Invites (" +numInvites+")");
 
 	}
 

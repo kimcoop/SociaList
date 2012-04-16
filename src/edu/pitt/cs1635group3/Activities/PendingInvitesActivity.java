@@ -76,6 +76,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		for (Invite i : selectedInvites) {
 			i.accept(context);
 		}
+		UIUtil.showMessage(context, "Invites accepted.");
 	}
 	
 	public void ignoreSelected(View v) {
@@ -83,12 +84,13 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		for (Invite i : selectedInvites) {
 			Invite.ignore(context, i); // class method
 		}
+		UIUtil.showMessage(context, "Invites ignored.");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.new_list_menu, menu);
+		inflater.inflate(R.menu.invites_menu, menu);
 
 		return true;
 	}
