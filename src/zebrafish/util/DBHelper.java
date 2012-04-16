@@ -27,9 +27,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 /**
  * Simple notes database access helper class. Defines the basic CRUD operations
@@ -218,6 +219,40 @@ public class DBHelper {
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
+	public ArrayList<Invite> getUserInvites(int userID) {
+
+			ArrayList<Invite> invites = new ArrayList<Invite>();
+			
+			/*
+			String myQuery = "SELECT * FROM list";// WHERE user_id = " + ID;
+			Cursor c = db.rawQuery(myQuery, null);
+
+			if (c != null) {
+				lists = new ArrayList<CustomList>(c.getCount());
+				c.moveToFirst();
+
+				while (!c.isAfterLast()) {
+					CustomList l = new CustomList();
+					l.setID(c.getInt(0));
+					l.setCustomID(c.getString(1));
+					l.setName(c.getString(2));
+					l.setCreator(c.getInt(3));
+					l.setCreationDate(c.getString(4));
+					lists.add(l);
+					c.moveToNext();
+				}
+			}
+			c.close();
+			return lists;
+			}*/
+			
+			invites.add(new Invite(22, 5, "invite date"));
+			invites.add(new Invite(3, 4, "invite date2"));
+			return invites;
+		
+		
+	}
+
 	public CharSequence[] getUsersForDialog(int id) { // TODO - make this take
 														// ListID
 		// as a param
@@ -391,10 +426,14 @@ public class DBHelper {
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
-	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { // query to test if item
-													// exists. if it does,
-													// update. if it doesn't,
-													// insert.
+	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { // query
+																		// to
+																		// test
+																		// if
+																		// item
+		// exists. if it does,
+		// update. if it doesn't,
+		// insert.
 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM list WHERE id = " + id;
@@ -436,7 +475,7 @@ public class DBHelper {
 
 	public void updateList(CustomList list) {
 		// by default, push to server.
-		insertList(list, true);
+		updateList(list, PUSH_TO_CLOUD);
 	}
 
 	public boolean updateList(CustomList i, boolean pushToCloud) {
@@ -530,9 +569,13 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
-	public void insertOrUpdateItem(Item i, boolean pushToCloud) { // query to test if item exists. if
-												// it does, update. if it
-												// doesn't, insert.
+	public void insertOrUpdateItem(Item i, boolean pushToCloud) { // query to
+																	// test if
+																	// item
+																	// exists.
+																	// if
+		// it does, update. if it
+		// doesn't, insert.
 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM item WHERE id = " + id;
@@ -540,11 +583,11 @@ public class DBHelper {
 
 		if (c.getCount() > 0) {
 			// Item exists
-			//Log.i(TAG,"insertOrUpdateItem UPDATE");
+			// Log.i(TAG,"insertOrUpdateItem UPDATE");
 			c.close();
 			updateItem(i, pushToCloud);
 		} else {
-			//Log.i(TAG,"insertOrUpdateItem Insert");
+			// Log.i(TAG,"insertOrUpdateItem Insert");
 			c.close();
 			insertItem(i, pushToCloud);
 		}
@@ -554,7 +597,7 @@ public class DBHelper {
 		ContentValues initialValues = new ContentValues();
 
 		long ret;
-		
+
 		int isCompleted = 0;
 		if (i.isCompleted())
 			isCompleted = 1;
@@ -575,7 +618,7 @@ public class DBHelper {
 		initialValues.put(KEY_ITEM_SELECTED, 0);
 
 		ret = db.insert(ITEM_TABLE, null, initialValues);
-		
+
 		Log.i(TAG, "db.insert returned = " + ret);
 
 		// In order to generate unique PKs that sync with the web server's db,
@@ -585,7 +628,7 @@ public class DBHelper {
 		// server, we need to UPDATE
 		// the currently-null item using the ID we already have. (Same for
 		// lists.)
-		
+
 		if (pushToCloud) {
 			new ItemUpdateTask().update(i);
 		}

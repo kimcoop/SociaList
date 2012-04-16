@@ -1,13 +1,14 @@
 package zebrafish.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.util.Log;
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
 
 public class PostParams {
 

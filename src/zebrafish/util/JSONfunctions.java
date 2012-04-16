@@ -19,9 +19,9 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class JSONfunctions {
 
@@ -113,7 +113,7 @@ public class JSONfunctions {
 
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		//Log.i(TAG, resp);
+		// Log.i(TAG, resp);
 
 	}
 
@@ -225,7 +225,7 @@ public class JSONfunctions {
 		}
 		result = getResult(is);
 		resp = getResponse(result, "response");
-		//Log.i(TAG, resp);
+		// Log.i(TAG, resp);
 
 	} // end UpdateList
 
@@ -242,7 +242,7 @@ public class JSONfunctions {
 	}
 
 	public static void postItem(String action, Item i) {
-		
+
 		// initialize
 		InputStream is = null;
 		String result = "", resp = "";
@@ -275,8 +275,8 @@ public class JSONfunctions {
 
 	public static JSONObject getJSONfromURL(Context context, String a) {
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);										
-		return postForJSONObject(a, ""+uID);
+		Log.i(TAG, "User ID fetched: " + uID);
+		return postForJSONObject(a, "" + uID);
 	}
 
 	public static JSONObject getJSONfromURL(String action, int objID) {
@@ -321,14 +321,14 @@ public class JSONfunctions {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
-		Log.i(TAG, json.toString()+"");
+		Log.i(TAG, json.toString() + "");
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
 
 			CustomList list;
 			int listID;
 			JSONObject e1;
-			
+
 			for (int i = 0; i < myLists.length(); i++) {
 				Log.i(TAG, myLists.length() + "THIS IS THE LENGTH!!!!!");
 				e1 = myLists.getJSONObject(i);
@@ -343,7 +343,8 @@ public class JSONfunctions {
 
 			}
 
-			CustomList.insertOrUpdateLists(context, myCustomLists, NO_PUSH_TO_CLOUD);
+			CustomList.insertOrUpdateLists(context, myCustomLists,
+					NO_PUSH_TO_CLOUD);
 
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in getLists(): " + e.toString());
@@ -396,9 +397,11 @@ public class JSONfunctions {
 					}
 				}
 
-				listItems.get(0).setPrev(listItems.get(listItems.size() - 1).getID()); // "Loop around"
-				listItems.get(listItems.size() - 1).setNext(listItems.get(0).getID()); // and
-				
+				listItems.get(0).setPrev(
+						listItems.get(listItems.size() - 1).getID()); // "Loop around"
+				listItems.get(listItems.size() - 1).setNext(
+						listItems.get(0).getID()); // and
+
 				Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
 			}
 
@@ -416,7 +419,8 @@ public class JSONfunctions {
 		return null;
 	}
 
-	public static int storeUser(String fname, String lname, String email, String pw) {
+	public static int storeUser(String fname, String lname, String email,
+			String pw) {
 		// initialize
 		InputStream is = null;
 		String result = "";
@@ -426,7 +430,7 @@ public class JSONfunctions {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(); 
+			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("action", "storeUser"));
 			params.add(new BasicNameValuePair("fname", fname));
 			params.add(new BasicNameValuePair("lname", lname));
@@ -457,7 +461,8 @@ public class JSONfunctions {
 			uID = jArray.getInt("response");
 
 		} catch (JSONException e) {
-			Log.e(TAG, "storeUser(): Error with getting user ID " + e.toString());
+			Log.e(TAG,
+					"storeUser(): Error with getting user ID " + e.toString());
 		}
 
 		return uID;

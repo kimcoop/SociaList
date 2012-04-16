@@ -21,9 +21,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class ItemActivity extends SherlockActivity {
 
@@ -41,7 +41,7 @@ public class ItemActivity extends SherlockActivity {
 	private static int userID;
 
 	private int pos, totalItems;
-	
+
 	private boolean itemUpdated = false;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,15 +50,15 @@ public class ItemActivity extends SherlockActivity {
 
 		context = this;
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);	
+		Log.i(TAG, "User ID fetched: " + uID);
 
 		// Gesture detection
 		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				/*if(itemUpdated){
-					saveItem(v);
-				}*/
+				/*
+				 * if(itemUpdated){ saveItem(v); }
+				 */
 				return gestureDetector.onTouchEvent(event);
 			}
 		};
@@ -127,11 +127,11 @@ public class ItemActivity extends SherlockActivity {
 
 	public void onToggleClicked(View v) {
 		// Perform action on clicks
-		
-		itemUpdated = true;					//Might not actually be true need to see
-											//if it changed from the original state
+
+		itemUpdated = true; // Might not actually be true need to see
+							// if it changed from the original state
 		if (((CheckBox) v).isChecked()) {
-			
+
 			item.setCompleted(context, true);
 		} else {
 			item.setCompleted(context, false);
@@ -141,12 +141,12 @@ public class ItemActivity extends SherlockActivity {
 	public void assignItemTo(String user) {
 
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
-		if(!(user.compareTo(assignee.toString()) == 0)){
-			//The user who item is being assigned to has changed
+		if (!(user.compareTo(assignee.toString()) == 0)) {
+			// The user who item is being assigned to has changed
 			itemUpdated = true;
 			assignee.setText(user);
 			assignee.setOnClickListener(new View.OnClickListener() {
-	
+
 				public void onClick(View v) {
 					selectAssignee(v);
 				}
@@ -174,7 +174,7 @@ public class ItemActivity extends SherlockActivity {
 	public void onBackPressed() {
 
 		db.close();
-		if(itemUpdated){
+		if (itemUpdated) {
 			saveItem(this.getCurrentFocus());
 		}
 		Intent in = new Intent();
@@ -200,18 +200,15 @@ public class ItemActivity extends SherlockActivity {
 				Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
 		item.setAssigner(User.getCurrUser(context));
-/*
-		String rawAssignee = assignee.getText().toString().trim();
-
-		int assigneeID;
-		if (rawAssignee != "") {
-			assigneeID = User.getUserByName(context, rawAssignee);
-			Log.i(TAG, "Assignee ID is " + assigneeID);
-			// TODO item.assignTo(context, assigneeID);
-		} else {
-			Log.e(TAG, "Cannot assign item to null user");
-		}
-*/
+		/*
+		 * String rawAssignee = assignee.getText().toString().trim();
+		 * 
+		 * int assigneeID; if (rawAssignee != "") { assigneeID =
+		 * User.getUserByName(context, rawAssignee); Log.i(TAG,
+		 * "Assignee ID is " + assigneeID); // TODO item.assignTo(context,
+		 * assigneeID); } else { Log.e(TAG, "Cannot assign item to null user");
+		 * }
+		 */
 		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
 
 	}
@@ -284,8 +281,8 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void goToPrev() {
-		
-		if(itemUpdated){
+
+		if (itemUpdated) {
 			saveItem(this.getCurrentFocus());
 		}
 		Intent intent = new Intent(this, ItemActivity.class);
@@ -305,8 +302,8 @@ public class ItemActivity extends SherlockActivity {
 	}
 
 	public void goToNext() {
-		
-		if(itemUpdated){
+
+		if (itemUpdated) {
 			saveItem(this.getCurrentFocus());
 		}
 		Intent intent = new Intent(this, ItemActivity.class);
@@ -336,7 +333,7 @@ public class ItemActivity extends SherlockActivity {
 			// right to left swipe
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				
+
 				intent.putExtra("ItemID", item.getNext());
 				int prevPos = (pos == 1 ? totalItems : pos - 1);
 				intent.putExtra("pos", prevPos);
@@ -368,33 +365,30 @@ public class ItemActivity extends SherlockActivity {
 			return true;
 		}
 	}
-	
-	/*PLUS/MINUS BUTTONS FOR ITEM QTY*/
-	public void plusButtonPressed (View v)
-	{
-		itemUpdated = true;					//Might not actually be true need to see
-											//if it changed from the original state
+
+	/* PLUS/MINUS BUTTONS FOR ITEM QTY */
+	public void plusButtonPressed(View v) {
+		itemUpdated = true; // Might not actually be true need to see
+							// if it changed from the original state
 		EditText t = (EditText) findViewById(R.id.item_quantity);
 		String s = t.getText().toString();
 		int i = Integer.parseInt(s);
 		i++;
-		t.setText(""+i);
+		t.setText("" + i);
 	}
 
-	public void minusButtonPressed (View v)
-	{
-		itemUpdated = true;					//Might not actually be true need to see
-											//if it changed from the original state
+	public void minusButtonPressed(View v) {
+		itemUpdated = true; // Might not actually be true need to see
+							// if it changed from the original state
 		EditText t = (EditText) findViewById(R.id.item_quantity);
 		String s = t.getText().toString();
 		int i = Integer.parseInt(s);
-		if (i > 0)
-		{
+		if (i > 0) {
 			i--;
-			t.setText(""+i);
+			t.setText("" + i);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();

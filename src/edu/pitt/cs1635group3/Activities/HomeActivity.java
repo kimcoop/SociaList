@@ -23,14 +23,14 @@ import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
 
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class HomeActivity extends Activity {
 
 	private EditText messageText = null;
 	private static Context context;
 	private static final String TAG = "HomeActivity";
-	
+
 	private static int userID;
 
 	private static SharedPreferences prefs;
@@ -50,8 +50,8 @@ public class HomeActivity extends Activity {
 		if (counter == 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
 		}
-		
-		//for debug
+
+		// for debug
 		registerPushNotification();
 
 		userID = User.getCurrUser(context);
@@ -74,34 +74,36 @@ public class HomeActivity extends Activity {
 		tv.setText("Sign up so friends can invite you to lists!");
 		Button ok_btn = (Button) dialog.findViewById(R.id.buttonOK);
 		Button cancel_btn = (Button) dialog.findViewById(R.id.buttonCancel);
-		
+
 		OnClickListener l_ok = new OnClickListener() {
 			public void onClick(View v) {
-				
-				 EditText txtvEmail = (EditText) dialog
+
+				EditText txtvEmail = (EditText) dialog
 						.findViewById(R.id.txtvEmail);
-				 EditText txtvFname = (EditText) dialog
+				EditText txtvFname = (EditText) dialog
 						.findViewById(R.id.txtvFname);
-				 EditText txtvLname = (EditText) dialog
+				EditText txtvLname = (EditText) dialog
 						.findViewById(R.id.txtvLname);
 
-				 EditText txtvPass = (EditText) dialog
+				EditText txtvPass = (EditText) dialog
 						.findViewById(R.id.txtvPassword);
-				 CheckBox chbox = (CheckBox) dialog.findViewById(R.id.chboxPush);
+				CheckBox chbox = (CheckBox) dialog.findViewById(R.id.chboxPush);
 
 				String email = txtvEmail.getText().toString().trim();
 				String fname = txtvFname.getText().toString().trim();
 				String lname = txtvLname.getText().toString().trim();
 				String pass = txtvPass.getText().toString().trim();
 				boolean allowPush = chbox.isChecked();
-				
-				if (!email.equals("") && !fname.equals("") && !lname.equals("") && !pass.equals("")) { // allow store
+
+				if (!email.equals("") && !fname.equals("") && !lname.equals("")
+						&& !pass.equals("")) { // allow store
 
 					storeUser(email, fname, lname, pass, allowPush);
 					dialog.dismiss();
-				
+
 				} else {
-					TextView descrip = (TextView) dialog.findViewById(R.id.textViewDialogMessage);
+					TextView descrip = (TextView) dialog
+							.findViewById(R.id.textViewDialogMessage);
 					descrip.setText("Fields must not be blank");
 					descrip.setTextColor(Color.parseColor("red"));
 				}
@@ -120,29 +122,32 @@ public class HomeActivity extends Activity {
 
 	} // end showRegisterDialog
 
-	protected void storeUser(String email, String fname, String lname, String pass, boolean allowPush) {
+	protected void storeUser(String email, String fname, String lname,
+			String pass, boolean allowPush) {
 		// pass the ID back to shared prefs to recall later
-		
-		Log.i(TAG, ""+email +", " +fname+ ", " +lname+ ", " +allowPush+ ", " +pass);
-		
+
+		Log.i(TAG, "" + email + ", " + fname + ", " + lname + ", " + allowPush
+				+ ", " + pass);
+
 		userID = User.storeUser(fname, lname, email, pass);
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
 		e.putString("name", fname);
 		e.commit();
-		
+
 		if (allowPush) {
 			registerPushNotification();
 			Log.d(TAG, "allowPush checked -> registerPushNotification()");
 		}
 
-		Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG).show();
+		Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG)
+				.show();
 	}
 
 	public void registerPushNotification() {
-		
+
 		Log.d(TAG, "in registerPushNotification()");
- 
+
 		final SharedPreferences c2dmPrefs = getSharedPreferences(
 				C2DMessaging.PREFERENCE, Context.MODE_PRIVATE);
 		if (C2DMessaging.shouldRegisterForPush(getApplicationContext())) {
@@ -156,12 +161,12 @@ public class HomeActivity extends Activity {
 
 		if (c2dmPrefs.contains("dm_registration")) {
 			Log.i(TAG, "Device already registered.");
-			//C2DMessaging.unregister(context);
-			//return;
-		} 
-		
-		//else { // don't reshow the push notifications prompt if they've
-					// already registered
+			// C2DMessaging.unregister(context);
+			// return;
+		}
+
+		// else { // don't reshow the push notifications prompt if they've
+		// already registered
 		if (true) {
 			Log.i(TAG, "Registering device");
 			if (Build.VERSION.SDK_INT >= 8) {
@@ -188,7 +193,12 @@ public class HomeActivity extends Activity {
 						Editor e = c2dmPrefs.edit();
 						e.putString("dm_registration", "");
 						e.commit();
-						C2DMessaging.setRegisterForPush(context, false);//user phone does not support push
+						C2DMessaging.setRegisterForPush(context, false);// user
+																		// phone
+																		// does
+																		// not
+																		// support
+																		// push
 					}
 				};
 				ok_btn.setOnClickListener(l);

@@ -10,9 +10,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import edu.pitt.cs1635group3.CustomList;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class ManageListUsersActivity extends SherlockActivity {
 
@@ -29,7 +29,7 @@ public class ManageListUsersActivity extends SherlockActivity {
 		context = this;
 
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);	
+		Log.i(TAG, "User ID fetched: " + uID);
 
 		listID = getIntent().getExtras().getInt("listID");
 

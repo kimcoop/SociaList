@@ -24,10 +24,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.CustomListAdapter;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.User;
+import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 
 public class SociaListActivity extends SherlockListActivity { // ListActivity
 	private ArrayList<CustomList> lists = null;
@@ -45,12 +45,12 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		setContentView(R.layout.listplaceholder);
 		context = this;
 		userID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +userID);	
+		Log.i(TAG, "User ID fetched: " + userID);
 		getSupportActionBar();
 		setTitle("Lists");
 
 		lists = CustomList.getAllLists(context, userID); // TODO: for user ID...
-		
+
 		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
 		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
 		lv = getListView();
@@ -74,7 +74,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
-						
+
 						CustomList.deleteListAndChildren(context, userlist);
 
 						UIUtil.showMessage(context, "List deleted.");
@@ -138,8 +138,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		
-		
+
 		if (item.getItemId() == R.id.menu_add) {
 			intent = new Intent(this, CreateListActivity.class);
 			startActivity(intent);
@@ -151,7 +150,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		} else {
 			return false;
 		}
-		
+
 	}
 
 }

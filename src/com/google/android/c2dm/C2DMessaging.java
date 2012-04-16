@@ -29,7 +29,7 @@ import android.util.Log;
  * Will keep track of the registration token in a private preference.
  */
 public class C2DMessaging {
-	public static final String TAG="C2DMessaging";
+	public static final String TAG = "C2DMessaging";
 	public static final String EXTRA_SENDER = "sender";
 	public static final String EXTRA_APPLICATION_PENDING_INTENT = "app";
 	public static final String REQUEST_UNREGISTRATION_INTENT = "com.google.android.c2dm.intent.UNREGISTER";
@@ -47,7 +47,7 @@ public class C2DMessaging {
 	 * Initiate c2d messaging registration for the current application
 	 */
 	public static void register(Context context, String senderId) {
-		Log.d(TAG, "register. senderID is " +senderId);
+		Log.d(TAG, "register. senderID is " + senderId);
 		Intent registrationIntent = new Intent(REQUEST_REGISTRATION_INTENT);
 		registrationIntent.setPackage(GSF_PACKAGE);
 		registrationIntent.putExtra(EXTRA_APPLICATION_PENDING_INTENT,

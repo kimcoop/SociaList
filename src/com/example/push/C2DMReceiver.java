@@ -144,8 +144,9 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 		}
 		String requestToCloud = "";
 		String userID;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		userID = ""+prefs.getInt("userID", 0);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		userID = "" + prefs.getInt("userID", 0);
 
 		System.out.println("Device ID " + deviceId);
 		Log.e(TAG, ">>>>device unique id " + deviceId);
@@ -156,15 +157,15 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet();
 			try {
-				
+
 				requestToCloud = "http://www.zebrafishtec.com/register_token.php?"
-						+ "device_id=" 
+						+ "device_id="
 						+ URLEncoder.encode(deviceId).toString()
 						+ "&device_token="
 						+ URLEncoder.encode(registrationId).toString()
 						+ "&user_id=" + userID;
-				
-				Log.d(TAG, "Pushing request: "+requestToCloud);
+
+				Log.d(TAG, "Pushing request: " + requestToCloud);
 
 				request.setURI(new URI(requestToCloud));
 			} catch (URISyntaxException e) {

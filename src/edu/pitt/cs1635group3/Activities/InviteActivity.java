@@ -24,7 +24,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class InviteActivity extends SherlockActivity {
 
@@ -46,10 +46,9 @@ public class InviteActivity extends SherlockActivity {
 		context = this;
 		getSupportActionBar();
 		setTitle("Invite to List");
-		
 
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);
+		Log.i(TAG, "User ID fetched: " + uID);
 
 		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
 

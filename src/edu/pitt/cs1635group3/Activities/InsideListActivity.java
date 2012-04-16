@@ -29,11 +29,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
-import edu.pitt.cs1635group3.ItemAdapter;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
+import edu.pitt.cs1635group3.Adapters.ItemAdapter;
 
 public class InsideListActivity extends SherlockListActivity {
 
@@ -62,7 +62,7 @@ public class InsideListActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
-		
+
 		userID = User.getCurrUser(context);
 
 		selectedItems = new ArrayList<Item>(); // track the items checked (not
@@ -78,7 +78,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
-		
+
 		newItemPKs = new ArrayList<Integer>();
 
 		list = CustomList.getListByID(context, extras.getInt("ListID"));
@@ -229,10 +229,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 	@Override
 	public void onBackPressed() {
-		
-		if(newItems){
+
+		if (newItems) {
 			list.attachItems(items);
-			Log.i(TAG,"Back button pressed");
+			Log.i(TAG, "Back button pressed");
 			int listSize = list.getItems().size();
 			Log.d(TAG, "listSize = " + listSize);
 			list.setLinks(context);
@@ -240,7 +240,7 @@ public class InsideListActivity extends SherlockListActivity {
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 							// items.
-		
+
 		finish();
 		super.onBackPressed();
 	}
@@ -335,29 +335,30 @@ public class InsideListActivity extends SherlockListActivity {
 			return false;
 		}
 	}
-	public void addItem(){
+
+	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New List Item Name");
-		
+
 		final EditText input = new EditText(this); // Set an EditText view to
 		// get user input
 		alert.setView(input);
-		
+
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
 				Item i = new Item();
-				
+
 				i.setName(value);
 				i.setCreator(userID);
 				i.setParent(list.getID());
-				
+
 				int itemID = JSONfunctions.getItemPK();
 				newItemPKs.add(itemID);
 				i.setID(context, itemID);
-				
+
 				items.add(i);
-				
+
 				adapter.notifyDataSetChanged();
 				newItems = true;
 			}
@@ -370,11 +371,12 @@ public class InsideListActivity extends SherlockListActivity {
 					}
 				});
 
-		//alert.show();
-		AlertDialog dialog = alert.create(); 
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
+		// alert.show();
+		AlertDialog dialog = alert.create();
+		dialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
-		
+
 	}
 
 }

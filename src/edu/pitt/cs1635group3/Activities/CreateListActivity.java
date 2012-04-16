@@ -1,6 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,10 +23,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import edu.pitt.cs1635group3.CustomList;
-import edu.pitt.cs1635group3.Item;
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.User;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class CreateListActivity extends SherlockListActivity {
 
@@ -40,10 +39,10 @@ public class CreateListActivity extends SherlockListActivity {
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web
 											// servers we allocate (in case of
 											// cancel)
-	
+
 	private static Context context;
 	private static String TAG = "CreateListActivity";
-	
+
 	private static DBHelper db;
 	private static int userID;
 
@@ -52,9 +51,9 @@ public class CreateListActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editlist);
 		context = this;
-		
+
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " +uID);	
+		Log.i(TAG, "User ID fetched: " + uID);
 
 		getSupportActionBar();
 		setTitle("New List");
@@ -169,7 +168,7 @@ public class CreateListActivity extends SherlockListActivity {
 
 			db.insertList(newList, PUSH_TO_CLOUD);
 			db.close();
-			
+
 			Item itemA, itemB, itemC;
 			if (newList.getItems() != null) {
 				int listSize = newList.getItems().size();
@@ -180,7 +179,7 @@ public class CreateListActivity extends SherlockListActivity {
 						itemA = newList.getItem(i);
 						itemB = newList.getItem(0);
 						itemA.setNext(itemB.getID());
-						
+
 					} else if (listSize > 1 && i == 0) {
 						// Two or more items in the list, insert the first two
 						itemA = newList.getItem(i);
@@ -204,7 +203,8 @@ public class CreateListActivity extends SherlockListActivity {
 						itemA.setNext(itemA.getID());
 						itemA.setPrev(itemA.getID());
 					}
-					Item.insertOrUpdateItems(context, newList.getItems(), PUSH_TO_CLOUD);
+					Item.insertOrUpdateItems(context, newList.getItems(),
+							PUSH_TO_CLOUD);
 				}
 			}
 			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();

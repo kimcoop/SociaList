@@ -41,6 +41,10 @@
 	    <item name="android:layout_height">30dip</item>
 	    <item name="android:background">@color/turquoise_4</item>
     </style>
+    
+     <style name="turquoiseLight">
+          <item name="android:background">@color/turquoise_light</item>
+     </style>
 
 
 

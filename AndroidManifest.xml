@@ -107,6 +107,13 @@
             android:screenOrientation="portrait"  >
         </activity>
         
+         <activity android:name=".Activities.PendingInvitesActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            uiOptions="splitActionBarWhenNarrow"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"  >
+        </activity>
+        
         
     </application>
 
