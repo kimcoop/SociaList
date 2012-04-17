@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3.Activities;
 
+import service.SplashScreenTask;
 import zebrafish.util.JSONfunctions;
 import android.app.Activity;
 import android.content.Context;
@@ -25,8 +26,15 @@ public class SplashScreenActivity extends Activity {
 		context = this;
 		userID = User.getCurrUser(context);
 
+		if(userID > 0){
+			new SplashScreenTask().getListsAndInvites(context);
+		}
+		else{
+			new SplashScreenTask().getLists(context);
+		}
+		
 		// thread for displaying the SplashScreen
-		Thread splashTread = new Thread() {
+		/*Thread splashTread = new Thread() {
 			@Override
 			public void run() {
 				try {
@@ -42,6 +50,7 @@ public class SplashScreenActivity extends Activity {
 					}
 
 				} finally {
+					
 					finish();
 					startActivity(new Intent(
 							"edu.pitt.cs1635group3.HomeActivity"));
@@ -49,7 +58,7 @@ public class SplashScreenActivity extends Activity {
 				}
 			}
 		};
-		splashTread.start();
+		splashTread.start();*/
 	}
 
 	@Override
