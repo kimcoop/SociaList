@@ -532,4 +532,3 @@ public class ItemsActivity extends SherlockListActivity {
 
 	}
 }
-
