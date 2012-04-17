@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
@@ -126,7 +127,11 @@ public class CreateListActivity extends SherlockListActivity {
 					}
 				});
 
-		alert.show();
+		//alert.show();
+		AlertDialog dialog = alert.create();
+		dialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		dialog.show();
 	}
 
 	public void saveList(View v) {
