@@ -520,9 +520,8 @@ public class ItemsActivity extends SherlockListActivity
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-
-		if (item.getItemId() == R.id.menu_add) {
-			intent = new Intent(this, CreateListActivity.class);
+		if (item.getItemId() == android.R.id.home) {
+			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {

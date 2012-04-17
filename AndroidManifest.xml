@@ -61,27 +61,23 @@
         </activity>
         <activity android:name=".Activities.InsideListActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
         <activity android:name=".Activities.ItemActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
 			android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         
         <activity android:name=".Activities.CreateListActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         <activity android:name=".Activities.InviteActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
@@ -95,28 +91,25 @@
         </activity>
         <activity android:name=".Activities.SociaListActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow" 
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".Activities.ItemsActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow" 
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         
-        
          <activity android:name=".Activities.ManageListUsersActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
+            android:uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
          <activity android:name=".Activities.PendingInvitesActivity"
             android:theme="@style/Theme.Sherlock.Light"
-            uiOptions="splitActionBarWhenNarrow"
+            android:uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>

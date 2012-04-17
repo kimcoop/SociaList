@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:padding="2dp"
         android:text="@string/no_list_users" />
- 
+ <!--
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -31,13 +31,13 @@
             android:layout_height="wrap_content"
             android:onClick="removeSelected"
             android:text="@string/remove_users" />
-<!-- 
+ 
         <Button
             android:id="@+id/ignore_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="ignoreSelected"
-            android:text="@string/ignore_invites" /> -->
-    </LinearLayout>
+            android:text="@string/ignore_invites" /> 
+    </LinearLayout>-->
 
 </LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/menu_invite"
+        android:icon="@drawable/ic_menu_invite"
+        android:showAsAction="ifRoom|withText"
+        android:title="Invite To List"/>
+    
+    <item
+        android:id="@+id/menu_remove"
+        android:icon="@drawable/ic_menu_blocked_user"
+        android:showAsAction="ifRoom|withText"
+        android:title="Remove User"/>
+
+</menu>

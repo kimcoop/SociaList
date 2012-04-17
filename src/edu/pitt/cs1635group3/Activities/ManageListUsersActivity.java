@@ -48,8 +48,8 @@ public class ManageListUsersActivity extends SherlockListActivity {
 
 		listID = getIntent().getExtras().getInt("listID");
 		users = User.getUsersForList(context, listID);
-		
-		//String listName = CustomList.getListName(context, listID);
+
+		// String listName = CustomList.getListName(context, listID);
 
 		getSupportActionBar();
 		setTitle("Manage List");
@@ -58,25 +58,33 @@ public class ManageListUsersActivity extends SherlockListActivity {
 
 	}
 	
-
-	
 	public void removeSelected(View v) {
+		removeSelected(); // REMOVE THIS WHEN YOU REMOVE THE BUTTON
+	}
+
+	public void removeSelected() {
 		selected = ((ListUsersAdapter) adapter).getSelected();
+		
+		if (selected.size() == 0) {
+			UIUtil.showMessage(context, "No users selected.");
+		} else {
 		for (User u : selected) {
-			//User.removeFromList(context, u, listID);
+			// User.removeFromList(context, u, listID);
 			users.remove(u);
-			selected.remove(u);
+			//selected.remove(u);
 		}
-		String pluralizer = "User";
-		if (selected.size() > 1) pluralizer += "s";
-		UIUtil.showMessage(context, pluralizer + " removed.");
-		adapter.notifyDataSetChanged();
+			String pluralizer = "User";
+			if (selected.size() > 1)
+				pluralizer += "s";
+			UIUtil.showMessage(context, pluralizer + " removed.");
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
+		inflater.inflate(R.menu.manage_list_users_menu, menu);
 
 		return true;
 	}
@@ -84,14 +92,16 @@ public class ManageListUsersActivity extends SherlockListActivity {
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
 		Intent intent;
-		if (item.getItemId() == R.id.menu_add) {
-			// TODO: add user item popup
-			return false;
-		} else if (item.getItemId() == R.id.menu_rename) {
-			// rename();
+		if (item.getItemId() == android.R.id.home) {
+			intent = new Intent(this, HomeActivity.class);
+			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.menu_remove) {
+			removeSelected();
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
+				//pass list id!!
 			startActivity(intent);
 			return true;
 		} else {
