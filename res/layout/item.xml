@@ -142,24 +142,19 @@
         android:padding="2dp" >
 
         <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="saveItem"
-            android:text="@string/Save" />
-
-        <Button
             android:id="@+id/prev_button"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="prevItem"
+            android:layout_weight="1"
             android:text="@string/Prev_Item" />
 
         <Button
             android:id="@+id/next_button"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="nextItem"
+            android:layout_weight="1"
             android:text="@string/Next_Item" />
     </LinearLayout>
 
