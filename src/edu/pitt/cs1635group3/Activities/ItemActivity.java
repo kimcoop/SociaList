@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -43,12 +45,17 @@ public class ItemActivity extends SherlockActivity {
 	private int pos, totalItems;
 
 	private boolean itemUpdated = false;
+	
+	private EditText name, notes;
+	
+	private View v;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
 
 		context = this;
+		v = this.getCurrentFocus();
 		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " + uID);
 
@@ -65,7 +72,7 @@ public class ItemActivity extends SherlockActivity {
 		View swiper = (View) findViewById(R.id.swiper);
 		swiper.setOnTouchListener(gestureListener);
 
-		EditText name, quantity, notes, assignee;
+		EditText quantity, assignee;
 		name = (EditText) findViewById(R.id.item_name);
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		assignee = (EditText) findViewById(R.id.item_assignee);
@@ -73,6 +80,13 @@ public class ItemActivity extends SherlockActivity {
 
 		CheckBox itemCompletion = (CheckBox) findViewById(R.id.item_completion);
 
+		//name.addTextChangedListener(mTextEditorWatcher);
+		//notes.addTextChangedListener(mTextEditorWatcher);
+		
+	    name.addTextChangedListener(new CustomTextWatcher(name));
+	    notes.addTextChangedListener(new CustomTextWatcher(notes));
+
+		
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		int itemID = extras.getInt("ItemID");
@@ -128,7 +142,7 @@ public class ItemActivity extends SherlockActivity {
 	public void onToggleClicked(View v) {
 		// Perform action on clicks
 
-		itemUpdated = true; // Might not actually be true need to see
+		itemUpdated = !itemUpdated; // Might not actually be true need to see
 							// if it changed from the original state
 		if (((CheckBox) v).isChecked()) {
 
@@ -175,7 +189,7 @@ public class ItemActivity extends SherlockActivity {
 
 		db.close();
 		if (itemUpdated) {
-			saveItem(this.getCurrentFocus());
+			saveItem(v);
 		}
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
@@ -283,7 +297,7 @@ public class ItemActivity extends SherlockActivity {
 	public void goToPrev() {
 
 		if (itemUpdated) {
-			saveItem(this.getCurrentFocus());
+			saveItem(v);
 		}
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", prevItem.getID());
@@ -304,7 +318,7 @@ public class ItemActivity extends SherlockActivity {
 	public void goToNext() {
 
 		if (itemUpdated) {
-			saveItem(this.getCurrentFocus());
+			saveItem(v);
 		}
 		Intent intent = new Intent(this, ItemActivity.class);
 		intent.putExtra("ItemID", nextItem.getID());
@@ -333,7 +347,9 @@ public class ItemActivity extends SherlockActivity {
 			// right to left swipe
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-
+				if (itemUpdated) {
+					saveItem(v);
+				}
 				intent.putExtra("ItemID", item.getNext());
 				int prevPos = (pos == 1 ? totalItems : pos - 1);
 				intent.putExtra("pos", prevPos);
@@ -345,6 +361,9 @@ public class ItemActivity extends SherlockActivity {
 				// right to left swipe
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				if (itemUpdated) {
+					saveItem(v);
+				}
 				intent.putExtra("ItemID", item.getPrev());
 				int nextPos = (pos == totalItems ? 1 : pos + 1);
 				intent.putExtra("pos", nextPos);
@@ -410,6 +429,48 @@ public class ItemActivity extends SherlockActivity {
 		} else {
 			return false;
 		}
+	}
+	
+	
+	private class CustomTextWatcher implements TextWatcher {
+	    private EditText mEditText;
+	    private boolean first;
+	    private String original;
+
+	    public CustomTextWatcher(EditText e) {
+	        mEditText = e;
+	        first = true;
+	    }
+
+	    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	    }
+
+	    public void onTextChanged(CharSequence s, int start, int before, int count) {
+	    }
+
+	    public void afterTextChanged(Editable s) {
+	    	if(first){
+	    		//The first time it loads it actually sets s to be an empty string.
+	    		//And then it changes it to what was in the editText field
+	    		original = mEditText.getText().toString();
+	    		first = false;
+	    		Log.i(TAG, "Dont save item");
+	    		//Log.i(TAG, "if Original is " + original+ " and s is " + s.toString());
+	    	}
+	    	else if((!((original.compareTo(s.toString()))==0)) && !first){
+	    		//So it is only after the first time we can actually tell if the item
+	    		//has been updated.
+	    		itemUpdated = true;
+	    		Log.i(TAG, "Save item");
+	    		//Log.i(TAG, "else if Original is " + original+ " and s is " + s.toString());
+	    	}
+	    	else if (!first){
+	    		//The user changed back to what was originally there.
+	    		itemUpdated = false;
+	    		Log.i(TAG, "Dont save item");
+	    		//Log.i(TAG, "else Original is " + original+ " and s is " + s.toString());
+	    	}
+	    }
 	}
 
 }
