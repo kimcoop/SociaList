@@ -3,33 +3,37 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-
 import android.widget.EditText;
-
 import android.widget.Spinner;
-
 import android.widget.Toast;
 
-public class InviteActivity extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
+import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.User;
+
+public class InviteActivity extends SherlockActivity {
+
+	private static final String TAG = "InviteActivity";
 	private static final String DEBUG_TAG = "InviteActivity";
 	private static final int CONTACT_PICKER_RESULT = 1001;
+
+	protected static Context context;
+	private static int userID;
 
 	String message = "";
 	String email = "";
@@ -39,12 +43,14 @@ public class InviteActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.invite);
+		context = this;
+		getSupportActionBar();
+		setTitle("Invite to List");
 
-		Intent i = getIntent();
-		Bundle extras = i.getExtras();
+		int uID = User.getCurrUser(context);
+		Log.i(TAG, "User ID fetched: " + uID);
 
-		message = "Hey! I shared a awesome list on SociaList with you! Download the app and add list: 60012-"
-				+ extras.getInt("ListID");
+		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
 
 		EditText messageEntry = (EditText) findViewById(R.id.invite_message_preview);
 		messageEntry.setText(message);
@@ -236,6 +242,27 @@ public class InviteActivity extends Activity {
 
 		}
 
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu); // todo - alter the menu (make
+													// new)
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		if (item.getItemId() == R.id.menu_add) {
+			return false;
+		} else if (item.getItemId() == R.id.menu_invite) {
+			return false;
+		} else {
+			return false;
+		}
 	}
 
 }

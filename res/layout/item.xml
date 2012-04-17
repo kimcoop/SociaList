@@ -4,16 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:id="@+id/swiper">
-    
-    <TextView
-        android:id="@+id/label_header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#323331"
-        android:padding="4dp"
-        android:text="Editing Item"
-        android:textSize="16dip"
-        android:layout_marginBottom="9dp" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,40 +37,46 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp" >
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/label_quantity"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:padding="2dp"
             android:text="@string/label_quantity"
-        	android:textSize="16dip"
-       		android:layout_marginLeft="5dp" />
+            android:textSize="16dip" />
 
         <EditText
             android:id="@+id/item_quantity"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="0.33"
             android:padding="6dp"
             android:text="@+id/item_quantity"
+            android:inputType="number"
             android:textSize="12dp" />
-        
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/item_creation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:padding="4.0dp"
-        android:text="@+id/item_creation"
-        android:textSize="16dip"
-       	android:layout_marginLeft="5dp" />
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:text="@string/minus"
+            android:onClick="minusButtonPressed" />
+
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:text="@string/plus"
+            android:onClick="plusButtonPressed" />
+    </LinearLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -109,6 +105,14 @@
         
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/item_completion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:onClick="onToggleClicked"
+        android:text="Completed" />
+
     <TextView
         android:id="@+id/header_notes"
         android:layout_width="fill_parent"
@@ -128,16 +132,6 @@
         android:layout_margin="5dp"
         android:layout_marginTop="0dp" >
     </EditText>
-        
-     <ToggleButton 
-       android:id="@+id/item_completion"
-       android:layout_width="180dp"
-       android:layout_height="wrap_content"
-       android:textOn="Completed"
-       android:textOff="Not Completed"
-       android:layout_gravity="center"
-       android:onClick="onToggleClicked"
-       android:layout_marginBottom="5dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -153,13 +147,6 @@
             android:layout_height="wrap_content"
             android:onClick="saveItem"
             android:text="@string/Save" />
-
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="deleteItem"
-            android:text="@string/Delete" />
 
         <Button
             android:id="@+id/prev_button"

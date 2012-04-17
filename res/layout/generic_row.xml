@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="7dp"
+    android:id="@+id/invite_row"
+   	android:theme="@style/turquoiseLight" >
+    
+     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+    
+		    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		        android:layout_width="280dp"
+		        android:layout_height="45dp"
+		        android:orientation="vertical">
+		        
+			    <TextView
+			        android:id="@+id/element_title"
+			        android:layout_width="200dp"
+			        android:layout_height="wrap_content"
+			        android:layout_weight="1"
+			        android:textAppearance="?android:attr/textAppearanceMedium"
+			        android:textSize="20dp"
+			        android:text="test title" />
+			    
+			    <TextView
+			        android:id="@+id/element_subtitle"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:padding="2dp"
+			        android:text="test subtitle"
+			        android:textSize="13dp" />
+		        
+		    </LinearLayout>
+    
+     <CheckBox
+            android:id="@+id/element_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:focusable="false" >
+        </CheckBox>
+    
+    </RelativeLayout>
+    
+
+</LinearLayout>

@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 /**
  * Utilities for device registration.
@@ -28,6 +29,7 @@ import android.content.SharedPreferences.Editor;
  * Will keep track of the registration token in a private preference.
  */
 public class C2DMessaging {
+	public static final String TAG = "C2DMessaging";
 	public static final String EXTRA_SENDER = "sender";
 	public static final String EXTRA_APPLICATION_PENDING_INTENT = "app";
 	public static final String REQUEST_UNREGISTRATION_INTENT = "com.google.android.c2dm.intent.UNREGISTER";
@@ -45,6 +47,7 @@ public class C2DMessaging {
 	 * Initiate c2d messaging registration for the current application
 	 */
 	public static void register(Context context, String senderId) {
+		Log.d(TAG, "register. senderID is " + senderId);
 		Intent registrationIntent = new Intent(REQUEST_REGISTRATION_INTENT);
 		registrationIntent.setPackage(GSF_PACKAGE);
 		registrationIntent.putExtra(EXTRA_APPLICATION_PENDING_INTENT,
@@ -58,6 +61,7 @@ public class C2DMessaging {
 	 * Unregister the application. New messages will be blocked by server.
 	 */
 	public static void unregister(Context context) {
+		Log.d(TAG, "unregistering device");
 		Intent regIntent = new Intent(REQUEST_UNREGISTRATION_INTENT);
 		regIntent.setPackage(GSF_PACKAGE);
 		regIntent.putExtra(EXTRA_APPLICATION_PENDING_INTENT,
@@ -114,6 +118,7 @@ public class C2DMessaging {
 
 	// package
 	static void setRegistrationId(Context context, String registrationId) {
+		Log.d(TAG, "setRegistrationId");
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFERENCE, Context.MODE_PRIVATE);
 		Editor editor = prefs.edit();
@@ -123,6 +128,7 @@ public class C2DMessaging {
 	}
 
 	public static void setRegisterForPush(Context context, boolean flag) {
+		Log.d(TAG, "setRegisterForPush");
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFERENCE, Context.MODE_PRIVATE);
 		Editor editor = prefs.edit();
@@ -132,6 +138,7 @@ public class C2DMessaging {
 	}
 
 	public static boolean shouldRegisterForPush(Context context) {
+		Log.d(TAG, "shouldRegisterForPush");
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFERENCE, Context.MODE_PRIVATE);
 		String value = null;

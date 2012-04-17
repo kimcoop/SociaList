@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/check"
+            android:layout_toLeftOf="@+id/chat_bubble"
             android:layout_weight="1"
             android:padding="2dp"
             android:text="@+id/label"
@@ -45,8 +45,6 @@
 	        android:visibility="gone"
 	        android:layout_alignParentRight="true" />
 	    
-	    
-<!--             android:layout_marginTop="40px" -->
         <TextView
             android:id="@+id/item_assignee"
             android:layout_width="wrap_content"
@@ -56,6 +54,16 @@
             android:textSize="13dp"
             android:layout_below="@+id/item_name" >
         </TextView>
+
+        <ImageView
+            android:id="@+id/chat_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/check"
+            android:visibility="invisible"
+            android:src="@drawable/ic_menu_start_conversation" />
+
     </RelativeLayout>
 
 </LinearLayout>

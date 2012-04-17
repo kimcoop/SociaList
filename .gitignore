@@ -6,3 +6,7 @@ gen/*
 Thumbs.db
 *.keystore
 *.properties
+*.class
+gen/com/actionbarsherlock/R.java
+gen/edu/pitt/cs1635group3/R.java
+project.properties

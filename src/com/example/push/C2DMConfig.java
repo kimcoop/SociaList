@@ -29,7 +29,9 @@ public class C2DMConfig {
 	 * going to Settings > Accounts & Sync.
 	 */
 	public static final boolean ENABLE_SYNC_UI = true;
-	public static final String C2DM_GOOGLE_ACCOUNT = "zebrafish.technologies@gmail.com";
+	// public static final String C2DM_GOOGLE_ACCOUNT =
+	// "zebrafish.technologies@gmail.com";
+	public static final String C2DM_GOOGLE_ACCOUNT = "zebrafishtec@gmail.com";
 
 	@SuppressWarnings("unchecked")
 	public static String makeLogTag(Class cls) {

@@ -9,7 +9,7 @@
         <item name="android:drawablePadding">2dp</item>
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#333</item>
         <item name="android:background">@null</item>
     </style>
     
@@ -41,6 +41,10 @@
 	    <item name="android:layout_height">30dip</item>
 	    <item name="android:background">@color/turquoise_4</item>
     </style>
+    
+     <style name="turquoiseLight">
+          <item name="android:background">@color/turquoise_light</item>
+     </style>
 
 
 
