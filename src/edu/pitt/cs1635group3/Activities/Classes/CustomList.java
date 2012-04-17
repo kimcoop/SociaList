@@ -2,6 +2,7 @@ package edu.pitt.cs1635group3.Activities.Classes;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ public class CustomList implements Parcelable {
 			Log.i(TAG, e1.toString());
 		}
 	}
+
 
 	public CustomList() {
 		listItems = new ArrayList<Item>();
@@ -317,6 +319,52 @@ public class CustomList implements Parcelable {
 		db.open();
 		db.deleteListAndChildren(userlist);
 		db.close();
+	}
+	
+
+	public static CustomList parseJSONforCustomList(JSONObject e, boolean strippedDown) {
+		Log.i(TAG, "getting stripped down customList");
+		CustomList list = new CustomList();
+		try {
+			list.ID = e.getInt("id");
+			list.name = e.getString("name");
+
+			list.listItems = parseForItems(e.getJSONArray("listItems"));
+			
+		} catch (JSONException e1) {
+			Log.i(TAG, e1.toString());
+		}
+		
+		return list;
+	}
+	
+
+
+	public static ArrayList<Item> parseForItems(JSONArray jArray) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		boolean strippedDown = true;
+		
+		if (jArray.length() >= 1) {
+
+			JSONObject e1 = null;
+			Item item1 = null;
+
+			for (int i = 0; i < jArray.length(); i++) {
+
+				try {
+					e1 = jArray.getJSONObject(i);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				item1 = new Item(e1, strippedDown);
+				Log.i(TAG, "parsing item from browse: " +item1.getName());
+				items.add(item1);
+				
+			}
+		}
+		
+		return items;
 	}
 
 }

@@ -7,6 +7,7 @@ import zebrafish.util.JSONfunctions;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class User {
 
@@ -97,8 +98,8 @@ public class User {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		int id = prefs.getInt("userID", 0); // how many times app has been
-											// launched
+		int id = prefs.getInt("userID", 0);
+		Log.i(TAG, "Getting current user: " +id);
 		return id;
 	}
 
@@ -136,6 +137,13 @@ public class User {
 			String pass) {
 		int uID;
 		uID = JSONfunctions.storeUser(fname, lname, email, pass);
+		return uID;
+	}
+	
+	public static int storeUser(String deviceId) {
+		Log.i(TAG, "Storing user based on device id " +deviceId);
+		int uID;
+		uID = JSONfunctions.storeUser(deviceId);
 		return uID;
 	}
 

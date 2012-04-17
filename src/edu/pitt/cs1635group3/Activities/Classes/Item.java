@@ -38,6 +38,16 @@ public class Item implements Parcelable {
 		assignee = -1;
 	}
 
+	public Item(JSONObject e, boolean strippedDown) {
+		try {
+			ID = e.getInt("id");
+			name = e.getString("name");
+
+		} catch (JSONException e1) {
+			Log.i("Item parse problem", e1.toString());
+		}	
+	}
+
 	public Item(JSONObject e) {
 
 		try {
