@@ -1,7 +1,9 @@
 package edu.pitt.cs1635group3.Activities;
 
 import service.SplashScreenTask;
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONfunctions;
+import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +28,24 @@ public class SplashScreenActivity extends Activity {
 		context = this;
 		userID = User.getCurrUser(context);
 
-		if(userID > 0){
-			new SplashScreenTask().getListsAndInvites(context);
+		if (userID > 0) {
+			
+			if (IOUtil.isOnline(context)) {
+			
+				new SplashScreenTask().getListsAndInvites(context);
+				
+			} else {
+				
+				UIUtil.showMessage(context, "Cannot reach server. Internet signal strength too weak.");
+				Intent i = new Intent(this, HomeActivity.class);
+				startActivity(i);
+			}
 		}
-		else{
-			new SplashScreenTask().getLists(context);
+		else {
+			// User isn't registered. TODO: register here
+			//new SplashScreenTask().getLists(context);
+			Intent i = new Intent(this, HomeActivity.class);
+			startActivity(i);
 		}
 		
 		// thread for displaying the SplashScreen

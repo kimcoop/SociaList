@@ -67,8 +67,8 @@ public class CreateListActivity extends SherlockListActivity {
 		newItemPKs = new ArrayList<Integer>();
 
 		ListAdapter adapter = new SimpleAdapter(this, mylist,
-				R.layout.list_row, new String[] { "name", "assignee" },
-				new int[] { R.id.element_title, R.id.element_subtitle });
+				R.layout.new_item_row, new String[] { "name" },
+				new int[] { R.id.element_title});
 
 		setListAdapter(adapter);
 
