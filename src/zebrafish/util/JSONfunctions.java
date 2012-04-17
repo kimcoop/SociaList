@@ -530,7 +530,7 @@ public class JSONfunctions {
 		int uID = -1;
 
 		try {
-			uID = jArray.getInt("response");
+			uID = Integer.parseInt(jArray.getString("response"));
 
 		} catch (JSONException e) {
 			Log.e(TAG,

@@ -10,6 +10,7 @@ import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
 
 import zebrafish.util.DBHelper;
+import zebrafish.util.DateUtil;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,11 +29,13 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 	private final ArrayList<Invite> selected;
 	private final static String TAG = "InviteAdapter";
 	private DBHelper db;
+	private static Context context;
 
 	public InviteAdapter(Context context, int textViewResourceId,
 			ArrayList<Invite> invites) {
 		super(context, textViewResourceId, invites);
 		this.invites = invites;
+		this.context = context;
 		this.selected = new ArrayList<Invite>(); // populated on any checkbox action (removed when unchecked)
 		this.db = new DBHelper(context);
 	}
@@ -78,11 +81,13 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 			CheckBox cb = (CheckBox) v.findViewById(R.id.element_checkbox);
 
 			if (title != null) {
-				title.setText(o.listID + " is the list ID");
+				title.setText(o.getListName());
 			}
 
 			if (subtitle != null) {
-				subtitle.setText(o.inviteDate + " is the date");
+				//long longDate = Long.parseLong(o.getInviteDate());
+				//subtitle.setText(DateUtil.formatDate(longDate, context)); TODO
+				subtitle.setText(o.getInviteDate());
 			}
 
 			if (cb != null) {

@@ -22,6 +22,7 @@ public class Invite {
 	// CLASS VARIABLES
 	private static final String TAG = "Invite";
 	private static DBHelper db;
+	private static boolean PUSH_TO_CLOUD = true;
 	
 	/*
 	 * CONSTRUCTORS
@@ -29,9 +30,10 @@ public class Invite {
 	
 	public Invite() {}
 	
-	public Invite(int id, int lID, String invited) { // manual constructor
+	public Invite(int id, int lID, String lname, String invited) { // manual constructor
 		ID = id;
 		listID = lID;
+		listName = lname;
 		inviteDate = invited;
 		pending = true;
 	}
@@ -42,9 +44,7 @@ public class Invite {
 			ID = e.getInt("id");
 			listID = e.getInt("list_id");
 			inviteDate = e.getString("invite_date");
-
-			//int isPending = e.getInt("pending");
-			//pending = (isPending == 1 ? true : false);
+			listName = e.getString("list_name");
 			pending = true; // by default
 
 		} catch (JSONException e1) {
@@ -68,16 +68,20 @@ public class Invite {
 	public void setPending(int i) {
 		pending = (i==1? true : false);
 	}
+
+	public void setInviteDate(String string) {
+		inviteDate = string;
+	}
 	
 	public void setListName(String str) {
 		listName = str;
 	}
 	
 	public void accept(Context context) {
-		pending = false;
+		pending = false; // no longer pending -> accepted
 		db = new DBHelper(context);
 		db.open();
-		//db action here for accept
+		db.updateInvite(this, PUSH_TO_CLOUD);
 		db.close();
 	}
 	
@@ -100,6 +104,10 @@ public class Invite {
 	public String getInviteDate() {
 		return inviteDate;
 	}
+
+	public String getListName() {
+		return listName;
+	}
 	
 	/*
 	 * CLASS METHODS
@@ -108,7 +116,7 @@ public class Invite {
 	public static void ignore(Context context, Invite i) {
 		db = new DBHelper(context);
 		db.open();
-		//invites = db.ignoreInvite(i.ID); TODO
+		db.ignoreInvite(i.getID());
 		db.close();
 	}
 

@@ -74,6 +74,7 @@ public class DBHelper {
 
 	public static final String KEY_MAP_LIST_USER_ID = "id";
 	public static final String KEY_MAP_LIST_ID = "list_id";
+	public static final String KEY_MAP_LIST_NAME = "list_name";
 	public static final String KEY_MAP_PENDING = "pending";
 	public static final String KEY_MAP_INVITE_DATE = "invite_date";
 
@@ -115,7 +116,7 @@ public class DBHelper {
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
-			+ "list_id integer not null, pending integer not null default 1, invite_date date)";
+			+ "list_id integer not null, list_name text not null, invite_date date, pending integer not null default 1)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
 			+ "first text not null, last text not null, email text,"
@@ -233,10 +234,18 @@ public class DBHelper {
 			insertInvite(inv, pushToCloud);
 		}
 	}
+
+	public void ignoreInvite(int id) {
+		// delete the invite
+
+		//JSONfunctions.deleteList(list.getID());
+
+		db.delete(MAP_LIST_USER_TABLE, KEY_MAP_LIST_USER_ID + "=?",
+				new String[] { String.valueOf(id) });
+		
+	}
 	
 	public boolean updateInvite(Invite inv, boolean pushToCloud) {
-		
-		Log.i(TAG, "update invite called");
 
 		ContentValues args = new ContentValues();
 		args.put(KEY_MAP_LIST_ID, inv.getListID());
@@ -259,8 +268,9 @@ public class DBHelper {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
 		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
-		initialValues.put(KEY_MAP_PENDING, inv.isPending());
+		initialValues.put(KEY_MAP_LIST_NAME, inv.getListName());
 		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
+		initialValues.put(KEY_MAP_PENDING, inv.isPending());
 		
 		if (pushToCloud) {
 			Log.i(TAG, "InsertInvite: TODO pushToCloud");
@@ -279,7 +289,6 @@ public class DBHelper {
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
-			Log.i(TAG, "No results for getUserInvites");
 			invites = new ArrayList<Invite>(c.getCount());
 			c.moveToFirst();
 
@@ -287,8 +296,8 @@ public class DBHelper {
 				Invite inv = new Invite();
 				inv.setID(c.getInt(0));
 				inv.setListID(c.getInt(1));
-				inv.setPending(c.getInt(2));
-				inv.setListName("db test");
+				inv.setListName(c.getString(2));
+				inv.setInviteDate(c.getString(3));
 				invites.add(inv);
 				c.moveToNext();
 			} // end while
@@ -471,14 +480,7 @@ public class DBHelper {
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
-	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { // query
-																		// to
-																		// test
-																		// if
-																		// item
-		// exists. if it does,
-		// update. if it doesn't,
-		// insert.
+	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { 
 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM list WHERE id = " + id;
@@ -653,14 +655,7 @@ public class DBHelper {
 	 * ITEM METHODS
 	 */
 
-	public void insertOrUpdateItem(Item i, boolean pushToCloud) { // query to
-																	// test if
-																	// item
-																	// exists.
-																	// if
-		// it does, update. if it
-		// doesn't, insert.
-
+	public void insertOrUpdateItem(Item i, boolean pushToCloud) { 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM item WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);

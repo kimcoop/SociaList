@@ -74,16 +74,24 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
 		for (Invite i : selectedInvites) {
 			i.accept(context);
+			invites.remove(i);
 		}
-		UIUtil.showMessage(context, "Invites accepted.");
+		String pluralizer = "invite";
+		if (selectedInvites.size() > 1) pluralizer += "s";
+		UIUtil.showMessage(context, pluralizer + " accepted.");
+		adapter.notifyDataSetChanged();
 	}
 	
 	public void ignoreSelected(View v) {
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
 		for (Invite i : selectedInvites) {
 			Invite.ignore(context, i); // class method
+			invites.remove(i);
 		}
-		UIUtil.showMessage(context, "Invites ignored.");
+		String pluralizer = "invite";
+		if (selectedInvites.size() > 1) pluralizer += "s";
+		UIUtil.showMessage(context, pluralizer+ " ignored.");
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
