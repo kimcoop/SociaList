@@ -6,11 +6,7 @@ gen/*
 Thumbs.db
 *.keystore
 *.properties
-bin/classes/edu/pitt/cs1635group3/InsideListActivity$1.class
-bin/classes/edu/pitt/cs1635group3/ItemActivity$1.class
-bin/classes/edu/pitt/cs1635group3/ItemActivity$2.class
-bin/classes/edu/pitt/cs1635group3/ItemActivity$3.class
+*.class
 gen/com/actionbarsherlock/R.java
 gen/edu/pitt/cs1635group3/R.java
 project.properties
-bin/classes/edu/pitt/cs1635group3/ItemAdapter.class
