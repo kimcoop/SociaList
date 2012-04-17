@@ -20,13 +20,14 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class JSONfunctions {
 
 	public static final String URL = Config.URL;
-	public static final String TAG = "JSONFUNCTIONS";
+	public static final String TAG = "JSON FUNCTIONS";
 	public static DBHelper db;
 	public static final boolean NO_PUSH_TO_CLOUD = false;
 
@@ -275,12 +276,16 @@ public class JSONfunctions {
 
 	public static JSONObject getJSONfromURL(Context context, String a) {
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " + uID);
+		Log.i(TAG, "Getting JSON based on user ID: " + uID);
 		return postForJSONObject(a, "" + uID);
 	}
 
 	public static JSONObject getJSONfromURL(String action, int objID) {
 		return postForJSONObject(action, "" + objID);
+	}
+
+	public static JSONObject getJSONfromURL(String action, String objID) {
+		return postForJSONObject(action, objID);
 	}
 
 	public static void getUsers(Context context, int listID) {
@@ -352,6 +357,60 @@ public class JSONfunctions {
 
 	} // end getLists(Context)
 
+	public static void getInvites(Context context) { // insert all into db
+
+		ArrayList<Invite> myInvites = new ArrayList<Invite>();
+
+		JSONObject json = JSONfunctions.getJSONfromURL(context, "getInvites");
+		Log.i(TAG, json.toString() + "");
+		try {
+			JSONArray myJSONInvites = json.getJSONArray("invites");
+
+			Invite invite;
+			JSONObject e1;
+
+			for (int i = 0; i < myJSONInvites.length(); i++) {
+				e1 = myJSONInvites.getJSONObject(i);
+				invite = new Invite(e1);
+				myInvites.add(invite);
+			}
+
+			Invite.insertOrUpdateInvites(context, myInvites, NO_PUSH_TO_CLOUD);
+
+		} catch (JSONException e) {
+			Log.e(TAG, "Error in getInvites(): " + e.toString());
+		}
+
+	} // end getLists(Context)
+
+	public static ArrayList<CustomList> browseForList(Context context, String CID) {
+		JSONObject json = getJSONfromURL("browseForList", CID);
+		ArrayList<CustomList> matchingLists = new ArrayList<CustomList>();
+		boolean strippedDown = true;
+
+		try {
+			JSONArray lists = json.getJSONArray("lists");
+
+			if (lists.length() > 0) {
+
+				JSONObject listObj;
+				CustomList tempList;
+
+				for (int i = 0; i < lists.length(); i++) {
+						listObj = lists.getJSONObject(i);
+						tempList = CustomList.parseJSONforCustomList(listObj, strippedDown); // parses items too
+						matchingLists.add(tempList);
+						
+				} // end for
+			}
+
+		} catch (JSONException e) {
+			Log.e(TAG, "browseForList(): " + e.toString());
+		}
+
+		return matchingLists;
+	}
+
 	public static void getListItems(Context context, int listID) {
 
 		JSONObject json = getJSONfromURL("getItemsForList", listID);
@@ -400,9 +459,7 @@ public class JSONfunctions {
 				listItems.get(0).setPrev(
 						listItems.get(listItems.size() - 1).getID()); // "Loop around"
 				listItems.get(listItems.size() - 1).setNext(
-						listItems.get(0).getID()); // and
-
-				Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
+						listItems.get(0).getID());
 			}
 
 		} catch (JSONException e) {
@@ -421,7 +478,28 @@ public class JSONfunctions {
 
 	public static int storeUser(String fname, String lname, String email,
 			String pw) {
-		// initialize
+
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("action", "storeUser"));
+		params.add(new BasicNameValuePair("fname", fname));
+		params.add(new BasicNameValuePair("lname", lname));
+		params.add(new BasicNameValuePair("email", email));
+		params.add(new BasicNameValuePair("pw", pw));
+
+		return storeUser(params);
+	}
+
+	public static int storeUser(String deviceID) {
+		Log.i(TAG, "Storing user based on deviceID");
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("action", "storeUserByDevice"));
+		params.add(new BasicNameValuePair("deviceID", deviceID));
+
+		return storeUser(params);
+	}
+
+	public static int storeUser(ArrayList<NameValuePair> params) {
+		// let user register or not register by taking generic paramater params
 		InputStream is = null;
 		String result = "";
 		JSONObject jArray = null;
@@ -430,12 +508,6 @@ public class JSONfunctions {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("action", "storeUser"));
-			params.add(new BasicNameValuePair("fname", fname));
-			params.add(new BasicNameValuePair("lname", lname));
-			params.add(new BasicNameValuePair("email", email));
-			params.add(new BasicNameValuePair("pw", pw));
 			httppost.setEntity(new UrlEncodedFormEntity(params));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
@@ -466,6 +538,6 @@ public class JSONfunctions {
 		}
 
 		return uID;
-	}
+	} // end storeUser
 
 }

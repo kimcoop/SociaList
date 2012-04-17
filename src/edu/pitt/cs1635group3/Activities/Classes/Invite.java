@@ -17,6 +17,7 @@ public class Invite {
 	public int listID;
 	public boolean pending;
 	public String inviteDate;
+	public String listName = "";
 
 	// CLASS VARIABLES
 	private static final String TAG = "Invite";
@@ -25,6 +26,8 @@ public class Invite {
 	/*
 	 * CONSTRUCTORS
 	 */
+	
+	public Invite() {}
 	
 	public Invite(int id, int lID, String invited) { // manual constructor
 		ID = id;
@@ -40,8 +43,9 @@ public class Invite {
 			listID = e.getInt("list_id");
 			inviteDate = e.getString("invite_date");
 
-			int isPending = e.getInt("pending");
-			pending = (isPending == 1 ? true : false);
+			//int isPending = e.getInt("pending");
+			//pending = (isPending == 1 ? true : false);
+			pending = true; // by default
 
 		} catch (JSONException e1) {
 			Log.i(TAG, "Parse problem:" + e.toString());
@@ -52,7 +56,22 @@ public class Invite {
 	/*
 	 * SETTERS
 	 */
-
+	
+	public void setID(int id) {
+		ID = id;
+	}
+	
+	public void setListID(int lid) {
+		listID = lid;
+	}
+	
+	public void setPending(int i) {
+		pending = (i==1? true : false);
+	}
+	
+	public void setListName(String str) {
+		listName = str;
+	}
 	
 	public void accept(Context context) {
 		pending = false;
@@ -62,6 +81,25 @@ public class Invite {
 		db.close();
 	}
 	
+	/*
+	 * GETTERS
+	 */
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public int getListID() {
+		return listID;
+	}
+	
+	public boolean isPending() {
+		return pending;
+	}
+	
+	public String getInviteDate() {
+		return inviteDate;
+	}
 	
 	/*
 	 * CLASS METHODS
@@ -79,11 +117,25 @@ public class Invite {
 		ArrayList<Invite> invites = new ArrayList<Invite>();
 		db = new DBHelper(context);
 		db.open();
-		invites = db.getUserInvites(userID);
+		invites = db.getUserInvites();
 		db.close();
 		return invites;
-
 		
+	}
+
+	public static void insertOrUpdateInvites(Context context,
+			ArrayList<Invite> invites, boolean pushToCloud) {
+		
+		db = new DBHelper(context);
+		db.open();
+		
+		for (Invite inv : invites) {
+		
+			db.insertOrUpdateInvite(inv, pushToCloud);
+		
+		}
+		
+		db.close();
 		
 	}
 

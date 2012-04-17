@@ -1,5 +1,9 @@
 package edu.pitt.cs1635group3.Activities;
 
+import java.util.ArrayList;
+
+import zebrafish.util.JSONfunctions;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +14,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +28,7 @@ import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
@@ -43,28 +49,28 @@ public class HomeActivity extends Activity {
 		context = this;
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-		int counter = prefs.getInt("counter", 0); // how many times app has been
-													// launched
-		Log.i(TAG, "From sharedPrefs, counter is " + counter);
+		int counter = prefs.getInt("counter", 0);
 
 		if (counter == 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
 		}
 
-		// for debug
-		registerPushNotification();
-
+		//registerPushNotification();
 		userID = User.getCurrUser(context);
+		Log.i(TAG, "user id is " +userID);
+		
+		if (userID < 0) { //register the user anyway
+			Log.i(TAG, "Store user without registration");
+			storeUserWithoutReg();
+		}
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
-		e.commit(); // Very important
+		e.commit();
 		
 		Button pending = (Button) findViewById(R.id.home_btn_pending);
 		int numInvites = Invite.getInvites(context, userID).size();
 		pending.setText("Invites (" +numInvites+")");
-
 	}
 
 	public void showRegisterDialog() {
@@ -116,7 +122,8 @@ public class HomeActivity extends Activity {
 		};
 
 		OnClickListener l_cancel = new OnClickListener() {
-			public void onClick(View v) {//
+			public void onClick(View v) {
+				storeUserWithoutReg();
 				dialog.dismiss();
 			}
 		};
@@ -126,6 +133,18 @@ public class HomeActivity extends Activity {
 		dialog.show();
 
 	} // end showRegisterDialog
+	
+	protected void storeUserWithoutReg() {
+		TelephonyManager telephonyManager = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
+
+		String deviceID = telephonyManager.getDeviceId();
+		
+		userID = User.storeUser(deviceID);
+		Editor e = prefs.edit();
+		e.putInt("userID", userID);
+		e.commit(); // register the user anyway (via device id)
+	}
 
 	protected void storeUser(String email, String fname, String lname,
 			String pass, boolean allowPush) {
@@ -198,12 +217,7 @@ public class HomeActivity extends Activity {
 						Editor e = c2dmPrefs.edit();
 						e.putString("dm_registration", "");
 						e.commit();
-						C2DMessaging.setRegisterForPush(context, false);// user
-																		// phone
-																		// does
-																		// not
-																		// support
-																		// push
+						C2DMessaging.setRegisterForPush(context, false);
 					}
 				};
 				ok_btn.setOnClickListener(l);

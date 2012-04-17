@@ -46,7 +46,7 @@ public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
 	public static final String LIST_TABLE = "list";
-	public static final String MAP_LIST_USER = "map_list_user";
+	public static final String MAP_LIST_USER_TABLE = "map_list_user";
 	public static final String USER_TABLE = "user";
 
 	public static final String KEY_ITEM_ID = "id";
@@ -74,7 +74,6 @@ public class DBHelper {
 
 	public static final String KEY_MAP_LIST_USER_ID = "id";
 	public static final String KEY_MAP_LIST_ID = "list_id";
-	public static final String KEY_MAP_USER_ID = "user_id";
 	public static final String KEY_MAP_PENDING = "pending";
 	public static final String KEY_MAP_INVITE_DATE = "invite_date";
 
@@ -116,7 +115,7 @@ public class DBHelper {
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
-			+ "list_id integer not null, user_id integer not null, pending integer not null default 1, invite_date date)";
+			+ "list_id integer not null, pending integer not null default 1, invite_date date)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
 			+ "first text not null, last text not null, email text,"
@@ -219,42 +218,88 @@ public class DBHelper {
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
-	public ArrayList<Invite> getUserInvites(int userID) {
+	public void insertOrUpdateInvite(Invite inv, boolean pushToCloud) {
 
-			ArrayList<Invite> invites = new ArrayList<Invite>();
-			
-			/*
-			String myQuery = "SELECT * FROM list";// WHERE user_id = " + ID;
-			Cursor c = db.rawQuery(myQuery, null);
+		String id = inv.getID() + "";
+		String myQuery = "SELECT * FROM map_list_user WHERE id = " + id;
+		Cursor c = db.rawQuery(myQuery, null);
 
-			if (c != null) {
-				lists = new ArrayList<CustomList>(c.getCount());
-				c.moveToFirst();
-
-				while (!c.isAfterLast()) {
-					CustomList l = new CustomList();
-					l.setID(c.getInt(0));
-					l.setCustomID(c.getString(1));
-					l.setName(c.getString(2));
-					l.setCreator(c.getInt(3));
-					l.setCreationDate(c.getString(4));
-					lists.add(l);
-					c.moveToNext();
-				}
-			}
+		if (c.getCount() > 0) {
+			// Item exists
 			c.close();
-			return lists;
-			}*/
-			
-			invites.add(new Invite(22, 5, "invite date"));
-			invites.add(new Invite(3, 4, "invite date2"));
-			return invites;
+			updateInvite(inv, pushToCloud);
+		} else {
+			c.close();
+			insertInvite(inv, pushToCloud);
+		}
+	}
+	
+	public boolean updateInvite(Invite inv, boolean pushToCloud) {
 		
+		Log.i(TAG, "update invite called");
+
+		ContentValues args = new ContentValues();
+		args.put(KEY_MAP_LIST_ID, inv.getListID());
+		args.put(KEY_MAP_PENDING, inv.isPending());
+		args.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
+		
+		if (pushToCloud) {
+			Log.i(TAG, "UpdateInvite: TODO pushToCloud");
+		}
+
+		return db.update(MAP_LIST_USER_TABLE, args, KEY_MAP_LIST_USER_ID + "=?",
+				new String[] { String.valueOf(inv.getID()) }) > 0;
+		
+	}
+	
+	public long insertInvite(Invite inv, boolean pushToCloud) {
+		
+		Log.i(TAG, "insert invite called");
+		
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
+		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
+		initialValues.put(KEY_MAP_PENDING, inv.isPending());
+		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
+		
+		if (pushToCloud) {
+			Log.i(TAG, "InsertInvite: TODO pushToCloud");
+		}
+		
+		return db.insert(MAP_LIST_USER_TABLE, null, initialValues);
 		
 	}
 
-	public CharSequence[] getUsersForDialog(int id) { // TODO - make this take
-														// ListID
+	public ArrayList<Invite> getUserInvites() {
+
+		ArrayList<Invite> invites = new ArrayList<Invite>();
+
+		String myQuery = "SELECT * FROM map_list_user";
+		
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) {
+			Log.i(TAG, "No results for getUserInvites");
+			invites = new ArrayList<Invite>(c.getCount());
+			c.moveToFirst();
+
+			while (!c.isAfterLast()) {
+				Invite inv = new Invite();
+				inv.setID(c.getInt(0));
+				inv.setListID(c.getInt(1));
+				inv.setPending(c.getInt(2));
+				inv.setListName("db test");
+				invites.add(inv);
+				c.moveToNext();
+			} // end while
+
+			c.close();
+		} // c != null
+
+		return invites;
+	} // end getUserInvites
+
+	public CharSequence[] getUsersForDialog(int id) {
 		// as a param
 
 		CharSequence[] users;

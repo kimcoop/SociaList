@@ -1,5 +1,4 @@
 package edu.pitt.cs1635group3.Activities;
-
 import java.util.ArrayList;
 
 import zebrafish.util.JSONfunctions;
@@ -32,11 +31,10 @@ import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
-import edu.pitt.cs1635group3.Adapters.ItemAdapter;
+//import edu.pitt.cs1635group3.Adapters.MyListItemAdapter;
 
-public class ItemsActivity extends SherlockListActivity
-{
-	/*copy pasta from InsideListActivity*/
+public class ItemsActivity extends SherlockListActivity {
+	
 //	private CustomList list = null;
 	private ArrayList<Item> items = null;
 	private ArrayAdapter<Item> adapter;
@@ -58,6 +56,7 @@ public class ItemsActivity extends SherlockListActivity
 	private ArrayList<Item> selected;
 
 	public void onCreate(Bundle savedInstanceState) {
+		/*
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
@@ -73,16 +72,14 @@ public class ItemsActivity extends SherlockListActivity
 		items = CustomList
 				.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
-		/ * */
 
-		/*FIRST IMPLEMENTATION
 		ArrayList<CustomList> listOfLists = CustomList.getAllLists(context, userID);
 		items = new ArrayList<Item>();
 		for (CustomList l : listOfLists)
 		{
 			items.addAll(CustomList.getItemsForListByID(context, l.getID()));
 		}
-		*/
+		
 		
 		items = Item.getAllItemsForUser(context);
 		
@@ -91,7 +88,7 @@ public class ItemsActivity extends SherlockListActivity
 
 		selected = new ArrayList<Item>(); // track the items checked. used for button click events
 
-		assignButton = (Button) findViewById(R.id.assign_button);
+/*		assignButton = (Button) findViewById(R.id.assign_button);
 		assignButton.setOnClickListener(new Button.OnClickListener() {  
 			public void onClick(View v) {
 				assign();
@@ -114,7 +111,7 @@ public class ItemsActivity extends SherlockListActivity
 
 //		users = User.getUsersForDialog(context, list.getID());
 
-		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton, completeButton, inviteButton);
+		adapter = new MyListItemAdapter(this, R.layout.item_row, items, assignButton, completeButton, inviteButton);
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
@@ -209,7 +206,7 @@ public class ItemsActivity extends SherlockListActivity
 			finish();
 		}
 	}
-/*
+
 	public void saveRename(String newName) {
 
 		list.updateName(context, newName);
@@ -263,6 +260,7 @@ public class ItemsActivity extends SherlockListActivity
 		super.onBackPressed();
 	}
 */
+	/*
 	public void assignItemsTo(String user) {
 		selected = getSelectedItems();
 		
@@ -275,6 +273,7 @@ public class ItemsActivity extends SherlockListActivity
 
 		adapter.notifyDataSetChanged();
 	}
+	
 
 	public void assign() {
 
@@ -288,7 +287,7 @@ public class ItemsActivity extends SherlockListActivity
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-
+	
 	public void uncomplete() {
 		// TODO - test to see if all selected items are uncompleted
 		selected = getSelectedItems();
@@ -312,7 +311,7 @@ public class ItemsActivity extends SherlockListActivity
 	public ArrayList<Item> getSelectedItems() {
 		// called multiple times because there are many actions that require use
 		// of selected items
-		selected = ((ItemAdapter) adapter).getSelected();
+		selected = ((MyListItemAdapter) adapter).getSelected();
 		return selected;
 	}
 
@@ -331,19 +330,19 @@ public class ItemsActivity extends SherlockListActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
+		inflater.inflate(R.menu.blank_menu, menu);
 
 		return true;
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
-		Intent intent;
+		/*Intent intent;
 		if (item.getItemId() == 0) {
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 			return true;
-		/*} else if (item.getItemId() == R.id.menu_add) {
+		} else if (item.getItemId() == R.id.menu_add) {
 			addItem();
 			return false;
 		} else if (item.getItemId() == R.id.menu_rename) {
@@ -353,7 +352,7 @@ public class ItemsActivity extends SherlockListActivity
 			intent = new Intent(this, ManageListUsersActivity.class);
 			intent.putExtra("listID", list.getID());
 			startActivity(intent);
-			return true;*/
+			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
 			startActivity(intent);
@@ -361,8 +360,9 @@ public class ItemsActivity extends SherlockListActivity
 		} else {
 			return false;
 		}
+		return false;
 	}
-/*
+
 	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New List Item Name");
@@ -528,8 +528,7 @@ public class ItemsActivity extends SherlockListActivity
 			return false;
 		} else {
 			return false;
-		}
+		}*/
 
 	}
-	/ *end copy pasta from SociaListActivity*/
 }

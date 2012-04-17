@@ -56,7 +56,6 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		context = this;
 
 		userID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " + userID);
 		invites = Invite.getInvites(context, userID);
 
 		getSupportActionBar();
