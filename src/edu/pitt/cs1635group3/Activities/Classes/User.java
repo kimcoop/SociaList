@@ -132,6 +132,15 @@ public class User {
 		db.close();
 		return users;
 	}
+	
+	public static ArrayList<User> getUsersForList(Context context, int id) {
+		ArrayList<User> users;
+		db = new DBHelper(context);
+		db.open();
+		users = db.getUsersForList(id);
+		db.close();
+		return users;
+	}
 
 	public static int storeUser(String fname, String lname, String email,
 			String pass) {
@@ -145,6 +154,14 @@ public class User {
 		int uID;
 		uID = JSONfunctions.storeUser(deviceId);
 		return uID;
+	}
+
+	public static String getUserByID(Context context, int uID) {
+		db = new DBHelper(context);
+		db.open();
+		String name = db.getUserByID(uID).getName();
+		db.close();
+		return name;
 	}
 
 }

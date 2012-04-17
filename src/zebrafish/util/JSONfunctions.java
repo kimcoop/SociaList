@@ -335,7 +335,6 @@ public class JSONfunctions {
 			JSONObject e1;
 
 			for (int i = 0; i < myLists.length(); i++) {
-				Log.i(TAG, myLists.length() + "THIS IS THE LENGTH!!!!!");
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1);
 

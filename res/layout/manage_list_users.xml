@@ -4,29 +4,40 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ListView
+        android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false" />
 
-        <TextView
-            android:id="@+id/label_list_name"
+    <TextView
+        android:id="@id/android:empty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="2dp"
+        android:text="@string/no_list_users" />
+ 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/remove_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="@string/List_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16dp" />
-
-        <EditText
-            android:id="@+id/edit_list_name"
-            android:layout_width="fill_parent"
+            android:onClick="removeSelected"
+            android:text="@string/remove_users" />
+<!-- 
+        <Button
+            android:id="@+id/ignore_selected"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/List_name_here"
-            android:padding="4dp"
-            android:textSize="14dp"
-            android:layout_margin="3dp" />
-
+            android:onClick="ignoreSelected"
+            android:text="@string/ignore_invites" /> -->
     </LinearLayout>
+
 </LinearLayout>

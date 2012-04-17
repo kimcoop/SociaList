@@ -187,9 +187,7 @@ public class InsideListActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
-						b.setVisibility(View.GONE);
-						parentLayout.removeView(parentView);
-						adapter.remove(item);
+						items.remove(item);
 						adapter.notifyDataSetChanged();
 
 					}

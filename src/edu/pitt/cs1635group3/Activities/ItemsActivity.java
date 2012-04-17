@@ -1,4 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
+
 import java.util.ArrayList;
 
 import zebrafish.util.JSONfunctions;
@@ -31,16 +32,17 @@ import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
-//import edu.pitt.cs1635group3.Adapters.MyListItemAdapter;
+import edu.pitt.cs1635group3.Adapters.MyListItemAdapter;
 
-public class ItemsActivity extends SherlockListActivity {
-	
+public class ItemsActivity extends SherlockListActivity
+{
+	/*copy pasta from InsideListActivity*/
 //	private CustomList list = null;
 	private ArrayList<Item> items = null;
 	private ArrayAdapter<Item> adapter;
 	private RelativeLayout parentLayout;
 
-	private static final String TAG = "InsideListActivity";
+	private static final String TAG = "ItemsActivity";
 
 	private int totalItems;
 	protected Context context;
@@ -56,7 +58,6 @@ public class ItemsActivity extends SherlockListActivity {
 	private ArrayList<Item> selected;
 
 	public void onCreate(Bundle savedInstanceState) {
-		/*
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insidelist_layout);
 		context = this;
@@ -72,14 +73,16 @@ public class ItemsActivity extends SherlockListActivity {
 		items = CustomList
 				.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
+		/ * */
 
+		/*FIRST IMPLEMENTATION
 		ArrayList<CustomList> listOfLists = CustomList.getAllLists(context, userID);
 		items = new ArrayList<Item>();
 		for (CustomList l : listOfLists)
 		{
 			items.addAll(CustomList.getItemsForListByID(context, l.getID()));
 		}
-		
+		*/
 		
 		items = Item.getAllItemsForUser(context);
 		
@@ -105,7 +108,7 @@ public class ItemsActivity extends SherlockListActivity {
 			public void onClick(View v) {
 				invite();
 			}
-		});
+		});*/
 		buttonsHelper = (View) findViewById(R.id.buttons_helper);
 		lv = getListView();
 
@@ -206,7 +209,7 @@ public class ItemsActivity extends SherlockListActivity {
 			finish();
 		}
 	}
-
+/*
 	public void saveRename(String newName) {
 
 		list.updateName(context, newName);
@@ -273,8 +276,8 @@ public class ItemsActivity extends SherlockListActivity {
 
 		adapter.notifyDataSetChanged();
 	}
-	
-
+	*/
+/*
 	public void assign() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -287,7 +290,7 @@ public class ItemsActivity extends SherlockListActivity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+*/
 	public void uncomplete() {
 		// TODO - test to see if all selected items are uncompleted
 		selected = getSelectedItems();
@@ -314,7 +317,7 @@ public class ItemsActivity extends SherlockListActivity {
 		selected = ((MyListItemAdapter) adapter).getSelected();
 		return selected;
 	}
-
+/*
 	public void invite() {
 
 		Intent i = getIntent();
@@ -326,7 +329,7 @@ public class ItemsActivity extends SherlockListActivity {
 		startActivity(intent);
 
 	}
-
+*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
@@ -359,10 +362,10 @@ public class ItemsActivity extends SherlockListActivity {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
 		return false;
 	}
-
+/*
 	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New List Item Name");
@@ -528,7 +531,8 @@ public class ItemsActivity extends SherlockListActivity {
 			return false;
 		} else {
 			return false;
-		}*/
+		}
 
 	}
+	/ *end copy pasta from SociaListActivity*/
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 import edu.pitt.cs1635group3.R.id;
 import edu.pitt.cs1635group3.R.layout;
 
@@ -82,7 +83,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (name != null) {
 				name.setText(o.getName());
 				
-				if (cb != null && o.isCompleted()) {
+				if (o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
 				}
@@ -90,10 +91,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (assignee != null) {
 
 				int itemUser = o.getAssignee();
-				db.open();
-				String assignment = (itemUser > 0 ? db.getUserByID(itemUser)
-						.getName() : "Unassigned");
-				db.close();
+				String assignment;
+				
+				if (itemUser > 0 ) {
+					assignment = User.getUserByID(context,  itemUser);
+				} else {
+					assignment = "Unassigned";
+				}
+				
 				assignee.setText(assignment);
 
 			}

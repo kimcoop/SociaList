@@ -74,6 +74,7 @@ public class DBHelper {
 
 	public static final String KEY_MAP_LIST_USER_ID = "id";
 	public static final String KEY_MAP_LIST_ID = "list_id";
+	public static final String KEY_MAP_LIST_USERID = "user_id";
 	public static final String KEY_MAP_LIST_NAME = "list_name";
 	public static final String KEY_MAP_PENDING = "pending";
 	public static final String KEY_MAP_INVITE_DATE = "invite_date";
@@ -116,7 +117,7 @@ public class DBHelper {
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
-			+ "list_id integer not null, list_name text not null, invite_date date, pending integer not null default 1)";
+			+ "list_id integer not null, user_id integer not null, list_name text not null, invite_date date, pending integer not null default 1)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
 			+ "first text not null, last text not null, email text,"
@@ -354,6 +355,34 @@ public class DBHelper {
 			c.close();
 
 		}
+		return users;
+
+	}
+	
+
+
+	public ArrayList<User> getUsersForList(int ID) {
+		String listID = ""+ID;
+		ArrayList<User> users = null;
+		String myQuery = "SELECT * FROM user";//, map_list_user WHERE map_list_user.list_id = "+listID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) {
+			users = new ArrayList<User>(c.getCount());
+			c.moveToFirst();
+
+			while (!c.isAfterLast()) {
+				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
+						c.getString(3));
+				Log.i(TAG, "user for list found: " + u.getName());
+				users.add(u);
+				c.moveToNext();
+			}
+
+			c.close();
+
+		}
+		Log.i(TAG, "size of users for this list is " +users.size());
 		return users;
 
 	}

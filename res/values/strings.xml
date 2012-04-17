@@ -119,5 +119,9 @@
     <string name="minutes">minutes</string>
     <string name="hour">hour</string>
     <string name="hours">hours</string>
+    
+    <!--  Manage List Users -->
+    <string name="remove_users">Remove</string>
+    <string name="no_list_users">This list isn\'t shared with any users.</string>
 
 </resources>
