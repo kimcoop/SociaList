@@ -54,15 +54,15 @@ public class HomeActivity extends Activity {
 		if (counter == 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
 		}
-
-		//registerPushNotification();
-		userID = User.getCurrUser(context);
-		Log.i(TAG, "user id is " +userID);
 		
+		//registerPushNotification();
 		if (userID < 0) { //register the user anyway
 			Log.i(TAG, "Store user without registration");
 			storeUserWithoutReg();
 		}
+
+		userID = User.getCurrUser(context);
+		Log.i(TAG, "user id is " +userID);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
@@ -144,6 +144,8 @@ public class HomeActivity extends Activity {
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
 		e.commit(); // register the user anyway (via device id)
+		userID = User.getCurrUser(context);
+		
 	}
 
 	protected void storeUser(String email, String fname, String lname,
@@ -161,7 +163,6 @@ public class HomeActivity extends Activity {
 
 		if (allowPush) {
 			registerPushNotification();
-			Log.d(TAG, "allowPush checked -> registerPushNotification()");
 		}
 
 		Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG)
@@ -185,13 +186,8 @@ public class HomeActivity extends Activity {
 
 		if (c2dmPrefs.contains("dm_registration")) {
 			Log.i(TAG, "Device already registered.");
-			// C2DMessaging.unregister(context);
-			// return;
-		}
-
-		// else { // don't reshow the push notifications prompt if they've
+		} else { // don't reshow the push notifications prompt if they've
 		// already registered
-		if (true) {
 			Log.i(TAG, "Registering device");
 			if (Build.VERSION.SDK_INT >= 8) {
 
