@@ -320,7 +320,6 @@ public class CustomList implements Parcelable {
 		db.deleteListAndChildren(userlist);
 		db.close();
 	}
-	
 
 	public static CustomList parseJSONforCustomList(JSONObject e, boolean strippedDown) {
 		Log.i(TAG, "getting stripped down customList");
@@ -367,4 +366,12 @@ public class CustomList implements Parcelable {
 		return items;
 	}
 
+	public static String getListName(Context context, int listID) {
+		db = new DBHelper(context);
+		db.open();
+		String s = db.getListName(listID);
+		db.close();
+		return s;
+	}
+	
 }

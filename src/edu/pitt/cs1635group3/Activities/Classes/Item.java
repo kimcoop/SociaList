@@ -395,7 +395,16 @@ public class Item implements Parcelable {
 		db.open();
 		db.deleteItem(item);
 		db.close();
-
+	}
+	
+	public static ArrayList<Item> getAllItemsForUser (Context context)
+	{
+		int uid = User.getCurrUser(context);
+		db = new DBHelper(context);
+		db.open();
+		ArrayList<Item> items = db.getAllItemsByUserID(uid);
+		db.close();
+		return items;
 	}
 
 }

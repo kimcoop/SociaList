@@ -121,11 +121,20 @@ public class InsideListActivity extends SherlockListActivity {
 					item.setPrev(context, item.getID());
 					item.setNext(context, item.getID());
 				}
-
+					
+				if (newItems) {
+					list.attachItems(items);
+					Log.i(TAG, "Back button pressed");
+					int listSize = list.getItems().size();
+					totalItems = listSize;
+					Log.d(TAG, "listSize = " + listSize);
+					list.setLinks(context);
+				}
 				Intent intent = new Intent(context, ItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
 				intent.putExtra("pos", pos + 1); // Display item X of Y
 				intent.putExtra("totalItems", totalItems);
+
 				startActivityForResult(intent, 1);
 			}
 		});

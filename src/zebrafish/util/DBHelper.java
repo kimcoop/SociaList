@@ -610,6 +610,45 @@ public class DBHelper {
 
 	}
 
+	public ArrayList<Item> getAllItemsByUserID (int uid)
+	{
+		ArrayList<Item> items = null;
+		String myQuery = "SELECT * FROM item WHERE assignee_id = " + "33";//uid;
+		Cursor c = db.rawQuery(myQuery, null);
+		
+		if (c != null)
+		{
+			items = new ArrayList<Item>(c.getCount());
+			c.moveToFirst();
+			
+			while (!c.isAfterLast())
+			{
+				Item i = cursorToItem(c);
+				items.add(i);
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return items;
+	}
+	
+	public String getListName (int listID)
+	{
+		// Log.v("QUERY FOR ITEM", "Based on item ID " + row);
+
+		String myQuery = "SELECT name FROM list WHERE id = " + listID;
+		Cursor c = db.rawQuery(myQuery, null);
+
+		if (c != null) {
+			c.moveToFirst();
+		}
+
+		String s = c.getString(0);
+		Log.d(TAG, s);
+		c.close();
+		return s;
+	}
+	
 	/*
 	 * ITEM METHODS
 	 */
