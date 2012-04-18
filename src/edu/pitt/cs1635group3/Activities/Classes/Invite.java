@@ -1,15 +1,13 @@
 package edu.pitt.cs1635group3.Activities.Classes;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import zebrafish.util.DBHelper;
 import android.content.Context;
 import android.util.Log;
-
-import zebrafish.util.DBHelper;
 
 public class Invite {
 

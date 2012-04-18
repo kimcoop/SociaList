@@ -3,7 +3,6 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 
 import zebrafish.util.UIUtil;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -19,12 +17,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
-import edu.pitt.cs1635group3.Activities.Classes.Invite;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
-import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 import edu.pitt.cs1635group3.Adapters.ListUsersAdapter;
-import edu.pitt.cs1635group3.Adapters.MyListItemAdapter;
 
 public class ManageListUsersActivity extends SherlockListActivity {
 

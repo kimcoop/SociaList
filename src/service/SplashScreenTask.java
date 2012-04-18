@@ -1,29 +1,30 @@
 package service;
 
-import zebrafish.util.JSONfunctions;
+import zebrafish.util.JSONCustomList;
+import zebrafish.util.JSONUser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import edu.pitt.cs1635group3.Activities.SplashScreenActivity;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
 
 public class SplashScreenTask {
 	public static final String TAG = "SplashScreenTask";
 	protected Context context;
+	private static int LISTS_INVITES = 1; // Flag
+	private static int LISTS = 2;
 
 	private class DoSplashScreenTask extends AsyncTask<Integer, Void, String> {
 		@Override
 		protected String doInBackground(Integer... params) {
 			String response = "";
 
-			if(params[0] == 1){
-				JSONfunctions.getLists(context);
-				JSONfunctions.getInvites(context);
+			if(params[0] == LISTS_INVITES){
+				JSONCustomList.getLists(context);
+				JSONUser.getInvites(context);
 			}
-			else if(params[0] == 2){
-				JSONfunctions.getLists(context);
+			else if(params[0] == LISTS){
+				JSONCustomList.getLists(context);
 			}
 
 			return "";
@@ -42,13 +43,13 @@ public class SplashScreenTask {
 	public void getListsAndInvites(Context c) {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();
-		task.execute(1);
+		task.execute(LISTS_INVITES);
 
 	}
 	public void getLists(Context c) {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();
-		task.execute(2);
+		task.execute(LISTS);
 
 	}
 }

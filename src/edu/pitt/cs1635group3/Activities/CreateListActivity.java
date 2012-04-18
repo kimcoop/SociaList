@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import zebrafish.util.DBHelper;
-import zebrafish.util.JSONfunctions;
+import zebrafish.util.JSONCustomList;
+import zebrafish.util.JSONItem;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -156,7 +157,7 @@ public class CreateListActivity extends SherlockListActivity {
 			db = new DBHelper(this);
 			db.open();
 
-			newListPK = JSONfunctions.getListPK(); // get a truly unique ID from
+			newListPK = JSONCustomList.getListPK(); // get a truly unique ID from
 													// server
 			newList.setID(newListPK);
 
@@ -165,7 +166,7 @@ public class CreateListActivity extends SherlockListActivity {
 				newItem = new Item(map);
 				newItem.setParent(context, newListPK);
 
-				int itemID = JSONfunctions.getItemPK();
+				int itemID = JSONItem.getItemPK();
 				newItemPKs.add(itemID);
 				newItem.setID(context, itemID);
 				newList.addItem(newItem);
@@ -243,10 +244,10 @@ public class CreateListActivity extends SherlockListActivity {
 		// all that happened was we got space on the web server for the list and
 		// its items.
 
-		JSONfunctions.deleteList(newListPK);
+		JSONCustomList.deleteList(newListPK);
 
 		for (int i : newItemPKs) { // delete the items as well
-			JSONfunctions.deleteItem(i);
+			JSONItem.deleteItem(i);
 		}
 
 		finish();

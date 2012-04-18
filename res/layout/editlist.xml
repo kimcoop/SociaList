@@ -47,6 +47,12 @@
             android:onClick="explainCID"
 			android:clickable="true" />
 
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/ic_menu_help" />
+
         <EditText
             android:id="@+id/edit_list_CID"
             android:layout_width="fill_parent"

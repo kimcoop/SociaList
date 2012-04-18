@@ -2,7 +2,6 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
-import zebrafish.util.DBHelper;
 import zebrafish.util.JSONfunctions;
 import zebrafish.util.UIUtil;
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;

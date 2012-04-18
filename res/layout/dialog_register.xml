@@ -37,30 +37,11 @@
 	</EditText>
 
 	<EditText
-	    android:id="@+id/txtvFname"
+	    android:id="@+id/txtvName"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:editable="true"
-	    android:hint="@string/firstName"
-	    android:textColor="@color/dark_grey"
-	    android:textSize="16sp" />
-
-	<EditText
-	    android:id="@+id/txtvLname"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:editable="true"
-	    android:hint="@string/lastName"
-	    android:textColor="@color/dark_grey"
-	    android:textSize="16sp" />
-	
-	<EditText
-	    android:id="@+id/txtvPassword"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:hint="Password"
-	    android:inputType="textPassword"
-	    android:singleLine="true"
+	    android:hint="Name"
 	    android:textColor="@color/dark_grey"
 	    android:textSize="16sp" />
 

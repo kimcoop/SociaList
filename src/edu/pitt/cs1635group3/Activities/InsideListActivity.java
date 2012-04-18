@@ -2,14 +2,12 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
-import zebrafish.util.DBHelper;
-import zebrafish.util.JSONfunctions;
+import zebrafish.util.JSONItem;
 import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -33,10 +29,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
-import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
-import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 import edu.pitt.cs1635group3.Adapters.ItemAdapter;
 
 public class InsideListActivity extends SherlockListActivity {
@@ -377,7 +371,7 @@ public class InsideListActivity extends SherlockListActivity {
 				i.setCreator(userID);
 				i.setParent(list.getID());
 
-				int itemID = JSONfunctions.getItemPK();
+				int itemID = JSONItem.getItemPK();
 				newItemPKs.add(itemID);
 				i.setID(context, itemID);
 

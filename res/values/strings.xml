@@ -61,9 +61,9 @@
     </string-array>
 
     <!-- editlist.xml -->
-    <string name="List_name">List name     </string>
+    <string name="List_name">Name</string>
     <string name="List_name_here">Like "Groceries"</string>
-    <string name="List_items">List items</string>
+    <string name="List_items">Items</string>
     <string name="No_items_in_list">No items in list</string>
     <string name="Add_List_Item">Add Item</string>
     <string name="Save">Save</string>

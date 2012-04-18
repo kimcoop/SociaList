@@ -483,20 +483,20 @@ public class DBHelper {
 
 		ArrayList<Item> children = list.getItems();
 		for (Item item : children) {
-			JSONfunctions.deleteItem(item.getID()); // TODO - make JSONfunctions
+			JSONItem.deleteItem(item.getID()); // TODO - make JSONfunctions
 													// method for deleting
 													// ArrayList<Item> rather
 													// than this
 		}
 
-		JSONfunctions.deleteList(list.getID());
+		JSONCustomList.deleteList(list.getID());
 
 		db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) });
 	}
 
 	public boolean deleteList(CustomList list) {
-		JSONfunctions.deleteList(list.getID());
+		JSONCustomList.deleteList(list.getID());
 
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(list.getID()) }) > 0;
@@ -504,7 +504,7 @@ public class DBHelper {
 
 	public boolean deleteListByID(int listID) {
 
-		JSONfunctions.deleteList(listID);
+		JSONCustomList.deleteList(listID);
 		return db.delete(LIST_TABLE, KEY_LIST_ID + "=?",
 				new String[] { String.valueOf(listID) }) > 0;
 	}
@@ -747,7 +747,7 @@ public class DBHelper {
 		// Note - whenever this is called, be sure to update the encompassing
 		// list structure, since items are doubly-linked.
 
-		JSONfunctions.deleteItem(i.getID());
+		JSONItem.deleteItem(i.getID());
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}

@@ -3,7 +3,7 @@ package edu.pitt.cs1635group3.Activities.Classes;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
-import zebrafish.util.JSONfunctions;
+import zebrafish.util.JSONUser;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -142,17 +142,16 @@ public class User {
 		return users;
 	}
 
-	public static int storeUser(String fname, String lname, String email,
-			String pass) {
+	public static int storeUser(String name, String email, String pn) {
 		int uID;
-		uID = JSONfunctions.storeUser(fname, lname, email, pass);
+		uID = JSONUser.storeUser(name, pn, email);
 		return uID;
 	}
 	
 	public static int storeUser(String deviceId) {
 		Log.i(TAG, "Storing user based on device id " +deviceId);
 		int uID;
-		uID = JSONfunctions.storeUser(deviceId);
+		uID = JSONUser.storeUser(deviceId);
 		return uID;
 	}
 

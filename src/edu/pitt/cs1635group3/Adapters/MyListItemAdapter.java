@@ -2,12 +2,6 @@ package edu.pitt.cs1635group3.Adapters;
 
 import java.util.ArrayList;
 
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.Activities.Classes.Invite;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
 import zebrafish.util.DBHelper;
 import android.content.Context;
 import android.graphics.Paint;
@@ -22,6 +16,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
 
 public class MyListItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.

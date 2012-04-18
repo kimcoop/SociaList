@@ -2,25 +2,19 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
-import zebrafish.util.JSONfunctions;
 import zebrafish.util.UIUtil;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -28,10 +22,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
-import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 import edu.pitt.cs1635group3.Adapters.MyListItemAdapter;
 
 public class ItemsActivity extends SherlockListActivity

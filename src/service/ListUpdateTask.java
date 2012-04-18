@@ -1,11 +1,10 @@
 package service;
 
-import zebrafish.util.JSONfunctions;
+import zebrafish.util.JSONCustomList;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
 
 public class ListUpdateTask {
 	public static final String TAG = "ListUpdateTask";
@@ -18,7 +17,7 @@ public class ListUpdateTask {
 
 			for (CustomList custlist : params) {
 				Log.i(TAG, "Updated " + custlist.getName());
-				JSONfunctions.updateList(custlist);
+				JSONCustomList.updateList(custlist);
 			}
 
 			return "";

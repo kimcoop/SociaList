@@ -1,9 +1,5 @@
 package edu.pitt.cs1635group3.Activities;
 
-import java.util.ArrayList;
-
-import zebrafish.util.JSONfunctions;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -28,7 +24,6 @@ import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
 
 import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
@@ -55,10 +50,8 @@ public class HomeActivity extends Activity {
 			showRegisterDialog();
 		}
 		
-		//registerPushNotification();
 		if (userID < 0) { //register the user anyway
-			Log.i(TAG, "Store user without registration");
-			storeUserWithoutReg();
+			storeUser(null, null, getPhoneNumber(), false);
 		}
 
 		userID = User.getCurrUser(context);
@@ -91,25 +84,19 @@ public class HomeActivity extends Activity {
 
 				EditText txtvEmail = (EditText) dialog
 						.findViewById(R.id.txtvEmail);
-				EditText txtvFname = (EditText) dialog
-						.findViewById(R.id.txtvFname);
-				EditText txtvLname = (EditText) dialog
-						.findViewById(R.id.txtvLname);
-
-				EditText txtvPass = (EditText) dialog
-						.findViewById(R.id.txtvPassword);
+				EditText txtvName = (EditText) dialog
+						.findViewById(R.id.txtvName);
+				
 				CheckBox chbox = (CheckBox) dialog.findViewById(R.id.chboxPush);
 
 				String email = txtvEmail.getText().toString().trim();
-				String fname = txtvFname.getText().toString().trim();
-				String lname = txtvLname.getText().toString().trim();
-				String pass = txtvPass.getText().toString().trim();
+				String name = txtvName.getText().toString().trim();
 				boolean allowPush = chbox.isChecked();
+				String pn = getPhoneNumber();
 
-				if (!email.equals("") && !fname.equals("") && !lname.equals("")
-						&& !pass.equals("")) { // allow store
+				if (!email.equals("") && !name.equals("")) { // allow store
 
-					storeUser(email, fname, lname, pass, allowPush);
+					storeUser(email, name, pn, allowPush);
 					dialog.dismiss();
 
 				} else {
@@ -134,6 +121,14 @@ public class HomeActivity extends Activity {
 
 	} // end showRegisterDialog
 	
+	public String getPhoneNumber() {
+		TelephonyManager telephonyManager = 
+				(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+
+				String phoneNumber = telephonyManager.getLine1Number();
+				return phoneNumber;
+	}
+	
 	protected void storeUserWithoutReg() {
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
@@ -148,25 +143,19 @@ public class HomeActivity extends Activity {
 		
 	}
 
-	protected void storeUser(String email, String fname, String lname,
-			String pass, boolean allowPush) {
+	protected void storeUser(String email, String name, String pn, boolean allowPush) {
 		// pass the ID back to shared prefs to recall later
 
-		Log.i(TAG, "" + email + ", " + fname + ", " + lname + ", " + allowPush
-				+ ", " + pass);
-
-		userID = User.storeUser(fname, lname, email, pass);
+		userID = User.storeUser(name, email, pn);
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
-		e.putString("name", fname);
 		e.commit();
 
 		if (allowPush) {
 			registerPushNotification();
 		}
-
-		Toast.makeText(context, "Successful registration!", Toast.LENGTH_LONG)
-				.show();
+		
+		Log.i(TAG, "User name: " +name+ " registered");
 	}
 
 	public void registerPushNotification() {

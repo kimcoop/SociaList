@@ -2,12 +2,6 @@ package edu.pitt.cs1635group3.Adapters;
 
 import java.util.ArrayList;
 
-import edu.pitt.cs1635group3.R;
-import edu.pitt.cs1635group3.Activities.Classes.CustomList;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
-import edu.pitt.cs1635group3.R.id;
-import edu.pitt.cs1635group3.R.layout;
-
 import zebrafish.util.DBHelper;
 import android.content.Context;
 import android.util.Log;
@@ -17,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
 
 public class CustomListAdapter extends ArrayAdapter<CustomList> {
 	// This pulls in the user's lists and inflates them appropriately for the

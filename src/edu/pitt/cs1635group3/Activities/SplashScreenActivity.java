@@ -2,13 +2,11 @@ package edu.pitt.cs1635group3.Activities;
 
 import service.SplashScreenTask;
 import zebrafish.util.IOUtil;
-import zebrafish.util.JSONfunctions;
 import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.User;
