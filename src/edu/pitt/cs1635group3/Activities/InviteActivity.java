@@ -3,6 +3,9 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
+import zebrafish.util.JSONUser;
+import zebrafish.util.UIUtil;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -166,6 +169,7 @@ public class InviteActivity extends SherlockActivity {
 						}
 
 						phone = cursorPhone.getString(phoneIdx);
+						
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
 						Log.v(DEBUG_TAG, "Got name: " + name);
 
@@ -218,6 +222,10 @@ public class InviteActivity extends SherlockActivity {
 
 		if (invite_type.equals("Send SMS")) {
 
+			
+			inviteByPhone(phone, listID);
+			UIUtil.showMessage(context, "SMS not available.");
+			/*
 			Uri smsUri = Uri.parse("sms:6102356128");
 			Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsUri);
 			sendIntent.putExtra("address", phone);
@@ -225,7 +233,7 @@ public class InviteActivity extends SherlockActivity {
 			sendIntent.setType("vnd.android-dir/mms-sms");
 			startActivity(sendIntent);
 
-			/*
+			
 			 * PendingIntent pi = PendingIntent.getActivity(this, 0, new
 			 * Intent(this, Object.class), 0); SmsManager sms =
 			 * SmsManager.getDefault(); sms.sendTextMessage(phone, null,
@@ -233,6 +241,9 @@ public class InviteActivity extends SherlockActivity {
 			 */
 
 		} else if (invite_type.equals("Send Email")) {
+
+			
+			inviteByEmail(email, listID);
 			String subject = "Invitation to my SociaList";
 			String emailContent = message;
 
@@ -247,13 +258,13 @@ public class InviteActivity extends SherlockActivity {
 
 	} // end sendInvitation
 	
-	public void syncPhoneInvite(String pn) {
-		// pass the invite to the cloud
-		
+	
+	public static void inviteByPhone(String pn, int listID) {
+		JSONUser.inviteByPhone(pn, listID);
 	}
 	
-	public void syncEmailInvite(String email) {
-		
+	public static void inviteByEmail(String email, int listID) {
+		JSONUser.inviteByEmail(email, listID);
 	}
 	
 	

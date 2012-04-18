@@ -66,11 +66,6 @@ public class PostParams {
 		if (id != null) {
 			params.add(param("objID", id));
 		}
-		
-		if (action.equals("getLists")) {
-
-			Log.d(TAG, "TAKE USER ID: action: " + action + "&objID: " + id);
-		}
 
 		return params;
 	}
@@ -82,7 +77,7 @@ public class PostParams {
 		if (myList != null) {
 
 			params.add(param("action", action));
-			params.add(param("id", "" + myList.getID()));
+			params.add(param("objID", "" + myList.getID()));
 			params.add(param("custom_id", "" + myList.getCustomID()));
 			params.add(param("name", myList.getName()));
 			params.add(param("adder_id", "" + myList.getCreator()));

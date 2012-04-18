@@ -32,16 +32,7 @@ import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
-/**
- * Simple notes database access helper class. Defines the basic CRUD operations
- * for the notepad example, and gives the ability to list all notes as well as
- * retrieve or modify a specific note.
- * 
- * This has been improved from the first version of this tutorial through the
- * addition of better error handling and also using returning a Cursor instead
- * of using a collection of inner classes (which is less scalable and not
- * recommended).
- */
+
 public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
@@ -62,8 +53,7 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
-	public static final String KEY_ITEM_SELECTED = "selected"; // ONLY FOR THE
-																// APP
+	public static final String KEY_ITEM_SELECTED = "selected"; 
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_CUSTOM_ID = "custom_id";

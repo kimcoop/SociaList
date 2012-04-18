@@ -347,6 +347,8 @@ public class InsideListActivity extends SherlockListActivity {
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
+			intent.putExtra("listID", list.getID());
+			startActivity(intent);
 			startActivity(intent);
 			return true;
 		} else {

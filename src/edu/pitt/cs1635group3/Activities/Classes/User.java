@@ -3,6 +3,7 @@ package edu.pitt.cs1635group3.Activities.Classes;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
+import zebrafish.util.JSONInvite;
 import zebrafish.util.JSONUser;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ public class User {
 
 	private int ID;
 	private String email, first, last;
+	private String pn; // phone
 	private String deviceToken, deviceID;
 
 	// CLASS VARIABLES
@@ -60,6 +62,12 @@ public class User {
 	/*
 	 * GETTERS
 	 */
+	
+
+
+	public String getPhoneNumber() {
+		return pn;
+	}
 
 	public String getDeviceToken() {
 		return deviceToken;
@@ -143,7 +151,7 @@ public class User {
 
 	public static int storeUser(String name, String email, String pn) {
 		int uID;
-		uID = JSONUser.storeUser(name, pn, email);
+		uID = JSONUser.storeUser(name, pn, email); 
 		return uID;
 	}
 	/*

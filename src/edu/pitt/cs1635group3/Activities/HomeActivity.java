@@ -36,7 +36,7 @@ public class HomeActivity extends Activity {
 	private static int userID;
 
 	private static SharedPreferences prefs;
-
+ 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,9 +49,13 @@ public class HomeActivity extends Activity {
 		if (counter == 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
 		}
+
+		userID = User.getCurrUser(context);
+		Log.i(TAG, "after show reg dialog, user id is " +userID);
 		
-		if (userID < 0) { //register the user anyway
+		if (userID < 0) { // user didn't wanna register via email? register him/her anyway
 			storeUser(null, null, getPhoneNumber(), false);
+			Log.i(TAG, "user id was -1, so re-store user");
 		}
 
 		userID = User.getCurrUser(context);
@@ -72,7 +76,7 @@ public class HomeActivity extends Activity {
 
 		dialog.setContentView(R.layout.dialog_register);
 		dialog.setOwnerActivity(this);
-		dialog.setTitle("App Registration");
+		dialog.setTitle("Single Sign-In");
 		TextView tv = (TextView) dialog
 				.findViewById(R.id.textViewDialogMessage);
 		tv.setText("Sign up so friends can invite you to lists!");
@@ -89,14 +93,14 @@ public class HomeActivity extends Activity {
 				
 				CheckBox chbox = (CheckBox) dialog.findViewById(R.id.chboxPush);
 
-				String email = txtvEmail.getText().toString().trim();
 				String name = txtvName.getText().toString().trim();
+				String email = txtvEmail.getText().toString().trim();
 				boolean allowPush = chbox.isChecked();
 				String pn = getPhoneNumber();
 
-				if (!email.equals("") && !name.equals("")) { // allow store
+				if (!name.equals("") && !email.equals("")) { // allow store
 
-					storeUser(email, name, pn, allowPush);
+					storeUser(name, email, pn, allowPush);
 					dialog.dismiss();
 
 				} else {
@@ -145,9 +149,10 @@ public class HomeActivity extends Activity {
 		
 	}
 
-	protected void storeUser(String email, String name, String pn, boolean allowPush) {
+	protected void storeUser(String name, String email, String pn, boolean allowPush) {
 		// pass the ID back to shared prefs to recall later
-
+		Log.i(TAG, "user name " +name+ ", email " +email+ " pn " +pn);
+		
 		userID = User.storeUser(name, email, pn);
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);

@@ -27,62 +27,59 @@ public class JSONUser {
 	public static final String TAG = "JSON USEr";
 	public static DBHelper db;
 	public static final boolean NO_PUSH_TO_CLOUD = false;
-
-
-	public static int storeUser(String name, String email, String pn) {
-
+	
+	public static ArrayList<NameValuePair> userToParams(String name, String email, String pn) {
+		Log.i(TAG, "userToParams: email " +email);
+		
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("action", "storeUser"));
 		params.add(new BasicNameValuePair("name", name));
 		params.add(new BasicNameValuePair("email", email));
 		params.add(new BasicNameValuePair("pn", pn));
+		return params;
+	}
+
+
+	public static int storeUser(String name, String email, String pn) {
+
+		ArrayList<NameValuePair> params = userToParams(name, email, pn);
+		params.add(new BasicNameValuePair("action", "storeUser"));
 
 		return storeUser(params);
 	}
 
 	public static int storeUser(ArrayList<NameValuePair> params) {
 		// let user register or not register by taking generic paramater params
-		InputStream is = null;
-		String result = "";
-		JSONObject jArray = null;
-
-		// http post
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
-
-		} catch (Exception e) {
-			Log.e(TAG + " - register user",
-					"Error in http connection " + e.toString());
-		}
-
-		result = JSONfunctions.getResult(is);
-
-		// try parse the string to a JSON object
-		try {
-			jArray = new JSONObject(result);
-		} catch (JSONException e) {
-			Log.e(TAG, "storeUser(): Error " + e.toString());
-		}
-
-		int uID = -1;
-
-		try {
-			uID = Integer.parseInt(jArray.getString("response"));
-
-		} catch (JSONException e) {
-			Log.e(TAG,
-					"storeUser(): Error with getting user ID " + e.toString());
-		}
-
+		
+		String result = JSONfunctions.postToCloud(params);
+		int uID = JSONfunctions.parseForInt(result);
+		Log.i(TAG, "Stored user. User id from cloud is " +uID);
 		return uID;
+		
 	} // end storeUser
 	
+	public static void updateUser(int id, String name, String email, String pn) {
 
+		ArrayList<NameValuePair> params = userToParams(name, email, pn);
+		params.add(new BasicNameValuePair("action", "updateUser"));
+
+		updateUser(params);
+		
+	} // end updateUser
+
+
+	public static void updateUser(User u) {
+		ArrayList<NameValuePair> params = userToParams(u.getName(), u.getEmail(), u.getPhoneNumber());
+
+		String result = JSONfunctions.postToCloud(params);
+		Log.i(TAG, "User updated on cloud");
+	}
+
+	public static void updateUser(ArrayList<NameValuePair> params) {
+
+		String result = JSONfunctions.postToCloud(params);
+		Log.i(TAG, "User updated on cloud");
+	}
 
 	public static void getUsers(Context context, int listID) {
 		// pull in users from the server. do this only once
@@ -118,25 +115,29 @@ public class JSONUser {
 
 	}// end getUsers(Context)
 	
-	public void inviteByPhone(String pn) {
+	public static void inviteByPhone(String pn, int listID) {
 		// during invite. check if there is a user acct with this phone number.
 		// if there is, return the userID.
 		// if there is not, creates a temp user acct linked to the pn so the user can register and collect the invite.
+		Log.i(TAG, "!!IMPORTANT listID shuld not be 0: " +listID);
 
 		ArrayList<NameValuePair> params = PostParams.formatParams("inviteByPhone", pn);
-		syncInvite(params);
-		
-		
+		params.add(new BasicNameValuePair("listID", ""+listID));
+		inviteUser(params);
 	}
 	
-	public void inviteByEmail(String email) {
+	public static void inviteByEmail(String email, int listID) {
 		// See comment for inviteByPhone
+		Log.i(TAG, "!!IMPORTANT listID shuld not be 0: " +listID);
+		
 		ArrayList<NameValuePair> params = PostParams.formatParams("inviteByEmail", email);
-		syncInvite(params);
+		params.add(new BasicNameValuePair("listID", ""+listID));
+		inviteUser(params);
 	}
 	
-	public void syncInvite(ArrayList<NameValuePair> params) {
-		
+	public static void inviteUser(ArrayList<NameValuePair> params) {
+		String result = JSONfunctions.postToCloud(params);
+		Log.i(TAG, "invited user! : "+result);
 	}
 	
 

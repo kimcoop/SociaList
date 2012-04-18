@@ -6,7 +6,7 @@
 	android:paddingRight="5dp"
 	android:layout_width="300dp"
 	android:layout_height="wrap_content"
-	android:theme="@style/turquoiseLight">
+	style="@style/turquoiseMedium">
     
 	<LinearLayout
 		android:orientation="vertical"
@@ -54,12 +54,12 @@
 	<LinearLayout
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content" >
+		android:layout_height="wrap_content"
+		android:layout_marginTop="2dp"
+			android:layout_marginBottom="5dp" >
 	
 		<Button
 			android:id="@+id/buttonOK"
-			android:layout_marginTop="15dp"
-			android:layout_marginBottom="5dp"
 			android:text="OK"
 			android:textSize="20sp"
 			android:layout_width="wrap_content"
@@ -69,8 +69,6 @@
 		
 		<Button
 			android:id="@+id/buttonCancel"
-			android:layout_marginTop="15dp"
-			android:layout_marginBottom="5dp"
 			android:text="Cancel"
 			android:textSize="20sp"
 			android:layout_width="wrap_content"
