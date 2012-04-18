@@ -118,5 +118,26 @@ public class JSONUser {
 
 	}// end getUsers(Context)
 	
+	public void inviteByPhone(String pn) {
+		// during invite. check if there is a user acct with this phone number.
+		// if there is, return the userID.
+		// if there is not, creates a temp user acct linked to the pn so the user can register and collect the invite.
+
+		ArrayList<NameValuePair> params = PostParams.formatParams("inviteByPhone", pn);
+		syncInvite(params);
+		
+		
+	}
+	
+	public void inviteByEmail(String email) {
+		// See comment for inviteByPhone
+		ArrayList<NameValuePair> params = PostParams.formatParams("inviteByEmail", email);
+		syncInvite(params);
+	}
+	
+	public void syncInvite(ArrayList<NameValuePair> params) {
+		
+	}
+	
 
 }

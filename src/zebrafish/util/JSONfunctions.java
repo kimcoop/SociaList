@@ -31,49 +31,68 @@ public class JSONfunctions {
 
 	public static int getPK(String action) {
 
-		// initialize
-		InputStream is = null;
-		String result = "";
-		JSONObject jArray = null;
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("action", action));
+		String result = postToCloud(params);
 
-		// http post
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("action", action));
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
+		return parseForInt(result);
+	}
+	
+	/*
+	 * PULL OUT SPECIFIC DATA FROM JSON
+	 */
+	
+	public static int parseForInt(String result) {
 
-		} catch (Exception e) {
-			Log.e(TAG + " - getPK", "Error in http connection " + e.toString());
-		}
-
-		result = getResult(is);
-
+		JSONObject jObj = null;
 		// try parse the string to a JSON object
 		try {
-			jArray = new JSONObject(result);
+			jObj = new JSONObject(result);
 		} catch (JSONException e) {
 			Log.e("GET PK", "Error parsing data " + e.toString());
 		}
 
-		int newPK = -1;
+		int id = -1;
 
 		try {
-			newPK = jArray.getInt("id");
+			id = jObj.getInt("id");
 			// Log.d("GET PK", "id" + newPK);
 
 		} catch (JSONException e) {
-			Log.e("GET PK", "Error with getting PK " + e.toString());
+			Log.e(TAG, "Error in PostForInt: " + e.toString());
 		}
 
-		return newPK;
+		return id;
+		
+	}
+
+	public static String parseForString(String result) {
+
+		JSONObject jObj = null;
+		String response = "";
+
+		try { // try parse the string to a JSON object
+			jObj = new JSONObject(result);
+		} catch (JSONException e) {
+			Log.e(TAG + "- getResponse", "Error parsing data " + e.toString());
+		}
+
+		try {
+			response = jObj.getString("response");
+
+		} catch (JSONException e) {
+			Log.e(TAG + "- getResponse",
+					"Error with posting item " + e.toString());
+		}
+
+		return response;
 	}
 	
-	public static void post(ArrayList<NameValuePair> params) {
+	/*
+	 * HANDLE POSTING OBJECTS
+	 */
+	
+	public static String postToCloud(ArrayList<NameValuePair> params) {
 
 		// initialize
 		InputStream is = null;
@@ -92,33 +111,14 @@ public class JSONfunctions {
 			Log.e(TAG + " - post", "Error in http connection " + e.toString());
 		}
 
-		//result = getResult(is);
-		// resp = getResponse(result, "response");
-		// Log.i(TAG, resp);
+		result = getResult(is);
+		return result;
 
 	}
+	
+	public static JSONObject parseForJSONObject(String result) {
 
-	public static JSONObject postForJSONObject(String action, String objID) {
-		InputStream is = null;
 		JSONObject jObj = null;
-		String result = "";
-
-		// http post
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = PostParams.formatParams(action,
-					objID);
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
-
-		} catch (Exception e) {
-			Log.e(TAG, "Error in http connection " + e.toString());
-		}
-
-		result = getResult(is);
 
 		// try parse the string to a JSON object
 		try {
@@ -126,9 +126,23 @@ public class JSONfunctions {
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing data " + e.toString());
 		}
+		
+		return jObj;
+	}
+
+	public static JSONObject postForJSONObject(String action, String objID) {
+
+		ArrayList<NameValuePair> params = PostParams.formatParams(action,
+				objID);
+		String result = postToCloud(params);
+		JSONObject jObj = parseForJSONObject(result);
 
 		return jObj;
 	}
+	
+	/*
+	 * GET RESULTS FROM JSON
+	 */
 
 	public static String getResult(InputStream is) {
 		// convert response to string
@@ -147,72 +161,6 @@ public class JSONfunctions {
 			Log.e(TAG, "Error converting result " + e.toString());
 		}
 		return res;
-	}
-
-	public static String getResponse(String res, String which) {
-
-		JSONObject jObj = null;
-		String response = "";
-
-		try { // try parse the string to a JSON object
-			jObj = new JSONObject(res);
-		} catch (JSONException e) {
-			Log.e(TAG + "- getResponse", "Error parsing data " + e.toString());
-		}
-
-		try {
-			response = jObj.getString(which);
-
-		} catch (JSONException e) {
-			Log.e(TAG + "- getResponse",
-					"Error with posting item " + e.toString());
-		}
-
-		return response;
-	}
-
-	/*
-	 * ITEMS
-	 */
-
-	public static void createItem(Item i) {
-		postItem("updateItem", i);
-	}
-
-	public static void updateItem(Item i) {
-		postItem("updateItem", i);
-	}
-
-	public static void postItem(String action, Item i) {
-
-		// initialize
-		InputStream is = null;
-		String result = "", resp = "";
-
-		// http post
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = PostParams
-					.formatParams(action, i);
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
-
-		} catch (Exception e) {
-			Log.e(TAG + "- POST ITEM",
-					"Error in http connection " + e.toString());
-		}
-
-		result = getResult(is);
-		resp = getResponse(result, "response");
-		Log.i(TAG, resp);
-
-	} // end postItem
-
-	public static JSONObject getJSONfromURL(Context context) {
-		return getJSONfromURL(context, null);
 	}
 
 	public static JSONObject getJSONfromURL(Context context, String a) {

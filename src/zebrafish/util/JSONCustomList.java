@@ -49,34 +49,17 @@ public class JSONCustomList {
 		ArrayList<NameValuePair> params = PostParams.formatParams(action,
 				objID);
 		
-		JSONfunctions.post(params);
+		JSONfunctions.postToCloud(params);
 		
 	} // end deleteList
 
 	public static void updateList(CustomList list) {
 
-		// initialize
-		InputStream is = null;
-		String result = "", resp = "";
-
-		// http post
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
-			ArrayList<NameValuePair> params = PostParams.formatListParams(
-					"updateList", list);
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
-
-		} catch (Exception e) {
-			Log.e(TAG, "POSTLIST: Error in http connection " + e.toString());
-		}
-		//result = JSONfunctions.getResult(is);
-		//resp = JSONfunctions.getResponse(result, "response");
-		// Log.i(TAG, resp);
-
+		ArrayList<NameValuePair> params = PostParams.formatListParams(
+				"updateList", list);
+		
+		JSONfunctions.postToCloud(params);
+		
 	} // end UpdateList
 
 	public static ArrayList<CustomList> browseForList(Context context, String CID) {

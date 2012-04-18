@@ -1,6 +1,7 @@
 package service;
 
 import zebrafish.util.JSONCustomList;
+import zebrafish.util.JSONInvite;
 import zebrafish.util.JSONUser;
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +22,7 @@ public class SplashScreenTask {
 
 			if(params[0] == LISTS_INVITES){
 				JSONCustomList.getLists(context);
-				JSONUser.getInvites(context);
+				JSONInvite.getInvites(context);
 			}
 			else if(params[0] == LISTS){
 				JSONCustomList.getLists(context);

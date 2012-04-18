@@ -34,6 +34,7 @@ public class InviteActivity extends SherlockActivity {
 
 	protected static Context context;
 	private static int userID;
+	private static int listID;
 
 	String message = "";
 	String email = "";
@@ -46,6 +47,8 @@ public class InviteActivity extends SherlockActivity {
 		context = this;
 		getSupportActionBar();
 		setTitle("Invite to List");
+		
+		listID = getIntent().getExtras().getInt("listID");
 
 		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " + uID);
@@ -238,11 +241,22 @@ public class InviteActivity extends SherlockActivity {
 			emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
 			emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 			emailIntent.putExtra(Intent.EXTRA_TEXT, emailContent);
-			startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+			startActivity(Intent.createChooser(emailIntent, "Send Email..."));
 
 		}
 
+	} // end sendInvitation
+	
+	public void syncPhoneInvite(String pn) {
+		// pass the invite to the cloud
+		
 	}
+	
+	public void syncEmailInvite(String email) {
+		
+	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

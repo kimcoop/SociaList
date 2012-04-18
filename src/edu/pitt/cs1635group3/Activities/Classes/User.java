@@ -99,7 +99,6 @@ public class User {
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		int id = prefs.getInt("userID", 0);
-		Log.i(TAG, "Getting current user: " +id);
 		return id;
 	}
 
@@ -147,14 +146,14 @@ public class User {
 		uID = JSONUser.storeUser(name, pn, email);
 		return uID;
 	}
-	
+	/*
 	public static int storeUser(String deviceId) {
 		Log.i(TAG, "Storing user based on device id " +deviceId);
 		int uID;
 		uID = JSONUser.storeUser(deviceId);
 		return uID;
 	}
-
+*/
 	public static String getUserByID(Context context, int uID) {
 		db = new DBHelper(context);
 		db.open();

@@ -130,6 +130,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	protected void storeUserWithoutReg() {
+		/*
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -139,7 +140,8 @@ public class HomeActivity extends Activity {
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
 		e.commit(); // register the user anyway (via device id)
-		userID = User.getCurrUser(context);
+		userID = User.getCurrUser(context);*/
+		Log.i(TAG, "storeUserWithoutReg shlould never be called");
 		
 	}
 

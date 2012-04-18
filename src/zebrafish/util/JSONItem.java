@@ -1,8 +1,15 @@
 package zebrafish.util;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +37,28 @@ public class JSONItem {
 		ArrayList<NameValuePair> params = PostParams.formatParams(action,
 				objID);
 		
-		JSONfunctions.post(params);
+		JSONfunctions.postToCloud(params);
 		
 	} // end deleteItem
+	
+
+	public static void createItem(Item i) {
+		postItem("updateItem", i);
+	}
+
+	public static void updateItem(Item i) {
+		postItem("updateItem", i);
+	}
+
+	public static void postItem(String action, Item i) {
+
+		ArrayList<NameValuePair> params = PostParams
+				.formatParams(action, i);
+		
+		String result = JSONfunctions.postToCloud(params);
+		JSONfunctions.parseForString(result);
+
+	} // end postItem
 
 	public static void getListItems(Context context, int listID) {
 
