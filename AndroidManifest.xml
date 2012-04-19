@@ -115,6 +115,12 @@
             android:screenOrientation="portrait"  >
         </activity>
         
+         <activity android:name=".Activities.BrowseForListActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"  >
+        </activity>
         
     </application>
 

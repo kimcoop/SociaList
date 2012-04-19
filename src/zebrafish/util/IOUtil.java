@@ -8,7 +8,7 @@ import android.util.Log;
 public final class IOUtil {
 
 	public static boolean isOnline(Context context) {
-		Log.i("IOUtil", "checkign isOnline");
+		Log.i("IOUtil", "checking if app isOnline");
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();

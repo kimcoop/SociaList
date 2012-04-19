@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="inviteToList"
             android:text="@string/invite_button"
             android:visibility="visible" />
 
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:layout_weight="1"
-            android:onClick="assignItems"
             android:text="@string/assign_button"
             android:visibility="gone" />
 
@@ -37,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:layout_weight="1"
-            android:onClick="completeItems"
             android:text="@string/complete_button"
             android:visibility="gone" />
 

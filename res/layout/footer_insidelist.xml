@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:onClick="flipButtons"
         android:text="@string/invite_button"
         android:visibility="visible" />
 
@@ -28,7 +27,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="0dp"
         android:layout_toLeftOf="@+id/buttons_helper"
-        android:onClick="flipButtons"
         android:text="@string/assign_button"
         android:visibility="gone" />
 
@@ -40,7 +38,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="0dp"
         android:layout_toRightOf="@+id/buttons_helper"
-        android:onClick="flipButtons"
         android:text="@string/complete_button"
         android:visibility="gone" />
 

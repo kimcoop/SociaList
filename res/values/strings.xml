@@ -3,9 +3,12 @@
 
     <string name="hello">Zebrafish Technologies = best group ever!</string>
     <string name="app_name">SociaList</string>
+    <string name="ok">OK</string>
 
     <!-- Splash Screen -->
     <string name="splash_loading">Loading: </string>
+    <string name="connect_title">Cannot Connect to Internet</string>
+    <string name="connect_issue">You signal strength is too weak. Changes will be local and may not persist.</string>
 
     <!-- Home Activity -->
     <string name="push_explain">Allow push notifications? (You can always change
@@ -123,5 +126,7 @@
     <!--  Manage List Users -->
     <string name="remove_users">Remove</string>
     <string name="no_list_users">This list isn\'t shared with any users.</string>
+    
+    <!--  -->
 
 </resources>

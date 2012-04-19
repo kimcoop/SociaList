@@ -46,8 +46,8 @@
           <item name="android:background">@color/turquoise_light</item>
      </style>
      
-     <style name="turquoiseMedium">
-         <item name="android:background">@color/turquoise_4</item>
+     <style name="turquoiseBgMedium">
+         <item name="android:background">@color/turquoise_4</item>  
      </style>
 
 

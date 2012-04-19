@@ -233,9 +233,9 @@ public class HomeActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void browseForListById(View v) {
-		Intent intent = new Intent(context, BrowseForListActivity.class);
-		startActivity(intent);
+	public void browseForListByID(View v) {
+		//Intent intent = new Intent(context, BrowseForListActivity.class);
+		//startActivity(intent);
 	}
 
 }

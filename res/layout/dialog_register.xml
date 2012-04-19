@@ -6,7 +6,7 @@
 	android:paddingRight="5dp"
 	android:layout_width="300dp"
 	android:layout_height="wrap_content"
-	style="@style/turquoiseMedium">
+	style="@style/turquoiseBgMedium">
     
 	<LinearLayout
 		android:orientation="vertical"
