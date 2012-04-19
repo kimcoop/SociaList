@@ -227,7 +227,7 @@ public class CreateListActivity extends SherlockListActivity {
 	public void explainCID(View v) {
 
 		new AlertDialog.Builder(this)
-				.setTitle("Custom List IDs")
+				.setTitle("Template IDs")
 				.setMessage(getString(R.string.CID_explain))
 				.setPositiveButton("Got it",
 						new DialogInterface.OnClickListener() {
