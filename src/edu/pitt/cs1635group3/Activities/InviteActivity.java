@@ -221,7 +221,7 @@ public class InviteActivity extends SherlockActivity {
 
 		if (invite_type.equals("Send SMS")) {
 
-			inviteByPhone(phone, listID);
+			inviteByPhone(listID);
 			UIUtil.showMessage(context, "SMS not available.");
 			/*
 			 * Uri smsUri = Uri.parse("sms:6102356128"); Intent sendIntent = new
@@ -240,7 +240,7 @@ public class InviteActivity extends SherlockActivity {
 
 		} else if (invite_type.equals("Send Email")) {
 
-			inviteByEmail(email, listID);
+			inviteByEmail(listID);
 			String subject = "Invitation to my SociaList";
 			String emailContent = message;
 
@@ -255,19 +255,24 @@ public class InviteActivity extends SherlockActivity {
 
 	} // end sendInvitation
 
-	public static void inviteByPhone(String pn, int listID) {
+	public void inviteByPhone(int listID) {
+		EditText invitee = (EditText) findViewById(R.id.invite_email);
+		String pn = invitee.getText().toString().trim();
+		Log.i(TAG, "inviting user to list " +listID+ " by phone " +pn);
 		JSONUser.inviteByPhone(pn, listID);
 	}
 
-	public static void inviteByEmail(String email, int listID) {
+	public void inviteByEmail(int listID) {
+		EditText invitee = (EditText) findViewById(R.id.invite_email);
+		String email = invitee.getText().toString().trim();
+		Log.i(TAG, "inviting user to list " +listID+ " by email " +email);
 		JSONUser.inviteByEmail(email, listID);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu); // todo - alter the menu (make
-													// new)
+		inflater.inflate(R.menu.main_menu, menu);
 
 		return true;
 	}
