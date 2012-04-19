@@ -122,6 +122,12 @@
             android:screenOrientation="portrait"  >
         </activity>
         
+         <activity android:name=".Activities.SettingsActivity"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"  >
+        </activity>
+        
     </application>
 
 </manifest>

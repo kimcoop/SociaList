@@ -237,5 +237,10 @@ public class HomeActivity extends Activity {
 		//Intent intent = new Intent(context, BrowseForListActivity.class);
 		//startActivity(intent);
 	}
+	
+	public void mySettings(View v) {
+		Intent intent = new Intent(context, SettingsActivity.class);
+		startActivity(intent);
+	}
 
 }
