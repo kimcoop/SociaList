@@ -12,7 +12,8 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
+-->
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -66,7 +67,17 @@
 	        android:onClick="browseForListByID" />
 
 	</edu.pitt.cs1635group3.DashboardLayout>
-    
+
+    <ImageView
+        android:id="@+id/settings_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/home_header"
+        android:layout_marginTop="5dp"
+        android_layout_marginRight="2dp"
+        android:onClick="mySettings"
+        android:src="@drawable/ic_menu_settings_holo_light" />
     
 </RelativeLayout>
 
