@@ -29,7 +29,9 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 		super(context, textViewResourceId, users);
 		this.users = users;
 		this.context = context;
-		this.selected = new ArrayList<User>(); // populated on any checkbox action (removed when unchecked)
+		this.selected = new ArrayList<User>(); // populated on any checkbox
+												// action (removed when
+												// unchecked)
 		this.db = new DBHelper(context);
 	}
 
@@ -51,15 +53,18 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 					.findViewById(R.id.element_subtitle);
 			holder.element_checkbox = (CheckBox) v
 					.findViewById(R.id.element_checkbox);
-			
-			holder.element_checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
-						if (isChecked) selected.add(o);
-						else selected.remove(o);
-					}
-				});
+			holder.element_checkbox
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (isChecked)
+								selected.add(o);
+							else
+								selected.remove(o);
+						}
+					});
 
 			v.setTag(holder);
 
@@ -78,8 +83,9 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 			}
 
 			if (subtitle != null) {
-				//long longDate = Long.parseLong(o.getUserDate());
-				//subtitle.setText(DateUtil.formatDate(longDate, context)); TODO
+				// long longDate = Long.parseLong(o.getUserDate());
+				// subtitle.setText(DateUtil.formatDate(longDate, context));
+				// TODO
 				subtitle.setText("6 items");
 			}
 
@@ -94,13 +100,14 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 	static class ViewHolder {
 		TextView element_title, element_subtitle;
 		CheckBox element_checkbox;
-		
+
 	}
-	
-	public ArrayList<User> getSelected() { // return an arrayList of the currently-checked items
-		Log.i(TAG, "Returning selected items " +selected.size());
+
+	public ArrayList<User> getSelected() { // return an arrayList of the
+											// currently-checked items
+		Log.i(TAG, "Returning selected items " + selected.size());
 		return selected;
-		
+
 	}
 
 }

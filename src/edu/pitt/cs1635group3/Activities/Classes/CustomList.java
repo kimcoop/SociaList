@@ -37,7 +37,6 @@ public class CustomList implements Parcelable {
 		}
 	}
 
-
 	public CustomList() {
 		listItems = new ArrayList<Item>();
 	}
@@ -320,7 +319,8 @@ public class CustomList implements Parcelable {
 		db.close();
 	}
 
-	public static CustomList parseJSONforCustomList(JSONObject e, boolean strippedDown) {
+	public static CustomList parseJSONforCustomList(JSONObject e,
+			boolean strippedDown) {
 		Log.i(TAG, "getting stripped down customList");
 		CustomList list = new CustomList();
 		try {
@@ -328,20 +328,18 @@ public class CustomList implements Parcelable {
 			list.name = e.getString("name");
 
 			list.listItems = parseForItems(e.getJSONArray("listItems"));
-			
+
 		} catch (JSONException e1) {
 			Log.i(TAG, e1.toString());
 		}
-		
+
 		return list;
 	}
-	
-
 
 	public static ArrayList<Item> parseForItems(JSONArray jArray) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		boolean strippedDown = true;
-		
+
 		if (jArray.length() >= 1) {
 
 			JSONObject e1 = null;
@@ -354,14 +352,14 @@ public class CustomList implements Parcelable {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				
+
 				item1 = new Item(e1, strippedDown);
-				Log.i(TAG, "parsing item from browse: " +item1.getName());
+				Log.i(TAG, "parsing item from browse: " + item1.getName());
 				items.add(item1);
-				
+
 			}
 		}
-		
+
 		return items;
 	}
 
@@ -372,5 +370,5 @@ public class CustomList implements Parcelable {
 		db.close();
 		return s;
 	}
-	
+
 }

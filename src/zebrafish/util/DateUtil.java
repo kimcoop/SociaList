@@ -7,12 +7,11 @@ import android.content.Context;
 import android.text.format.DateFormat;
 import edu.pitt.cs1635group3.R;
 
-/** Usage:
- *	(DateUtil.formatDate(Long.parseLong("my date", context));
+/**
+ * Usage: (DateUtil.formatDate(Long.parseLong("my date", context));
  */
 
 public final class DateUtil {
-	
 
 	public static String formatDate(long time, Context context) {
 		final long OS = 1000;

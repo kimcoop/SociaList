@@ -3,12 +3,10 @@ package edu.pitt.cs1635group3.Activities.Classes;
 import java.util.ArrayList;
 
 import zebrafish.util.DBHelper;
-import zebrafish.util.JSONInvite;
 import zebrafish.util.JSONUser;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class User {
 
@@ -62,8 +60,6 @@ public class User {
 	/*
 	 * GETTERS
 	 */
-	
-
 
 	public String getPhoneNumber() {
 		return pn;
@@ -139,7 +135,7 @@ public class User {
 		db.close();
 		return users;
 	}
-	
+
 	public static ArrayList<User> getUsersForList(Context context, int id) {
 		ArrayList<User> users;
 		db = new DBHelper(context);
@@ -151,17 +147,15 @@ public class User {
 
 	public static int storeUser(String name, String email, String pn) {
 		int uID;
-		uID = JSONUser.storeUser(name, pn, email); 
+		uID = JSONUser.storeUser(name, pn, email);
 		return uID;
 	}
+
 	/*
-	public static int storeUser(String deviceId) {
-		Log.i(TAG, "Storing user based on device id " +deviceId);
-		int uID;
-		uID = JSONUser.storeUser(deviceId);
-		return uID;
-	}
-*/
+	 * public static int storeUser(String deviceId) { Log.i(TAG,
+	 * "Storing user based on device id " +deviceId); int uID; uID =
+	 * JSONUser.storeUser(deviceId); return uID; }
+	 */
 	public static String getUserByID(Context context, int uID) {
 		db = new DBHelper(context);
 		db.open();

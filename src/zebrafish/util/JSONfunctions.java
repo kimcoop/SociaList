@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class JSONfunctions {
@@ -37,11 +36,11 @@ public class JSONfunctions {
 
 		return parseForInt(result);
 	}
-	
+
 	/*
 	 * PULL OUT SPECIFIC DATA FROM JSON
 	 */
-	
+
 	public static int parseForInt(String result) {
 
 		JSONObject jObj = null;
@@ -63,7 +62,7 @@ public class JSONfunctions {
 		}
 
 		return id;
-		
+
 	}
 
 	public static String parseForString(String result) {
@@ -87,11 +86,11 @@ public class JSONfunctions {
 
 		return response;
 	}
-	
+
 	/*
 	 * HANDLE POSTING OBJECTS
 	 */
-	
+
 	public static String postToCloud(ArrayList<NameValuePair> params) {
 
 		// initialize
@@ -115,7 +114,7 @@ public class JSONfunctions {
 		return result;
 
 	}
-	
+
 	public static JSONObject parseForJSONObject(String result) {
 
 		JSONObject jObj = null;
@@ -126,20 +125,20 @@ public class JSONfunctions {
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing data " + e.toString());
 		}
-		
+
 		return jObj;
 	}
 
 	public static JSONObject postForJSONObject(String action, String objID) {
 
-		ArrayList<NameValuePair> params = PostParams.formatParams(action,
-				objID);
+		ArrayList<NameValuePair> params = PostParams
+				.formatParams(action, objID);
 		String result = postToCloud(params);
 		JSONObject jObj = parseForJSONObject(result);
 
 		return jObj;
 	}
-	
+
 	/*
 	 * GET RESULTS FROM JSON
 	 */

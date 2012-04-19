@@ -60,7 +60,9 @@ public class InsideListActivity extends SherlockListActivity {
 		setContentView(R.layout.insidelist_layout);
 		context = this;
 		userID = User.getCurrUser(context);
-		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used for deletions
+		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used
+																				// for
+																				// deletions
 		newItemPKs = new ArrayList<Integer>(); // used for additions
 
 		Intent i = getIntent();
@@ -74,22 +76,23 @@ public class InsideListActivity extends SherlockListActivity {
 		getSupportActionBar();
 		setTitle(list.getName());
 
-		selected = new ArrayList<Item>(); // track the items checked. used for button click events
+		selected = new ArrayList<Item>(); // track the items checked. used for
+											// button click events
 
 		assignButton = (Button) findViewById(R.id.assign_button);
-		assignButton.setOnClickListener(new Button.OnClickListener() {  
+		assignButton.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				assign();
 			}
 		});
 		completeButton = (Button) findViewById(R.id.complete_button);
-		completeButton.setOnClickListener(new Button.OnClickListener() {  
+		completeButton.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				complete();
 			}
 		});
 		inviteButton = (Button) findViewById(R.id.invite_button);
-		inviteButton.setOnClickListener(new Button.OnClickListener() {  
+		inviteButton.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				invite();
 			}
@@ -99,15 +102,16 @@ public class InsideListActivity extends SherlockListActivity {
 
 		users = User.getUsersForDialog(context, list.getID());
 
-		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton, completeButton, inviteButton);
+		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton,
+				completeButton, inviteButton);
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parentView, final View v, int pos,
-					long id) {
+			public void onItemClick(AdapterView<?> parentView, final View v,
+					int pos, long id) {
 
 				Item item = adapter.getItem(pos);
 
@@ -115,7 +119,7 @@ public class InsideListActivity extends SherlockListActivity {
 					item.setPrev(context, item.getID());
 					item.setNext(context, item.getID());
 				}
-					
+
 				if (newItems) {
 					list.attachItems(items);
 					Log.i(TAG, "Back button pressed");
@@ -227,10 +231,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				// Canceled.
-			}
-		});
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
 
 		alert.show();
 
@@ -256,11 +260,11 @@ public class InsideListActivity extends SherlockListActivity {
 
 	public void assignItemsTo(String user) {
 		selected = getSelectedItems();
-		
+
 		int assignee = User.getUserByName(context, user); // this is weak - Kim
 
 		for (Item item : selected) {
-			Log.i(TAG, "Assigning " +item.getName() + " to " +assignee);
+			Log.i(TAG, "Assigning " + item.getName() + " to " + assignee);
 			item.assignTo(context, assignee);
 		}
 
@@ -386,10 +390,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				// Canceled.
-			}
-		});
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
 
 		// alert.show();
 		AlertDialog dialog = alert.create();

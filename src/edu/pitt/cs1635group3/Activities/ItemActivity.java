@@ -45,9 +45,9 @@ public class ItemActivity extends SherlockActivity {
 	private int pos, totalItems;
 
 	private boolean itemUpdated = false;
-	
+
 	private EditText name, notes;
-	
+
 	private View v;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,13 +80,12 @@ public class ItemActivity extends SherlockActivity {
 
 		CheckBox itemCompletion = (CheckBox) findViewById(R.id.item_completion);
 
-		//name.addTextChangedListener(mTextEditorWatcher);
-		//notes.addTextChangedListener(mTextEditorWatcher);
-		
-	    name.addTextChangedListener(new CustomTextWatcher(name));
-	    notes.addTextChangedListener(new CustomTextWatcher(notes));
+		// name.addTextChangedListener(mTextEditorWatcher);
+		// notes.addTextChangedListener(mTextEditorWatcher);
 
-		
+		name.addTextChangedListener(new CustomTextWatcher(name));
+		notes.addTextChangedListener(new CustomTextWatcher(notes));
+
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		int itemID = extras.getInt("ItemID");
@@ -143,7 +142,7 @@ public class ItemActivity extends SherlockActivity {
 		// Perform action on clicks
 
 		itemUpdated = !itemUpdated; // Might not actually be true need to see
-							// if it changed from the original state
+		// if it changed from the original state
 		if (((CheckBox) v).isChecked()) {
 
 			item.setCompleted(context, true);
@@ -430,47 +429,51 @@ public class ItemActivity extends SherlockActivity {
 			return false;
 		}
 	}
-	
-	
+
 	private class CustomTextWatcher implements TextWatcher {
-	    private EditText mEditText;
-	    private boolean first;
-	    private String original;
+		private EditText mEditText;
+		private boolean first;
+		private String original;
 
-	    public CustomTextWatcher(EditText e) {
-	        mEditText = e;
-	        first = true;
-	    }
+		public CustomTextWatcher(EditText e) {
+			mEditText = e;
+			first = true;
+		}
 
-	    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	    }
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
 
-	    public void onTextChanged(CharSequence s, int start, int before, int count) {
-	    }
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
 
-	    public void afterTextChanged(Editable s) {
-	    	if(first){
-	    		//The first time it loads it actually sets s to be an empty string.
-	    		//And then it changes it to what was in the editText field
-	    		original = mEditText.getText().toString();
-	    		first = false;
-	    		Log.i(TAG, "Dont save item");
-	    		//Log.i(TAG, "if Original is " + original+ " and s is " + s.toString());
-	    	}
-	    	else if((!((original.compareTo(s.toString()))==0)) && !first){
-	    		//So it is only after the first time we can actually tell if the item
-	    		//has been updated.
-	    		itemUpdated = true;
-	    		Log.i(TAG, "Save item");
-	    		//Log.i(TAG, "else if Original is " + original+ " and s is " + s.toString());
-	    	}
-	    	else if (!first){
-	    		//The user changed back to what was originally there.
-	    		itemUpdated = false;
-	    		Log.i(TAG, "Dont save item");
-	    		//Log.i(TAG, "else Original is " + original+ " and s is " + s.toString());
-	    	}
-	    }
+		public void afterTextChanged(Editable s) {
+			if (first) {
+				// The first time it loads it actually sets s to be an empty
+				// string.
+				// And then it changes it to what was in the editText field
+				original = mEditText.getText().toString();
+				first = false;
+				Log.i(TAG, "Dont save item");
+				// Log.i(TAG, "if Original is " + original+ " and s is " +
+				// s.toString());
+			} else if ((!((original.compareTo(s.toString())) == 0)) && !first) {
+				// So it is only after the first time we can actually tell if
+				// the item
+				// has been updated.
+				itemUpdated = true;
+				Log.i(TAG, "Save item");
+				// Log.i(TAG, "else if Original is " + original+ " and s is " +
+				// s.toString());
+			} else if (!first) {
+				// The user changed back to what was originally there.
+				itemUpdated = false;
+				Log.i(TAG, "Dont save item");
+				// Log.i(TAG, "else Original is " + original+ " and s is " +
+				// s.toString());
+			}
+		}
 	}
 
 }

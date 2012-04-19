@@ -1,12 +1,9 @@
 package service;
 
-import zebrafish.util.JSONItem;
 import zebrafish.util.JSONUser;
-import zebrafish.util.JSONfunctions;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class UserUpdateTask {

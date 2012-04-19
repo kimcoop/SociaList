@@ -50,7 +50,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		lv.setTextFilterEnabled(true);
 
 	}
-	
+
 	public void acceptSelected(View v) {
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
 		for (Invite i : selectedInvites) {
@@ -58,11 +58,12 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			invites.remove(i);
 		}
 		String pluralizer = "invite";
-		if (selectedInvites.size() > 1) pluralizer += "s";
+		if (selectedInvites.size() > 1)
+			pluralizer += "s";
 		UIUtil.showMessage(context, pluralizer + " accepted.");
 		adapter.notifyDataSetChanged();
 	}
-	
+
 	public void ignoreSelected(View v) {
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
 		for (Invite i : selectedInvites) {
@@ -70,8 +71,9 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			invites.remove(i);
 		}
 		String pluralizer = "invite";
-		if (selectedInvites.size() > 1) pluralizer += "s";
-		UIUtil.showMessage(context, pluralizer+ " ignored.");
+		if (selectedInvites.size() > 1)
+			pluralizer += "s";
+		UIUtil.showMessage(context, pluralizer + " ignored.");
 		adapter.notifyDataSetChanged();
 	}
 

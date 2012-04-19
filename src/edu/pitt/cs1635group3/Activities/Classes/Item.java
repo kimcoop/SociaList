@@ -45,7 +45,7 @@ public class Item implements Parcelable {
 
 		} catch (JSONException e1) {
 			Log.i("Item parse problem", e1.toString());
-		}	
+		}
 	}
 
 	public Item(JSONObject e) {
@@ -396,9 +396,8 @@ public class Item implements Parcelable {
 		db.deleteItem(item);
 		db.close();
 	}
-	
-	public static ArrayList<Item> getAllItemsForUser (Context context)
-	{
+
+	public static ArrayList<Item> getAllItemsForUser(Context context) {
 		int uid = User.getCurrUser(context);
 		db = new DBHelper(context);
 		db.open();

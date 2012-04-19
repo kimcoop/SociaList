@@ -2,7 +2,6 @@ package service;
 
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
-import zebrafish.util.JSONUser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,11 +19,10 @@ public class SplashScreenTask {
 		protected String doInBackground(Integer... params) {
 			String response = "";
 
-			if(params[0] == LISTS_INVITES){
+			if (params[0] == LISTS_INVITES) {
 				JSONCustomList.getLists(context);
 				JSONInvite.getInvites(context);
-			}
-			else if(params[0] == LISTS){
+			} else if (params[0] == LISTS) {
 				JSONCustomList.getLists(context);
 			}
 
@@ -35,8 +33,8 @@ public class SplashScreenTask {
 		protected void onPostExecute(String result) {
 			// textView.setText(result);
 			Log.i(TAG, result);
-			((Activity)context).finish();
-			((Activity)context).startActivity(new Intent(
+			((Activity) context).finish();
+			((Activity) context).startActivity(new Intent(
 					"edu.pitt.cs1635group3.HomeActivity"));
 		}
 	}
@@ -47,6 +45,7 @@ public class SplashScreenTask {
 		task.execute(LISTS_INVITES);
 
 	}
+
 	public void getLists(Context c) {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();

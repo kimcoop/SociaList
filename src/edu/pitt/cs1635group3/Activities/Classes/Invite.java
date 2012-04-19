@@ -21,14 +21,16 @@ public class Invite {
 	private static final String TAG = "Invite";
 	private static DBHelper db;
 	private static boolean PUSH_TO_CLOUD = true;
-	
+
 	/*
 	 * CONSTRUCTORS
 	 */
-	
-	public Invite() {}
-	
-	public Invite(int id, int lID, String lname, String invited) { // manual constructor
+
+	public Invite() {
+	}
+
+	public Invite(int id, int lID, String lname, String invited) { // manual
+																	// constructor
 		ID = id;
 		listID = lID;
 		listName = lname;
@@ -50,31 +52,31 @@ public class Invite {
 		}
 
 	}
-	
+
 	/*
 	 * SETTERS
 	 */
-	
+
 	public void setID(int id) {
 		ID = id;
 	}
-	
+
 	public void setListID(int lid) {
 		listID = lid;
 	}
-	
+
 	public void setPending(int i) {
-		pending = (i==1? true : false);
+		pending = (i == 1 ? true : false);
 	}
 
 	public void setInviteDate(String string) {
 		inviteDate = string;
 	}
-	
+
 	public void setListName(String str) {
 		listName = str;
 	}
-	
+
 	public void accept(Context context) {
 		pending = false; // no longer pending -> accepted
 		db = new DBHelper(context);
@@ -82,23 +84,23 @@ public class Invite {
 		db.updateInvite(this, PUSH_TO_CLOUD);
 		db.close();
 	}
-	
+
 	/*
 	 * GETTERS
 	 */
-	
+
 	public int getID() {
 		return ID;
 	}
-	
+
 	public int getListID() {
 		return listID;
 	}
-	
+
 	public boolean isPending() {
 		return pending;
 	}
-	
+
 	public String getInviteDate() {
 		return inviteDate;
 	}
@@ -106,11 +108,11 @@ public class Invite {
 	public String getListName() {
 		return listName;
 	}
-	
+
 	/*
 	 * CLASS METHODS
 	 */
-	
+
 	public static void ignore(Context context, Invite i) {
 		db = new DBHelper(context);
 		db.open();
@@ -119,30 +121,30 @@ public class Invite {
 	}
 
 	public static ArrayList<Invite> getInvites(Context context, int userID) {
-		
+
 		ArrayList<Invite> invites = new ArrayList<Invite>();
 		db = new DBHelper(context);
 		db.open();
 		invites = db.getUserInvites();
 		db.close();
 		return invites;
-		
+
 	}
 
 	public static void insertOrUpdateInvites(Context context,
 			ArrayList<Invite> invites, boolean pushToCloud) {
-		
+
 		db = new DBHelper(context);
 		db.open();
-		
+
 		for (Invite inv : invites) {
-		
+
 			db.insertOrUpdateInvite(inv, pushToCloud);
-		
+
 		}
-		
+
 		db.close();
-		
+
 	}
 
 }

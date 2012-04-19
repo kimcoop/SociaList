@@ -23,9 +23,11 @@ import edu.pitt.cs1635group3.Activities.Classes.User;
 public class ItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
-	private final ArrayList<Item> items;	// all the items
-	private final ArrayList<Item> selected; // track the selected items (checkboxes)
-	protected Button assignBtn, completeBtn, inviteBtn; // properly handle button display
+	private final ArrayList<Item> items; // all the items
+	private final ArrayList<Item> selected; // track the selected items
+											// (checkboxes)
+	protected Button assignBtn, completeBtn, inviteBtn; // properly handle
+														// button display
 
 	private static final String TAG = "ItemAdapter";
 	private DBHelper db;
@@ -39,12 +41,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		this.items = items;
 		this.selected = new ArrayList<Item>();
 		this.db = new DBHelper(context);
-		
-		assignBtn  = assignButton;
+
+		assignBtn = assignButton;
 		completeBtn = completeButton;
 		inviteBtn = inviteButton;
 	}
-	
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
@@ -71,14 +72,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 					img.setVisibility(View.VISIBLE);
 				}
 			}
-			
+
 			if (!o.isSelected()) {
 				cb.setChecked(false);
 			}
 
 			if (name != null) {
 				name.setText(o.getName());
-				
+
 				if (o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
@@ -88,13 +89,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 				int itemUser = o.getAssignee();
 				String assignment;
-				
-				if (itemUser > 0 ) {
-					assignment = User.getUserByID(context,  itemUser);
+
+				if (itemUser > 0) {
+					assignment = User.getUserByID(context, itemUser);
 				} else {
 					assignment = "Unassigned";
 				}
-				
+
 				assignee.setText(assignment);
 
 			}
@@ -105,34 +106,38 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						boolean isChecked) {
 					if (isChecked) {
 						selected.add(o);
-						Log.i(TAG, "Adding " +o.getName() + " to selected: " +selected.size());
+						Log.i(TAG, "Adding " + o.getName() + " to selected: "
+								+ selected.size());
 					} else {
 						selected.remove(o);
-						Log.i(TAG, "Removing " +o.getName() + " from selected: " +selected.size() );
+						Log.i(TAG, "Removing " + o.getName()
+								+ " from selected: " + selected.size());
 					}
 					handleButtons();
 				}
 			}); // end onCheckedChangeListener
 
 		} // end if o!= null
-		
+
 		return v;
 	}
-	
+
 	public void handleButtons() {
 
 		if (assignBtn != null && completeBtn != null & inviteBtn != null) {
-		
-			if (selected.size() == 0) { // button display based on number selected items
+
+			if (selected.size() == 0) { // button display based on number
+										// selected items
 				showInvite();
 			} else {
 				showActionButtons();
 			}
 		}
 	}
-	
-	public ArrayList<Item> getSelected() { // return an arrayList of the currently-checked items
-		Log.i(TAG, "Returning selected items " +selected.size());
+
+	public ArrayList<Item> getSelected() { // return an arrayList of the
+											// currently-checked items
+		Log.i(TAG, "Returning selected items " + selected.size());
 		return selected;
 	}
 
@@ -141,7 +146,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		completeBtn.setVisibility(View.GONE);
 		assignBtn.setVisibility(View.GONE);
 	}
-	
+
 	public void showActionButtons() {
 		inviteBtn.setVisibility(View.GONE);
 		completeBtn.setVisibility(View.VISIBLE);

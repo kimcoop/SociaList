@@ -32,7 +32,6 @@ import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
-
 public class DBHelper {
 
 	public static final String ITEM_TABLE = "item";
@@ -53,7 +52,7 @@ public class DBHelper {
 	public static final String KEY_COMPLETION_DATE = "completion_date";
 	public static final String KEY_ITEM_PREV = "prev_id";
 	public static final String KEY_ITEM_NEXT = "next_id";
-	public static final String KEY_ITEM_SELECTED = "selected"; 
+	public static final String KEY_ITEM_SELECTED = "selected";
 
 	public static final String KEY_LIST_ID = "id";
 	public static final String KEY_LIST_CUSTOM_ID = "custom_id";
@@ -229,46 +228,47 @@ public class DBHelper {
 	public void ignoreInvite(int id) {
 		// delete the invite
 
-		//JSONfunctions.deleteList(list.getID());
+		// JSONfunctions.deleteList(list.getID());
 
 		db.delete(MAP_LIST_USER_TABLE, KEY_MAP_LIST_USER_ID + "=?",
 				new String[] { String.valueOf(id) });
-		
+
 	}
-	
+
 	public boolean updateInvite(Invite inv, boolean pushToCloud) {
 
 		ContentValues args = new ContentValues();
 		args.put(KEY_MAP_LIST_ID, inv.getListID());
 		args.put(KEY_MAP_PENDING, inv.isPending());
 		args.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
-		
+
 		if (pushToCloud) {
 			Log.i(TAG, "UpdateInvite: TODO pushToCloud");
 		}
 
-		return db.update(MAP_LIST_USER_TABLE, args, KEY_MAP_LIST_USER_ID + "=?",
+		return db.update(MAP_LIST_USER_TABLE, args,
+				KEY_MAP_LIST_USER_ID + "=?",
 				new String[] { String.valueOf(inv.getID()) }) > 0;
-		
+
 	}
-	
+
 	public long insertInvite(Invite inv, boolean pushToCloud) {
-		
+
 		Log.i(TAG, "insert invite called");
-		
+
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
 		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
 		initialValues.put(KEY_MAP_LIST_NAME, inv.getListName());
 		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 		initialValues.put(KEY_MAP_PENDING, inv.isPending());
-		
+
 		if (pushToCloud) {
 			Log.i(TAG, "InsertInvite: TODO pushToCloud");
 		}
-		
+
 		return db.insert(MAP_LIST_USER_TABLE, null, initialValues);
-		
+
 	}
 
 	public ArrayList<Invite> getUserInvites() {
@@ -276,7 +276,7 @@ public class DBHelper {
 		ArrayList<Invite> invites = new ArrayList<Invite>();
 
 		String myQuery = "SELECT * FROM map_list_user";
-		
+
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
@@ -348,13 +348,13 @@ public class DBHelper {
 		return users;
 
 	}
-	
-
 
 	public ArrayList<User> getUsersForList(int ID) {
-		String listID = ""+ID;
+		String listID = "" + ID;
 		ArrayList<User> users = null;
-		String myQuery = "SELECT * FROM user";//, map_list_user WHERE map_list_user.list_id = "+listID;
+		String myQuery = "SELECT * FROM user";// , map_list_user WHERE
+												// map_list_user.list_id =
+												// "+listID;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
@@ -372,7 +372,7 @@ public class DBHelper {
 			c.close();
 
 		}
-		Log.i(TAG, "size of users for this list is " +users.size());
+		Log.i(TAG, "size of users for this list is " + users.size());
 		return users;
 
 	}
@@ -474,9 +474,9 @@ public class DBHelper {
 		ArrayList<Item> children = list.getItems();
 		for (Item item : children) {
 			JSONItem.deleteItem(item.getID()); // TODO - make JSONfunctions
-													// method for deleting
-													// ArrayList<Item> rather
-													// than this
+												// method for deleting
+												// ArrayList<Item> rather
+												// than this
 		}
 
 		JSONCustomList.deleteList(list.getID());
@@ -499,7 +499,7 @@ public class DBHelper {
 				new String[] { String.valueOf(listID) }) > 0;
 	}
 
-	public void insertOrUpdateList(CustomList i, boolean pushToCloud) { 
+	public void insertOrUpdateList(CustomList i, boolean pushToCloud) {
 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM list WHERE id = " + id;
@@ -631,19 +631,16 @@ public class DBHelper {
 
 	}
 
-	public ArrayList<Item> getAllItemsByUserID (int uid)
-	{
+	public ArrayList<Item> getAllItemsByUserID(int uid) {
 		ArrayList<Item> items = null;
-		String myQuery = "SELECT * FROM item WHERE assignee_id = " + "33";//uid;
+		String myQuery = "SELECT * FROM item WHERE assignee_id = " + "33";// uid;
 		Cursor c = db.rawQuery(myQuery, null);
-		
-		if (c != null)
-		{
+
+		if (c != null) {
 			items = new ArrayList<Item>(c.getCount());
 			c.moveToFirst();
-			
-			while (!c.isAfterLast())
-			{
+
+			while (!c.isAfterLast()) {
 				Item i = cursorToItem(c);
 				items.add(i);
 				c.moveToNext();
@@ -652,9 +649,8 @@ public class DBHelper {
 		c.close();
 		return items;
 	}
-	
-	public String getListName (int listID)
-	{
+
+	public String getListName(int listID) {
 		// Log.v("QUERY FOR ITEM", "Based on item ID " + row);
 
 		String myQuery = "SELECT name FROM list WHERE id = " + listID;
@@ -669,12 +665,12 @@ public class DBHelper {
 		c.close();
 		return s;
 	}
-	
+
 	/*
 	 * ITEM METHODS
 	 */
 
-	public void insertOrUpdateItem(Item i, boolean pushToCloud) { 
+	public void insertOrUpdateItem(Item i, boolean pushToCloud) {
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM item WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);

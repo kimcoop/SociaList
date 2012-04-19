@@ -1,15 +1,8 @@
 package zebrafish.util;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +22,6 @@ public class JSONCustomList {
 		return JSONfunctions.getPK("getListPK");
 	} // end getListPK
 
-
 	public static void createList(CustomList list, int userID) {
 		// This is called after we've already snatched the PK from the web
 		// server.
@@ -38,31 +30,30 @@ public class JSONCustomList {
 
 		updateList(list);
 	} // end CreateList
-	
-
 
 	public static void deleteList(int id) {
 
 		String action = "deleteList";
-		String objID = ""+id;
-		
-		ArrayList<NameValuePair> params = PostParams.formatParams(action,
-				objID);
-		
+		String objID = "" + id;
+
+		ArrayList<NameValuePair> params = PostParams
+				.formatParams(action, objID);
+
 		JSONfunctions.postToCloud(params);
-		
+
 	} // end deleteList
 
 	public static void updateList(CustomList list) {
 
 		ArrayList<NameValuePair> params = PostParams.formatListParams(
 				"updateList", list);
-		
+
 		JSONfunctions.postToCloud(params);
-		
+
 	} // end UpdateList
 
-	public static ArrayList<CustomList> browseForList(Context context, String CID) {
+	public static ArrayList<CustomList> browseForList(Context context,
+			String CID) {
 		JSONObject json = JSONfunctions.getJSONfromURL("browseForList", CID);
 		ArrayList<CustomList> matchingLists = new ArrayList<CustomList>();
 		boolean strippedDown = true;
@@ -76,10 +67,11 @@ public class JSONCustomList {
 				CustomList tempList;
 
 				for (int i = 0; i < lists.length(); i++) {
-						listObj = lists.getJSONObject(i);
-						tempList = CustomList.parseJSONforCustomList(listObj, strippedDown); // parses items too
-						matchingLists.add(tempList);
-						
+					listObj = lists.getJSONObject(i);
+					tempList = CustomList.parseJSONforCustomList(listObj,
+							strippedDown); // parses items too
+					matchingLists.add(tempList);
+
 				} // end for
 			}
 
@@ -109,8 +101,9 @@ public class JSONCustomList {
 				myCustomLists.add(list);
 
 				listID = list.getID();
-				JSONItem.getListItems(context, listID); // pull the list's items from the
-												// server
+				JSONItem.getListItems(context, listID); // pull the list's items
+														// from the
+				// server
 				JSONUser.getUsers(context, listID); // pull the list's users too
 
 			}
@@ -123,5 +116,5 @@ public class JSONCustomList {
 		}
 
 	} // end getLists(Context)
-	
+
 }

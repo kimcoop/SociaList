@@ -41,5 +41,5 @@ public class JSONInvite {
 		}
 
 	} // end getInvites(Context)
-	
+
 }

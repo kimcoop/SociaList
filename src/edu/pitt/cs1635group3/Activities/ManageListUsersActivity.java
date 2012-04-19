@@ -51,22 +51,22 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		setListAdapter(adapter);
 
 	}
-	
+
 	public void removeSelected(View v) {
 		removeSelected(); // REMOVE THIS WHEN YOU REMOVE THE BUTTON
 	}
 
 	public void removeSelected() {
 		selected = ((ListUsersAdapter) adapter).getSelected();
-		
+
 		if (selected.size() == 0) {
 			UIUtil.showMessage(context, "No users selected.");
 		} else {
-		for (User u : selected) {
-			// User.removeFromList(context, u, listID);
-			users.remove(u);
-			//selected.remove(u);
-		}
+			for (User u : selected) {
+				// User.removeFromList(context, u, listID);
+				users.remove(u);
+				// selected.remove(u);
+			}
 			String pluralizer = "User";
 			if (selected.size() > 1)
 				pluralizer += "s";
@@ -95,7 +95,7 @@ public class ManageListUsersActivity extends SherlockListActivity {
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
-				//pass list id!!
+			// pass list id!!
 			startActivity(intent);
 			return true;
 		} else {

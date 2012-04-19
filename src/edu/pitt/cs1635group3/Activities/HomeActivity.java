@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.push.C2DMReceiver;
 import com.google.android.c2dm.C2DMessaging;
@@ -36,7 +35,7 @@ public class HomeActivity extends Activity {
 	private static int userID;
 
 	private static SharedPreferences prefs;
- 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,23 +50,24 @@ public class HomeActivity extends Activity {
 		}
 
 		userID = User.getCurrUser(context);
-		Log.i(TAG, "after show reg dialog, user id is " +userID);
-		
-		if (userID < 0) { // user didn't wanna register via email? register him/her anyway
+		Log.i(TAG, "after show reg dialog, user id is " + userID);
+
+		if (userID < 0) { // user didn't wanna register via email? register
+							// him/her anyway
 			storeUser(null, null, getPhoneNumber(), false);
 			Log.i(TAG, "user id was -1, so re-store user");
 		}
 
 		userID = User.getCurrUser(context);
-		Log.i(TAG, "user id is " +userID);
+		Log.i(TAG, "user id is " + userID);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
 		e.commit();
-		
+
 		Button pending = (Button) findViewById(R.id.home_btn_pending);
 		int numInvites = Invite.getInvites(context, userID).size();
-		pending.setText("Invites (" +numInvites+")");
+		pending.setText("Invites (" + numInvites + ")");
 	}
 
 	public void showRegisterDialog() {
@@ -90,7 +90,7 @@ public class HomeActivity extends Activity {
 						.findViewById(R.id.txtvEmail);
 				EditText txtvName = (EditText) dialog
 						.findViewById(R.id.txtvName);
-				
+
 				CheckBox chbox = (CheckBox) dialog.findViewById(R.id.chboxPush);
 
 				String name = txtvName.getText().toString().trim();
@@ -124,35 +124,35 @@ public class HomeActivity extends Activity {
 		dialog.show();
 
 	} // end showRegisterDialog
-	
-	public String getPhoneNumber() {
-		TelephonyManager telephonyManager = 
-				(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 
-				String phoneNumber = telephonyManager.getLine1Number();
-				return phoneNumber;
-	}
-	
-	protected void storeUserWithoutReg() {
-		/*
+	public String getPhoneNumber() {
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
 
-		String deviceID = telephonyManager.getDeviceId();
-		
-		userID = User.storeUser(deviceID);
-		Editor e = prefs.edit();
-		e.putInt("userID", userID);
-		e.commit(); // register the user anyway (via device id)
-		userID = User.getCurrUser(context);*/
-		Log.i(TAG, "storeUserWithoutReg shlould never be called");
-		
+		String phoneNumber = telephonyManager.getLine1Number();
+		return phoneNumber;
 	}
 
-	protected void storeUser(String name, String email, String pn, boolean allowPush) {
+	protected void storeUserWithoutReg() {
+		/*
+		 * TelephonyManager telephonyManager = (TelephonyManager) context
+		 * .getSystemService(Context.TELEPHONY_SERVICE);
+		 * 
+		 * String deviceID = telephonyManager.getDeviceId();
+		 * 
+		 * userID = User.storeUser(deviceID); Editor e = prefs.edit();
+		 * e.putInt("userID", userID); e.commit(); // register the user anyway
+		 * (via device id) userID = User.getCurrUser(context);
+		 */
+		Log.i(TAG, "storeUserWithoutReg shlould never be called");
+
+	}
+
+	protected void storeUser(String name, String email, String pn,
+			boolean allowPush) {
 		// pass the ID back to shared prefs to recall later
-		Log.i(TAG, "user name " +name+ ", email " +email+ " pn " +pn);
-		
+		Log.i(TAG, "user name " + name + ", email " + email + " pn " + pn);
+
 		userID = User.storeUser(name, email, pn);
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
@@ -161,8 +161,8 @@ public class HomeActivity extends Activity {
 		if (allowPush) {
 			registerPushNotification();
 		}
-		
-		Log.i(TAG, "User name: " +name+ " registered");
+
+		Log.i(TAG, "User name: " + name + " registered");
 	}
 
 	public void registerPushNotification() {
@@ -183,7 +183,7 @@ public class HomeActivity extends Activity {
 		if (c2dmPrefs.contains("dm_registration")) {
 			Log.i(TAG, "Device already registered.");
 		} else { // don't reshow the push notifications prompt if they've
-		// already registered
+			// already registered
 			Log.i(TAG, "Registering device");
 			if (Build.VERSION.SDK_INT >= 8) {
 
@@ -234,10 +234,10 @@ public class HomeActivity extends Activity {
 	}
 
 	public void browseForListByID(View v) {
-		//Intent intent = new Intent(context, BrowseForListActivity.class);
-		//startActivity(intent);
+		// Intent intent = new Intent(context, BrowseForListActivity.class);
+		// startActivity(intent);
 	}
-	
+
 	public void mySettings(View v) {
 		Intent intent = new Intent(context, SettingsActivity.class);
 		startActivity(intent);

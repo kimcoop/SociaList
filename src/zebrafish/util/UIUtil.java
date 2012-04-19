@@ -2,12 +2,9 @@ package zebrafish.util;
 
 import java.io.IOException;
 
-import com.google.android.c2dm.C2DMessaging;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +14,7 @@ import android.widget.Toast;
 import edu.pitt.cs1635group3.R;
 
 public final class UIUtil {
-	
+
 	public static final String TAG = "UIUTIL";
 
 	public static void showMessage(Context context, Throwable exception) {
@@ -43,9 +40,9 @@ public final class UIUtil {
 			return R.string.unknown_failure;
 		}
 	}
-	
-	
-	public static void showCustomDialog(Context context, Activity act, String titleStr, String contentStr) {
+
+	public static void showCustomDialog(Context context, Activity act,
+			String titleStr, String contentStr) {
 		Log.i(TAG, "ShowCustomDialog");
 		final Dialog dialogok = new Dialog(context);
 
@@ -63,10 +60,8 @@ public final class UIUtil {
 		};
 		ok_btn.setOnClickListener(l);
 		dialogok.show();
-		
-		
+
 	}
-	
 
 	private UIUtil() {
 	}

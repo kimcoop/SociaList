@@ -1,7 +1,6 @@
 package service;
 
 import zebrafish.util.JSONItem;
-import zebrafish.util.JSONfunctions;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -19,7 +18,7 @@ public class ItemUpdateTask {
 			for (Item item : params) {
 				Log.i(TAG, "Updated " + item.getName());
 				JSONItem.updateItem(item); // really will only be one item,
-												// I think -KIm
+											// I think -KIm
 			}
 
 			return "";

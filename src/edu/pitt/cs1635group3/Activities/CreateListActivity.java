@@ -69,7 +69,7 @@ public class CreateListActivity extends SherlockListActivity {
 
 		ListAdapter adapter = new SimpleAdapter(this, mylist,
 				R.layout.new_item_row, new String[] { "name" },
-				new int[] { R.id.element_title});
+				new int[] { R.id.element_title });
 
 		setListAdapter(adapter);
 
@@ -128,7 +128,7 @@ public class CreateListActivity extends SherlockListActivity {
 					}
 				});
 
-		//alert.show();
+		// alert.show();
 		AlertDialog dialog = alert.create();
 		dialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -157,7 +157,8 @@ public class CreateListActivity extends SherlockListActivity {
 			db = new DBHelper(this);
 			db.open();
 
-			newListPK = JSONCustomList.getListPK(); // get a truly unique ID from
+			newListPK = JSONCustomList.getListPK(); // get a truly unique ID
+													// from
 													// server
 			newList.setID(newListPK);
 
