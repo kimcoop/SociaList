@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class Invite {
 
-	public int ID, userID;
+	public int ID, userID; 
 	public int listID;
 	public int pending;
 	public String inviteDate;

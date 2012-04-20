@@ -2,6 +2,8 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
+import service.InviteTask;
+
 import zebrafish.util.UIUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -92,12 +94,8 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 			return true;
-		} else if (item.getItemId() == R.id.menu_add) {
-			// addListItem();
-			return false;
-		} else if (item.getItemId() == R.id.menu_invite) {
-			intent = new Intent(this, InviteActivity.class);
-			startActivity(intent);
+		} else if (item.getItemId() == R.id.menu_refresh) {
+			new InviteTask().getInvites(context);
 			return true;
 		} else {
 			return false;
