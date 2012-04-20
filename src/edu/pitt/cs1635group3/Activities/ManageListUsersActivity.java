@@ -96,6 +96,7 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
 			// pass list id!!
+			intent.putExtra("listID", listID);
 			startActivity(intent);
 			return true;
 		} else {

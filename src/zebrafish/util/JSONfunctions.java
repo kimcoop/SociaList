@@ -41,28 +41,43 @@ public class JSONfunctions {
 	 * PULL OUT SPECIFIC DATA FROM JSON
 	 */
 
-	public static int parseForInt(String result) {
-
+	public static int parseForInt(String result) { 
+		Log.i("parseForInt", ""+result);
 		JSONObject jObj = null;
 		// try parse the string to a JSON object
 		try {
 			jObj = new JSONObject(result);
 		} catch (JSONException e) {
-			Log.e("GET PK", "Error parsing data " + e.toString());
+			Log.e("parseForInt", "Error parsing data " + e.toString());
 		}
 
 		int id = -1;
 
 		try {
 			id = jObj.getInt("id");
-			// Log.d("GET PK", "id" + newPK);
 
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in PostForInt: " + e.toString());
 		}
 
+		Log.d("parseForInt", "id is "+id);
 		return id;
 
+	}
+	
+
+	public static JSONObject parseForJSONObject(String result) {
+
+		JSONObject jObj = null;
+
+		// try parse the string to a JSON object
+		try {
+			jObj = new JSONObject(result);
+		} catch (JSONException e) {
+			Log.e(TAG, "Error parsing data " + e.toString());
+		}
+
+		return jObj;
 	}
 
 	public static String parseForString(String result) {
@@ -115,19 +130,6 @@ public class JSONfunctions {
 
 	}
 
-	public static JSONObject parseForJSONObject(String result) {
-
-		JSONObject jObj = null;
-
-		// try parse the string to a JSON object
-		try {
-			jObj = new JSONObject(result);
-		} catch (JSONException e) {
-			Log.e(TAG, "Error parsing data " + e.toString());
-		}
-
-		return jObj;
-	}
 
 	public static JSONObject postForJSONObject(String action, String objID) {
 

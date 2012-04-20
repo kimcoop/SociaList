@@ -1,16 +1,28 @@
 package edu.pitt.cs1635group3.Activities;
 
+import com.example.push.C2DMReceiver;
+import com.google.android.c2dm.C2DMessaging;
+
 import service.SplashScreenTask;
 import zebrafish.util.IOUtil;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.User;
@@ -22,20 +34,19 @@ public class SplashScreenActivity extends Activity {
 
 	protected Context context;
 	private static final String TAG = "SplashScreenActivity";
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		context = this;
 		userID = User.getCurrUser(context);
-
+		Log.i(TAG, "USER ID AT VERY BEGINNING IS " +userID);
+		
 		if (IOUtil.isOnline(context)) {
 			if (userID > 0) {
 				new SplashScreenTask().getListsAndInvites(context);
 			} else {
-				// User isn't registered. TODO: register here
-				// new SplashScreenTask().getLists(context);
 				Intent i = new Intent(this, HomeActivity.class);
 				startActivity(i);
 			}
@@ -43,27 +54,6 @@ public class SplashScreenActivity extends Activity {
 		} else {
 			informConnectionIssue();
 		}
-
-		// thread for displaying the SplashScreen
-		/*
-		 * Thread splashTread = new Thread() {
-		 * 
-		 * ROB - can this be removed? - Kim
-		 * 
-		 * @Override public void run() { try {
-		 * 
-		 * JSONfunctions.getLists(context); Log.i(TAG,
-		 * "User ID for getting invites is " +userID);
-		 * 
-		 * if (userID > 0) { JSONfunctions.getInvites(context); } else { // new
-		 * user, no invites Log.i(TAG, "Unrecognized user, so no invites"); }
-		 * 
-		 * } finally {
-		 * 
-		 * finish(); startActivity(new Intent(
-		 * "edu.pitt.cs1635group3.HomeActivity")); stop(); } } };
-		 * splashTread.start();
-		 */
 	}
 
 	@Override
@@ -97,5 +87,6 @@ public class SplashScreenActivity extends Activity {
 		dialogok.show();
 
 	}
+	
 
 }

@@ -13,6 +13,7 @@ public class SplashScreenTask {
 	protected Context context;
 	private static int LISTS_INVITES = 1; // Flag
 	private static int LISTS = 2;
+	private static int INVITES = 3;
 
 	private class DoSplashScreenTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -24,6 +25,9 @@ public class SplashScreenTask {
 				JSONInvite.getInvites(context);
 			} else if (params[0] == LISTS) {
 				JSONCustomList.getLists(context);
+			} else if (params[0] == INVITES) {
+				Log.i(TAG, "getting invites");
+				JSONInvite.getInvites(context);
 			}
 
 			return "";
@@ -50,6 +54,11 @@ public class SplashScreenTask {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();
 		task.execute(LISTS);
+	}
 
+	public void getInvites(Context c) {
+		context = c;
+		DoSplashScreenTask task = new DoSplashScreenTask();
+		task.execute(INVITES);
 	}
 }

@@ -7,6 +7,7 @@ import zebrafish.util.JSONUser;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 public class User {
 
@@ -105,7 +106,25 @@ public class User {
 		int id = prefs.getInt("userID", 0);
 		return id;
 	}
+	
 
+	public static int getCurrUsername(Context context) {
+		SharedPreferences prefs;
+
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+		int id = prefs.getInt("name", 0);
+		return id;
+	}
+
+	public static int getCurrEmail(Context context) {
+		SharedPreferences prefs;
+
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+		int id = prefs.getInt("email", 0);
+		return id;
+	}
 	public static int getUserByName(Context context, String rawAssignee) {
 		// this method will be changing to ID rather than name
 		int id;
@@ -151,17 +170,20 @@ public class User {
 		return uID;
 	}
 
-	/*
-	 * public static int storeUser(String deviceId) { Log.i(TAG,
-	 * "Storing user based on device id " +deviceId); int uID; uID =
-	 * JSONUser.storeUser(deviceId); return uID; }
-	 */
 	public static String getUserByID(Context context, int uID) {
 		db = new DBHelper(context);
 		db.open();
 		String name = db.getUserByID(uID).getName();
 		db.close();
 		return name;
+	}
+
+	public static String getPhoneNumber(Context context) {
+		TelephonyManager telephonyManager = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
+
+		String phoneNumber = telephonyManager.getLine1Number();
+		return phoneNumber;
 	}
 
 }

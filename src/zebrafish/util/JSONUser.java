@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
@@ -111,7 +112,7 @@ public class JSONUser {
 		// if there is, return the userID.
 		// if there is not, creates a temp user acct linked to the pn so the
 		// user can register and collect the invite.
-		Log.i(TAG, "!!IMPORTANT listID shuld not be 0: " + listID);
+		Log.i(TAG, "IMPORTANT listID shuld not be 0 for invite: " + listID);
 
 		ArrayList<NameValuePair> params = PostParams.formatParams(
 				"inviteByPhone", pn);
@@ -121,7 +122,7 @@ public class JSONUser {
 
 	public static void inviteByEmail(String email, int listID) {
 		// See comment for inviteByPhone
-		Log.i(TAG, "!!IMPORTANT listID shuld not be 0: " + listID);
+		Log.i(TAG, "IMPORTANT listID shuld not be 0 for invite: " + listID);
 
 		ArrayList<NameValuePair> params = PostParams.formatParams(
 				"inviteByEmail", email);
@@ -131,7 +132,16 @@ public class JSONUser {
 
 	public static void inviteUser(ArrayList<NameValuePair> params) {
 		String result = JSONfunctions.postToCloud(params);
-		Log.i(TAG, "invited user! : " + result);
+		Log.i(TAG, "invited user!: " + result);
+	}
+	
+
+	public static String getPhoneNumber(Context context) {
+		TelephonyManager telephonyManager = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
+
+		String phoneNumber = telephonyManager.getLine1Number();
+		return phoneNumber;
 	}
 
 }

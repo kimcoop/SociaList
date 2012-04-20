@@ -314,11 +314,8 @@ public class InsideListActivity extends SherlockListActivity {
 	public void invite() {
 
 		Intent i = getIntent();
-		Bundle extras = i.getExtras();
-
-		Intent intent = new Intent(getBaseContext(), InviteActivity.class);
-		intent.putExtra("ListID", extras.getInt("ListID"));
-		Log.i(TAG, "ListID: " + extras.getInt("ListID"));
+		Intent intent = new Intent(context, InviteActivity.class);
+		intent.putExtra("listID", list.getID());
 		startActivity(intent);
 
 	}

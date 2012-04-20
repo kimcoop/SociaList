@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3.Activities;
 
+import service.SplashScreenTask;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -31,9 +32,8 @@ public class HomeActivity extends Activity {
 	private EditText messageText = null;
 	private static Context context;
 	private static final String TAG = "HomeActivity";
-
+	
 	private static int userID;
-
 	private static SharedPreferences prefs;
 
 	@Override
@@ -42,33 +42,36 @@ public class HomeActivity extends Activity {
 		setContentView(R.layout.dashboard);
 		context = this;
 
+		userID = User.getCurrUser(context);
+		Log.i(TAG, "user id is " + userID);
+		
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		int counter = prefs.getInt("counter", 0);
 
-		if (counter == 0) { // then user isn't registered yet, so register
+		if (counter == 0 || userID <= 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
+			Log.i(TAG, "register dialog should've just displayed");
 		}
 
-		userID = User.getCurrUser(context);
-		Log.i(TAG, "after show reg dialog, user id is " + userID);
-
-		if (userID < 0) { // user didn't wanna register via email? register
+		if (userID <= 0) { // user didn't wanna register via email? register
 							// him/her anyway
-			storeUser(null, null, getPhoneNumber(), false);
+			storeUser(null, null, User.getPhoneNumber(context), false);
 			Log.i(TAG, "user id was -1, so re-store user");
 		}
-
-		userID = User.getCurrUser(context);
-		Log.i(TAG, "user id is " + userID);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
 		e.commit();
+		
+		//new SplashScreenTask().getInvites(context);
 
 		Button pending = (Button) findViewById(R.id.home_btn_pending);
 		int numInvites = Invite.getInvites(context, userID).size();
 		pending.setText("Invites (" + numInvites + ")");
 	}
+	
+
 
 	public void showRegisterDialog() {
 
@@ -96,7 +99,7 @@ public class HomeActivity extends Activity {
 				String name = txtvName.getText().toString().trim();
 				String email = txtvEmail.getText().toString().trim();
 				boolean allowPush = chbox.isChecked();
-				String pn = getPhoneNumber();
+				String pn = User.getPhoneNumber(context);
 
 				if (!name.equals("") && !email.equals("")) { // allow store
 
@@ -114,7 +117,7 @@ public class HomeActivity extends Activity {
 
 		OnClickListener l_cancel = new OnClickListener() {
 			public void onClick(View v) {
-				storeUserWithoutReg();
+				storeUser(null, null, User.getPhoneNumber(context), false); // store without registration
 				dialog.dismiss();
 			}
 		};
@@ -125,46 +128,7 @@ public class HomeActivity extends Activity {
 
 	} // end showRegisterDialog
 
-	public String getPhoneNumber() {
-		TelephonyManager telephonyManager = (TelephonyManager) context
-				.getSystemService(Context.TELEPHONY_SERVICE);
-
-		String phoneNumber = telephonyManager.getLine1Number();
-		return phoneNumber;
-	}
-
-	protected void storeUserWithoutReg() {
-		/*
-		 * TelephonyManager telephonyManager = (TelephonyManager) context
-		 * .getSystemService(Context.TELEPHONY_SERVICE);
-		 * 
-		 * String deviceID = telephonyManager.getDeviceId();
-		 * 
-		 * userID = User.storeUser(deviceID); Editor e = prefs.edit();
-		 * e.putInt("userID", userID); e.commit(); // register the user anyway
-		 * (via device id) userID = User.getCurrUser(context);
-		 */
-		Log.i(TAG, "storeUserWithoutReg shlould never be called");
-
-	}
-
-	protected void storeUser(String name, String email, String pn,
-			boolean allowPush) {
-		// pass the ID back to shared prefs to recall later
-		Log.i(TAG, "user name " + name + ", email " + email + " pn " + pn);
-
-		userID = User.storeUser(name, email, pn);
-		Editor e = prefs.edit();
-		e.putInt("userID", userID);
-		e.commit();
-
-		if (allowPush) {
-			registerPushNotification();
-		}
-
-		Log.i(TAG, "User name: " + name + " registered");
-	}
-
+	
 	public void registerPushNotification() {
 
 		Log.d(TAG, "in registerPushNotification()");
@@ -217,6 +181,25 @@ public class HomeActivity extends Activity {
 			}
 		}
 	} // end showPushNotificationDialog()
+
+	protected void storeUser(String name, String email, String pn,
+			boolean allowPush) {
+		// pass the ID back to shared prefs to recall later
+		Log.i(TAG, "user name " + name + ", email " + email + " pn " + pn);
+
+		userID = User.storeUser(name, email, pn);
+		Editor e = prefs.edit();
+		e.putInt("userID", userID);
+		e.putString("name", name);
+		e.putString("email", email);
+		e.commit();
+
+		if (allowPush) {
+			registerPushNotification();
+		}
+
+		Log.i(TAG, "User name (" + name + ") registered");
+	}
 
 	public void myLists(View v) {
 		Intent intent = new Intent(context, SociaListActivity.class);
