@@ -30,7 +30,7 @@ public class JSONInvite {
 
 			for (int i = 0; i < myJSONInvites.length(); i++) {
 				e1 = myJSONInvites.getJSONObject(i);
-				invite = new Invite(e1);
+				invite = new Invite(context, e1);
 				myInvites.add(invite);
 			}
 

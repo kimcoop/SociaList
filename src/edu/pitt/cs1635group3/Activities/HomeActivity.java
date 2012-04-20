@@ -1,5 +1,6 @@
 package edu.pitt.cs1635group3.Activities;
 
+import service.InviteTask;
 import service.SplashScreenTask;
 import android.app.Activity;
 import android.app.Dialog;
@@ -35,16 +36,17 @@ public class HomeActivity extends Activity {
 	
 	private static int userID;
 	private static SharedPreferences prefs;
+	protected static Button pending;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
 		context = this;
+		pending = (Button) findViewById(R.id.home_btn_pending);
 
 		userID = User.getCurrUser(context);
 		Log.i(TAG, "user id is " + userID);
-		
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		int counter = prefs.getInt("counter", 0);
@@ -54,24 +56,15 @@ public class HomeActivity extends Activity {
 			Log.i(TAG, "register dialog should've just displayed");
 		}
 
-		if (userID <= 0) { // user didn't wanna register via email? register
-							// him/her anyway
-			storeUser(null, null, User.getPhoneNumber(context), false);
-			Log.i(TAG, "user id was -1, so re-store user");
-		}
-
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
 		e.commit();
-		
-		//new SplashScreenTask().getInvites(context);
 
-		Button pending = (Button) findViewById(R.id.home_btn_pending);
-		int numInvites = Invite.getInvites(context, userID).size();
-		pending.setText("Invites (" + numInvites + ")");
 	}
 	
-
+	public static void updateNumInvites(int n) {
+		pending.setText("Invites (" + n + ")");
+	}
 
 	public void showRegisterDialog() {
 
@@ -187,7 +180,7 @@ public class HomeActivity extends Activity {
 		// pass the ID back to shared prefs to recall later
 		Log.i(TAG, "user name " + name + ", email " + email + " pn " + pn);
 
-		userID = User.storeUser(name, email, pn);
+		userID = User.storeUser(context, name, email, pn);
 		Editor e = prefs.edit();
 		e.putInt("userID", userID);
 		e.putString("name", name);

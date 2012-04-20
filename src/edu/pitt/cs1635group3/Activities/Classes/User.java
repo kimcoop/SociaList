@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class User {
 
@@ -164,9 +165,10 @@ public class User {
 		return users;
 	}
 
-	public static int storeUser(String name, String email, String pn) {
+	public static int storeUser(Context context, String name, String email, String pn) {
+		Log.i(TAG, "name " +name + ". email " +email);
 		int uID;
-		uID = JSONUser.storeUser(name, pn, email);
+		uID = JSONUser.storeUser(context, name, email, pn);
 		return uID;
 	}
 

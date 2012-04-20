@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import service.InviteTask;
+
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -32,20 +34,22 @@ public class JSONUser {
 		return params;
 	}
 
-	public static int storeUser(String name, String email, String pn) {
+	public static int storeUser(Context context, String name, String email, String pn) {
 
 		ArrayList<NameValuePair> params = userToParams(name, email, pn);
 		params.add(new BasicNameValuePair("action", "storeUser"));
 
-		return storeUser(params);
+		return storeUser(context, params);
 	}
 
-	public static int storeUser(ArrayList<NameValuePair> params) {
+	public static int storeUser(Context context, ArrayList<NameValuePair> params) {
 		// let user register or not register by taking generic paramater params
 
 		String result = JSONfunctions.postToCloud(params);
 		int uID = JSONfunctions.parseForInt(result);
 		Log.i(TAG, "Stored user. User id from cloud is " + uID);
+		new InviteTask().getInvites(context); // try to pull invites once we have a real user ID
+		
 		return uID;
 
 	} // end storeUser

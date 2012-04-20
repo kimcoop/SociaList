@@ -106,7 +106,7 @@ public class DBHelper {
 			+ "creation_date text DEFAULT CURRENT_DATE, UNIQUE(id) ON CONFLICT IGNORE)";
 
 	private static final String MAP_LIST_USER_CREATE = "create table map_list_user (id integer primary key autoincrement, "
-			+ "list_id integer not null, user_id integer not null, list_name text not null, invite_date date, pending integer not null default 1)";
+			+ "list_id integer, user_id integer, list_name text, invite_date text, pending integer)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
 			+ "first text not null, last text not null, email text,"
@@ -211,12 +211,12 @@ public class DBHelper {
 
 	public void insertOrUpdateInvite(Invite inv, boolean pushToCloud) {
 
-		String id = inv.getID() + "";
-		String myQuery = "SELECT * FROM map_list_user WHERE id = " + id;
+		String id = inv.getListID() + "";
+		String myQuery = "SELECT * FROM map_list_user WHERE list_id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c.getCount() > 0) {
-			// Item exists
+			// Invite exists
 			c.close();
 			updateInvite(inv, pushToCloud);
 		} else {

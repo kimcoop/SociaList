@@ -11,9 +11,9 @@ import android.util.Log;
 
 public class Invite {
 
-	public int ID;
+	public int ID, userID;
 	public int listID;
-	public boolean pending;
+	public int pending;
 	public String inviteDate;
 	public String listName = "";
 
@@ -35,17 +35,18 @@ public class Invite {
 		listID = lID;
 		listName = lname;
 		inviteDate = invited;
-		pending = true;
+		pending = 1;
 	}
 
-	public Invite(JSONObject e) { // on first pull from cloud
+	public Invite(Context context, JSONObject e) { // on first pull from cloud
 
 		try {
 			ID = e.getInt("id");
 			listID = e.getInt("list_id");
-			inviteDate = e.getString("invite_date");
+			userID = User.getCurrUser(context);
 			listName = e.getString("list_name");
-			pending = true; // by default
+			inviteDate = e.getString("invite_date");
+			pending = 1; // by default
 
 		} catch (JSONException e1) {
 			Log.i(TAG, "Parse problem:" + e.toString());
@@ -66,7 +67,7 @@ public class Invite {
 	}
 
 	public void setPending(int i) {
-		pending = (i == 1 ? true : false);
+		pending = i;
 	}
 
 	public void setInviteDate(String string) {
@@ -78,7 +79,7 @@ public class Invite {
 	}
 
 	public void accept(Context context) {
-		pending = false; // no longer pending -> accepted
+		pending = 0; // no longer pending -> accepted
 		db = new DBHelper(context);
 		db.open();
 		db.updateInvite(this, PUSH_TO_CLOUD);
@@ -97,7 +98,7 @@ public class Invite {
 		return listID;
 	}
 
-	public boolean isPending() {
+	public int isPending() {
 		return pending;
 	}
 
@@ -145,6 +146,10 @@ public class Invite {
 
 		db.close();
 
+	}
+
+	public static int getNumInvites(Context context, int uID) {
+		return getInvites(context, uID).size();
 	}
 
 }
