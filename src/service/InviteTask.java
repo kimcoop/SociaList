@@ -1,6 +1,7 @@
 package service;
 
 import edu.pitt.cs1635group3.Activities.HomeActivity;
+import edu.pitt.cs1635group3.Activities.PendingInvitesActivity;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 import zebrafish.util.JSONCustomList;
@@ -40,6 +41,7 @@ public class InviteTask {
 			int uID = User.getCurrUser(context);
 			int numInvites = Invite.getNumInvites(context, uID);
 			HomeActivity.updateNumInvites(numInvites);
+			PendingInvitesActivity.updateInvites();
 			UIUtil.showMessage(context, numInvites+" invites found.");
 		}
 	}

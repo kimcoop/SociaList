@@ -24,7 +24,7 @@ import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 
 public class PendingInvitesActivity extends SherlockListActivity { // ListActivity
 	private ArrayList<Invite> invites;
-	private ArrayAdapter<Invite> adapter;
+	private static ArrayAdapter<Invite> adapter;
 	private ArrayList<Invite> selectedInvites;
 
 	private Context context;
@@ -79,6 +79,11 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		adapter.notifyDataSetChanged();
 	}
 
+	public static void updateInvites() {
+		if (adapter != null) 
+			adapter.notifyDataSetChanged();		
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();

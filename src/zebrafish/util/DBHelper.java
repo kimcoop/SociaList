@@ -288,8 +288,8 @@ public class DBHelper {
 				Invite inv = new Invite();
 				inv.setID(c.getInt(0));
 				inv.setListID(c.getInt(1));
-				inv.setListName(c.getString(2));
-				inv.setInviteDate(c.getString(3));
+				inv.setListName(c.getString(3));
+				inv.setInviteDate(c.getString(4));
 				invites.add(inv);
 				c.moveToNext();
 			} // end while
