@@ -23,11 +23,11 @@ import edu.pitt.cs1635group3.Activities.Classes.User;
 import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 
 public class PendingInvitesActivity extends SherlockListActivity { // ListActivity
-	private ArrayList<Invite> invites;
+	private static ArrayList<Invite> invites;
 	private static ArrayAdapter<Invite> adapter;
-	private ArrayList<Invite> selectedInvites;
+	private static ArrayList<Invite> selectedInvites;
 
-	private Context context;
+	private static Context context;
 	private static final String TAG = "PendingInvitesActivity";
 	private static int userID;
 	private ListView lv;
@@ -55,11 +55,11 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 
 	public void acceptSelected(View v) {
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
-		for (Invite i : selectedInvites) {
-			i.accept(context);
-			invites.remove(i);
+		for (Invite inv : selectedInvites) {
+			inv.accept(context);
+			invites.remove(inv);
 		}
-		String pluralizer = "invite";
+		String pluralizer = "Invite";
 		if (selectedInvites.size() > 1)
 			pluralizer += "s";
 		UIUtil.showMessage(context, pluralizer + " accepted.");
@@ -68,20 +68,26 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 
 	public void ignoreSelected(View v) {
 		selectedInvites = ((InviteAdapter) adapter).getSelected();
-		for (Invite i : selectedInvites) {
-			Invite.ignore(context, i); // class method
-			invites.remove(i);
+		for (Invite inv : selectedInvites) {
+			Invite.ignore(context, inv); // class method
+			invites.remove(inv);
 		}
-		String pluralizer = "invite";
+		String pluralizer = "Invite";
 		if (selectedInvites.size() > 1)
 			pluralizer += "s";
 		UIUtil.showMessage(context, pluralizer + " ignored.");
 		adapter.notifyDataSetChanged();
 	}
+	
+	public static void displayMessage() {
+		
+	}
 
 	public static void updateInvites() {
-		if (adapter != null) 
-			adapter.notifyDataSetChanged();		
+		if (adapter != null) {
+			invites = Invite.getInvites(context, userID);
+			adapter.notifyDataSetChanged();
+		}
 	}
 	
 	@Override
@@ -101,6 +107,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
 			new InviteTask().getInvites(context);
+			adapter.notifyDataSetChanged(); // this is actually done in the async task but sometimes faulty? - kim
 			return true;
 		} else {
 			return false;

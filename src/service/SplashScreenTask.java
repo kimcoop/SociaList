@@ -1,5 +1,6 @@
 package service;
 
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
 import android.app.Activity;
@@ -19,6 +20,8 @@ public class SplashScreenTask {
 		@Override
 		protected String doInBackground(Integer... params) {
 			String response = "";
+			
+			if (IOUtil.isOnline(context)) {
 
 			if (params[0] == LISTS_INVITES) {
 				JSONCustomList.getLists(context);
@@ -30,6 +33,10 @@ public class SplashScreenTask {
 				JSONInvite.getInvites(context);
 			}
 
+			} else {
+				IOUtil.informConnectionIssue(context);
+			}
+			
 			return "";
 		}
 

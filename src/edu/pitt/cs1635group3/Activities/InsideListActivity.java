@@ -49,7 +49,7 @@ public class InsideListActivity extends SherlockListActivity {
 	private View buttonsHelper;
 	private ListView lv;
 	private boolean newItems = false;
-	private static int userID;
+	private static int listID, userID;
 	private ArrayList<Integer> newItemPKs;
 
 	private CharSequence users[];
@@ -67,10 +67,11 @@ public class InsideListActivity extends SherlockListActivity {
 
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
+		listID = extras.getInt("ListID");
 
-		list = CustomList.getListByID(context, extras.getInt("ListID"));
+		list = CustomList.getListByID(context, listID);
 		items = CustomList
-				.getItemsForListByID(context, extras.getInt("ListID"));
+				.getItemsForListByID(context, listID);
 		totalItems = items.size();
 
 		getSupportActionBar();
@@ -122,10 +123,8 @@ public class InsideListActivity extends SherlockListActivity {
 
 				if (newItems) {
 					list.attachItems(items);
-					Log.i(TAG, "Back button pressed");
 					int listSize = list.getItems().size();
 					totalItems = listSize;
-					Log.d(TAG, "listSize = " + listSize);
 					list.setLinks(context);
 				}
 				Intent intent = new Intent(context, ItemActivity.class);

@@ -24,7 +24,6 @@ public class JSONUser {
 
 	public static ArrayList<NameValuePair> userToParams(String name,
 			String email, String pn) {
-		Log.i(TAG, "userToParams: email " + email);
 
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("action", "storeUser"));
@@ -93,8 +92,6 @@ public class JSONUser {
 				JSONArray e = myUsers.getJSONArray(i);
 				u = new User(e.getInt(0), e.getString(1), e.getString(2),
 						e.getString(3));
-				u.setDeviceToken(e.getString(4)); // todo remove
-				u.setDeviceID(e.getString(5)); // todo remove - Kim
 
 				users.add(u);
 			}

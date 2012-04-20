@@ -2,12 +2,17 @@ package zebrafish.util;
 
 import java.util.ArrayList;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import service.InviteTask;
+
 import android.content.Context;
 import android.util.Log;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 
 public class JSONInvite {
@@ -15,6 +20,13 @@ public class JSONInvite {
 	public static final String TAG = "JSON Invite";
 	public static DBHelper db;
 	public static final boolean NO_PUSH_TO_CLOUD = false;
+	
+	public static ArrayList<NameValuePair> inviteToParams(Invite inv) {
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("objID", ""+inv.getID()));
+		params.add(new BasicNameValuePair("pending", ""+inv.isPending()));
+		return params;
+	}
 
 	public static void getInvites(Context context) { // insert all into db
 
@@ -41,5 +53,16 @@ public class JSONInvite {
 		}
 
 	} // end getInvites(Context)
+
+	public static void updateInvite(Context context, Invite currInv) {
+			Log.i(TAG, "updateInvite");
+		
+			ArrayList<NameValuePair> params = inviteToParams(currInv);
+			params.add(new BasicNameValuePair("action", "updateInvite"));
+			
+			String s = JSONfunctions.postToCloud(params);
+			Log.d(TAG, s);
+		
+	}	// end updateInvite
 
 }

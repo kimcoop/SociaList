@@ -38,7 +38,6 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		context = this;
 
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " + uID);
 
 		listID = getIntent().getExtras().getInt("listID");
 		users = User.getUsersForList(context, listID);

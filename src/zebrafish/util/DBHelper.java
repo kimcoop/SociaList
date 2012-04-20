@@ -18,6 +18,7 @@ package zebrafish.util;
 
 import java.util.ArrayList;
 
+import service.InviteTask;
 import service.ItemUpdateTask;
 import service.ListUpdateTask;
 import android.content.ContentValues;
@@ -209,7 +210,7 @@ public class DBHelper {
 		return db.insert(USER_TABLE, null, initialValues);
 	}
 
-	public void insertOrUpdateInvite(Invite inv, boolean pushToCloud) {
+	public void insertOrUpdateInvite(Context context, Invite inv, boolean pushToCloud) {
 
 		String id = inv.getListID() + "";
 		String myQuery = "SELECT * FROM map_list_user WHERE list_id = " + id;
@@ -218,7 +219,7 @@ public class DBHelper {
 		if (c.getCount() > 0) {
 			// Invite exists
 			c.close();
-			updateInvite(inv, pushToCloud);
+			updateInvite(context, inv, pushToCloud);
 		} else {
 			c.close();
 			insertInvite(inv, pushToCloud);
@@ -235,7 +236,7 @@ public class DBHelper {
 
 	}
 
-	public boolean updateInvite(Invite inv, boolean pushToCloud) {
+	public boolean updateInvite(Context context, Invite inv, boolean pushToCloud) {
 
 		ContentValues args = new ContentValues();
 		args.put(KEY_MAP_LIST_ID, inv.getListID());
@@ -243,9 +244,11 @@ public class DBHelper {
 		args.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 
 		if (pushToCloud) {
-			Log.i(TAG, "UpdateInvite: TODO pushToCloud");
+			new InviteTask().updateInvite(context, inv);
 		}
 
+		Log.i(TAG, "Updating invite to have pending = " +inv.isPending());
+		
 		return db.update(MAP_LIST_USER_TABLE, args,
 				KEY_MAP_LIST_USER_ID + "=?",
 				new String[] { String.valueOf(inv.getID()) }) > 0;
@@ -276,7 +279,7 @@ public class DBHelper {
 
 		ArrayList<Invite> invites = new ArrayList<Invite>();
 
-		String myQuery = "SELECT * FROM map_list_user";
+		String myQuery = "SELECT * FROM map_list_user WHERE pending=1";
 
 		Cursor c = db.rawQuery(myQuery, null);
 
@@ -304,10 +307,13 @@ public class DBHelper {
 		// as a param
 
 		CharSequence[] users;
+/*
+		String myQuery = "SELECT * FROM user, map_list_user WHERE map_list_user.user_id=user.id ";
+		myQuery += " AND map_list_user.list_id=" +id;
 
-		String myQuery = "SELECT * FROM user"; // TODO - more detailed query
-												// involving list &
-												// map_list_user
+*This won't work until the map_list_user from the web is synced properly. right now it isn't.
+*/
+		String myQuery = "SELECT * FROM user";
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null)
@@ -353,7 +359,7 @@ public class DBHelper {
 	public ArrayList<User> getUsersForList(int ID) {
 		String listID = "" + ID;
 		ArrayList<User> users = null;
-		String myQuery = "SELECT * FROM user";// , map_list_user WHERE
+		String myQuery = "SELECT * FROM user WHERE first != null AND last != null";// , map_list_user WHERE
 												// map_list_user.list_id =
 												// "+listID;
 		Cursor c = db.rawQuery(myQuery, null);
@@ -365,7 +371,6 @@ public class DBHelper {
 			while (!c.isAfterLast()) {
 				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
 						c.getString(3));
-				Log.i(TAG, "user for list found: " + u.getName());
 				users.add(u);
 				c.moveToNext();
 			}
@@ -373,7 +378,6 @@ public class DBHelper {
 			c.close();
 
 		}
-		Log.i(TAG, "size of users for this list is " + users.size());
 		return users;
 
 	}

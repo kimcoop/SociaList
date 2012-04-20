@@ -1,5 +1,6 @@
 package service;
 
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,10 +15,16 @@ public class ListUpdateTask {
 		@Override
 		protected String doInBackground(CustomList... params) {
 			String response = "";
+			
+			if (IOUtil.isOnline(context)) {
 
 			for (CustomList custlist : params) {
 				Log.i(TAG, "Updated " + custlist.getName());
 				JSONCustomList.updateList(custlist);
+			}
+			
+			} else {
+				IOUtil.informConnectionIssue(context);
 			}
 
 			return "";

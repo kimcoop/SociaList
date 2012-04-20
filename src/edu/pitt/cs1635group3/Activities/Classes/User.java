@@ -26,6 +26,7 @@ public class User {
 		this.first = f;
 		this.last = l;
 		this.email = e;
+		
 	}
 
 	public User() {
@@ -80,7 +81,8 @@ public class User {
 	}
 
 	public String getFirstName() {
-		return first;
+		if (first == null) return email;
+		else return first;
 	}
 
 	public String getLastName() {
@@ -88,7 +90,8 @@ public class User {
 	}
 
 	public String getName() {
-		return first + " " + last;
+		if (first == null) return email;
+		else return first + " " + last;
 	}
 
 	public int getID() {
@@ -109,21 +112,21 @@ public class User {
 	}
 	
 
-	public static int getCurrUsername(Context context) {
+	public static String getCurrUsername(Context context) {
 		SharedPreferences prefs;
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		int id = prefs.getInt("name", 0);
+		String id = prefs.getString("name", "");
 		return id;
 	}
 
-	public static int getCurrEmail(Context context) {
+	public static String getCurrEmail(Context context) {
 		SharedPreferences prefs;
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		int id = prefs.getInt("email", 0);
+		String id = prefs.getString("email", "");
 		return id;
 	}
 	public static int getUserByName(Context context, String rawAssignee) {

@@ -1,6 +1,8 @@
 package service;
 
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONUser;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,13 +15,19 @@ public class UserUpdateTask {
 	private class DoUserUpdateTask extends AsyncTask<User, Void, String> {
 		@Override
 		protected String doInBackground(User... params) {
-			String response = "";
-
-			for (User u : params) {
-				Log.i(TAG, "Updated " + u.getName());
-				JSONUser.updateUser(u);
+			
+			if (IOUtil.isOnline(context)) {
+			
+				String response = "";
+	
+				for (User u : params) {
+					Log.i(TAG, "Updated " + u.getName());
+					JSONUser.updateUser(u);
+				}
+			} else {
+				IOUtil.informConnectionIssue(context);
 			}
-
+			
 			return "";
 		}
 

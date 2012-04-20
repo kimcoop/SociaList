@@ -29,13 +29,14 @@ public class Invite {
 	public Invite() {
 	}
 
-	public Invite(int id, int lID, String lname, String invited) { // manual
+	public Invite(int id, int lID, String lname, int p, String invited) { // manual
 																	// constructor
 		ID = id;
 		listID = lID;
 		listName = lname;
+		pending = p;
 		inviteDate = invited;
-		pending = 1;
+		Log.i(TAG, "invite constructor called not from JSON");
 	}
 
 	public Invite(Context context, JSONObject e) { // on first pull from cloud
@@ -46,7 +47,8 @@ public class Invite {
 			userID = User.getCurrUser(context);
 			listName = e.getString("list_name");
 			inviteDate = e.getString("invite_date");
-			pending = 1; // by default
+			pending = e.getInt("pending"); // by default
+			Log.i(TAG, "Pending : " +pending);
 
 		} catch (JSONException e1) {
 			Log.i(TAG, "Parse problem:" + e.toString());
@@ -82,7 +84,7 @@ public class Invite {
 		pending = 0; // no longer pending -> accepted
 		db = new DBHelper(context);
 		db.open();
-		db.updateInvite(this, PUSH_TO_CLOUD);
+		db.updateInvite(context, this, PUSH_TO_CLOUD);
 		db.close();
 	}
 
@@ -140,7 +142,7 @@ public class Invite {
 
 		for (Invite inv : invites) {
 
-			db.insertOrUpdateInvite(inv, pushToCloud);
+			db.insertOrUpdateInvite(context, inv, pushToCloud);
 
 		}
 

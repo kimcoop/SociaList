@@ -7,8 +7,8 @@
 
     <!-- Splash Screen -->
     <string name="splash_loading">Loading: </string>
-    <string name="connect_title">Cannot Connect to Internet</string>
-    <string name="connect_issue">You signal strength is too weak. Changes will be local and may not persist.</string>
+    <string name="connect_title">Cannot Connect to the Internet</string>
+    <string name="connect_issue">Your signal strength is too weak. Changes will be local and may not persist.</string>
 
     <!-- Home Activity -->
     <string name="push_explain">Allow push notifications? (You can always change
@@ -113,7 +113,7 @@
     <!-- Pending Lists -->
     <string name="accept_invites">Accept Invite(s)</string>
     <string name="ignore_invites">Ignore Invites(s)</string>
-    <string name="no_invites">You don\'t have any invites yet!</string>
+    <string name="no_invites">No pending invites.</string>
     
     <!--  Date Util  -->
     <string name="second">second</string>

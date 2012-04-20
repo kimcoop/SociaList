@@ -1,5 +1,6 @@
 package service;
 
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONItem;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,12 +15,18 @@ public class ItemUpdateTask {
 		@Override
 		protected String doInBackground(Item... params) {
 			String response = "";
+			
+			//if (IOUtil.isOnline(this.getBaseContext())) {
 
 			for (Item item : params) {
 				Log.i(TAG, "Updated " + item.getName());
 				JSONItem.updateItem(item); // really will only be one item,
 											// I think -KIm
 			}
+			
+			//} else {
+			//	IOUtil.informConnectionIssue(context);
+			//}
 
 			return "";
 		}

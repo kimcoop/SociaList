@@ -34,7 +34,10 @@ public class SettingsActivity extends SherlockActivity {
 		setTitle("Settings");
 
 		name = (EditText) findViewById(R.id.txtvName);
+		name.setText(User.getCurrUsername(context));
+		
 		email = (EditText) findViewById(R.id.txtvEmail);
+		email.setText(User.getCurrEmail(context));
 
 	}
 
@@ -48,6 +51,9 @@ public class SettingsActivity extends SherlockActivity {
 
 	public void saveUser() {
 		// TODO
+		
+		
+		
 		UIUtil.showMessage(context, "User updated.");
 	}
 
