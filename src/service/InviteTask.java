@@ -5,6 +5,7 @@ import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
+import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -37,13 +38,15 @@ public class InviteTask {
 			Log.i(TAG, result);
 			pd.dismiss();
 			int uID = User.getCurrUser(context);
-			HomeActivity.updateNumInvites(Invite.getNumInvites(context, uID));
+			int numInvites = Invite.getNumInvites(context, uID);
+			HomeActivity.updateNumInvites(numInvites);
+			UIUtil.showMessage(context, numInvites+" invites found.");
 		}
 	}
 
 	public void getInvites(Context c) {
 		context = c;
-		pd = ProgressDialog.show(context,"This is the title","This is the detail text",true,false,null);
+		pd = ProgressDialog.show(context,"Checking for invites","Please wait...", true, false, null);
 		DoInviteTask task = new DoInviteTask();
 		task.execute(GET_INVITES);
 

@@ -259,6 +259,7 @@ public class DBHelper {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
 		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
+		//initialValues.put(KEY_MAP_LIST_USERID, '3'3); //test
 		initialValues.put(KEY_MAP_LIST_NAME, inv.getListName());
 		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 		initialValues.put(KEY_MAP_PENDING, inv.isPending());
