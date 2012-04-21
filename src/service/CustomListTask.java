@@ -1,13 +1,17 @@
 package service;
 
+import java.util.ArrayList;
+
 import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
+import zebrafish.util.JSONItem;
 import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import edu.pitt.cs1635group3.Activities.CreateListActivity;
 import edu.pitt.cs1635group3.Activities.HomeActivity;
 import edu.pitt.cs1635group3.Activities.SociaListActivity;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
@@ -21,10 +25,14 @@ public class CustomListTask {
 	protected ProgressDialog pd;
 	private CustomList currList;
 	private static int numLists;
+	private static int currPK;
+	private static ArrayList<Integer> currItemPKs;
 	
 	private static int UPDATE_LIST = 1;
 	private static int REFRESH_LISTS = 2;
 	private static int REFRESH_LISTS_QUIET = 3;
+	private static int RESERVE_PRIMARY_KEY = 4;
+	private static int UNCREATE_LIST = 5;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -35,7 +43,7 @@ public class CustomListTask {
 			
 			if (params[0] == UPDATE_LIST) {
 				
-				Log.i(TAG, "Updated " + currList.getName());
+				Log.i(TAG, "Updated " + currList.getName()+ " whose pk is " +currList.getID());
 				JSONCustomList.updateList(currList);
 
 			} else if (params[0] == REFRESH_LISTS) {
@@ -46,6 +54,20 @@ public class CustomListTask {
 			} else if (params[0] == REFRESH_LISTS_QUIET) {
 
 				Log.i(TAG, "Refreshing lists to get newly-accepted list");
+				
+			} else if (params[0] == RESERVE_PRIMARY_KEY) {
+				
+				currPK = JSONCustomList.getListPK();
+				Log.i(TAG, "Reserving pk for new list");
+				
+			} else if (params[0] == UNCREATE_LIST) {
+				
+				JSONCustomList.deleteList(currPK);
+				for (int i : currItemPKs) { // delete the items as well
+					JSONItem.deleteItem(i);
+				}
+				
+				
 			}
 			
 			//} else {
@@ -75,9 +97,15 @@ public class CustomListTask {
 				CustomListAdapter adapter = SociaListActivity.getAdapter();
 				adapter.notifyDataSetChanged();
 				refreshActivity();
+				
+			} else if (result.equals(""+RESERVE_PRIMARY_KEY)) {
+				
+				CreateListActivity.setListID(currPK);
+				
+			} else if (result.equals(""+UNCREATE_LIST)) {
+				Log.i(TAG, "uncreate list complete");
 			}
 			
-			Log.i(TAG, result);
 		}
 	}
 	
@@ -106,6 +134,21 @@ public class CustomListTask {
 		currList = list;
 		DoCustomListTask task = new DoCustomListTask();
 		task.execute(UPDATE_LIST);
+	}
+	
+	public void reservePrimaryKey() {
+		Log.i(TAG, "reserving pk");
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(RESERVE_PRIMARY_KEY);
+	}
+	
+	public void uncreateList(int id, ArrayList<Integer> itemPKs) {
+		Log.i(TAG, "uncreating list");
+		currPK = id;
+		currItemPKs = itemPKs;
+
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(UNCREATE_LIST);
 	}
 }
 
