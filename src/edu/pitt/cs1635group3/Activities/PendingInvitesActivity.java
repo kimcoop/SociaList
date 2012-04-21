@@ -87,7 +87,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 	}
 	
 	public static void selectAll() {
-		for (int i=0; i < lv.getChildCount(); i++){
+		for (int i=0; i < lv.getChildCount(); i++) {
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.element_checkbox);
 			cb.setChecked(true);
@@ -97,7 +97,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 	}
 	
 	public static void deselectAll() {
-		for (int i=0; i < lv.getChildCount(); i++){
+		for (int i=0; i < lv.getChildCount(); i++) {
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.element_checkbox);
 			cb.setChecked(false);
