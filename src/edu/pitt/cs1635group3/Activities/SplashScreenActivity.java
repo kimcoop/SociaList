@@ -45,7 +45,8 @@ public class SplashScreenActivity extends Activity {
 		
 		if (IOUtil.isOnline(context)) {
 			if (userID > 0) {
-				new SplashScreenTask().getListsAndInvites(context);
+				new SplashScreenTask().download(context);
+				//new SplashScreenTask().getListsAndInvites(context);
 			} else {
 				Intent i = new Intent(this, HomeActivity.class);
 				startActivity(i);

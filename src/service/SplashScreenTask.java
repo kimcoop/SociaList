@@ -16,6 +16,7 @@ public class SplashScreenTask {
 	private static int LISTS_INVITES = 1; // Flag
 	private static int LISTS = 2;
 	private static int INVITES = 3;
+	private static int INITIAL_DOWNLOAD = 4;
 
 	private class DoSplashScreenTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -24,31 +25,39 @@ public class SplashScreenTask {
 			
 			if (IOUtil.isOnline(context)) {
 
-			if (params[0] == LISTS_INVITES) {
-				JSONCustomList.getLists(context);
-				JSONInvite.getInvites(context);
-			} else if (params[0] == LISTS) {
-				JSONCustomList.getLists(context);
-			} else if (params[0] == INVITES) {
-				Log.i(TAG, "getting invites");
-				JSONInvite.getInvites(context);
-			}
+				if (params[0] == LISTS_INVITES) {
+					JSONCustomList.getLists(context);
+					JSONInvite.getInvites(context);
+				} else if (params[0] == LISTS) {
+					JSONCustomList.getLists(context);
+				} else if (params[0] == INVITES) {
+					Log.i(TAG, "getting invites");
+					JSONInvite.getInvites(context);
+				} else if (params[0] == INITIAL_DOWNLOAD) {
+					Log.i(TAG, "Pulling initial download based on user ID ");
+					JSONCustomList.getListsForUser(context);
+				}
 
 			} else {
 				IOUtil.informConnectionIssue(context);
 			}
 			
-			return "";
+			return "SplashScreenTask complete: " +params[0];
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			// textView.setText(result);
 			Log.i(TAG, result);
 			((Activity) context).finish();
 			((Activity) context).startActivity(new Intent(
 					"edu.pitt.cs1635group3.HomeActivity"));
 		}
+	}
+	
+	public void download(Context c) {
+		context = c;
+		DoSplashScreenTask task = new DoSplashScreenTask();
+		task.execute(INITIAL_DOWNLOAD);
 	}
 
 	public void getListsAndInvites(Context c) {

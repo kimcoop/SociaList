@@ -52,7 +52,7 @@ public class InviteTask {
 
 			pd.dismiss();
 			InviteAdapter adapter = PendingInvitesActivity.grabAdapter();
-			adapter.notifyDataSetChanged();
+			if (adapter != null) adapter.notifyDataSetChanged();
 			
 			if (result.equals(""+GET_INVITES)) {
 				int numInvites = Invite.getNumInvites(context, User.getCurrUser(context));

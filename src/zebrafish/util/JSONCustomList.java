@@ -86,7 +86,7 @@ public class JSONCustomList {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getListsForUser");
-		Log.i(TAG, json.toString() + ""); 
+		Log.i(TAG, json.toString() + "");
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
 
@@ -95,7 +95,7 @@ public class JSONCustomList {
 
 			for (int i = 0; i < myLists.length(); i++) {
 				e1 = myLists.getJSONObject(i);
-				list = new CustomList(e1);
+				list = new CustomList(e1); // this will also parse for items and users (for each list)
 				myCustomLists.add(list);
 			}
 

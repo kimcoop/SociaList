@@ -508,7 +508,8 @@ public class DBHelper {
 	}
 
 	public void insertOrUpdateList(CustomList i, boolean pushToCloud) {
-
+		Log.i(TAG, "InsertOrUpdateList: " +i.getName());
+		
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM list WHERE id = " + id;
 		Cursor c = db.rawQuery(myQuery, null);
