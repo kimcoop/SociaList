@@ -211,8 +211,8 @@ public class HomeActivity extends Activity {
 	}
 
 	public void browseForListByID(View v) {
-		// Intent intent = new Intent(context, BrowseForListActivity.class);
-		// startActivity(intent);
+		Intent intent = new Intent(context, BrowseForListActivity.class);
+		startActivity(intent);
 	}
 
 	public void mySettings(View v) {
