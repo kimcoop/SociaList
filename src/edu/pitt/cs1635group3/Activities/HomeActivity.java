@@ -63,6 +63,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	public static void updateNumInvites(int n) {
+		Log.i(TAG, "updatingNumInvites to " +n);
 		pending.setText("Invites (" + n + ")");
 	}
 

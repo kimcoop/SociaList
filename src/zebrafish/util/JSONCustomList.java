@@ -84,7 +84,8 @@ public class JSONCustomList {
 	
 
 
-	public static void download(Context context) {
+	public static int download(Context context) {
+		// Return number of lists found.
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		ArrayList<Item> listItems = new ArrayList<Item>();
@@ -118,44 +119,8 @@ public class JSONCustomList {
 			Log.e(TAG, "Error in getLists(): " + e.toString());
 		}
 
+		return myCustomLists.size();
+		
 	} // end getListsForUser(Context)
-
-	public static void getLists(Context context) {
-		/*
-		 * Shouldn't be called outside of AsyncTasks. GetListsForUser is the initial call (during app load).
-		 */
-
-		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
-		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
-		Log.i(TAG, json.toString() + ""); 
-		try {
-			JSONArray myLists = json.getJSONArray("lists");
-
-			CustomList list;
-			int listID;
-			JSONObject e1;
-
-			for (int i = 0; i < myLists.length(); i++) {
-				e1 = myLists.getJSONObject(i);
-				list = new CustomList(e1);
-
-				myCustomLists.add(list);
-
-				listID = list.getID();
-				JSONItem.getListItems(context, listID); // pull the list's items
-														// from the
-				// server
-				JSONUser.getUsers(context, listID); // pull the list's users too
-
-			}
-
-			CustomList.insertOrUpdateLists(context, myCustomLists,
-					NO_PUSH_TO_CLOUD);
-
-		} catch (JSONException e) {
-			Log.e(TAG, "Error in getLists(): " + e.toString());
-		}
-
-	} // end getLists(Context)
 
 }

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import edu.pitt.cs1635group3.Activities.HomeActivity;
 import edu.pitt.cs1635group3.Activities.PendingInvitesActivity;
+import edu.pitt.cs1635group3.Activities.SociaListActivity;
 import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.User;
+import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 import edu.pitt.cs1635group3.Adapters.InviteAdapter;
+import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
 import zebrafish.util.UIUtil;
@@ -32,13 +35,19 @@ public class InviteTask {
 	private class DoInviteTask extends AsyncTask<Integer, Void, String> {
 		@Override
 		protected String doInBackground(Integer... params) {
+			
+			if (IOUtil.isOnline(context)) {
 
-			if (params[0] == GET_INVITES) {
-				JSONInvite.getInvites(context);
-			} else if (params[0] == ACCEPT_INVITE) {
-				JSONInvite.updateInvite(context, currInv);
-			} else if (params[0] == DECLINE_INVITE) {
-				JSONInvite.declineInvite(context, currInvId);
+				if (params[0] == GET_INVITES) {
+					numInvites = (JSONInvite.getInvites(context)).size();
+				} else if (params[0] == ACCEPT_INVITE) {
+					JSONInvite.updateInvite(context, currInv);
+				} else if (params[0] == DECLINE_INVITE) {
+					JSONInvite.declineInvite(context, currInvId);
+				}
+			
+			} else {
+				IOUtil.informConnectionIssue(context);
 			}
 
 			return ""+params[0]; //inform onPostExecute method what operation was completed
@@ -48,22 +57,40 @@ public class InviteTask {
 		protected void onPostExecute(String result) {
 			// based on what operation was completed, do something
 			Log.i(TAG, result);
-			
 
-			pd.dismiss();
-			InviteAdapter adapter = PendingInvitesActivity.grabAdapter();
+			if (pd != null && pd.isShowing()) { 
+				pd.dismiss();
+			}
+			
+			InviteAdapter adapter = PendingInvitesActivity.getAdapter();
 			if (adapter != null) adapter.notifyDataSetChanged();
+			String msg = "";
 			
 			if (result.equals(""+GET_INVITES)) {
-				int numInvites = Invite.getNumInvites(context, User.getCurrUser(context));
+				refreshActivity();
 				HomeActivity.updateNumInvites(numInvites);
-				UIUtil.showMessage(context, numInvites+" invites found."); // todo - correct pluralization
+				msg = UIUtil.pluralize(numInvites, "invite", "found");
+				UIUtil.showMessageShort(context, msg);
+				
 			} else if (result.equals(""+ACCEPT_INVITE)) {
-				UIUtil.showMessage(context, "Invite accepted."); // todo - correct pluralization
+				msg = UIUtil.pluralize(numInvites, "invite", "accepted");
+				HomeActivity.updateNumInvites(numInvites);
+				UIUtil.showMessageShort(context, msg);
+				// Now also refresh adapter within My Lists (since new list will need to be pulled)
+				new CustomListTask().refreshListsQuiet(context);
+				
 			} else if (result.equals(""+DECLINE_INVITE)) {
-				UIUtil.showMessage(context, "Invite declined."); // todo - correct pluralization
+				HomeActivity.updateNumInvites(numInvites);
+				msg = UIUtil.pluralize(numInvites, "invite", "declined");
+				UIUtil.showMessageShort(context, msg);
 			}
 		}
+	}
+	
+	public void refreshActivity() {
+
+		((Activity)context).finish();
+		((Activity)context).startActivity(((Activity) context).getIntent());
 	}
 
 	public void getInvites(Context c) {
@@ -76,7 +103,7 @@ public class InviteTask {
 	public void updateInvite(Context c, Invite i) {
 		context = c;
 		currInv = i;
-		pd = ProgressDialog.show(context,"Updating" ,"Please wait...", true, false, null);
+		//pd = ProgressDialog.show(context,"Updating" ,"Please wait...", true, false, null);
 		DoInviteTask task = new DoInviteTask();
 		task.execute(ACCEPT_INVITE);
 	}
@@ -84,7 +111,7 @@ public class InviteTask {
 	public void ignoreInvite(Context c, int invId) {
 		context = c;
 		currInvId = invId;
-		pd = ProgressDialog.show(context,"Updating", "Please wait...", true, false, null);
+		//pd = ProgressDialog.show(context,"Updating", "Please wait...", true, false, null);
 		DoInviteTask task = new DoInviteTask();
 		task.execute(DECLINE_INVITE);
 	}

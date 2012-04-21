@@ -79,7 +79,8 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		adapter.notifyDataSetChanged();
 	}
 	
-	public static InviteAdapter grabAdapter() { // pass to the async task so it will be updated on postExecute
+	public static InviteAdapter getAdapter() { // pass to the async task so it will be updated on postExecute
+		Log.i(TAG, "Grabbing InviteAdapter for refresh??");
 		return adapter;
 	}
 	
@@ -100,7 +101,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
 			new InviteTask().getInvites(context);
-			// this ends up calling updateInvites with the new ArrayList<Invite>
+			// this ends up calling refresh for the adapter
 			return true;
 		} else {
 			return false;

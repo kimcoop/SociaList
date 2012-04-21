@@ -14,7 +14,7 @@ public class SplashScreenTask {
 	public static final String TAG = "SplashScreenTask";
 	protected Context context;
 	private static int LISTS_INVITES = 1; // Flag
-	private static int LISTS = 2;
+	private static int REFRESH_LISTS = 2;
 	private static int INVITES = 3;
 	private static int INITIAL_DOWNLOAD = 4;
 
@@ -26,10 +26,10 @@ public class SplashScreenTask {
 			if (IOUtil.isOnline(context)) {
 
 				if (params[0] == LISTS_INVITES) {
-					JSONCustomList.getLists(context);
+					JSONCustomList.download(context);
 					JSONInvite.getInvites(context);
-				} else if (params[0] == LISTS) {
-					JSONCustomList.getLists(context);
+				} else if (params[0] == REFRESH_LISTS) {
+					JSONCustomList.download(context);
 				} else if (params[0] == INVITES) {
 					Log.i(TAG, "getting invites");
 					JSONInvite.getInvites(context);
@@ -66,10 +66,10 @@ public class SplashScreenTask {
 		task.execute(LISTS_INVITES);
 	}
 
-	public void getLists(Context c) {
+	public void refreshLists(Context c) {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();
-		task.execute(LISTS);
+		task.execute(REFRESH_LISTS);
 	}
 
 	public void getInvites(Context c) {

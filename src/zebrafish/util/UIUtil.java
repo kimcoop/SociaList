@@ -28,6 +28,10 @@ public final class UIUtil {
 	public static void showMessage(Context context, String message) {
 		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
+	
+	public static void showMessageShort(Context context, String message) {
+		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+	}
 
 	public static void showMessage(Context context, int resId) {
 		showMessage(context, context.getResources().getString(resId));
@@ -61,6 +65,21 @@ public final class UIUtil {
 		ok_btn.setOnClickListener(l);
 		dialogok.show();
 
+	}
+	
+	public static String pluralize(int numObjects, String noun, String pred) {
+		String s = "";
+		if (numObjects == 0) {
+			s = "0 " +noun+ "s";
+		} else if (numObjects == 1) {
+			s = "1 " +noun; // no s here! important!
+		} else {
+			s = numObjects + " " +noun+ "s";
+		}
+		
+		s += " " + pred + ".";
+		
+		return s;
 	}
 
 	private UIUtil() {
