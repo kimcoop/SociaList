@@ -4,12 +4,12 @@
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_menu_btn_add"
         android:showAsAction="always"
-        android:title="test"/>
+        android:title="Add An Item"/>
     <item
         android:id="@+id/menu_more"
-        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
+        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
         android:showAsAction="always"
-        android:title="">
+        android:title="More Items">
         <menu>
             <item
                 android:id="@+id/menu_rename"

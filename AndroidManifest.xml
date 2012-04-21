@@ -61,24 +61,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.InsideListActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
         <activity android:name=".Activities.ItemActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
 			android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         
         <activity android:name=".Activities.CreateListActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         <activity android:name=".Activities.InviteActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
@@ -91,37 +91,37 @@
             android:screenOrientation="portrait"  >
         </activity>
         <activity android:name=".Activities.SociaListActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".Activities.ItemsActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
         
          <activity android:name=".Activities.ManageListUsersActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
          <activity android:name=".Activities.PendingInvitesActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
          <activity android:name=".Activities.BrowseForListActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:uiOptions="splitActionBarWhenNarrow"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
         
          <activity android:name=".Activities.SettingsActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"  >
         </activity>
