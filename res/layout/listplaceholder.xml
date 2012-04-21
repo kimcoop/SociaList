@@ -2,23 +2,41 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/userlists_layout">
+    android:id="@+id/userlists_layout"
+    android:background="@color/turquoise_light">
  
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/new_list_button"
-        android:drawSelectorOnTop="false" />
-
+    
     <TextView
-        android:id="@id/android:empty"
-        android:padding="6dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/new_list_button"
-        android:text="@string/No_lists" />
-
+        android:id="@+id/listplaceholder_footer"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"/>
+    
+    <View android:id="@+id/listplaceholder_drop_shadow_up"
+        style="@style/dropShadowUp"
+        android:layout_above="@id/listplaceholder_footer"/>
+    
+    
+    <LinearLayout 
+	   android:orientation="vertical"
+	   android:layout_width="fill_parent"
+	   android:layout_height="fill_parent"
+	   android:paddingLeft="6dip"
+	   android:paddingRight="6dip"
+	   android:layout_above="@id/listplaceholder_footer">
+    
+	    <ListView
+	        android:id="@id/android:list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:drawSelectorOnTop="false" />
+	
+	    <TextView
+	        android:id="@id/android:empty"
+	        android:padding="6dp"
+        	android:layout_marginTop="20dp"
+        	android:textSize="16dp"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:text="@string/No_lists" />
+	</LinearLayout>
 </RelativeLayout>

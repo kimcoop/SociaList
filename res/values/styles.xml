@@ -9,7 +9,7 @@
         <item name="android:drawablePadding">2dp</item>
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#333</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:background">@null</item>
     </style>
     
@@ -25,21 +25,33 @@
 	    <item name="android:background">#30353b</item>
     </style>
     
+    <style name ="dropShadow">
+	    <item name="android:background">@drawable/drop_shadow</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5dip</item>
+    </style>
+    
+    <style name ="dropShadowUp">
+	    <item name="android:background">@drawable/drop_shadow_up</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5dip</item>
+    </style>
+    
     <style name ="headerBar">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">50dip</item>
 	    <item name="android:gravity">center</item>
 	    <item name="android:text">@string/app_name</item>
-	    <item name="android:background">@color/turquoise_4</item>
+	    <item name="android:background">@drawable/header_bar</item>
 	    <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     
      <style name ="footerBar">
 	    <item name="android:layout_width">fill_parent</item>
-	    <item name="android:layout_height">30dip</item>
-	    <item name="android:background">@color/turquoise_4</item>
+	    <item name="android:layout_height">40dip</item>
+	    <item name="android:background">@drawable/header_bar</item>
     </style>
     
      <style name="turquoiseLight">

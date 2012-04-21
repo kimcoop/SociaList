@@ -233,6 +233,8 @@ public class InsideListActivity extends SherlockListActivity {
 		dialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
+		
+		
 
 	}
 

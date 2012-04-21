@@ -4,6 +4,6 @@
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_menu_delete"
         android:showAsAction="always"
-        android:title="test"></item>
+        android:title="Delete Item"></item>
 
 </menu>
