@@ -155,4 +155,12 @@ public class Invite {
 		return (invs==null? 0 : invs.size());
 	}
 
+	public static void accept(Context context, ArrayList<Invite> selectedInvites) {
+		db = new DBHelper(context);
+		db.open();
+		db.acceptInvites(context, selectedInvites, PUSH_TO_CLOUD);
+		db.close();
+		
+	}
+
 }

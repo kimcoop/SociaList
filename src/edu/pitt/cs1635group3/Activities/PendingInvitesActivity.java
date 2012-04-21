@@ -60,8 +60,8 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 
 	public void acceptSelected(View v) {
 		selectedInvites = adapter.getSelected();
+		Invite.accept(context, selectedInvites); // run async
 		for (Invite inv : selectedInvites) {
-			inv.accept(context);
 			invites.remove(inv);
 		}
 		String pluralizer = "Invite";

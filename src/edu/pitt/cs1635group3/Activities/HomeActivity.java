@@ -45,10 +45,8 @@ public class HomeActivity extends Activity {
 		setContentView(R.layout.dashboard);
 		context = this;			
 		
-
 		userID = User.getCurrUser(context);
 		Log.i(TAG, "user id is " + userID);
-		
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		int counter = prefs.getInt("counter", 0);
@@ -58,8 +56,7 @@ public class HomeActivity extends Activity {
 		} 
 		
 		pending = (Button) findViewById(R.id.home_btn_pending);
-		int numInvs = Invite.getNumInvites(context, userID);
-		updateNumInvites(numInvs);
+		updateNumInvites();
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
@@ -68,6 +65,13 @@ public class HomeActivity extends Activity {
 	}
 	
 	public static void updateNumInvites(int n) {
+		Log.i(TAG, "updatingNumInvites to " +n);
+		pending.setText("Invites (" + n + ")");
+	}
+	
+
+	public static void updateNumInvites() {
+		int n = Invite.getNumInvites(context, userID);
 		Log.i(TAG, "updatingNumInvites to " +n);
 		pending.setText("Invites (" + n + ")");
 	}
