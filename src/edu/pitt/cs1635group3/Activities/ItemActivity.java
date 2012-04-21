@@ -1,6 +1,7 @@
 package edu.pitt.cs1635group3.Activities;
 
 import zebrafish.util.DBHelper;
+import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,11 +34,12 @@ public class ItemActivity extends SherlockActivity {
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private GestureDetector gestureDetector;
-	View.OnTouchListener gestureListener;
+	private View.OnTouchListener gestureListener;
 
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
 
+	private AlertDialog builder;
 	private Context context;
 	private static final String TAG = "ITEM ACTIVITY";
 	private static int userID;
@@ -222,14 +224,15 @@ public class ItemActivity extends SherlockActivity {
 		 * assigneeID); } else { Log.e(TAG, "Cannot assign item to null user");
 		 * }
 		 */
-		Toast.makeText(this, "Item updated.", Toast.LENGTH_SHORT).show();
+		UIUtil.showMessage(context, "Item updated.");
 
-	}
+	} // end saveItem
 
 	public void deleteWithList() {
 		// delete item and parent list
 		Intent intent = new Intent(this, SociaListActivity.class);
-
+		builder.dismiss();
+		
 		db.open();
 		db.deleteItem(item);
 		db.deleteListByID(item.getParentID());
@@ -237,15 +240,16 @@ public class ItemActivity extends SherlockActivity {
 
 		startActivityForResult(intent, 2);
 		finish();
-
-	}
+	} // end deleteWithList
 
 	public void deleteAndExit() {
+		builder.dismiss();
 
 		prevItem.setNext(context, nextItem.getID());
 		nextItem.setPrev(context, prevItem.getID());
+		Item.deleteItem(context, item);
 
-		Toast.makeText(this, "Item deleted.", Toast.LENGTH_SHORT).show();
+		UIUtil.showMessage(context, "Item deleted.");
 
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
@@ -254,11 +258,6 @@ public class ItemActivity extends SherlockActivity {
 
 	public void deleteItem() {
 
-		prevItem.setNext(context, nextItem.getID()); // set the previous item's
-														// next item
-		// to the next
-		nextItem.setPrev(context, prevItem.getID());
-
 		if (prevItem.getID() == item.getID()
 				|| nextItem.getID() == item.getID()) { // if this is the last
 														// item in the list,
@@ -266,7 +265,13 @@ public class ItemActivity extends SherlockActivity {
 														// option to delete
 														// whole list
 
-			AlertDialog builder = new AlertDialog.Builder(this)
+			prevItem.setNext(context, nextItem.getID()); // set the previous
+															// item's
+															// next item
+			// to the next
+			nextItem.setPrev(context, prevItem.getID());
+
+			builder = new AlertDialog.Builder(this)
 					// builder.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle("Deleting final list item. Also delete the list?")
 					.setPositiveButton("Yes",
@@ -286,10 +291,34 @@ public class ItemActivity extends SherlockActivity {
 			builder.show();
 
 		} else {
+
+			prevItem.setNext(context, nextItem.getID()); // set the previous
+															// item's
+															// next item
+			// to the next
+			nextItem.setPrev(context, prevItem.getID());
+
+			builder = new AlertDialog.Builder(this)
+					.setTitle("Confirm delete item?")
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									deleteAndExit();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// no delete
+								}
+							}).create();
+			builder.show();
+
 			prevItem.update(context);
 			nextItem.update(context);
-			deleteAndExit();
-		}
+		} // end else
 
 	}
 

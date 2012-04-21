@@ -26,7 +26,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	private final ArrayList<Item> items; // all the items
 	private final ArrayList<Item> selected; // track the selected items
 											// (checkboxes)
-	protected Button assignBtn, completeBtn, inviteBtn; // properly handle
+	protected Button assignBtn, completeBtn; // properly handle
 														// button display
 
 	private static final String TAG = "ItemAdapter";
@@ -34,8 +34,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	protected Context context;
 
 	public ItemAdapter(Context c, int textViewResourceId,
-			ArrayList<Item> items, Button assignButton, Button completeButton,
-			Button inviteButton) {
+			ArrayList<Item> items, Button assignButton, Button completeButton) {
 		super(c, textViewResourceId, items);
 		this.context = c;
 		this.items = items;
@@ -44,7 +43,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 		assignBtn = assignButton;
 		completeBtn = completeButton;
-		inviteBtn = inviteButton;
 	}
 
 	@Override
@@ -124,11 +122,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 	public void handleButtons() {
 
-		if (assignBtn != null && completeBtn != null & inviteBtn != null) {
+		if (assignBtn != null && completeBtn != null) {
 
 			if (selected.size() == 0) { // button display based on number
 										// selected items
-				showInvite();
+				disableButtons();
 			} else {
 				showActionButtons();
 			}
@@ -141,16 +139,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		return selected;
 	}
 
-	public void showInvite() {
-		inviteBtn.setVisibility(View.VISIBLE);
-		completeBtn.setVisibility(View.GONE);
-		assignBtn.setVisibility(View.GONE);
+	public void disableButtons() {
+		completeBtn.setEnabled(false);
+		assignBtn.setEnabled(false);
 	}
 
 	public void showActionButtons() {
-		inviteBtn.setVisibility(View.GONE);
-		completeBtn.setVisibility(View.VISIBLE);
-		assignBtn.setVisibility(View.VISIBLE);
+		completeBtn.setEnabled(true);
+		assignBtn.setEnabled(true);
 	}
 
 }

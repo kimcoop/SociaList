@@ -6,11 +6,12 @@
 
     <TextView
         android:id="@+id/invite_list_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:text="@string/invite_to_list"
-        android:textSize="16dip" >
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" >
     </TextView>
 
     <Spinner
@@ -51,7 +52,8 @@
         android:layout_marginTop="10dp"
         android:padding="4dp"
         android:text="@string/invite_message_preview_title"
-        android:textSize="16dip" >
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" >
     </TextView>
 
     <EditText

@@ -45,7 +45,7 @@ public class InsideListActivity extends SherlockListActivity {
 	private int totalItems;
 	protected Context context;
 
-	protected Button assignButton, completeButton, inviteButton;
+	protected Button assignButton, completeButton;
 	private View buttonsHelper;
 	private ListView lv;
 	private boolean newItems = false;
@@ -92,19 +92,13 @@ public class InsideListActivity extends SherlockListActivity {
 				complete();
 			}
 		});
-		inviteButton = (Button) findViewById(R.id.invite_button);
-		inviteButton.setOnClickListener(new Button.OnClickListener() {
-			public void onClick(View v) {
-				invite();
-			}
-		});
 		buttonsHelper = (View) findViewById(R.id.buttons_helper);
 		lv = getListView();
 
 		users = User.getUsersForDialog(context, list.getID());
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton,
-				completeButton, inviteButton);
+				completeButton);
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);
 		setListAdapter(adapter);

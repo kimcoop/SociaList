@@ -28,11 +28,11 @@
     <string name="invite_button">Invite…</string>
     <string name="assign_button">Assign To…</string>
     <string name="complete_button">Mark Completed</string>
-    <string name="label_notes">Notes:</string>
-    <string name="label_name">Item:</string>
-    <string name="label_quantity">Quantity:</string>
-    <string name="label_assignee">Assigned to:</string>
-    <string name="default_sort_text">Sort By</string>
+    <string name="label_notes">Notes</string>
+    <string name="label_name">Item</string>
+    <string name="label_quantity">Quantity</string>
+    <string name="label_assignee">Assigned to</string>
+    <string name="item_hint">Other info</string>
 
     <string-array name="default_sorts">
         <item>Dated Added</item>

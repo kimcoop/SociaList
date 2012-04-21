@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiper"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/swiper">
+    android:padding="5dp" >
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/label_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp" >
+        android:layout_marginTop="4dp"
+        android:text="@string/label_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/label_name"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@string/label_name"
-        	android:textSize="16dip"
-       		android:layout_marginLeft="5dp" />
+    <EditText
+        android:id="@+id/item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:singleLine="true"
+        android:text="@+id/item_name" >
 
-        <EditText
-            android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:padding="6dp"
-            android:text="@+id/item_name"
-            android:textSize="12dp" />
-        
-    </LinearLayout>
+    </EditText>
+
+    <TextView
+        android:id="@+id/label_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/label_quantity"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,76 +41,50 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/label_quantity"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:padding="2dp"
-            android:text="@string/label_quantity"
-            android:textSize="16dip" />
-
         <EditText
             android:id="@+id/item_quantity"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.33"
-            android:padding="6dp"
-            android:text="@+id/item_quantity"
             android:inputType="number"
-            android:textSize="12dp" />
+            android:singleLine="true"
+            android:text="@+id/item_quantity" />
 
         <Button
             android:id="@+id/minusButton"
-            android:layout_width="fill_parent"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.33"
-            android:text="@string/minus"
-            android:onClick="minusButtonPressed" />
+            android:onClick="minusButtonPressed"
+            android:text="@string/minus" />
 
         <Button
             android:id="@+id/plusButton"
-            android:layout_width="fill_parent"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.33"
-            android:text="@string/plus"
-            android:onClick="plusButtonPressed" />
+            android:onClick="plusButtonPressed"
+            android:text="@string/plus" />
     </LinearLayout>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/label_assignee"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp" >
+        android:layout_marginTop="5dp"
+        android:text="@string/label_assignee"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/label_assignee"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:padding="4.0dp"
-            android:text="@string/label_assignee"
-       		android:layout_marginLeft="5dp"
-        	android:textSize="16dip" />
-
-        <EditText
-            android:id="@+id/item_assignee"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:focusable="false"
-            android:padding="6dp"
-            android:textSize="12dp"
-            android:layout_marginRight="5dp" />
-        
-    </LinearLayout>
+    <EditText
+        android:id="@+id/item_assignee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false" />
 
     <CheckBox
         android:id="@+id/item_completion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:onClick="onToggleClicked"
         android:text="Completed" />
 
@@ -117,20 +92,20 @@
         android:id="@+id/header_notes"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="4.0dp"
+        android:layout_marginTop="5dp"
         android:text="@string/label_notes"
-        android:layout_marginLeft="5dp"
-        android:textSize="16dip" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/item_notes"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:inputType="textMultiLine"
-        android:padding="6.0dp"
-        android:textSize="12dp"
-        android:layout_margin="5dp"
-        android:layout_marginTop="0dp" >
+        android:hint="@string/item_hint"
+        android:inputType="text|textMultiLine"
+        android:singleLine="false" >
+
+        <requestFocus />
     </EditText>
 
     <LinearLayout
@@ -145,16 +120,16 @@
             android:id="@+id/prev_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="prevItem"
             android:layout_weight="1"
+            android:onClick="prevItem"
             android:text="@string/Prev_Item" />
 
         <Button
             android:id="@+id/next_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="nextItem"
             android:layout_weight="1"
+            android:onClick="nextItem"
             android:text="@string/Next_Item" />
     </LinearLayout>
 
