@@ -43,18 +43,23 @@ public class HomeActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
-		context = this;
-		pending = (Button) findViewById(R.id.home_btn_pending);
+		context = this;			
+		
 
 		userID = User.getCurrUser(context);
 		Log.i(TAG, "user id is " + userID);
+		
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		int counter = prefs.getInt("counter", 0);
 
 		if (counter == 0 || userID <= 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
-		}
+		} 
+		
+		pending = (Button) findViewById(R.id.home_btn_pending);
+		int numInvs = Invite.getNumInvites(context, userID);
+		updateNumInvites(numInvs);
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter

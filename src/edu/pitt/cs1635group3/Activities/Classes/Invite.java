@@ -151,7 +151,8 @@ public class Invite {
 	}
 
 	public static int getNumInvites(Context context, int uID) {
-		return getInvites(context, uID).size();
+		ArrayList<Invite> invs = getInvites(context, uID);
+		return (invs==null? 0 : invs.size());
 	}
 
 }

@@ -150,6 +150,7 @@ public class CreateListActivity extends SherlockListActivity {
 			int userID = User.getCurrUser(context);
 
 			CustomList newList = new CustomList();
+			newList.setID(newListPK); // received from AsyncTask
 			newList.setCreator(userID);
 			newList.setCustomID(CID);
 			newList.setName(listName);
