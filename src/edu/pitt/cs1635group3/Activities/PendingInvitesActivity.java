@@ -123,7 +123,6 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
 			new InviteTask().getInvites(context);
-			// this ends up calling refresh for the adapter
 			return true;
 		} else if (item.getItemId() == R.id.menu_select_all) {
 			

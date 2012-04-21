@@ -137,9 +137,6 @@ public class InviteTask {
 		currInvites = selectedInvites;
 		DoInviteTask task = new DoInviteTask();
 		task.execute(ACCEPT_INVITES);
-		
-		
-		
 	}
 	
 	

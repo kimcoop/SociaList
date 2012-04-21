@@ -179,6 +179,7 @@ public class InsideListActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
+						lv.invalidateViews();
 						items.remove(item);
 						adapter.notifyDataSetChanged();
 
@@ -363,7 +364,7 @@ public class InsideListActivity extends SherlockListActivity {
 		for (int i = 0; i < lv.getChildCount(); i++) {
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			CheckBox cb = (CheckBox) itemLayout
-					.findViewById(R.id.element_checkbox);
+					.findViewById(R.id.check);
 			cb.setChecked(true);
 		}
 
@@ -374,7 +375,7 @@ public class InsideListActivity extends SherlockListActivity {
 		for (int i = 0; i < lv.getChildCount(); i++) {
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			CheckBox cb = (CheckBox) itemLayout
-					.findViewById(R.id.element_checkbox);
+					.findViewById(R.id.check);
 			cb.setChecked(false);
 		}
 
