@@ -2,6 +2,8 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
+import service.CustomListTask;
+
 import zebrafish.util.JSONfunctions;
 import zebrafish.util.UIUtil;
 import android.content.Context;
@@ -30,7 +32,7 @@ import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 public class SociaListActivity extends SherlockListActivity { // ListActivity
 	private ArrayList<CustomList> lists = null;
 	private RelativeLayout parentLayout;
-	private ArrayAdapter<CustomList> adapter;
+	private static CustomListAdapter adapter;
 
 	private Context context;
 	private static final String TAG = "SociaListActivity";
@@ -88,6 +90,11 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 			}
 		});
 	} // end onCreate
+	
+	public static CustomListAdapter getAdapter() {
+		// give it to the AsyncTask for refreshing after postExecute
+		return adapter;
+	} // end getAdapter
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -98,7 +105,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		Intent intent = new Intent(this, InsideListActivity.class);
 		intent.putExtra("ListID", list.getID());
 		startActivityForResult(intent, 0);
-	}
+	} // end onListItemClick
 
 	public void createNewList(View v) {
 
@@ -106,7 +113,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				CreateListActivity.class);
 		startActivityForResult(intent, 0);
 
-	}
+	} // end createNewList
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,7 +130,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 			finish();
 		}
 
-	}
+	} // end onActivityResult
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,8 +152,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
-			lists = JSONfunctions.getRefreshLists(context); // TODO
-			adapter.notifyDataSetChanged();
+			new CustomListTask().refreshLists(context);
 			return false;
 		} else {
 			return false;

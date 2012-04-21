@@ -121,6 +121,9 @@ public class JSONCustomList {
 	} // end getListsForUser(Context)
 
 	public static void getLists(Context context) {
+		/*
+		 * Shouldn't be called outside of AsyncTasks. GetListsForUser is the initial call (during app load).
+		 */
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
