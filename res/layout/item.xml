@@ -64,10 +64,17 @@
             android:onClick="plusButtonPressed"
             android:text="@string/plus" />
     </LinearLayout>
+    
+     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/label_assignee"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/label_assignee"
@@ -79,6 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false" />
+    </LinearLayout>
 
     <CheckBox
         android:id="@+id/item_completion"
