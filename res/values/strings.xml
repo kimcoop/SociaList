@@ -131,6 +131,11 @@
     <string name="remove_users">Remove</string>
     <string name="no_list_users">This list isn\'t shared with any users.</string>
     
+    <!-- dialog_register.xml -->
+    <string name="Name_hint">Name</string>
+    <string name="allow_push_hint">Allow push notifications</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Email">Email</string>
     <!--  -->
 
 </resources>

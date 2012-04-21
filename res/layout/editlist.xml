@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/List_name_here"
-        android:textSize="14dp" >
+        android:textSize="14dp" 
+        android:maxLength="254" >
 
         <requestFocus />
     </EditText>
@@ -52,7 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/CID_hint"
-        android:textSize="14dp" />
+        android:textSize="14dp" 
+        android:maxLength="254" />
 
     <TextView
         android:id="@+id/label_list_items"
