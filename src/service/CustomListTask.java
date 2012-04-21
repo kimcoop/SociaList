@@ -94,8 +94,6 @@ public class CustomListTask {
 				UIUtil.showMessageShort(context, msg);
 				
 			} else if (result.equals(""+REFRESH_LISTS_QUIET)) {
-				CustomListAdapter adapter = SociaListActivity.getAdapter();
-				adapter.notifyDataSetChanged();
 				refreshActivity();
 				
 			} else if (result.equals(""+RESERVE_PRIMARY_KEY)) {

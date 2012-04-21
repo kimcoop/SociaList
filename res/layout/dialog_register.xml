@@ -27,10 +27,11 @@
 	    android:id="@+id/txtvEmail"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:hint="Email"
+	    android:hint="@string/Email"
 	    android:textColor="@color/dark_grey"
 	    android:textSize="16sp"
-        android:editable="true" >
+        android:editable="true"
+        android:maxLength="254" >
 
 		<requestFocus />
 
@@ -41,15 +42,16 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:editable="true"
-	    android:hint="Name"
+	    android:hint="@string/Name_hint"
 	    android:textColor="@color/dark_grey"
-	    android:textSize="16sp" />
+	    android:textSize="16sp"
+	    android:maxLength="254" />
 
 	<CheckBox
 	    android:id="@+id/chboxPush"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:text="Allow push notifications" />
+	    android:text="@string/allow_push_hint" />
 	
 	<LinearLayout
 		android:orientation="horizontal"
@@ -60,7 +62,7 @@
 	
 		<Button
 			android:id="@+id/buttonOK"
-			android:text="OK"
+			android:text="@string/ok"
 			android:textSize="20sp"
 			android:layout_width="wrap_content"
 	        android:layout_height="fill_parent" 
@@ -69,7 +71,7 @@
 		
 		<Button
 			android:id="@+id/buttonCancel"
-			android:text="Cancel"
+			android:text="@string/Cancel"
 			android:textSize="20sp"
 			android:layout_width="wrap_content"
 	        android:layout_height="fill_parent" 

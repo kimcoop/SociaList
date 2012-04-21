@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:singleLine="true"
-        android:text="@+id/item_name" >
+        android:text="@+id/item_name"
+        android:maxLength="254" >
 
     </EditText>
 
@@ -48,7 +49,8 @@
             android:layout_weight="0.33"
             android:inputType="number"
             android:singleLine="true"
-            android:text="@+id/item_quantity" />
+            android:text="@+id/item_quantity" 
+            android:maxLength="254" />
 
         <Button
             android:id="@+id/minusButton"
@@ -86,7 +88,8 @@
         android:layout_marginLeft="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false" />
+        android:focusable="false" 
+        android:maxLength="254" />
     </LinearLayout>
 
     <CheckBox

@@ -8,4 +8,10 @@
         android:showAsAction="always"
         android:title="Refresh"></item>
     
+    <item android:id="@+id/menu_select_all"
+        android:icon="@drawable/ic_menu_selectall_holo_dark"
+        android:showAsAction="always"
+        android:title="Select All"
+        ></item>
+    
 </menu>

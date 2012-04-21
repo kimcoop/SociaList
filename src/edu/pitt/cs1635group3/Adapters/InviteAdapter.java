@@ -19,7 +19,7 @@ import edu.pitt.cs1635group3.Activities.Classes.Invite;
 public class InviteAdapter extends ArrayAdapter<Invite> {
 
 	private final ArrayList<Invite> invites;
-	private final ArrayList<Invite> selected;
+	private ArrayList<Invite> selected;
 	private final static String TAG = "InviteAdapter";
 	private DBHelper db;
 	private static Context context;
@@ -83,9 +83,6 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 			}
 
 			if (subtitle != null) {
-				// long longDate = Long.parseLong(o.getInviteDate());
-				// subtitle.setText(DateUtil.formatDate(longDate, context));
-				// TODO
 				subtitle.setText(o.getInviteDate());
 			}
 
@@ -109,5 +106,32 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 		return selected;
 
 	}
+	
+	public boolean allSelected() {
+		return selected.size() == invites.size();
+	}
+
+	public void selectAll() {
+		Log.i(TAG, "selectingAll");
+		
+		selected = new ArrayList<Invite>(); // empty it first
+		
+		for (Invite inv : invites) {
+			Log.i(TAG, "adding inv to selected");
+			selected.add(inv);
+		}
+		
+		
+	} // end selectAll
+	
+	public void deselectAll() {
+		Log.i(TAG, "deselectingAll");
+		
+		selected = new ArrayList<Invite>(); // empty it first
+		
+		
+	} // end deselectAll
+	
+	
 
 }

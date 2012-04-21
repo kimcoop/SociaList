@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -101,6 +102,11 @@ public class CreateListActivity extends SherlockListActivity {
 
 		final EditText input = new EditText(this); // Set an EditText view to
 													// get user input
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(254);
+        input.setFilters(FilterArray);
+        Log.d("Input", "This should output when the popup comes up");
+        
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -150,6 +156,7 @@ public class CreateListActivity extends SherlockListActivity {
 			int userID = User.getCurrUser(context);
 
 			CustomList newList = new CustomList();
+			newList.setID(newListPK); // received from AsyncTask
 			newList.setCreator(userID);
 			newList.setCustomID(CID);
 			newList.setName(listName);
