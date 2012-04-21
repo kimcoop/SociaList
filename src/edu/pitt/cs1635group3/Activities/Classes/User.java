@@ -171,12 +171,12 @@ public class User {
 	}
 
 	public static void insertOrUpdateUsers(Context context,
-			ArrayList<User> users) {
+			ArrayList<User> users, boolean pushToCloud) {
 		db = new DBHelper(context);
 		db.open();
 
 		for (User u : users) {
-			db.insertOrUpdateUser(u);
+			db.insertOrUpdateUser(u, pushToCloud);
 		}
 		db.close();
 	}

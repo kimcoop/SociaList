@@ -167,7 +167,7 @@ public class DBHelper {
 	 * USER METHODS
 	 */
 
-	public void insertOrUpdateUser(User i) {
+	public void insertOrUpdateUser(User i, boolean pushToCloud) {
  
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM user WHERE id = " + id;
@@ -177,14 +177,14 @@ public class DBHelper {
 		if (c.getCount() > 0) {
 			// Item exists
 			c.close();
-			updateUser(i);
+			updateUser(i, pushToCloud);
 		} else {
 			c.close();
-			insertUser(i);
+			insertUser(i, pushToCloud);
 		}
 	}
 
-	public boolean updateUser(User i) {
+	public boolean updateUser(User i, boolean pushToCloud) {
 		ContentValues args = new ContentValues();
 
 		args.put(KEY_USER_FIRST, i.getFirstName());
@@ -198,7 +198,7 @@ public class DBHelper {
 
 	}
 
-	public long insertUser(User u) {
+	public long insertUser(User u, boolean pushToCloud) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());

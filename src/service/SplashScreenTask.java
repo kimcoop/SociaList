@@ -35,7 +35,7 @@ public class SplashScreenTask {
 					JSONInvite.getInvites(context);
 				} else if (params[0] == INITIAL_DOWNLOAD) {
 					Log.i(TAG, "Pulling initial download based on user ID ");
-					JSONCustomList.getListsForUser(context);
+					JSONCustomList.download(context);
 				}
 
 			} else {

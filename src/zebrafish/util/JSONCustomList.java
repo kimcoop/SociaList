@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
+import edu.pitt.cs1635group3.Activities.Classes.Item;
+import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class JSONCustomList {
 
@@ -82,9 +84,11 @@ public class JSONCustomList {
 	
 
 
-	public static void getListsForUser(Context context) {
+	public static void download(Context context) {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
+		ArrayList<Item> listItems = new ArrayList<Item>();
+		ArrayList<User> listUsers = new ArrayList<User>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getListsForUser");
 		Log.i(TAG, json.toString() + "");
 		try {
@@ -96,6 +100,14 @@ public class JSONCustomList {
 			for (int i = 0; i < myLists.length(); i++) {
 				e1 = myLists.getJSONObject(i);
 				list = new CustomList(e1); // this will also parse for items and users (for each list)
+				listItems = CustomList.parseForItems(e1.getJSONArray("items"));
+				listUsers = CustomList.parseForUsers(e1.getJSONArray("users"));
+				CustomList.setLinks(context, listItems);
+				
+				Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
+				User.insertOrUpdateUsers(context, listUsers, NO_PUSH_TO_CLOUD);
+				
+				
 				myCustomLists.add(list);
 			}
 

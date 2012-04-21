@@ -75,7 +75,7 @@ public class JSONUser {
 		String result = JSONfunctions.postToCloud(params);
 		Log.i(TAG, "User updated on cloud");
 	}
-//
+
 	public static void getUsers(Context context, int listID) {
 		// pull in users from the server. do this only once
 
@@ -96,8 +96,7 @@ public class JSONUser {
 		}
 
 		if (users != null)
-			User.insertOrUpdateUsers(context, users); // insert into db all
-														// users at once
+			User.insertOrUpdateUsers(context, users, NO_PUSH_TO_CLOUD);
 		else
 			Log.i(TAG, "No users for list: ID " + listID);
 

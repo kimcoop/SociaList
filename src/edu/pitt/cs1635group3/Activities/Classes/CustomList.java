@@ -17,7 +17,7 @@ public class CustomList implements Parcelable {
 	private int ID, creatorID;
 	private int populated;
 	protected ArrayList<Item> listItems;
-	public boolean NO_PUSH_TO_CLOUD = false;
+	public static boolean NO_PUSH_TO_CLOUD = false;
 
 	private static DBHelper db;
 
@@ -103,7 +103,7 @@ public class CustomList implements Parcelable {
 		ArrayList<Item> items = new ArrayList<Item>();
 		;
 		int listSize = this.getItems().size();
-		Log.d("CustomList.java", "listSize = " + listSize);
+		Log.d(TAG, "listSize = " + listSize);
 		for (int i = 0; i < listSize; i++) { // make linked list
 
 			if (listSize - 1 == i) {
@@ -415,18 +415,7 @@ public class CustomList implements Parcelable {
 	
 	public static CustomList parseJSONforCustomList(Context context, JSONObject e) {
 		Log.i(TAG, "parsing for custom list");
-		CustomList list = new CustomList(e);
-		ArrayList<User> listUsers = new ArrayList<User>();
-		try {
-
-			list.listItems = parseForItems(e.getJSONArray("items"));
-			listUsers = parseForUsers(e.getJSONArray("users"));
-
-		} catch (JSONException e1) {
-			Log.i(TAG, e1.toString());
-		}
-		
-		User.insertOrUpdateUsers(context, listUsers); // do this here
+		CustomList list = new CustomList(e); // users and items parsing taken care of in calling method
 
 		return list;
 	} // end parseJSONForCustomList
@@ -440,5 +429,49 @@ public class CustomList implements Parcelable {
 		db.close();
 		return s;
 	} // end getListName
+	
+	public static void setLinks(Context context, ArrayList<Item> items) {
+
+			Item itemA, itemB, itemC;
+			
+			int listSize = items.size();
+			for (int i = 0; i < listSize; i++) { // make linked list
+
+				if (listSize - 1 == i) {
+					// At the last index
+					itemA = items.get(i);
+					itemB = items.get(0);
+
+					itemA.setNext(itemB.getID());
+
+				} else if (listSize > 1 && i == 0) {
+					// Two or more items in the list, insert the first two
+					itemA = items.get(i);
+					itemB = items.get(i + 1);
+					itemC = items.get(listSize - 1);
+					itemA.setNext(itemB.getID());
+					itemA.setPrev(itemC.getID());
+					itemB.setPrev(itemA.getID());
+
+				} else if (listSize > 1 && i < listSize) {
+					// Two or more items in the list
+					itemA = items.get(i);
+					itemB = items.get(i + 1);
+					itemA.setNext(itemB.getID());
+					itemB.setPrev(itemA.getID());
+
+				}
+
+				else {
+					// Only one item in the list
+					itemA = items.get(0);
+					itemA.setNext(itemA.getID());
+					itemA.setPrev(itemA.getID());
+				}
+				items.add(itemA);
+			}
+			
+			Item.insertOrUpdateItems(context, items, NO_PUSH_TO_CLOUD);
+		} // end *static* setLinks
 
 }
