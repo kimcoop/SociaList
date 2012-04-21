@@ -2,6 +2,10 @@ package edu.pitt.cs1635group3.Activities.Classes;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONUser;
 import android.content.Context;
@@ -26,7 +30,7 @@ public class User {
 		this.first = f;
 		this.last = l;
 		this.email = e;
-		
+
 	}
 
 	public User() {
@@ -35,6 +39,29 @@ public class User {
 	/*
 	 * SETTERS
 	 */
+
+	public User(JSONArray e) {
+		try {
+			ID = e.getInt(0);
+			first = e.getString(1);
+			last = e.getString(2);
+			email = e.getString(3);
+		} catch (JSONException e1) {
+			Log.i(TAG, "User parse error: " + e1.toString());
+		}
+
+	}
+
+	public User(JSONObject e1) {
+		try {
+			ID = Integer.parseInt(e1.getString("id"));
+			first = e1.getString("first");
+			last = e1.getString("last");
+			email = e1.getString("email");
+		} catch (JSONException e2) {
+			Log.i(TAG, "User parse error: " + e2.toString());
+		}
+	}
 
 	public void setDeviceToken(String s) {
 		this.deviceToken = s;
@@ -81,8 +108,10 @@ public class User {
 	}
 
 	public String getFirstName() {
-		if (first == null) return email;
-		else return first;
+		if (first == null)
+			return email;
+		else
+			return first;
 	}
 
 	public String getLastName() {
@@ -90,8 +119,10 @@ public class User {
 	}
 
 	public String getName() {
-		if (first == null) return email;
-		else return first + " " + last;
+		if (first == null)
+			return email;
+		else
+			return first + " " + last;
 	}
 
 	public int getID() {
@@ -110,7 +141,6 @@ public class User {
 		int id = prefs.getInt("userID", 0);
 		return id;
 	}
-	
 
 	public static String getCurrUsername(Context context) {
 		SharedPreferences prefs;
@@ -129,6 +159,7 @@ public class User {
 		String id = prefs.getString("email", "");
 		return id;
 	}
+
 	public static int getUserByName(Context context, String rawAssignee) {
 		// this method will be changing to ID rather than name
 		int id;
@@ -168,8 +199,9 @@ public class User {
 		return users;
 	}
 
-	public static int storeUser(Context context, String name, String email, String pn) {
-		Log.i(TAG, "name " +name + ". email " +email);
+	public static int storeUser(Context context, String name, String email,
+			String pn) {
+		Log.i(TAG, "name " + name + ". email " + email);
 		int uID;
 		uID = JSONUser.storeUser(context, name, email, pn);
 		return uID;

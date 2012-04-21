@@ -11,7 +11,7 @@ public class ItemTask {
 	public static final String TAG = "ItemUpdateTask";
 	protected Context context;
 
-	private class DoItemUpdateTask extends AsyncTask<Item, Void, String> {
+	private class DoItemTask extends AsyncTask<Item, Void, String> {
 		@Override
 		protected String doInBackground(Item... params) {
 			String response = "";
@@ -39,7 +39,7 @@ public class ItemTask {
 	}
 
 	public void update(Item i) {
-		DoItemUpdateTask task = new DoItemUpdateTask();
+		DoItemTask task = new DoItemTask();
 		task.execute(i);
 
 	}

@@ -319,15 +319,14 @@ public class CustomList implements Parcelable {
 		db.close();
 	}
 
-	public static CustomList parseJSONforCustomList(JSONObject e,
-			boolean strippedDown) {
+	public static CustomList parseJSONforTemplateCustomList(JSONObject e) {
 		Log.i(TAG, "getting stripped down customList");
 		CustomList list = new CustomList();
 		try {
 			list.ID = e.getInt("id");
 			list.name = e.getString("name");
 
-			list.listItems = parseForItems(e.getJSONArray("listItems"));
+			list.listItems = parseForTemplateItems(e.getJSONArray("listItems"));
 
 		} catch (JSONException e1) {
 			Log.i(TAG, e1.toString());
@@ -336,9 +335,8 @@ public class CustomList implements Parcelable {
 		return list;
 	}
 
-	public static ArrayList<Item> parseForItems(JSONArray jArray) {
+	public static ArrayList<Item> parseForTemplateItems(JSONArray jArray) {
 		ArrayList<Item> items = new ArrayList<Item>();
-		boolean strippedDown = true;
 
 		if (jArray.length() >= 1) {
 
@@ -353,7 +351,7 @@ public class CustomList implements Parcelable {
 					e.printStackTrace();
 				}
 
-				item1 = new Item(e1, strippedDown);
+				item1 = Item.templatize(e1);
 				Log.i(TAG, "parsing item from browse: " + item1.getName());
 				items.add(item1);
 
@@ -361,7 +359,79 @@ public class CustomList implements Parcelable {
 		}
 
 		return items;
-	}
+	} // end parseForTemplateItems
+	
+	public static ArrayList<Item> parseForItems(JSONArray jArray) {
+		ArrayList<Item> items = new ArrayList<Item>();
+
+		if (jArray.length() >= 1) {
+
+			JSONObject e1 = null;
+			Item item1 = null;
+
+			for (int i = 0; i < jArray.length(); i++) {
+
+				try {
+					e1 = jArray.getJSONObject(i);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				item1 = new Item(e1);
+				Log.i(TAG, "parsed item: " + item1.getName());
+				items.add(item1);
+
+			}
+		}
+
+		return items;
+	} // end parseForItems
+	
+	public static ArrayList<User> parseForUsers(JSONArray jArray) {
+		ArrayList<User> users = new ArrayList<User>();
+
+		if (jArray.length() >= 1) {
+
+			JSONObject e1 = null;
+			User user1 = null;
+
+			for (int i = 0; i < jArray.length(); i++) {
+
+				try {
+					e1 = jArray.getJSONObject(i);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				user1 = new User(e1);
+				Log.i(TAG, "parsed user: " + user1.getName());
+				users.add(user1);
+
+			}
+		}
+
+		return users;
+	} // end parseForItems
+	
+	public static CustomList parseJSONforCustomList(Context context, JSONObject e) {
+		Log.i(TAG, "parsing for custom list");
+		CustomList list = new CustomList(e);
+		ArrayList<User> listUsers = new ArrayList<User>();
+		try {
+
+			list.listItems = parseForItems(e.getJSONArray("items"));
+			listUsers = parseForUsers(e.getJSONArray("users"));
+
+		} catch (JSONException e1) {
+			Log.i(TAG, e1.toString());
+		}
+		
+		User.insertOrUpdateUsers(context, listUsers); // do this here
+
+		return list;
+	} // end parseJSONForCustomList
+	
+	
 
 	public static String getListName(Context context, int listID) {
 		db = new DBHelper(context);
@@ -369,6 +439,6 @@ public class CustomList implements Parcelable {
 		String s = db.getListName(listID);
 		db.close();
 		return s;
-	}
+	} // end getListName
 
 }

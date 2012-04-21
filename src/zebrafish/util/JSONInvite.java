@@ -28,7 +28,7 @@ public class JSONInvite {
 		return params;
 	}
 
-	public static void getInvites(Context context) { // insert all into db
+	public static ArrayList<Invite> getInvites(Context context) { // insert all into db
 
 		ArrayList<Invite> myInvites = new ArrayList<Invite>();
 
@@ -51,6 +51,8 @@ public class JSONInvite {
 		} catch (JSONException e) {
 			Log.e(TAG, "Error in getInvites(): " + e.toString());
 		}
+		
+		return myInvites;
 
 	} // end getInvites(Context)
 
@@ -64,5 +66,17 @@ public class JSONInvite {
 			Log.d(TAG, s);
 		
 	}	// end updateInvite
+
+	public static void declineInvite(Context context, int currInvId) {
+		Log.i(TAG, "declineInvite");
+		
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("objID", ""+currInvId));
+		params.add(new BasicNameValuePair("action", "declineInvite"));
+		
+		String s = JSONfunctions.postToCloud(params);
+		Log.d(TAG, s);
+		
+	} // end declineInvite
 
 }

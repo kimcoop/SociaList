@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,7 +54,6 @@ public class HomeActivity extends Activity {
 
 		if (counter == 0 || userID <= 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
-			Log.i(TAG, "register dialog should've just displayed");
 		}
 
 		Editor e = prefs.edit();

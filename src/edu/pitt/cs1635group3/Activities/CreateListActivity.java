@@ -6,6 +6,7 @@ import java.util.HashMap;
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONItem;
+import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -76,14 +77,6 @@ public class CreateListActivity extends SherlockListActivity {
 	}
 
 	public void addListItem() {
-
-		/*
-		 * ROB - when you're working on this, may want to consider moving this
-		 * function into the List class? Only since it's called at least twice
-		 * in our app (creation of new list, editing list). I don't think it
-		 * would be hard, just pass the Activity context as a param to the
-		 * method in the class.
-		 */
 
 		// Whenever the list gets refreshed, the other layout pieces (List name)
 		// get refreshed too.
@@ -214,7 +207,7 @@ public class CreateListActivity extends SherlockListActivity {
 							PUSH_TO_CLOUD);
 				}
 			}
-			Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
+			UIUtil.showMessage(context, "List Created!");
 			Intent in = new Intent();
 			setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 								// items.

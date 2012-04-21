@@ -75,7 +75,7 @@ public class JSONUser {
 		String result = JSONfunctions.postToCloud(params);
 		Log.i(TAG, "User updated on cloud");
 	}
-
+//
 	public static void getUsers(Context context, int listID) {
 		// pull in users from the server. do this only once
 
@@ -86,14 +86,9 @@ public class JSONUser {
 		try {
 			JSONArray myUsers = json.getJSONArray("users");
 
-			User u;
-
 			for (int i = 0; i < myUsers.length(); i++) {
 				JSONArray e = myUsers.getJSONArray(i);
-				u = new User(e.getInt(0), e.getString(1), e.getString(2),
-						e.getString(3));
-
-				users.add(u);
+				users.add(new User(e));
 			}
 
 		} catch (JSONException e) {

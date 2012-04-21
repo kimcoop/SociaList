@@ -56,7 +56,6 @@ public class JSONCustomList {
 			String CID) {
 		JSONObject json = JSONfunctions.getJSONfromURL("browseForList", CID);
 		ArrayList<CustomList> matchingLists = new ArrayList<CustomList>();
-		boolean strippedDown = true;
 
 		try {
 			JSONArray lists = json.getJSONArray("lists");
@@ -68,8 +67,7 @@ public class JSONCustomList {
 
 				for (int i = 0; i < lists.length(); i++) {
 					listObj = lists.getJSONObject(i);
-					tempList = CustomList.parseJSONforCustomList(listObj,
-							strippedDown); // parses items too
+					tempList = CustomList.parseJSONforTemplateCustomList(listObj); // parses items too
 					matchingLists.add(tempList);
 
 				} // end for
@@ -81,6 +79,34 @@ public class JSONCustomList {
 
 		return matchingLists;
 	} // end browseForList
+	
+
+
+	public static void getListsForUser(Context context) {
+
+		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
+		JSONObject json = JSONfunctions.getJSONfromURL(context, "getListsForUser");
+		Log.i(TAG, json.toString() + ""); 
+		try {
+			JSONArray myLists = json.getJSONArray("lists");
+
+			CustomList list;
+			JSONObject e1;
+
+			for (int i = 0; i < myLists.length(); i++) {
+				e1 = myLists.getJSONObject(i);
+				list = new CustomList(e1);
+				myCustomLists.add(list);
+			}
+
+			CustomList.insertOrUpdateLists(context, myCustomLists,
+					NO_PUSH_TO_CLOUD);
+
+		} catch (JSONException e) {
+			Log.e(TAG, "Error in getLists(): " + e.toString());
+		}
+
+	} // end getListsForUser(Context)
 
 	public static void getLists(Context context) {
 

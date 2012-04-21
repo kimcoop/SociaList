@@ -57,6 +57,10 @@ public class InviteActivity extends SherlockActivity {
 
 		int uID = User.getCurrUser(context);
 		message = getString(R.string.invite_message_default);
+		
+		
+		EditText messageSpace = (EditText) findViewById(R.id.invite_message_preview);
+		messageSpace.setText(message);
 
 		TextView listNameSpace = (TextView) findViewById(R.id.invite_list_name);
 		listNameSpace.setText(getString(R.string.invite_to_list) + " " +listName);
@@ -215,6 +219,8 @@ public class InviteActivity extends SherlockActivity {
 
 	public void sendInvitation(View v) {
 		String smsContent = message;
+		
+		Log.i(TAG, "Sending invitation");
 
 		Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
 		String invite_type = (String) spinner.getItemAtPosition(spinner

@@ -87,6 +87,13 @@ public class Invite {
 		db.updateInvite(context, this, PUSH_TO_CLOUD);
 		db.close();
 	}
+	
+	public void ignore(Context context) {
+		db = new DBHelper(context);
+		db.open();
+		db.ignoreInvite(context, this.ID, PUSH_TO_CLOUD);
+		db.close();
+	}
 
 	/*
 	 * GETTERS
@@ -115,13 +122,6 @@ public class Invite {
 	/*
 	 * CLASS METHODS
 	 */
-
-	public static void ignore(Context context, Invite i) {
-		db = new DBHelper(context);
-		db.open();
-		db.ignoreInvite(i.getID());
-		db.close();
-	}
 
 	public static ArrayList<Invite> getInvites(Context context, int userID) {
 

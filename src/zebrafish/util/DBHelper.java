@@ -225,10 +225,12 @@ public class DBHelper {
 		}
 	}
 
-	public void ignoreInvite(int id) {
+	public void ignoreInvite(Context context, int id, boolean pushToCloud) {
 		// delete the invite
-
-		// JSONfunctions.deleteList(list.getID());
+		
+		if (pushToCloud) {
+			new InviteTask().ignoreInvite(context, id);
+		}
 
 		db.delete(MAP_LIST_USER_TABLE, KEY_MAP_LIST_USER_ID + "=?",
 				new String[] { String.valueOf(id) });
@@ -297,7 +299,9 @@ public class DBHelper {
 			} // end while
 
 			c.close();
-		} // c != null
+		} else {
+			Log.i(TAG, "no user invites found in db");
+		}
 
 		return invites;
 	} // end getUserInvites

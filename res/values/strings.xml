@@ -116,7 +116,7 @@
 
     <!-- Pending Lists -->
     <string name="accept_invites">Accept Invite(s)</string>
-    <string name="ignore_invites">Ignore Invites(s)</string>
+    <string name="ignore_invites">Decline Invites(s)</string>
     <string name="no_invites">No pending invites.</string>
     
     <!--  Date Util  -->

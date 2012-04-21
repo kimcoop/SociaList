@@ -8,8 +8,10 @@ import zebrafish.util.UIUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -24,13 +26,13 @@ import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 
 public class PendingInvitesActivity extends SherlockListActivity { // ListActivity
 	private static ArrayList<Invite> invites;
-	private static ArrayAdapter<Invite> adapter;
+	private static InviteAdapter adapter;
 	private static ArrayList<Invite> selectedInvites;
 
 	private static Context context;
 	private static final String TAG = "PendingInvitesActivity";
 	private static int userID;
-	private ListView lv;
+	private static ListView lv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 	}
 
 	public void acceptSelected(View v) {
-		selectedInvites = ((InviteAdapter) adapter).getSelected();
+		selectedInvites = adapter.getSelected();
 		for (Invite inv : selectedInvites) {
 			inv.accept(context);
 			invites.remove(inv);
@@ -62,32 +64,23 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		String pluralizer = "Invite";
 		if (selectedInvites.size() > 1)
 			pluralizer += "s";
-		UIUtil.showMessage(context, pluralizer + " accepted.");
 		adapter.notifyDataSetChanged();
 	}
 
 	public void ignoreSelected(View v) {
-		selectedInvites = ((InviteAdapter) adapter).getSelected();
+		selectedInvites = adapter.getSelected();
 		for (Invite inv : selectedInvites) {
-			Invite.ignore(context, inv); // class method
+			inv.ignore(context);
 			invites.remove(inv);
 		}
 		String pluralizer = "Invite";
 		if (selectedInvites.size() > 1)
 			pluralizer += "s";
-		UIUtil.showMessage(context, pluralizer + " ignored.");
 		adapter.notifyDataSetChanged();
 	}
 	
-	public static void displayMessage() {
-		
-	}
-
-	public static void updateInvites() {
-		if (adapter != null) {
-			invites = Invite.getInvites(context, userID);
-			adapter.notifyDataSetChanged();
-		}
+	public static InviteAdapter grabAdapter() { // pass to the async task so it will be updated on postExecute
+		return adapter;
 	}
 	
 	@Override
@@ -107,7 +100,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
 			new InviteTask().getInvites(context);
-			adapter.notifyDataSetChanged(); // this is actually done in the async task but sometimes faulty? - kim
+			// this ends up calling updateInvites with the new ArrayList<Invite>
 			return true;
 		} else {
 			return false;

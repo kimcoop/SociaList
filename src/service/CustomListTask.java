@@ -13,21 +13,21 @@ public class CustomListTask {
 	
 	private static int GET_LISTS = 1;
 
-	private class DoListUpdateTask extends AsyncTask<CustomList, Void, String> {
+	private class DoCustomListTask extends AsyncTask<CustomList, Void, String> {
 		@Override
 		protected String doInBackground(CustomList... params) {
 			String response = "";
 			
-			if (IOUtil.isOnline(context)) {
+			//if (IOUtil.isOnline(context)) {
 
 			for (CustomList custlist : params) {
 				Log.i(TAG, "Updated " + custlist.getName());
 				JSONCustomList.updateList(custlist);
 			}
 			
-			} else {
+			//} else {
 				IOUtil.informConnectionIssue(context);
-			}
+			//}
 
 			return "";
 		}
@@ -40,7 +40,7 @@ public class CustomListTask {
 	}
 
 	public void update(CustomList list) {
-		DoListUpdateTask task = new DoListUpdateTask();
+		DoCustomListTask task = new DoCustomListTask();
 		task.execute(list);
 	}
 }
