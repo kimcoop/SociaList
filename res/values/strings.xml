@@ -51,16 +51,20 @@
     <!-- Invite -->
     <string name="send_button">Send Invitation</string>
     <string name="invite_activity_title">Invite to List</string>
-    <string name="invite_method_label">Invite method</string>
-    <string name="invite_message_preview_title">Invite message</string>
+    
+    <string name="invite_to_list">Invite a friend to</string>
+    <string name="invite_message_default">I shared a list with you on SociaList! Download the app to check it out.</string>
+    
+    <string name="invite_method_label">Invite Method</string>
+    <string name="invite_message_preview_title">Invite Message</string>
     <string name="pick_contact_label">Pick Contact</string>
-    <string name="invite_email_hint">Number or email</string>
+    <string name="invite_email_hint">Number or Email</string>
     <string name="message_preview">Message preview</string>
-    <string name="invitetypeprompt">Pick type of invite...</string>
+    <string name="invitetypeprompt">Invite Method</string>
 
     <string-array name="invitetypelist">
-        <item>Send SMS</item>
-        <item>Send Email</item>
+        <item>Invite via SMS</item>
+        <item>Invite via Email</item>
     </string-array>
 
     <!-- editlist.xml -->

@@ -2,83 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/invite_method_label"
-            android:textSize="16dip" >
+    android:orientation="vertical" >
 
-        </TextView>
+    <TextView
+        android:id="@+id/invite_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/invite_to_list"
+        android:textSize="16dip" >
+    </TextView>
 
-        <Spinner
-            android:id="@+id/invite_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/invitetypelist"
-            android:prompt="@string/invitetypeprompt" />
+    <Spinner
+        android:id="@+id/invite_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/invitetypelist"
+        android:prompt="@string/invitetypeprompt" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            <EditText
-                android:id="@+id/invite_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/do_email_picker"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/do_email_picker"
-                android:hint="@string/invite_email_hint"
-                android:inputType="textEmailAddress" >
-            </EditText>
-
-            <Button
-                android:id="@+id/do_email_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:onClick="doLaunchContactPicker"
-                android:text="@string/pick_contact_label" >
-            </Button>
-        </RelativeLayout>
-
-        <TextView
+        <EditText
+            android:id="@+id/invite_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="4dp"
-            android:text="@string/invite_message_preview_title"
-            android:textSize="16dip" >
-
-        </TextView>
-        <EditText
-            android:id="@+id/invite_message_preview"
-            android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:hint="@string/message_preview" >
-
+            android:layout_alignBottom="@+id/do_email_picker"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/do_email_picker"
+            android:hint="@string/invite_email_hint"
+            android:inputType="textEmailAddress" >
         </EditText>
-        
-        
-	    <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:layout_gravity="bottom"
-	        android:gravity="bottom|center"
-	        android:orientation="horizontal"
-	        android:padding="2dp" >
 
-	        <Button
-	            android:layout_alignParentBottom="true"
-		        android:layout_gravity="bottom"
-	            android:id="@+id/send_button"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:onClick="sendInvitation"
-	            android:text="@string/send_button" />
-        </LinearLayout>
-        
+        <Button
+            android:id="@+id/do_email_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:onClick="doLaunchContactPicker"
+            android:text="@string/pick_contact_label" >
+        </Button>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="4dp"
+        android:text="@string/invite_message_preview_title"
+        android:textSize="16dip" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/invite_message_preview"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:hint="@string/invite_message_default" >
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        android:padding="2dp" >
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:onClick="sendInvitation"
+            android:text="@string/send_button" />
+    </LinearLayout>
 
 </LinearLayout>

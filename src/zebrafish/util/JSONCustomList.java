@@ -86,7 +86,7 @@ public class JSONCustomList {
 
 		ArrayList<CustomList> myCustomLists = new ArrayList<CustomList>();
 		JSONObject json = JSONfunctions.getJSONfromURL(context, "getLists");
-		Log.i(TAG, json.toString() + "");
+		Log.i(TAG, json.toString() + ""); 
 		try {
 			JSONArray myLists = json.getJSONArray("lists");
 

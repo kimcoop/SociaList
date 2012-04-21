@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 
-public class ItemUpdateTask {
+public class ItemTask {
 	public static final String TAG = "ItemUpdateTask";
 	protected Context context;
 

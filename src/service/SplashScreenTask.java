@@ -3,6 +3,7 @@ package service;
 import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
+import zebrafish.util.JSONUser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,7 +55,6 @@ public class SplashScreenTask {
 		context = c;
 		DoSplashScreenTask task = new DoSplashScreenTask();
 		task.execute(LISTS_INVITES);
-
 	}
 
 	public void getLists(Context c) {

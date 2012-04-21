@@ -7,9 +7,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 
-public class ListUpdateTask {
-	public static final String TAG = "ListUpdateTask";
+public class CustomListTask {
+	public static final String TAG = "CustomListTask";
 	protected Context context;
+	
+	private static int GET_LISTS = 1;
 
 	private class DoListUpdateTask extends AsyncTask<CustomList, Void, String> {
 		@Override
@@ -40,6 +42,5 @@ public class ListUpdateTask {
 	public void update(CustomList list) {
 		DoListUpdateTask task = new DoListUpdateTask();
 		task.execute(list);
-
 	}
 }

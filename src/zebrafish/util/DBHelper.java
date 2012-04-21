@@ -19,8 +19,8 @@ package zebrafish.util;
 import java.util.ArrayList;
 
 import service.InviteTask;
-import service.ItemUpdateTask;
-import service.ListUpdateTask;
+import service.ItemTask;
+import service.CustomListTask;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -167,12 +167,11 @@ public class DBHelper {
 	 * USER METHODS
 	 */
 
-	public void insertOrUpdateUser(User i) { // query to test if exists. if it
-												// does, update. if it doesn't,
-												// insert.
-
+	public void insertOrUpdateUser(User i) {
+ 
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM user WHERE id = " + id;
+		Log.i("insertingOrUpdateUser", "name " +i.getName());
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c.getCount() > 0) {
@@ -531,7 +530,7 @@ public class DBHelper {
 		int userID = list.getCreator();
 
 		if (pushToCloud) {
-			new ListUpdateTask().update(list);
+			new CustomListTask().update(list);
 		}
 
 		ContentValues initialValues = new ContentValues();
@@ -553,7 +552,7 @@ public class DBHelper {
 		ContentValues args = new ContentValues();
 
 		if (pushToCloud) {
-			new ListUpdateTask().update(i);
+			new CustomListTask().update(i);
 		}
 
 		args.put(KEY_LIST_ID, i.getID());
@@ -729,7 +728,7 @@ public class DBHelper {
 		// lists.)
 
 		if (pushToCloud) {
-			new ItemUpdateTask().update(i);
+			new ItemTask().update(i);
 		}
 
 	}
@@ -807,7 +806,7 @@ public class DBHelper {
 		args.put(KEY_ITEM_SELECTED, isSelected);
 
 		if (pushToCloud) {
-			new ItemUpdateTask().update(i);
+			new ItemTask().update(i);
 		}
 
 		return db.update(ITEM_TABLE, args, KEY_ITEM_ID + "=?",

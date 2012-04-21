@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -26,6 +27,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class InviteActivity extends SherlockActivity {
@@ -38,9 +40,9 @@ public class InviteActivity extends SherlockActivity {
 	private static int userID;
 	private static int listID;
 
-	String message = "";
 	String email = "";
 	String phone = "";
+	String message = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +53,13 @@ public class InviteActivity extends SherlockActivity {
 		setTitle("Invite to List");
 
 		listID = getIntent().getExtras().getInt("listID");
+		String listName = CustomList.getListName(context, listID);
 
 		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " + uID);
+		message = getString(R.string.invite_message_default);
 
-		message = "Hey! I shared a awesome list on SociaList with you! Download the app to check it out.";
-
-		EditText messageEntry = (EditText) findViewById(R.id.invite_message_preview);
-		messageEntry.setText(message);
+		TextView listNameSpace = (TextView) findViewById(R.id.invite_list_name);
+		listNameSpace.setText(getString(R.string.invite_to_list) + " " +listName);
 
 		Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -272,7 +273,7 @@ public class InviteActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
+		inflater.inflate(R.menu.blank_menu, menu);
 
 		return true;
 	}

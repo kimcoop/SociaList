@@ -235,7 +235,10 @@ public class InsideListActivity extends SherlockListActivity {
 					}
 				});
 
-		alert.show();
+		AlertDialog dialog = alert.create();
+		dialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		dialog.show();
 
 	}
 
