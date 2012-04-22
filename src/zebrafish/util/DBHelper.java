@@ -241,7 +241,7 @@ public class DBHelper {
 
 	public void acceptInvites(Context context,
 			ArrayList<Invite> selectedInvites, boolean pushToCloud) {
-		// TODO Auto-generated method stub
+
 		for (Invite inv : selectedInvites) {
 			inv.setPending(0);
 			updateInvite(context, inv, NO_PUSH_TO_CLOUD); // push all at once

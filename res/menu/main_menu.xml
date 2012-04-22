@@ -5,6 +5,13 @@
         android:icon="@drawable/ic_menu_btn_add"
         android:showAsAction="always"
         android:title="Add An Item"/>
+    
+    
+    <item android:id="@+id/menu_select_all"
+        android:icon="@drawable/ic_menu_selectall_holo_dark"
+        android:showAsAction="always"
+        android:title="Select All"></item>
+    
     <item
         android:id="@+id/menu_more"
         android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"

@@ -17,6 +17,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.Invite;
 import edu.pitt.cs1635group3.Activities.Classes.Item;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
@@ -24,7 +25,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
 	private final ArrayList<Item> items; // all the items
-	private final ArrayList<Item> selected; // track the selected items
+	private ArrayList<Item> selected; // track the selected items
 											// (checkboxes)
 	protected Button assignBtn, completeBtn; // properly handle
 														// button display
@@ -148,5 +149,32 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		completeBtn.setEnabled(true);
 		assignBtn.setEnabled(true);
 	}
+	
+
+	
+	public boolean allSelected() {
+		return selected.size() == items.size();
+	}
+
+	public void selectAll() {
+		Log.i(TAG, "selectingAll");
+		
+		selected = new ArrayList<Item>(); // empty it first
+		
+		for (Item i : items) {
+			Log.i(TAG, "adding inv to selected");
+			selected.add(i);
+		}
+		
+		
+	} // end selectAll
+	
+	public void deselectAll() {
+		Log.i(TAG, "deselectingAll");
+		
+		selected = new ArrayList<Item>(); // empty it first
+		
+		
+	} // end deselectAll
 
 }
