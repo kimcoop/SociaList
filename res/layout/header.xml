@@ -5,7 +5,10 @@
     android:layout_centerHorizontal="true"
     android:orientation="horizontal" >
 
-    <TextView
+      <View android:id="@+id/main_drop_shadow"
+        style="@style/dropShadowListHeader"/>
+    
+    <!--  <TextView
         android:id="@+id/label_header"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -13,6 +16,7 @@
         android:padding="4dp"
         android:text="@string/My_Lists"
         android:textSize="16dip" />
+    -->
     <!--
     <Spinner
         android:id="@+id/sorter"

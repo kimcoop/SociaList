@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -52,9 +54,17 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		lists = CustomList.getAllLists(context, userID); // TODO: for user ID...
 
 		adapter = new CustomListAdapter(this, R.layout.list_row, lists);
-		parentLayout = (RelativeLayout) findViewById(R.id.userlists_layout);
+		parentLayout = (RelativeLayout) findViewById(R.id.listplaceholder_layout);
 		lv = getListView();
 
+		LayoutInflater inflater = getLayoutInflater();
+		/*ViewGroup header = (ViewGroup)inflater.inflate(R.layout.header, lv, false);
+		
+		lv.addHeaderView(header, null, false);
+		if(lists.size() > 5){
+			ViewGroup footer = (ViewGroup)inflater.inflate(R.layout.footer, lv, false);
+			lv.addFooterView(footer, null, false);
+		}*/
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);

@@ -208,18 +208,33 @@ public class InsideListActivity extends SherlockListActivity {
 		setTitle(newName);
 
 	}
+	
+	public void saveRenameCID(String newName) {
 
-	public void rename() {
+		list.updateCID(context, newName);
+		setTitle(newName);
 
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Rename List");
+	}
 
+	public void rename(final boolean isCID) {
 		final EditText input = new EditText(this); // Set an EditText view to
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		if(isCID){
+			alert.setTitle("Rename TemplateID");
+			input.setText(list.getCustomID());
+		}else{
+			alert.setTitle("Rename List");
+			input.setText(list.getName());
+		}
+
 		// get user input
      
 	//	InputFilter[] FilterArray = new InputFilter[1];
     //    FilterArray[0] = new InputFilter.LengthFilter(254);
     //    input.setFilters(FilterArray);
+		
+		
 		input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(254) });
         Log.d("Input", "This should output when the popup comes up");
         
@@ -228,7 +243,11 @@ public class InsideListActivity extends SherlockListActivity {
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
-				saveRename(value);
+				if(isCID){
+					saveRenameCID(value);
+				}else{
+					saveRename(value);
+				}
 			}
 		});
 
@@ -323,6 +342,7 @@ public class InsideListActivity extends SherlockListActivity {
 		Intent intent = new Intent(context, InviteActivity.class);
 		intent.putExtra("listID", list.getID());
 		startActivity(intent);
+
 	}
 
 	public void addItem() {
@@ -409,7 +429,10 @@ public class InsideListActivity extends SherlockListActivity {
 			addItem();
 			return false;
 		} else if (item.getItemId() == R.id.menu_rename) {
-			rename();
+			rename(false);
+			return true;
+		} else if (item.getItemId() == R.id.menu_rename_cid) {
+			rename(true);
 			return true;
 		} else if (item.getItemId() == R.id.menu_manage_users) {
 			intent = new Intent(this, ManageListUsersActivity.class);

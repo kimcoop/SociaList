@@ -30,7 +30,21 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">5dip</item>
     </style>
-    
+    <style name ="dropShadowList">
+	    <item name="android:background">@drawable/drop_shadow_list</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">4dip</item>
+    </style>
+    <style name ="dropShadowListHeader">
+	    <item name="android:background">@drawable/drop_shadow_list_header</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5dip</item>
+    </style>
+    <style name ="dropShadowListFooter">
+	    <item name="android:background">@drawable/drop_shadow_list_footer</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5dip</item>
+    </style>
     <style name ="dropShadowUp">
 	    <item name="android:background">@drawable/drop_shadow_up</item>
         <item name="android:layout_width">fill_parent</item>
@@ -52,6 +66,12 @@
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">40dip</item>
 	    <item name="android:background">@drawable/header_bar</item>
+    </style>
+    
+    <style name ="listBackground">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">fill_parent</item>
+	    <item name="android:background">@drawable/bg_list</item>
     </style>
     
      <style name="turquoiseLight">

@@ -2,33 +2,74 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/userlists_layout"
+    android:id="@+id/listplaceholder_layout"
     android:background="@color/turquoise_light">
  
-    
+     
     <TextView
         android:id="@+id/listplaceholder_footer"
         style="@style/footerBar"
         android:layout_alignParentBottom="true"/>
+    <!--
+    <View android:id="@+id/main_drop_shadow"
+        style="@style/dropShadow"
+        android:layout_below="@menu/main_menu"/>
     
     <View android:id="@+id/listplaceholder_drop_shadow_up"
         style="@style/dropShadowUp"
         android:layout_above="@id/listplaceholder_footer"/>
+ 
+     <View android:id="@+id/listplaceholder_background3"
+       	style="dropShadowListFooter"
+        android:layout_above="@id/listplaceholder_footer"/>
+   
+   <View android:id="@+id/listplaceholder_background1"
+       	style="dropShadowListHeader"
+        android:layout_below="@menu/main_menu"/>
+   
+   <View android:id="@+id/listplaceholder_background2"
+       	android:layout_width="fill_parent"
+	   	android:layout_height="fill_parent"
+        android:background="@drawable/round_rect"
+        android:layout_below="@id/listplaceholder_background1"
+        android:layout_above="@id/listplaceholder_background3"/> 
+       
+       <View android:id="@+id/listplaceholder_background3"
+        	style="@style/dropShadowListFooter"
+        	android:layout_above="@id/listplaceholder_footer"/>  
+       --> 
+       <View android:id="@+id/listplaceholder_background1"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/listplaceholder_footer"/> 
+        	
+       
     
     
-    <LinearLayout 
+    
+    <!--  <View android:id="@+id/listplaceholder_drop_shadow"
+        style="@style/dropShadow"
+        android:layout_below="@id/home_header"/>-->
+    
+    <LinearLayout android:id="@+id/listplaceholder_list_layout" 
 	   android:orientation="vertical"
 	   android:layout_width="fill_parent"
 	   android:layout_height="fill_parent"
 	   android:paddingLeft="6dip"
 	   android:paddingRight="6dip"
-	   android:layout_above="@id/listplaceholder_footer">
+	   android:layout_below="@menu/main_menu"
+	   android:layout_above="@id/listplaceholder_footer" >
     
 	    <ListView
 	        android:id="@id/android:list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:drawSelectorOnTop="false" />
+	        android:drawSelectorOnTop="false"
+	        android:fadingEdge="none"
+	        android:cacheColorHint="@color/transparent"
+	        android:fadingEdgeLength="5dip"
+		    android:background="@color/transparent" 
+	        />
 	
 	    <TextView
 	        android:id="@id/android:empty"
@@ -37,6 +78,16 @@
         	android:textSize="16dp"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:text="@string/No_lists" />
+	        android:text="@string/No_lists"
+	        android:background="@color/white" />
 	</LinearLayout>
+	
+    <!-- <View android:id="@+id/listplaceholder_drop_shadow"
+        style="@style/dropShadowList"
+        android:paddingLeft="6dip"
+	    android:paddingRight="6dip"
+	    android:layout_marginLeft="6dip"
+	    android:layout_marginRight="6dip"
+        android:layout_below="@id/listplaceholder_list_layout"
+        /> -->
 </RelativeLayout>
