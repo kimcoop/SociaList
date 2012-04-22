@@ -67,19 +67,17 @@
 	        android:drawSelectorOnTop="false"
 	        android:fadingEdge="none"
 	        android:cacheColorHint="@color/transparent"
-	        android:fadingEdgeLength="5dip"
-		    android:background="@color/transparent" 
-	        />
+		    android:background="@color/transparent" />
 	
 	    <TextView
 	        android:id="@id/android:empty"
-	        android:padding="6dp"
+	        android:padding="15dp"
         	android:layout_marginTop="20dp"
         	android:textSize="16dp"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        android:text="@string/No_lists"
-	        android:background="@color/white" />
+	        android:background="@color/transparent" />
 	</LinearLayout>
 	
     <!-- <View android:id="@+id/listplaceholder_drop_shadow"
