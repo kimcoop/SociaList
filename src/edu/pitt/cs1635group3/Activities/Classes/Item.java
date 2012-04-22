@@ -228,6 +228,10 @@ public class Item implements Parcelable {
 		this.completed = true;
 		update(context);
 	}
+	public void setUnCompleted(Context context) {
+		this.completed = false;
+		update(context);
+	}
 
 	public void setCreationDate(Context context, String string) {
 		this.creationDate = string;

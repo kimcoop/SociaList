@@ -20,7 +20,6 @@ public class BrowseListAdapter extends ArrayAdapter<CustomList> {
 	// layout.
 
 	private final ArrayList<CustomList> lists;
-	private DBHelper db = new DBHelper(getContext());
 
 	public BrowseListAdapter(Context context, int textViewResourceId,
 			ArrayList<CustomList> lists) {
@@ -31,12 +30,7 @@ public class BrowseListAdapter extends ArrayAdapter<CustomList> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
-		ViewHolder holder; // When convertView is not null, we can reuse it
-							// directly, there is
-		// no need
-		// to reinflate it. We only inflate a new View when the convertView
-		// supplied
-		// by ListView is null.
+		ViewHolder holder;
 
 		CustomList o = (CustomList) lists.get(position);
 
@@ -64,25 +58,17 @@ public class BrowseListAdapter extends ArrayAdapter<CustomList> {
 
 			if (name != null)
 				name.setText("" + o.getName());
-			if (note != null) {
-				db.open();
+			if (note != null) { 
 
-				ArrayList<Item> items = db.getItemsForListByID(o.getID());
-
-				Log.d("GET ITEMS FOR LIST", "List ID " + o.getID() + " has "
-						+ items.size() + " children.");
-
-				int numItems = 0, completedItems = 0, unassignedItems = 0;
+				int numItems = 0;
 				String summary = "", pluralizer = " items";
-				
+				numItems = o.getItems().size();
 
 				if (numItems == 1)
 					pluralizer = " item";
 				
 				summary = numItems + pluralizer;
 				note.setText(summary);
-
-				db.close();
 
 			}
 		}

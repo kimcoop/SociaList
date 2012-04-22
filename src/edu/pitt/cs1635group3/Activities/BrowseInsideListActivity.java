@@ -57,9 +57,9 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	private ArrayList<HashMap<String, String>> mylist;
 	
 	private CustomList list = null;
-	private ArrayList<CustomList> lists = null;
+	private ArrayList<CustomList> results = null;
 	private ArrayList<Item> items = null;
-	private ArrayAdapter<Item> adapter;
+	private BrowseItemAdapter adapter;
 	private RelativeLayout parentLayout;
 
 	private static final String TAG = "BrowseInsideListActivity";
@@ -89,15 +89,14 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		Log.v(TAG, "ListID:" + extras.getInt("ListID"));
-		lists = JSONCustomList.browseForList(context, extras.getString("ListCID"));
-		for(int i=0; i<lists.size(); i++){
-			Log.v(TAG, "ListID:" + extras.getInt("ListID")+":"+lists.get(i).getID());
-			if(lists.get(i).getID()==extras.getInt("ListID")){
-				list = lists.get(i);
+		results = JSONCustomList.browseForList(context, extras.getString("ListCID"));
+		for(int i=0; i<results.size(); i++){
+			Log.v(TAG, "ListID:" + extras.getInt("ListID")+":"+results.get(i).getID());
+			if(results.get(i).getID()==extras.getInt("ListID")) {
+				list = results.get(i);
 			}
 		}
-		items = CustomList
-				.getItemsForListByID(context, extras.getInt("ListID"));
+		items = list.getItems();
 		totalItems = items.size();
 
 		getSupportActionBar();
@@ -277,7 +276,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.browse_menu, menu);
+		inflater.inflate(R.menu.blank_menu, menu);
 
 		return true;
 	}
