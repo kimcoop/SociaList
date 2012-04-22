@@ -16,6 +16,11 @@
                 android:icon="@drawable/ic_menu_edit"
                 android:showAsAction="ifRoom|withText"
                 android:title="Rename List"/>
+            <item
+                android:id="@+id/menu_rename_cid"
+                android:icon="@drawable/ic_menu_edit"
+                android:showAsAction="ifRoom|withText"
+                android:title="Rename Template"/>
             
             <item
                 android:id="@+id/menu_manage_users"

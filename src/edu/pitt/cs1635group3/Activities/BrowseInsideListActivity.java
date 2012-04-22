@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -56,6 +57,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	private ArrayList<HashMap<String, String>> mylist;
 	
 	private CustomList list = null;
+	private ArrayList<CustomList> lists = null;
 	private ArrayList<Item> items = null;
 	private ArrayAdapter<Item> adapter;
 	private RelativeLayout parentLayout;
@@ -71,6 +73,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	private boolean newItems = false;
 	private static int userID;
 	private ArrayList<Integer> newItemPKs;
+	private String idStr;
 
 	private CharSequence users[];
 	private ArrayList<Item> selected;
@@ -83,10 +86,16 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used for deletions
 		newItemPKs = new ArrayList<Integer>(); // used for additions
 
-		Intent i = getIntent();
-		Bundle extras = i.getExtras();
-
-		list = CustomList.getListByID(context, extras.getInt("ListID"));
+		Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		Log.v(TAG, "ListID:" + extras.getInt("ListID"));
+		lists = JSONCustomList.browseForList(context, extras.getString("ListCID"));
+		for(int i=0; i<lists.size(); i++){
+			Log.v(TAG, "ListID:" + extras.getInt("ListID")+":"+lists.get(i).getID());
+			if(lists.get(i).getID()==extras.getInt("ListID")){
+				list = lists.get(i);
+			}
+		}
 		items = CustomList
 				.getItemsForListByID(context, extras.getInt("ListID"));
 		totalItems = items.size();
@@ -228,7 +237,10 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 						PUSH_TO_CLOUD);
 			}
 		}
-		Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "List Created!", Toast.LENGTH_SHORT).show();
+		Toast t = Toast.makeText(getApplicationContext(), "List Created!", Toast.LENGTH_SHORT);
+		t.setGravity(Gravity.TOP, 0, 80);
+		t.show();
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 							// items.

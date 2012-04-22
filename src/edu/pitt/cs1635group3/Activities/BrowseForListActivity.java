@@ -39,6 +39,7 @@ public class BrowseForListActivity extends SherlockListActivity
 	private ArrayList<CustomList> lists = null;
 	private DBHelper db;
 	private EditText listID_Text;
+	private String idStr;
 	Runnable r;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class BrowseForListActivity extends SherlockListActivity
 	public void searchList(View v){
 		listID_Text = (EditText) findViewById(R.id.list_id);
 		int id;
-		String idStr = listID_Text.getText().toString();
+		idStr = listID_Text.getText().toString();
 		lists.clear();
 		runOnUiThread(r);
 		
@@ -115,13 +116,14 @@ public class BrowseForListActivity extends SherlockListActivity
 
 		Intent intent = new Intent(this, BrowseInsideListActivity.class);
 		intent.putExtra("ListID", list.getID());
+		intent.putExtra("ListCID", idStr);
 		startActivityForResult(intent, 0);
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
+		inflater.inflate(R.menu.invites_menu, menu);
 
 		return true;
 	}

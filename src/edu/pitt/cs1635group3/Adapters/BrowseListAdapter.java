@@ -78,6 +78,7 @@ public class BrowseListAdapter extends ArrayAdapter<CustomList> {
 
 				if (numItems == 1)
 					pluralizer = " item";
+				
 				summary = numItems + pluralizer;
 				note.setText(summary);
 
