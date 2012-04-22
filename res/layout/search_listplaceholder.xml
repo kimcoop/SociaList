@@ -3,34 +3,64 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
+	<View
+        android:id="@+id/search_listplaceholder_footer"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"/>
+
+    <View android:id="@+id/search_listplaceholder_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/search_listplaceholder_footer"/> 
+    <TextView
+        android:id="@+id/search_listplaceholder_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="4dp"
+        android:text="@string/CID"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16dp" 
+        android:layout_below="@menu/main_menu">
+    </TextView>
+    
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="13dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/list_id"
         android:onClick="searchList"
-        android:text="Search" />
-
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/button1"
-        android:drawSelectorOnTop="false" >
-
-    </ListView>
-
-    <EditText
+        android:text="Search" 
+        android:layout_below="@id/search_listplaceholder_name"/>
+	<EditText
         android:id="@+id/list_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
         android:layout_alignBaseline="@+id/button1"
         android:layout_alignBottom="@+id/button1"
         android:layout_alignParentLeft="true"
         android:ems="10"
-        android:hint="Enter a ListID" />
+        android:hint="Enter a ListID" 
+        android:layout_below="@id/search_listplaceholder_name"/>
+    
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="15dp"
+        android:drawSelectorOnTop="false" 
+        android:fadingEdge="none"
+	    android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  
+        android:layout_below="@+id/button1"
+        android:layout_above="@+id/search_listplaceholder_footer" >
+
+    </ListView>
+
+    
 
 </RelativeLayout>

@@ -87,7 +87,7 @@
 
     <!-- insidelist_layout.xml -->
     <string name="My_list_stuff">There aren\'t any items yet! Add some by clicking
-		the "Add Item" icon".</string>
+		the Add icon.</string>
 
     <!-- item.xml -->
     <string name="Delete">Delete</string>
@@ -98,7 +98,8 @@
 
     <!-- listplaceholder.xml -->
     <string name="Create_New_List">Create New List</string>
-    <string name="No_lists">No lists</string>
+    <string name="No_lists">You have no lists yet! Add some by clicking
+		the Add icon.</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last name</string>
 

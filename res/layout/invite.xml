@@ -1,34 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/invite_button_holder"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="bottom"
+            android:onClick="sendInvitation"
+            android:text="@string/send_button" />
+    </LinearLayout>
+    
+    <View android:id="@+id/invite_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/invite_button_holder"/> 
 
     <TextView
         android:id="@+id/invite_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="4dp"
         android:text="@string/invite_to_list"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" >
+        android:textSize="16dp" 
+        android:layout_below="@menu/main_menu">
     </TextView>
 
     <Spinner
         android:id="@+id/invite_type_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:entries="@array/invitetypelist"
-        android:prompt="@string/invitetypeprompt" />
+        android:prompt="@string/invitetypeprompt" 
+        android:layout_below="@id/invite_list_name"/>
 
     <RelativeLayout
+        android:id="@+id/invite_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/invite_type_spinner">
 
         <EditText
             android:id="@+id/invite_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
             android:layout_alignBottom="@+id/do_email_picker"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/do_email_picker"
@@ -41,6 +70,7 @@
             android:id="@+id/do_email_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+        	android:layout_marginRight="13dp"
             android:layout_alignParentRight="true"
             android:onClick="doLaunchContactPicker"
             android:text="@string/pick_contact_label" >
@@ -48,38 +78,29 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/invite_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="4dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:text="@string/invite_message_preview_title"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" >
+        android:textSize="16dp" 
+        android:layout_below="@id/invite_relative_layout">
     </TextView>
 
     <EditText
         android:id="@+id/invite_message_preview"
         android:layout_width="match_parent"
         android:layout_height="124dp"
-        android:hint="@string/invite_message_default" >
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:hint="@string/invite_message_default" 
+        android:layout_below="@id/invite_text_view">
     </EditText>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom|center"
-        android:orientation="horizontal"
-        android:padding="2dp" >
+    
 
-        <Button
-            android:id="@+id/send_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:onClick="sendInvitation"
-            android:text="@string/send_button" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

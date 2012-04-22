@@ -1,79 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="5dp" >
-            
-            <TextView
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="Name"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textSize="16dp" />
+    android:orientation="vertical">
+    
+    <View
+        android:id="@+id/my_settings_footer"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"/>
 
-            <EditText
-                android:id="@+id/txtvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="254" >
-
-                <requestFocus />
-            </EditText>
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Email"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16dp" />
-            
-            <EditText
-                android:id="@+id/txtvEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
-                android:maxLength="254" >
-            </EditText>
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
-                android:layout_marginBottom="5dp"
-                android:text="Notify me when: "
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical" >
-
-                <CheckBox
-                    android:id="@+id/checkBox1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="I\'m invited to a list" />
-
-                <CheckBox
-                    android:id="@+id/checkBox2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="An item is assigned to me" />
-
-                <CheckBox
-                    android:id="@+id/checkBox3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="An item is unassigned to me" />
-
-                <CheckBox
-                    android:id="@+id/checkBox4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Any list item in my lists is updated" />
-                
-            </LinearLayout>
-</LinearLayout>
+    <View android:id="@+id/my_settings_background"
+		style="@style/listBackground"
+		android:layout_below="@menu/main_menu"
+		android:layout_above="@id/my_settings_footer"/> 
+	   
+	   <TextView
+			android:id="@+id/my_settings_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="15dp"
+			android:paddingTop="5dp"
+			android:text="Name"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textSize="16dp" 
+			android:layout_below="@menu/main_menu"/>
+	
+	   <EditText
+			android:id="@+id/txtvName"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="13dp"
+			android:layout_marginRight="13dp"
+			android:maxLength="254" 
+			android:layout_below="@id/my_settings_name">
+	
+	       <requestFocus />
+	   </EditText>
+	   
+	   <TextView
+	       android:id="@+id/my_settings_email"
+	       android:layout_width="match_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginTop="10dp"
+	       android:paddingLeft="15dp"
+	       android:text="Email"
+	       android:textAppearance="?android:attr/textAppearanceMedium"
+	       android:textSize="16dp" 
+	       android:layout_below="@id/txtvName"/>
+	   
+	   <EditText
+			android:id="@+id/txtvEmail"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" 
+			android:layout_marginLeft="13dp"
+			android:layout_marginRight="13dp"
+			android:maxLength="254" 
+			android:layout_below="@id/my_settings_email">
+	   </EditText>
+	   
+	   <TextView
+	       android:id="@+id/my_settings_notify"
+	       android:layout_width="match_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginTop="23dp"
+	       android:layout_marginBottom="5dp"
+	       android:paddingLeft="15dp"
+	       android:text="Notify me when: "
+	       android:textAppearance="?android:attr/textAppearanceMedium"
+	       android:textSize="16dp" 
+	       android:layout_below="@id/txtvEmail"/>
+	
+	   <LinearLayout
+	       android:layout_width="match_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginLeft="10dp"
+	       android:orientation="vertical" 
+	       android:layout_below="@id/my_settings_notify">
+	
+	       <CheckBox
+	           android:id="@+id/checkBox1"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="I\'m invited to a list" />
+	
+	       <CheckBox
+	           android:id="@+id/checkBox2"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="An item is assigned to me" />
+	
+	       <CheckBox
+	           android:id="@+id/checkBox3"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="An item is unassigned to me" />
+	
+	       <CheckBox
+	           android:id="@+id/checkBox4"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="Any list item in my lists is updated" />
+	       
+	   </LinearLayout>
+</RelativeLayout>

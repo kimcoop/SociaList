@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    
+    <View
+        android:id="@+id/manage_list_user_footer"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"/>
 
+    <View android:id="@+id/manage_list_user_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/manage_list_user_footer"/> 
+    
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
- <TextView
+        android:paddingLeft="15dp"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+	    android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  
+        android:layout_below="@menu/main_menu"
+        android:layout_above="@+id/manage_list_user_footer" />
+ 	<TextView
         android:id="@id/android:empty"
-        android:padding="6dp"
+        android:paddingLeft="15dp"
         android:layout_marginTop="20dp"
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="@string/no_list_users" />
+        android:text="@string/no_list_users" 
+        android:background="@color/transparent"  
+        android:layout_below="@menu/main_menu"
+        android:layout_above="@+id/manage_list_user_footer"/>
     
  <!--
     <LinearLayout
@@ -41,4 +59,4 @@
             android:text="@string/ignore_invites" /> 
     </LinearLayout>-->
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
-
-    <TextView
-        android:id="@id/android:empty"
-        android:padding="6dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/no_invites" />
- 
+    
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center" >
+        android:id="@+id/invite_layout_button_holder"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/accept_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:onClick="acceptSelected"
             android:text="@string/accept_invites" />
 
         <Button
             android:id="@+id/ignore_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:onClick="ignoreSelected"
             android:text="@string/ignore_invites" />
     </LinearLayout>
+    
+    <View android:id="@+id/invite_layout_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/invite_layout_button_holder"/> 
 
-</LinearLayout>
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/invite_layout_button_holder"
+        android:drawSelectorOnTop="false" 
+        android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  />
+
+    <TextView
+        android:id="@id/android:empty"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:textSize="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/no_invites" 
+        android:layout_above="@+id/invite_layout_button_holder"
+        android:background="@color/transparent"  />
+ 
+
+</RelativeLayout>

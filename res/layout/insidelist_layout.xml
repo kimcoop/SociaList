@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/insidelist_parent" >
 
-    <LinearLayout
+     <LinearLayout
         android:id="@+id/insidelist_layout_button_holder"
         style="@style/footerBar"
         android:layout_alignParentBottom="true"
@@ -16,7 +16,6 @@
             android:enabled="false"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="0dp"
             android:layout_weight="1"
             android:text="@string/assign_button"/>
 
@@ -25,13 +24,12 @@
             android:enabled="false"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="0dp"
             android:layout_weight="1"
             android:text="@string/complete_button" />
-
+
     </LinearLayout>
     
-    <View android:id="@+id/listplaceholder_background1"
+    <View android:id="@+id/listplaceholder_background"
         	style="@style/listBackground"
         	android:layout_below="@menu/main_menu"
         	android:layout_above="@id/insidelist_layout_button_holder"/> 
@@ -49,7 +47,7 @@
     <TextView
         android:id="@android:id/empty"
         android:layout_marginTop="20dp"
-        android:padding="15dp"
+        android:paddingLeft="15dp"
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

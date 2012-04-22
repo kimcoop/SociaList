@@ -3,12 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/insidelist_parent" >
+    android:id="@+id/browse_insidelist_layout_parent" >
 
     <LinearLayout
-        android:id="@+id/button_holder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/browse_insidelist_layout_button_holder"
+        style="@style/footerBar"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
@@ -22,20 +21,34 @@
             android:visibility="visible" />
 
     </LinearLayout>
+    
+    <View android:id="@+id/invite_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/browse_insidelist_layout_button_holder"/> 
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/button_holder"
+        android:paddingLeft="15dp"
+        android:fadingEdge="none"
+	    android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  
+        android:layout_below="@menu/main_menu"
+        android:layout_above="@+id/browse_insidelist_layout_button_holder"
         android:choiceMode="multipleChoice" />
 
     <TextView
         android:id="@android:id/empty"
         android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/button_holder"
+        android:background="@color/transparent"  
+        android:layout_below="@menu/main_menu"
+        android:layout_above="@+id/browse_insidelist_layout_button_holder"
         android:text="@string/My_list_stuff" />
 
 </RelativeLayout>

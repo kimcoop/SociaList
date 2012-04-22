@@ -1,49 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="4dp" >
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/editlist_button_holder"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="saveList"
+            android:text="@string/Save" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="cancelNewList"
+            android:text="@string/CancelNewList" />
+    </LinearLayout>
+    
+    <View android:id="@+id/listplaceholder_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/editlist_button_holder"/> 
+    
     <TextView
         android:id="@+id/label_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
         android:text="@string/List_name"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:layout_below="@menu/main_menu"/>
 
     <EditText
         android:id="@+id/edit_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/List_name_here"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:textSize="14dp" 
-        android:maxLength="254" >
+        android:maxLength="254" 
+        android:layout_below="@id/label_list_name">
 
         <requestFocus />
     </EditText>
 
     <LinearLayout
+        android:id="@+id/editlist_CID_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        
-    <TextView
-        android:id="@+id/label_list_CID"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:padding="5dp"
-        android:text="@string/CID"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_below="@id/edit_list_name" >
+        
+	    <TextView
+	        android:id="@+id/label_list_CID"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:clickable="true"
+	        android:paddingLeft="15dp"
+	        android:text="@string/CID"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:onClick="explainCID"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:src="@drawable/ic_menu_help"
-        android:layout_marginTop="4dp" />
-    
+	    <ImageView
+	        android:id="@+id/imageView1"
+	        android:layout_width="23dp"
+	        android:layout_height="23dp"
+	        android:onClick="explainCID"
+	        android:src="@drawable/ic_menu_help" />
     
     </LinearLayout>
     
@@ -52,53 +85,45 @@
         android:id="@+id/edit_list_CID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:hint="@string/CID_hint"
         android:textSize="14dp" 
-        android:maxLength="254" />
+        android:maxLength="254" 
+        android:layout_below="@id/editlist_CID_layout"/>
 
     <TextView
         android:id="@+id/label_list_items"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:padding="2dp"
+        android:paddingLeft="15dp"
         android:text="@string/List_items"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@id/edit_list_CID"/>
 
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
+        android:paddingLeft="15dp"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+	    android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  
+        android:layout_below="@id/label_list_items"
+        android:layout_above="@+id/editlist_layout_button_holder"/>
 
     <TextView
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="2dp"
-        android:text="@string/No_items_in_list" />
+        android:paddingLeft="15dp"
+        android:text="@string/No_items_in_list"
+		android:background="@color/transparent"  
+        android:layout_below="@id/label_list_items"
+        android:layout_above="@+id/editlist_layout_button_holder"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center" >
+    
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="saveList"
-            android:text="@string/Save" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="cancelNewList"
-            android:text="@string/CancelNewList" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

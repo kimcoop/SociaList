@@ -77,7 +77,7 @@
         android:layout_marginTop="5dp"
         android_layout_marginRight="2dp"
         android:onClick="mySettings"
-        android:src="@drawable/ic_menu_settings_holo_light" />
+        android:src="@drawable/ic_menu_settings" />
     
 </RelativeLayout>
 

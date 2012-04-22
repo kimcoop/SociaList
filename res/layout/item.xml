@@ -1,28 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swiper"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="5dp" >
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:id="@+id/insidelist_layout_button_holder"
+        style="@style/footerBar"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="prevItem"
+            android:text="@string/Prev_Item" />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="nextItem"
+            android:text="@string/Next_Item" />
+    </LinearLayout>
+
+    <View android:id="@+id/listplaceholder_background"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/insidelist_layout_button_holder"/> 
+    
     <TextView
         android:id="@+id/label_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
         android:text="@string/label_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" />
+        android:textSize="16dp" 
+        android:layout_below="@menu/main_menu"/>
 
     <EditText
         android:id="@+id/item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:inputType="text"
         android:singleLine="true"
         android:text="@+id/item_name"
-        android:maxLength="254" >
+        android:maxLength="254" 
+        android:layout_below="@id/label_name">
 
     </EditText>
 
@@ -31,16 +63,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
         android:text="@string/label_quantity"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" />
+        android:textSize="16dp" 
+        android:layout_below="@id/item_name"/>
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/item_linear_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_below="@id/label_quantity">
 
         <EditText
             android:id="@+id/item_quantity"
@@ -67,82 +104,69 @@
             android:text="@string/plus" />
     </LinearLayout>
     
-     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/item_linear_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_below="@id/item_linear_layout1">
 
-    <TextView
-        android:id="@+id/label_assignee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/label_assignee"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" />
-
-    <EditText
-        android:id="@+id/item_assignee"
-        android:layout_marginLeft="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false" 
-        android:maxLength="254" />
+	    <TextView
+	        android:id="@+id/label_assignee"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:text="@string/label_assignee"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textSize="16dp" />
+	
+	    <EditText
+	        android:id="@+id/item_assignee"
+	        android:layout_marginLeft="4dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:focusable="false" 
+	        android:maxLength="254"/>
     </LinearLayout>
 
     <CheckBox
         android:id="@+id/item_completion"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
         android:layout_marginTop="5dp"
         android:onClick="onToggleClicked"
-        android:text="Completed" />
+        android:text="Completed" 
+        android:layout_below="@id/item_linear_layout2"/>
 
     <TextView
         android:id="@+id/header_notes"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
         android:layout_marginTop="5dp"
         android:text="@string/label_notes"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16dp" />
+        android:textSize="16dp" 
+        android:layout_below="@id/item_completion"/>
 
     <EditText
         android:id="@+id/item_notes"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:hint="@string/item_hint"
         android:inputType="text|textMultiLine"
-        android:singleLine="false" >
+        android:singleLine="false" 
+        android:layout_below="@id/header_notes">
 
         <requestFocus />
     </EditText>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom|center"
-        android:orientation="horizontal"
-        android:padding="2dp" >
+    
 
-        <Button
-            android:id="@+id/prev_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="prevItem"
-            android:text="@string/Prev_Item" />
-
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="nextItem"
-            android:text="@string/Next_Item" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
