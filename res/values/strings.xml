@@ -138,6 +138,10 @@
     <string name="allow_push_hint">Allow push notifications</string>
     <string name="Cancel">Cancel</string>
     <string name="Email">Email</string>
+    
+    <!-- my_items_layout.xml -->
+    <string name="unclaim_button">Unclaim Item</string>
+    
     <!--  -->
 
 </resources>

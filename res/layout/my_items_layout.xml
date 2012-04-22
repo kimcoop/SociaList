@@ -18,7 +18,7 @@
             android:layout_height="fill_parent"
             android:layout_margin="0dp"
             android:layout_weight="1"
-            android:text="@string/assign_button"/>
+            android:text="@string/unclaim_button"/>
 
         <Button
             android:id="@+id/complete_button"
