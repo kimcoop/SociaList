@@ -36,6 +36,7 @@
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@menu/main_menu"
         android:layout_above="@+id/invite_layout_button_holder"
         android:drawSelectorOnTop="false" 
         android:cacheColorHint="@color/transparent"
@@ -48,7 +49,8 @@
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="@string/no_invites" 
+        android:text="@string/no_invites"
+        android:layout_below="@menu/main_menu" 
         android:layout_above="@+id/invite_layout_button_holder"
         android:background="@color/transparent"  />
  
