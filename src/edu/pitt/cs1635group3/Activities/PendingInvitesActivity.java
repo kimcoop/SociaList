@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.CheckBox;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -57,8 +60,8 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 
 	public void acceptSelected(View v) {
 		selectedInvites = adapter.getSelected();
+		Invite.accept(context, selectedInvites); // run async
 		for (Invite inv : selectedInvites) {
-			inv.accept(context);
 			invites.remove(inv);
 		}
 		String pluralizer = "Invite";
@@ -80,8 +83,27 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 	}
 	
 	public static InviteAdapter getAdapter() { // pass to the async task so it will be updated on postExecute
-		Log.i(TAG, "Grabbing InviteAdapter for refresh??");
 		return adapter;
+	}
+	
+	public static void selectAll() {
+		for (int i=0; i < lv.getChildCount(); i++) {
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.element_checkbox);
+			cb.setChecked(true);
+		}
+		
+		adapter.selectAll();
+	}
+	
+	public static void deselectAll() {
+		for (int i=0; i < lv.getChildCount(); i++) {
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.element_checkbox);
+			cb.setChecked(false);
+		}
+		
+		adapter.deselectAll();
 	}
 	
 	@Override
@@ -101,7 +123,16 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh) {
 			new InviteTask().getInvites(context);
-			// this ends up calling refresh for the adapter
+			return true;
+		} else if (item.getItemId() == R.id.menu_select_all) {
+			
+			if (invites.size() > 0) {
+			
+				if (adapter.allSelected()) deselectAll();
+				else selectAll();
+			
+			}
+			
 			return true;
 		} else {
 			return false;

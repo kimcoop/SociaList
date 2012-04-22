@@ -5,6 +5,13 @@
         android:icon="@drawable/ic_menu_btn_add"
         android:showAsAction="always"
         android:title="Add An Item"/>
+    
+    
+    <item android:id="@+id/menu_select_all"
+        android:icon="@drawable/ic_menu_selectall_holo_dark"
+        android:showAsAction="always"
+        android:title="Select All"></item>
+    
     <item
         android:id="@+id/menu_more"
         android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
@@ -16,6 +23,11 @@
                 android:icon="@drawable/ic_menu_edit"
                 android:showAsAction="ifRoom|withText"
                 android:title="Rename List"/>
+            <item
+                android:id="@+id/menu_rename_cid"
+                android:icon="@drawable/ic_menu_edit"
+                android:showAsAction="ifRoom|withText"
+                android:title="Rename Template"/>
             
             <item
                 android:id="@+id/menu_manage_users"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="7dp" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/inside_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:descendantFocusability="blocksDescendants" >
+
+        <!-- this line is super duper important -->
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:text="@+id/label"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="25dp" >
+        </TextView>
+
+        <Button
+            android:id="@+id/delete_item_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/Delete"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

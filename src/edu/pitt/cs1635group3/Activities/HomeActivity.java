@@ -43,9 +43,8 @@ public class HomeActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
-		context = this;
-		pending = (Button) findViewById(R.id.home_btn_pending);
-
+		context = this;			
+		
 		userID = User.getCurrUser(context);
 		Log.i(TAG, "user id is " + userID);
 
@@ -54,7 +53,10 @@ public class HomeActivity extends Activity {
 
 		if (counter == 0 || userID <= 0) { // then user isn't registered yet, so register
 			showRegisterDialog();
-		}
+		} 
+		
+		pending = (Button) findViewById(R.id.home_btn_pending);
+		updateNumInvites();
 
 		Editor e = prefs.edit();
 		e.putInt("counter", ++counter); // inc the counter
@@ -63,6 +65,13 @@ public class HomeActivity extends Activity {
 	}
 	
 	public static void updateNumInvites(int n) {
+		Log.i(TAG, "updatingNumInvites to " +n);
+		pending.setText("Invites (" + n + ")");
+	}
+	
+
+	public static void updateNumInvites() {
+		int n = Invite.getNumInvites(context, userID);
 		Log.i(TAG, "updatingNumInvites to " +n);
 		pending.setText("Invites (" + n + ")");
 	}
@@ -211,8 +220,8 @@ public class HomeActivity extends Activity {
 	}
 
 	public void browseForListByID(View v) {
-		// Intent intent = new Intent(context, BrowseForListActivity.class);
-		// startActivity(intent);
+		Intent intent = new Intent(context, BrowseForListActivity.class);
+		startActivity(intent);
 	}
 
 	public void mySettings(View v) {

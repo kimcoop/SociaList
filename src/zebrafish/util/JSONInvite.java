@@ -79,4 +79,13 @@ public class JSONInvite {
 		
 	} // end declineInvite
 
+	public static void acceptInvites(Context context,
+			ArrayList<Invite> currInvites) {
+		
+		for (Invite inv : currInvites) {
+			updateInvite(context, inv);
+		}
+		
+	}
+
 }

@@ -3,6 +3,8 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import service.CustomListTask;
+
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONItem;
@@ -13,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,11 +37,12 @@ import edu.pitt.cs1635group3.Activities.Classes.User;
 public class CreateListActivity extends SherlockListActivity {
 
 	private ArrayList<HashMap<String, String>> mylist;
+	private static int newListPK;
 	private EditText listNameSpace, CIDSpace;
 	private String listName, CID;
 	public boolean PUSH_TO_CLOUD = true;
 
-	private int newListPK;
+	
 	private ArrayList<Integer> newItemPKs; // track the new slices of the web
 											// servers we allocate (in case of
 											// cancel)
@@ -54,6 +58,8 @@ public class CreateListActivity extends SherlockListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editlist);
 		context = this;
+		
+		new CustomListTask().reservePrimaryKey(); // grab a new PK for the list in an AsyncTask
 
 		int uID = User.getCurrUser(context);
 		Log.i(TAG, "User ID fetched: " + uID);
@@ -74,7 +80,13 @@ public class CreateListActivity extends SherlockListActivity {
 
 		setListAdapter(adapter);
 
-	}
+	} // end onCreate
+	
+
+	public static void setListID(int pk) { // from AsyncTask
+		newListPK = pk;
+		Log.i(TAG, "Received new list PK from AsyncTask: " +newListPK);
+	} // end setListID
 
 	public void addListItem() {
 
@@ -90,6 +102,11 @@ public class CreateListActivity extends SherlockListActivity {
 
 		final EditText input = new EditText(this); // Set an EditText view to
 													// get user input
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(254);
+        input.setFilters(FilterArray);
+        Log.d("Input", "This should output when the popup comes up");
+        
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -131,17 +148,15 @@ public class CreateListActivity extends SherlockListActivity {
 	public void saveList(View v) {
 
 		listName = listNameSpace.getText().toString();
-		if (listName.equals("") || listName.equals("Please enter a list name")
-				|| listName.equals("List name here")) {
-			// invalid name. don't allow save.
+		if (listName.equals("")) { // invalid name. don't allow save.
 			listNameSpace.setBackgroundColor(Color.parseColor("red"));
-
 			CID = CIDSpace.getText().toString();
 
 		} else { // allow save
 			int userID = User.getCurrUser(context);
 
 			CustomList newList = new CustomList();
+			newList.setID(newListPK); // received from AsyncTask
 			newList.setCreator(userID);
 			newList.setCustomID(CID);
 			newList.setName(listName);
@@ -149,11 +164,6 @@ public class CreateListActivity extends SherlockListActivity {
 			// get ID better
 			db = new DBHelper(this);
 			db.open();
-
-			newListPK = JSONCustomList.getListPK(); // get a truly unique ID
-													// from
-													// server
-			newList.setID(newListPK);
 
 			Item newItem;
 			for (HashMap<String, String> map : mylist) {
@@ -168,6 +178,7 @@ public class CreateListActivity extends SherlockListActivity {
 
 			db.insertList(newList, PUSH_TO_CLOUD);
 			db.close();
+			CustomList.setLinks(context, newList.getItems());/*
 
 			Item itemA, itemB, itemC;
 			if (newList.getItems() != null) {
@@ -203,19 +214,23 @@ public class CreateListActivity extends SherlockListActivity {
 						itemA.setNext(itemA.getID());
 						itemA.setPrev(itemA.getID());
 					}
-					Item.insertOrUpdateItems(context, newList.getItems(),
-							PUSH_TO_CLOUD);
+
+					
 				}
-			}
+
+		
+			}*/
+		Item.insertOrUpdateItems(context, newList.getItems(),
+				PUSH_TO_CLOUD);
+		
+			
 			UIUtil.showMessage(context, "List Created!");
-			Intent in = new Intent();
-			setResult(1, in);// Requestcode 1. Tell parent activity to refresh
-								// items.
 			finish();
+			startActivity(getIntent());
 
 		}
 
-	}
+	} // end saveList
 
 	public void explainCID(View v) {
 
@@ -229,7 +244,7 @@ public class CreateListActivity extends SherlockListActivity {
 								// do nothing
 							}
 						}).show();
-	}
+	} // end explainCID
 
 	public void cancelNewList(View v) {
 
@@ -237,16 +252,17 @@ public class CreateListActivity extends SherlockListActivity {
 		// device;
 		// all that happened was we got space on the web server for the list and
 		// its items.
-
+/*
 		JSONCustomList.deleteList(newListPK);
-
 		for (int i : newItemPKs) { // delete the items as well
 			JSONItem.deleteItem(i);
-		}
+		}*/
+		
+		new CustomListTask().uncreateList(newListPK, newItemPKs);
 
 		finish();
 
-	}
+	} // end cancelNewList
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

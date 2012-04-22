@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +19,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -37,7 +40,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 	private CustomList list = null;
 	private ArrayList<Item> items = null;
-	private ArrayAdapter<Item> adapter;
+	private static ItemAdapter adapter;
 	private RelativeLayout parentLayout;
 
 	private static final String TAG = "InsideListActivity";
@@ -47,7 +50,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 	protected Button assignButton, completeButton;
 	private View buttonsHelper;
-	private ListView lv;
+	private static ListView lv;
 	private boolean newItems = false;
 	private static int listID, userID;
 	private ArrayList<Integer> newItemPKs;
@@ -70,8 +73,7 @@ public class InsideListActivity extends SherlockListActivity {
 		listID = extras.getInt("ListID");
 
 		list = CustomList.getListByID(context, listID);
-		items = CustomList
-				.getItemsForListByID(context, listID);
+		items = CustomList.getItemsForListByID(context, listID);
 		totalItems = items.size();
 
 		getSupportActionBar();
@@ -178,6 +180,7 @@ public class InsideListActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
+						lv.invalidateViews();
 						items.remove(item);
 						adapter.notifyDataSetChanged();
 
@@ -205,20 +208,46 @@ public class InsideListActivity extends SherlockListActivity {
 		setTitle(newName);
 
 	}
+	
+	public void saveRenameCID(String newName) {
 
-	public void rename() {
+		list.updateCID(context, newName);
+		setTitle(newName);
 
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Rename List");
+	}
 
+	public void rename(final boolean isCID) {
 		final EditText input = new EditText(this); // Set an EditText view to
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		if(isCID){
+			alert.setTitle("Rename TemplateID");
+			input.setText(list.getCustomID());
+		}else{
+			alert.setTitle("Rename List");
+			input.setText(list.getName());
+		}
+
 		// get user input
+     
+	//	InputFilter[] FilterArray = new InputFilter[1];
+    //    FilterArray[0] = new InputFilter.LengthFilter(254);
+    //    input.setFilters(FilterArray);
+		
+		
+		input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(254) });
+        Log.d("Input", "This should output when the popup comes up");
+        
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
-				saveRename(value);
+				if(isCID){
+					saveRenameCID(value);
+				}else{
+					saveRename(value);
+				}
 			}
 		});
 
@@ -233,8 +262,6 @@ public class InsideListActivity extends SherlockListActivity {
 		dialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
-		
-		
 
 	}
 
@@ -318,43 +345,6 @@ public class InsideListActivity extends SherlockListActivity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
-
-		return true;
-	}
-
-	@Override
-	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
-		Intent intent;
-		if (item.getItemId() == android.R.id.home) {
-			intent = new Intent(this, HomeActivity.class);
-			startActivity(intent);
-			return true;
-		} else if (item.getItemId() == R.id.menu_add) {
-			addItem();
-			return false;
-		} else if (item.getItemId() == R.id.menu_rename) {
-			rename();
-			return true;
-		} else if (item.getItemId() == R.id.menu_manage_users) {
-			intent = new Intent(this, ManageListUsersActivity.class);
-			intent.putExtra("listID", list.getID());
-			startActivity(intent);
-			return true;
-		} else if (item.getItemId() == R.id.menu_invite) {
-			intent = new Intent(this, InviteActivity.class);
-			intent.putExtra("listID", list.getID());
-			startActivity(intent);
-			startActivity(intent);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New List Item Name");
@@ -396,6 +386,79 @@ public class InsideListActivity extends SherlockListActivity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 
+	} // end addItem
+
+	public static void selectAll() {
+		for (int i = 0; i < lv.getChildCount(); i++) {
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			CheckBox cb = (CheckBox) itemLayout
+					.findViewById(R.id.check);
+			cb.setChecked(true);
+		}
+
+		adapter.selectAll();
+	}
+
+	public static void deselectAll() {
+		for (int i = 0; i < lv.getChildCount(); i++) {
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			CheckBox cb = (CheckBox) itemLayout
+					.findViewById(R.id.check);
+			cb.setChecked(false);
+		}
+
+		adapter.deselectAll();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		Intent intent;
+		if (item.getItemId() == android.R.id.home) {
+			intent = new Intent(this, HomeActivity.class);
+			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.menu_add) {
+			addItem();
+			return false;
+		} else if (item.getItemId() == R.id.menu_rename) {
+			rename(false);
+			return true;
+		} else if (item.getItemId() == R.id.menu_rename_cid) {
+			rename(true);
+			return true;
+		} else if (item.getItemId() == R.id.menu_manage_users) {
+			intent = new Intent(this, ManageListUsersActivity.class);
+			intent.putExtra("listID", list.getID());
+			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.menu_invite) {
+			intent = new Intent(this, InviteActivity.class);
+			intent.putExtra("listID", list.getID());
+			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.menu_select_all) {
+
+			if (items.size() > 0) {
+
+				if (adapter.allSelected())
+					deselectAll();
+				else
+					selectAll();
+
+			}
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

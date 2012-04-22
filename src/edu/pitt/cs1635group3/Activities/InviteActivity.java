@@ -226,7 +226,7 @@ public class InviteActivity extends SherlockActivity {
 		String invite_type = (String) spinner.getItemAtPosition(spinner
 				.getSelectedItemPosition());
 
-		if (invite_type.equals("Invite via SMS")) {
+		if (invite_type.equals("Invite via SMS") && phone.length()>0) {
 
 			inviteByPhone(listID);
 			UIUtil.showMessage(context, "SMS not available.");
@@ -245,7 +245,7 @@ public class InviteActivity extends SherlockActivity {
 			 * smsContent, pi, null);
 			 */
 
-		} else if (invite_type.equals("Invite via Email")) {
+		} else if (invite_type.equals("Invite via Email") && email.length()>0) {
 
 			inviteByEmail(listID);
 			String subject = "Invitation to my SociaList";

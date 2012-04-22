@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="always"
+        android:title="test"/>
+    <item
+        android:id="@+id/menu_more"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
+        android:showAsAction="always"
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/menu_add_to_my_list"
+                android:icon="@drawable/ic_menu_btn_add"
+                android:showAsAction="ifRoom|withText"
+                android:title="Add to my Lists"/>
+            
+
+        </menu>
+    </item>
+
+</menu>

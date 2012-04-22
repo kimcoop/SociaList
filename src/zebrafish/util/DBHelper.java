@@ -236,6 +236,23 @@ public class DBHelper {
 				new String[] { String.valueOf(id) });
 
 	}
+	
+
+
+	public void acceptInvites(Context context,
+			ArrayList<Invite> selectedInvites, boolean pushToCloud) {
+
+		for (Invite inv : selectedInvites) {
+			inv.setPending(0);
+			updateInvite(context, inv, NO_PUSH_TO_CLOUD); // push all at once
+		}
+
+		if (pushToCloud) {
+			new InviteTask().updateInvites(context, selectedInvites);
+		}
+
+		
+	}
 
 	public boolean updateInvite(Context context, Invite inv, boolean pushToCloud) {
 

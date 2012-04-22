@@ -33,7 +33,8 @@
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/do_email_picker"
             android:hint="@string/invite_email_hint"
-            android:inputType="textEmailAddress" >
+            android:inputType="textEmailAddress"
+            android:maxLength="254" >
         </EditText>
 
         <Button

@@ -23,7 +23,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 	// This pulls in items and inflates them appropriately for the layout.
 
 	private final ArrayList<Item> items; // all the items
-	private final ArrayList<Item> selected; // track the selected items
+	private ArrayList<Item> selected; // track the selected items
 											// (checkboxes)
 	protected Button assignBtn, completeBtn, inviteBtn; // properly handle
 														// button display
@@ -33,8 +33,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 	protected Context context;
 
 	public MyListItemAdapter(Context c, int textViewResourceId,
-			ArrayList<Item> items, Button assignButton, Button completeButton,
-			Button inviteButton) {
+			ArrayList<Item> items, Button assignButton, Button completeButton) {
 		super(c, textViewResourceId, items);
 		this.context = c;
 		this.items = items;
@@ -43,7 +42,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 
 		assignBtn = assignButton;
 		completeBtn = completeButton;
-		inviteBtn = inviteButton;
+//		inviteBtn = inviteButton;
 	}
 
 	@Override
@@ -122,11 +121,11 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 
 	public void handleButtons() {
 
-		if (assignBtn != null && completeBtn != null & inviteBtn != null) {
+		if (assignBtn != null && completeBtn != null) {
 
 			if (selected.size() == 0) { // button display based on number
 										// selected items
-				showInvite();
+				disableButtons();
 			} else {
 				showActionButtons();
 			}
@@ -145,10 +144,46 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 		assignBtn.setVisibility(View.GONE);
 	}
 
+	/*//OLD
 	public void showActionButtons() {
 		inviteBtn.setVisibility(View.GONE);
 		completeBtn.setVisibility(View.VISIBLE);
 		assignBtn.setVisibility(View.VISIBLE);
+	}*/
+
+	public boolean allSelected() {
+		return selected.size() == items.size();
 	}
 
+	public void selectAll() {
+		Log.i(TAG, "selectingAll");
+		
+		selected = new ArrayList<Item>(); // empty it first
+		
+		for (Item i : items) {
+			Log.i(TAG, "adding inv to selected");
+			selected.add(i);
+		}
+		
+		
+	} // end selectAll
+	
+	public void deselectAll() {
+		Log.i(TAG, "deselectingAll");
+		
+		selected = new ArrayList<Item>(); // empty it first
+		
+		
+	} // end deselectAll
+	
+	public void disableButtons() {
+		completeBtn.setEnabled(false);
+		assignBtn.setEnabled(false);
+	}
+
+	public void showActionButtons() {
+		completeBtn.setEnabled(true);
+		assignBtn.setEnabled(true);
+	}
+	
 }

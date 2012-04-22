@@ -269,6 +269,15 @@ public class CustomList implements Parcelable {
 		db.close();
 
 	}
+	
+	public void updateCID(Context context, String newName) {
+		setCustomID(newName);
+		DBHelper db = new DBHelper(context);
+		db.open();
+		db.updateList(this);
+		db.close();
+
+	}
 
 	/*
 	 * CLASS METHODS

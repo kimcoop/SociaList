@@ -103,7 +103,8 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 	
 	public static CustomListAdapter getAdapter() {
 		// give it to the AsyncTask for refreshing after postExecute
-		return adapter;
+		if (adapter != null) return adapter;
+		else return null;
 	} // end getAdapter
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {

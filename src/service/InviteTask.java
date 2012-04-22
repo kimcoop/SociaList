@@ -24,6 +24,7 @@ public class InviteTask {
 	public static final String TAG = "InviteTask";
 	protected Context context;
 	protected static int numInvites;
+	private ArrayList<Invite> currInvites;
 	private Invite currInv; // invite to update, passed in by method updateInvite
 	private int currInvId;
 	protected ProgressDialog pd;
@@ -31,6 +32,7 @@ public class InviteTask {
 	private static int GET_INVITES = 1;
 	private static int ACCEPT_INVITE = 2;
 	private static int DECLINE_INVITE = 3;
+	private static int ACCEPT_INVITES = 4;
 
 	private class DoInviteTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -44,6 +46,8 @@ public class InviteTask {
 					JSONInvite.updateInvite(context, currInv);
 				} else if (params[0] == DECLINE_INVITE) {
 					JSONInvite.declineInvite(context, currInvId);
+				} else if (params[0] == ACCEPT_INVITES) {
+					JSONInvite.acceptInvites(context, currInvites);
 				}
 			
 			} else {
@@ -80,9 +84,19 @@ public class InviteTask {
 				new CustomListTask().refreshListsQuiet(context);
 				
 			} else if (result.equals(""+DECLINE_INVITE)) {
-				HomeActivity.updateNumInvites(numInvites);
+				HomeActivity.updateNumInvites();
 				msg = UIUtil.pluralize(numInvites, "invite", "declined");
 				UIUtil.showMessageShort(context, msg);
+				
+			} else if (result.equals(""+ACCEPT_INVITES)) {
+
+				msg = UIUtil.pluralize(numInvites, "invite", "accepted");
+				HomeActivity.updateNumInvites();
+				UIUtil.showMessageShort(context, msg);
+				// Now also refresh adapter within My Lists (since new list will need to be pulled)
+				new CustomListTask().refreshListsQuiet(context);
+				
+				
 			}
 		}
 	}
@@ -114,6 +128,15 @@ public class InviteTask {
 		//pd = ProgressDialog.show(context,"Updating", "Please wait...", true, false, null);
 		DoInviteTask task = new DoInviteTask();
 		task.execute(DECLINE_INVITE);
+	}
+
+	public void updateInvites(Context c,
+			ArrayList<Invite> selectedInvites) {
+		context = c;
+		
+		currInvites = selectedInvites;
+		DoInviteTask task = new DoInviteTask();
+		task.execute(ACCEPT_INVITES);
 	}
 	
 	

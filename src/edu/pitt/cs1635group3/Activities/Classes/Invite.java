@@ -151,7 +151,16 @@ public class Invite {
 	}
 
 	public static int getNumInvites(Context context, int uID) {
-		return getInvites(context, uID).size();
+		ArrayList<Invite> invs = getInvites(context, uID);
+		return (invs==null? 0 : invs.size());
+	}
+
+	public static void accept(Context context, ArrayList<Invite> selectedInvites) {
+		db = new DBHelper(context);
+		db.open();
+		db.acceptInvites(context, selectedInvites, PUSH_TO_CLOUD);
+		db.close();
+		
 	}
 
 }
