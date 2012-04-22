@@ -33,6 +33,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	private static final String TAG = "ItemAdapter";
 	private DBHelper db;
 	protected Context context;
+	private boolean isCompleted;
 
 	public ItemAdapter(Context c, int textViewResourceId,
 			ArrayList<Item> items, Button assignButton, Button completeButton) {
@@ -112,6 +113,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						Log.i(TAG, "Removing " + o.getName()
 								+ " from selected: " + selected.size());
 					}
+					
+					if(o.isCompleted()){
+						//isCompleted = true;
+					}else{
+						isCompleted = false;
+					}
 					handleButtons();
 				}
 			}); // end onCheckedChangeListener
@@ -128,7 +135,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (selected.size() == 0) { // button display based on number
 										// selected items
 				disableButtons();
+				isCompleted = true;
+				
 			} else {
+				if(isCompleted){
+					completeBtn.setText("Mark Incomplete");
+				}else{
+					completeBtn.setText("Mark Complete");
+				}
 				showActionButtons();
 			}
 		}

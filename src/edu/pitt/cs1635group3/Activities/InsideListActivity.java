@@ -310,11 +310,10 @@ public class InsideListActivity extends SherlockListActivity {
 	}
 
 	public void uncomplete() {
-		// TODO - test to see if all selected items are uncompleted
 		selected = getSelectedItems();
 
 		for (Item item : selected) {
-			// item.setUnCompleted(context); TODO (easy)
+			item.setUnCompleted(context);// TODO (easy)
 		}
 
 		adapter.notifyDataSetChanged();
