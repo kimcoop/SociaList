@@ -353,6 +353,7 @@ public class DBHelper {
 
 		if (c != null)
 			c.moveToFirst();
+		
 		users = new CharSequence[c.getCount()]; // allow for number of users
 												// returned
 

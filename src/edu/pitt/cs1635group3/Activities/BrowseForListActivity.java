@@ -34,7 +34,7 @@ public class BrowseForListActivity extends SherlockListActivity
 	protected int userID;
 	private static final String TAG = "BrowseForListActivity";
 	
-	private ArrayAdapter<CustomList> adapter;
+	private BrowseListAdapter adapter;
 	private ListView lv;
 	private ArrayList<CustomList> lists = null;
 	private DBHelper db;
@@ -88,20 +88,20 @@ public class BrowseForListActivity extends SherlockListActivity
 				imm.hideSoftInputFromWindow(listID_Text.getWindowToken(), 0);
 				//Log.v(TAG, "Lists found!!!!!!!!!!!!!");
 				//TODO optimize here
-				adapter = new CustomListAdapter(this, R.layout.list_row, lists);
+				adapter = new BrowseListAdapter(this, R.layout.list_row, lists);
 				setListAdapter(adapter);
 				//adapter.notifyDataSetChanged();
 				//runOnUiThread(r);
 			}
 			else{
-				Toast t = Toast.makeText(getApplicationContext(), "No List Found", Toast.LENGTH_SHORT);
+				Toast t = Toast.makeText(getApplicationContext(), "No lists found.", Toast.LENGTH_SHORT);
 				t.setGravity(Gravity.TOP, 0, 80);
 				t.show();
 			}
 			
 		}else{
 			//Toast t = new Toast(getApplicationContext());
-			Toast t = Toast.makeText(getApplicationContext(), "ListID empty", Toast.LENGTH_SHORT);
+			Toast t = Toast.makeText(getApplicationContext(), "Search text cannot be empty.", Toast.LENGTH_SHORT);
 			t.setGravity(Gravity.TOP, 0, 80);
 			t.show();
 		}

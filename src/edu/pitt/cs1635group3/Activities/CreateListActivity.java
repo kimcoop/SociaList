@@ -178,55 +178,16 @@ public class CreateListActivity extends SherlockListActivity {
 
 			db.insertList(newList, PUSH_TO_CLOUD);
 			db.close();
-			CustomList.setLinks(context, newList.getItems());/*
-
-			Item itemA, itemB, itemC;
-			if (newList.getItems() != null) {
-				int listSize = newList.getItems().size();
-				for (int i = 0; i < listSize; i++) { // make linked list
-
-					if (listSize - 1 == i) {
-						// At the last index
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(0);
-						itemA.setNext(itemB.getID());
-
-					} else if (listSize > 1 && i == 0) {
-						// Two or more items in the list, insert the first two
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(i + 1);
-						itemC = newList.getItem(listSize - 1);
-						itemA.setNext(itemB.getID());
-						itemA.setPrev(itemC.getID());
-						itemB.setPrev(itemA.getID());
-
-					} else if (listSize > 1 && i < listSize) {
-						// Two or more items in the list
-						itemA = newList.getItem(i);
-						itemB = newList.getItem(i + 1);
-						itemA.setNext(itemB.getID());
-						itemB.setPrev(itemA.getID());
-					}
-
-					else {
-						// Only one item in the list
-						itemA = newList.getItem(0);
-						itemA.setNext(itemA.getID());
-						itemA.setPrev(itemA.getID());
-					}
-
-					
-				}
-
-		
-			}*/
-		Item.insertOrUpdateItems(context, newList.getItems(),
+			CustomList.setLinks(context, newList.getItems());
+			
+			Item.insertOrUpdateItems(context, newList.getItems(),
 				PUSH_TO_CLOUD);
 		
 			
 			UIUtil.showMessage(context, "List Created!");
 			finish();
-			startActivity(getIntent());
+			Intent i = new Intent(context, SociaListActivity.class);
+			startActivity(i);
 
 		}
 
