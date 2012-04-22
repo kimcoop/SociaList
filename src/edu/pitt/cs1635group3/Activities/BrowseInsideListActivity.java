@@ -276,7 +276,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.browse_menu, menu);
+		inflater.inflate(R.menu.blank_menu, menu);
 
 		return true;
 	}
