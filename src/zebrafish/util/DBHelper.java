@@ -141,6 +141,10 @@ public class DBHelper {
 			db.execSQL(LIST_CREATE);
 			db.execSQL(MAP_LIST_USER_CREATE);
 			db.execSQL(USER_CREATE);
+			
+			String q = "delete from map_list_user where 1";
+			db.rawQuery(q, null);
+			
 
 		}
 
@@ -215,14 +219,14 @@ public class DBHelper {
 		//String listName = getListName(listID);
 		String listName= "test";
 		// also insert into the mapping table
-		initialValues.put(KEY_MAP_LIST_USER_ID, u.getID());
+		initialValues.put(KEY_MAP_LIST_USERID, u.getID());
 		initialValues.put(KEY_MAP_LIST_ID, listID);
 		initialValues.put(KEY_MAP_LIST_NAME, listName);
 		//initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 		initialValues.put(KEY_MAP_PENDING, 0); // by default, users attached to a list are not pending
-		Log.i(TAG, "inserting into mapping table!");
+		Log.i(TAG, "map: " +initialValues.describeContents());
 
-		db.insert(MAP_LIST_USER_TABLE, null, initialValues);		
+		Log.i(TAG, "map insertion: " +db.insert(MAP_LIST_USER_TABLE, null, initialValues));		
 		
 	}
 
@@ -341,15 +345,10 @@ public class DBHelper {
 
 	public CharSequence[] getUsersForDialog(int id) {
 		// as a param
-
+		String listID = ""+id;
 		CharSequence[] users;
-/*
-		String myQuery = "SELECT * FROM user, map_list_user WHERE map_list_user.user_id=user.id ";
-		myQuery += " AND map_list_user.list_id=" +id;
 
-*This won't work until the map_list_user from the web is synced properly. right now it isn't.
-*/
-		String myQuery = "SELECT * FROM user";
+		String myQuery = "SELECT * FROM user, map_list_user WHERE user.first != null AND user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;		
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null)
@@ -360,7 +359,7 @@ public class DBHelper {
 		c.moveToFirst();
 		int i = 0;
 		while (!c.isAfterLast()) {
-			users[i] = (CharSequence) c.getString(1) + " " + c.getString(2);
+			users[i] = (CharSequence) c.getString(1); // user's name
 			c.moveToNext();
 			i++;
 		}
@@ -368,7 +367,7 @@ public class DBHelper {
 		return users;
 	}
 
-	public ArrayList<User> getAllUsers() {
+	public ArrayList<User> getAllUsers1() {
 
 		ArrayList<User> users = null;
 		String myQuery = "SELECT * FROM user";// WHERE parent_id = " + ID;
@@ -379,8 +378,9 @@ public class DBHelper {
 			c.moveToFirst();
 
 			while (!c.isAfterLast()) {
-				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
-						c.getString(3));
+				User u = new User();
+				u.setID(c.getInt(0));
+				u.setFirstName(c.getString(1));
 				users.add(u);
 				c.moveToNext();
 			}
@@ -394,32 +394,20 @@ public class DBHelper {
 
 	public ArrayList<User> getUsersForList(int ID) {
 		
-		Log.i(TAG, "getUsersForList id " +ID);
 		String listID = "" + ID;
 		ArrayList<User> users = new ArrayList<User>();
-		//String myQuery = "SELECT * FROM user, map_list_user WHERE user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
+		String myQuery = "SELECT * FROM user, map_list_user WHERE user.first != null AND user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
 		
-		
-		String q1 = "SELECT * from map_list_user";
-		Cursor c1 = db.rawQuery(q1, null);
-		Log.i(TAG, "test query, users in map: " +c1.getCount());
-		
-		String myQuery = "SELECT * FROM user";
-		Cursor c = db.rawQuery(myQuery, null);
+		Cursor c = db.rawQuery(myQuery, null); 
 
 		if (c != null) {
 			users = new ArrayList<User>(c.getCount());
 			c.moveToFirst();
 			
-			Log.i(TAG, "query for list " +ID+ " returned " +c.getCount()+ " results");
-
 			while (!c.isAfterLast()) {
 				User u = new User();
 				u.setID(c.getInt(0));
 				u.setFirstName(c.getString(1));
-				/*
-				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
-						c.getString(3));*/
 				users.add(u);
 				c.moveToNext();
 			}
@@ -427,7 +415,6 @@ public class DBHelper {
 			c.close();
 
 		}
-		Log.i(TAG, "found " +users.size()+ "users for this list");
 		
 		return users;
 
