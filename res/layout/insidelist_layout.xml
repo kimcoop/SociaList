@@ -6,9 +6,8 @@
     android:id="@+id/insidelist_parent" >
 
     <LinearLayout
-        android:id="@+id/button_holder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/insidelist_layout_button_holder"
+        style="@style/footerBar"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
@@ -16,7 +15,7 @@
             android:id="@+id/assign_button"
             android:enabled="false"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_margin="0dp"
             android:layout_weight="1"
             android:text="@string/assign_button"/>
@@ -25,27 +24,37 @@
             android:id="@+id/complete_button"
             android:enabled="false"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_margin="0dp"
             android:layout_weight="1"
             android:text="@string/complete_button" />
 
     </LinearLayout>
+    
+    <View android:id="@+id/listplaceholder_background1"
+        	style="@style/listBackground"
+        	android:layout_below="@menu/main_menu"
+        	android:layout_above="@id/insidelist_layout_button_holder"/> 
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/button_holder"
-        android:choiceMode="multipleChoice" />
+        android:layout_above="@+id/insidelist_layout_button_holder"
+        android:choiceMode="multipleChoice"
+        android:fadingEdge="none"
+	    android:cacheColorHint="@color/transparent"
+		android:background="@color/transparent"  />
 
     <TextView
         android:id="@android:id/empty"
         android:layout_marginTop="20dp"
+        android:padding="15dp"
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/button_holder"
-        android:text="@string/My_list_stuff" />
+        android:layout_above="@+id/insidelist_layout_button_holder"
+        android:text="@string/My_list_stuff" 
+        android:background="@color/transparent"/>
 
 </RelativeLayout>
