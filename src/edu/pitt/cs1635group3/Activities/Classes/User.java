@@ -170,13 +170,13 @@ public class User {
 		return id;
 	}
 
-	public static void insertOrUpdateUsers(Context context,
+	public static void insertOrUpdateUsers(int listID, Context context,
 			ArrayList<User> users, boolean pushToCloud) {
 		db = new DBHelper(context);
 		db.open();
 
 		for (User u : users) {
-			db.insertOrUpdateUser(u, pushToCloud);
+			db.insertOrUpdateUser(listID, u, pushToCloud);
 		}
 		db.close();
 	}

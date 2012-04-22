@@ -33,6 +33,7 @@ public class CustomListTask {
 	private static int REFRESH_LISTS_QUIET = 3;
 	private static int RESERVE_PRIMARY_KEY = 4;
 	private static int UNCREATE_LIST = 5;
+	private static int CREATE_AS_UPDATE = 6;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -68,6 +69,11 @@ public class CustomListTask {
 				}
 				
 				
+			} else if (params[0] == CREATE_AS_UPDATE) {
+				
+				Log.i(TAG, "Updated " + currList.getName()+ " whose pk is " +currList.getID());
+				JSONCustomList.createAsUpdate(currList);
+				
 			}
 			
 			//} else {
@@ -88,7 +94,7 @@ public class CustomListTask {
 				
 			} else if (result.equals(""+REFRESH_LISTS)) {
 				CustomListAdapter adapter = SociaListActivity.getAdapter();
-				adapter.notifyDataSetChanged();
+				if (adapter != null) adapter.notifyDataSetChanged();
 				refreshActivity();
 				String msg = UIUtil.pluralize(numLists, "list", "found");
 				UIUtil.showMessageShort(context, msg);
@@ -147,6 +153,12 @@ public class CustomListTask {
 
 		DoCustomListTask task = new DoCustomListTask();
 		task.execute(UNCREATE_LIST);
+	}
+
+	public void createAsUpdate(CustomList list) {
+		currList = list;
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(CREATE_AS_UPDATE);
 	}
 }
 

@@ -167,7 +167,7 @@ public class DBHelper {
 	 * USER METHODS
 	 */
 
-	public void insertOrUpdateUser(User i, boolean pushToCloud) {
+	public void insertOrUpdateUser(int listID, User i, boolean pushToCloud) {
  
 		String id = i.getID() + "";
 		String myQuery = "SELECT * FROM user WHERE id = " + id;
@@ -180,7 +180,7 @@ public class DBHelper {
 			updateUser(i, pushToCloud);
 		} else {
 			c.close();
-			insertUser(i, pushToCloud);
+			insertUser(listID, i, pushToCloud);
 		}
 	}
 
@@ -198,7 +198,7 @@ public class DBHelper {
 
 	}
 
-	public long insertUser(User u, boolean pushToCloud) {
+	public void insertUser(int listID, User u, boolean pushToCloud) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_USER_ID, u.getID());
 		initialValues.put(KEY_USER_FIRST, u.getFirstName());
@@ -206,7 +206,24 @@ public class DBHelper {
 		initialValues.put(KEY_USER_EMAIL, u.getEmail());
 		initialValues.put(KEY_USER_DEVICE_TOKEN, u.getDeviceToken());
 		initialValues.put(KEY_USER_DEVICE_ID, u.getDeviceID());
-		return db.insert(USER_TABLE, null, initialValues);
+		db.insert(USER_TABLE, null, initialValues);
+		
+		//list_id, user_id, list_name, invite_date, pending
+
+		
+		initialValues = new ContentValues();
+		//String listName = getListName(listID);
+		String listName= "test";
+		// also insert into the mapping table
+		initialValues.put(KEY_MAP_LIST_USER_ID, u.getID());
+		initialValues.put(KEY_MAP_LIST_ID, listID);
+		initialValues.put(KEY_MAP_LIST_NAME, listName);
+		//initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
+		initialValues.put(KEY_MAP_PENDING, 0); // by default, users attached to a list are not pending
+		Log.i(TAG, "inserting into mapping table!");
+
+		db.insert(MAP_LIST_USER_TABLE, null, initialValues);		
+		
 	}
 
 	public void insertOrUpdateInvite(Context context, Invite inv, boolean pushToCloud) {
@@ -280,7 +297,6 @@ public class DBHelper {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
 		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
-		//initialValues.put(KEY_MAP_LIST_USERID, '3'3); //test
 		initialValues.put(KEY_MAP_LIST_NAME, inv.getListName());
 		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 		initialValues.put(KEY_MAP_PENDING, inv.isPending());
@@ -377,20 +393,33 @@ public class DBHelper {
 	}
 
 	public ArrayList<User> getUsersForList(int ID) {
+		
+		Log.i(TAG, "getUsersForList id " +ID);
 		String listID = "" + ID;
-		ArrayList<User> users = null;
-		String myQuery = "SELECT * FROM user WHERE first != null AND last != null";// , map_list_user WHERE
-												// map_list_user.list_id =
-												// "+listID;
+		ArrayList<User> users = new ArrayList<User>();
+		//String myQuery = "SELECT * FROM user, map_list_user WHERE user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
+		
+		
+		String q1 = "SELECT * from map_list_user";
+		Cursor c1 = db.rawQuery(q1, null);
+		Log.i(TAG, "test query, users in map: " +c1.getCount());
+		
+		String myQuery = "SELECT * FROM user";
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {
 			users = new ArrayList<User>(c.getCount());
 			c.moveToFirst();
+			
+			Log.i(TAG, "query for list " +ID+ " returned " +c.getCount()+ " results");
 
 			while (!c.isAfterLast()) {
+				User u = new User();
+				u.setID(c.getInt(0));
+				u.setFirstName(c.getString(1));
+				/*
 				User u = new User(c.getInt(0), c.getString(1), c.getString(2),
-						c.getString(3));
+						c.getString(3));*/
 				users.add(u);
 				c.moveToNext();
 			}
@@ -398,6 +427,8 @@ public class DBHelper {
 			c.close();
 
 		}
+		Log.i(TAG, "found " +users.size()+ "users for this list");
+		
 		return users;
 
 	}
@@ -498,10 +529,7 @@ public class DBHelper {
 
 		ArrayList<Item> children = list.getItems();
 		for (Item item : children) {
-			JSONItem.deleteItem(item.getID()); // TODO - make JSONfunctions
-												// method for deleting
-												// ArrayList<Item> rather
-												// than this
+			JSONItem.deleteItem(item.getID());
 		}
 
 		JSONCustomList.deleteList(list.getID());
@@ -552,7 +580,7 @@ public class DBHelper {
 		int userID = list.getCreator();
 
 		if (pushToCloud) {
-			new CustomListTask().update(list);
+			new CustomListTask().createAsUpdate(list);
 		}
 
 		ContentValues initialValues = new ContentValues();

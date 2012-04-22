@@ -44,7 +44,16 @@ public class JSONCustomList {
 		JSONfunctions.postToCloud(params);
 
 	} // end deleteList
+	
 
+	public static void createAsUpdate(CustomList currList) {
+		ArrayList<NameValuePair> params = PostParams.formatListParams(
+				"createAsUpdate", currList);
+
+		JSONfunctions.postToCloud(params);
+		
+	} // end createAsUpdate
+	
 	public static void updateList(CustomList list) {
 
 		ArrayList<NameValuePair> params = PostParams.formatListParams(
@@ -106,7 +115,7 @@ public class JSONCustomList {
 				CustomList.setLinks(context, listItems);
 				
 				Item.insertOrUpdateItems(context, listItems, NO_PUSH_TO_CLOUD);
-				User.insertOrUpdateUsers(context, listUsers, NO_PUSH_TO_CLOUD);
+				User.insertOrUpdateUsers(list.getID(), context, listUsers, NO_PUSH_TO_CLOUD);
 				
 				
 				myCustomLists.add(list);
@@ -122,5 +131,6 @@ public class JSONCustomList {
 		return myCustomLists.size();
 		
 	} // end getListsForUser(Context)
+
 
 }

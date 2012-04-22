@@ -53,6 +53,7 @@ public class SplashScreenActivity extends Activity {
 			}
 
 		} else {
+			finish();
 			informConnectionIssue();
 		}
 	}

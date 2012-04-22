@@ -96,7 +96,7 @@ public class JSONUser {
 		}
 
 		if (users != null)
-			User.insertOrUpdateUsers(context, users, NO_PUSH_TO_CLOUD);
+			User.insertOrUpdateUsers(listID, context, users, NO_PUSH_TO_CLOUD);
 		else
 			Log.i(TAG, "No users for list: ID " + listID);
 
