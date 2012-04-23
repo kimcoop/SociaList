@@ -367,7 +367,7 @@ public class ItemsActivity extends SherlockListActivity {
 		}
 		else if (item.getItemId() == R.id.menu_refresh)
 		{
-			new CustomListTask().refreshLists(context);
+			new CustomListTask().refreshMyItems(context);
 			return false;
 		}
 		/*
