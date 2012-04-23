@@ -664,12 +664,14 @@ public class DBHelper {
 
 		String myQuery = "SELECT name FROM list WHERE id = " + listID;
 		Cursor c = db.rawQuery(myQuery, null);
-
-		if (c != null) {
+		String s = "";
+		if (c.getCount() > 0) {
 			c.moveToFirst();
+			s = c.getString(0);
+		} else {
+			s = "shouldnt be blank!!! dbhelper 672";
 		}
-
-		String s = c.getString(0);
+		
 		Log.d(TAG, s);
 		c.close();
 		return s;

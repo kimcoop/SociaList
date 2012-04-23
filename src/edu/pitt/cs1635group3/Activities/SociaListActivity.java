@@ -89,6 +89,7 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 
 						UIUtil.showMessage(context, "List deleted.");
 						b.setVisibility(View.INVISIBLE);
+						lv.invalidateViews();
 						parentLayout.removeView(parentView);
 						adapter.remove(userlist);
 						adapter.notifyDataSetChanged();
@@ -132,6 +133,8 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 
 		if (resultCode == 1 || resultCode == 0) { // force refresh the view
 			adapter.notifyDataSetChanged();
+			startActivity(getIntent()); // force refresh
+			finish();
 		} else if (resultCode == 2) { // coming from ItemActivity, where we have
 										// deleted the last item and user wants
 										// to remove the list.

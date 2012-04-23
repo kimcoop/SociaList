@@ -211,7 +211,9 @@ public class InsideListActivity extends SherlockListActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == 1) { // force refresh the view
+		if (resultCode==1) {
+			adapter.notifyDataSetChanged();
+			finish();
 			startActivity(getIntent());
 			finish();
 		}
@@ -337,14 +339,20 @@ public class InsideListActivity extends SherlockListActivity {
 		selected = getSelectedItems();
 		Item item; 
 		
-		for (int i=0; i < selected.size(); i++) {
-			item = selected.get(i);
+		for (int i=0; i < totalItems; i++) {
+			item =  items.get((totalItems-1)-i);
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
-			final RelativeLayout itemRow = (RelativeLayout) itemLayout.findViewById(R.id.inside_layout);
-			final TextView tv = (TextView) itemLayout.findViewById(R.id.item_name);
-			tv.setPaintFlags(tv.getPaintFlags()
-					| Paint.STRIKE_THRU_TEXT_FLAG);
-			item.setCompleted(context);
+			RelativeLayout itemRow = (RelativeLayout) itemLayout.findViewById(R.id.inside_layout);
+			TextView tv = (TextView) itemRow.findViewById(R.id.item_name);
+			if (selected.indexOf(item) >= 0) { // is selected
+				Log.i("Item is selected", item.getName());
+				//tv.setPaintFlags(tv.)
+				tv.setPaintFlags(tv.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
+				item.setCompleted(context);
+				tv.setBackgroundResource(R.color.turquoise_light);
+			}
+			/*
 			
 			a = new AlphaAnimation(1.00f, 0.00f);
 
@@ -360,10 +368,10 @@ public class InsideListActivity extends SherlockListActivity {
 			    }
 			});
 
-			itemRow.startAnimation(a);
+			itemRow.startAnimation(a);*/
 			
 		}
-		
+		lv.invalidateViews();
 		adapter.notifyDataSetChanged();
 	}
 
