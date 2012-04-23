@@ -112,7 +112,7 @@
 	    android:cacheColorHint="@color/transparent"
 		android:background="@color/transparent"  
         android:layout_below="@id/label_list_items"
-        android:layout_above="@+id/editlist_layout_button_holder"/>
+        android:layout_above="@+id/editlist_button_holder"/>
 
     <TextView
         android:id="@id/android:empty"
@@ -122,7 +122,7 @@
         android:text="@string/No_items_in_list"
 		android:background="@color/transparent"  
         android:layout_below="@id/label_list_items"
-        android:layout_above="@+id/editlist_layout_button_holder"/>
+        android:layout_above="@+id/editlist_button_holder"/>
 
     
 
