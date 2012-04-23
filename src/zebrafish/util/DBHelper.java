@@ -343,9 +343,9 @@ public class DBHelper {
 		return invites;
 	} // end getUserInvites
 
-	public CharSequence[] getUsersForDialog(int id, int currUser) {
+	public CharSequence[] getUsersForDialog(int id) {
 
-		ArrayList<User> arrUsers= getUsersForList(id, currUser);
+		ArrayList<User> arrUsers= getUsersForList(id);
 		CharSequence[] users = new CharSequence[arrUsers.size()];
 		for (int i = 0; i< arrUsers.size(); i++) {
 			users[i] = (CharSequence) arrUsers.get(i).getFirstName();
@@ -356,8 +356,8 @@ public class DBHelper {
 	
 
 
-	public int[] getUserIDsForDialog(int id, int currUser) {
-		ArrayList<User> arrUsers= getUsersForList(id, currUser);
+	public int[] getUserIDsForDialog(int id) {
+		ArrayList<User> arrUsers= getUsersForList(id);
 		int[] users = new int[arrUsers.size()];
 		for (int i = 0; i< arrUsers.size(); i++) {
 			users[i] = arrUsers.get(i).getID();
@@ -366,7 +366,7 @@ public class DBHelper {
 		return users;
 	} // end getUserIDsForDialog
 
-	public ArrayList<User> getUsersForList(int ID, int currUser) {
+	public ArrayList<User> getUsersForList(int ID) {
 		
 		String listID = "" + ID;
 		ArrayList<User> users = new ArrayList<User>();

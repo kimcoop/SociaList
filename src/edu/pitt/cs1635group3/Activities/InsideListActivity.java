@@ -57,7 +57,8 @@ public class InsideListActivity extends SherlockListActivity {
 	private static int listID, userID;
 	private ArrayList<Integer> newItemPKs;
 
-	private CharSequence users[];
+	CharSequence[] users;
+	int[] correspUserIDs;
 	private ArrayList<Item> selected;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class InsideListActivity extends SherlockListActivity {
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		listID = extras.getInt("ListID");
+		setupUsersForAssignment();
 
 		list = CustomList.getListByID(context, listID);
 		items = CustomList.getItemsForListByID(context, listID);
@@ -98,8 +100,6 @@ public class InsideListActivity extends SherlockListActivity {
 		});
 		buttonsHelper = (View) findViewById(R.id.buttons_helper);
 		lv = getListView();
-
-		users = User.getUsersForDialog(context, list.getID(), userID);
 
 		adapter = new ItemAdapter(this, R.layout.item_row, items, assignButton,
 				completeButton);
@@ -285,14 +285,11 @@ public class InsideListActivity extends SherlockListActivity {
 		super.onBackPressed();
 	}
 
-	public void assignItemsTo(String user) {
+	public void assignItemsTo(int selectionPos) {
 		selected = getSelectedItems();
-
-		int assignee = User.getUserByName(context, user); // this is weak - Kim
-
+		
 		for (Item item : selected) {
-			Log.i(TAG, "Assigning " + item.getName() + " to " + assignee);
-			item.assignTo(context, assignee);
+			item.assignTo(context, correspUserIDs[selectionPos]);
 		}
 
 		adapter.notifyDataSetChanged();
@@ -307,7 +304,7 @@ public class InsideListActivity extends SherlockListActivity {
 		builder.setTitle("Assign To");
 		builder.setItems(users, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int pos) {
-				assignItemsTo((String) users[pos]);
+				assignItemsTo(pos);
 			}
 		});
 		AlertDialog alert = builder.create();
@@ -416,7 +413,7 @@ public class InsideListActivity extends SherlockListActivity {
 		}
 
 		adapter.selectAll();
-	}
+	} // end selectAll
 
 	public static void deselectAll() {
 		for (int i = 0; i < lv.getChildCount(); i++) {
@@ -427,6 +424,26 @@ public class InsideListActivity extends SherlockListActivity {
 		}
 
 		adapter.deselectAll();
+	} // end deselectAll
+	
+
+	public void setupUsersForAssignment() {
+		// do the initialization for users here
+
+		CharSequence[] tempUsers = User.getUsersForDialog(context, listID);
+		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, listID);
+		int numUsers = tempUsers.length +1;
+		users = new CharSequence[numUsers];
+		correspUserIDs = new int[numUsers];
+		
+		for (int i = 0; i<numUsers-1; i++) {
+			users[i] = tempUsers[i];
+			correspUserIDs[i] = tempCorrespUserIDs[i];
+		}
+		
+		users[numUsers-1] = User.getCurrUsername(context) + " (me)";
+		correspUserIDs[numUsers-1] = userID;
+		
 	}
 
 	@Override

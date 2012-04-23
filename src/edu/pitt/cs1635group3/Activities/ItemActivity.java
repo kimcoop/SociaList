@@ -418,13 +418,19 @@ public class ItemActivity extends SherlockActivity {
 	public void setupUsersForAssignment() {
 		// do the initialization for users here
 
-		CharSequence[] tempUsers = User.getUsersForDialog(context, item.getParentID(), userID);
-		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, item.getParentID(),
-				userID); // these must go together (hacky, but needed for popup)
+		CharSequence[] tempUsers = User.getUsersForDialog(context, item.getParentID());
+		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, item.getParentID()); // these must go together (hacky, but needed for popup)
 		int numUsers = tempUsers.length +1;
 		users = new CharSequence[numUsers];
 		correspUserIDs = new int[numUsers];
-		users[numUsers-1] = User.getCurrUsername(context) + "(me)";
+		
+		for (int i = 0; i<numUsers-1; i++) {
+			users[i] = tempUsers[i];
+			correspUserIDs[i] = tempCorrespUserIDs[i];
+		}
+		
+		
+		users[numUsers-1] = User.getCurrUsername(context) + " (me)";
 		correspUserIDs[numUsers-1] = userID;
 		
 	}
