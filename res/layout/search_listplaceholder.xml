@@ -44,7 +44,7 @@
         android:layout_alignBottom="@+id/button1"
         android:layout_alignParentLeft="true"
         android:ems="10"
-        android:hint="Enter a ListID" 
+        android:hint="picnic, graduation party" 
         android:layout_below="@id/search_listplaceholder_name"/>
     
     <ListView

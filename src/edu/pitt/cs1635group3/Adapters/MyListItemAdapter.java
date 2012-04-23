@@ -146,13 +146,6 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 		assignBtn.setVisibility(View.GONE);
 	}
 
-	/*//OLD
-	public void showActionButtons() {
-		inviteBtn.setVisibility(View.GONE);
-		completeBtn.setVisibility(View.VISIBLE);
-		assignBtn.setVisibility(View.VISIBLE);
-	}*/
-
 	public boolean allSelected() {
 		return selected.size() == items.size();
 	}

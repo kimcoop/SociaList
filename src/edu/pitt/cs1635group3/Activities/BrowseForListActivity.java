@@ -71,12 +71,7 @@ public class BrowseForListActivity extends SherlockListActivity
 		if(!idStr.equals("")){
 			try{
 				
-				//id= Integer.parseInt(idStr);
-				//db = new DBHelper(this);
-				//db.open();
-				lists = JSONCustomList.browseForList(context, idStr); 
-				Log.i(TAG, "browseResults " +lists.size());
-				//db.close();
+				lists = JSONCustomList.browseForList(context, idStr);
 				
 				
 			}catch(Exception e){

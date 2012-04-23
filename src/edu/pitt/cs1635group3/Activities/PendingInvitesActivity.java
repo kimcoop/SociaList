@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 	private static ArrayList<Invite> invites;
 	private static InviteAdapter adapter;
 	private static ArrayList<Invite> selectedInvites;
+	private static Button accept, decline;
 
 	private static Context context;
 	private static final String TAG = "PendingInvitesActivity";
@@ -48,8 +50,10 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 
 		getSupportActionBar();
 		setTitle("Invites");
+		accept = (Button) findViewById(R.id.accept_selected);
+		decline = (Button) findViewById(R.id.ignore_selected);
 
-		adapter = new InviteAdapter(this, R.layout.generic_row, invites);
+		adapter = new InviteAdapter(this, R.layout.generic_row, invites, accept, decline);
 		lv = getListView();
 
 		setListAdapter(adapter);
