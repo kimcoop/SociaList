@@ -675,7 +675,7 @@ public class DBHelper {
 
 	public ArrayList<Item> getAllItemsByUserID(int uid) {
 		ArrayList<Item> items = null;
-		String myQuery = "SELECT * FROM item WHERE assignee_id = " + "33";// uid;
+		String myQuery = "SELECT * FROM item WHERE assignee_id = " +uid;// "33";// 
 		Cursor c = db.rawQuery(myQuery, null);
 
 		if (c != null) {

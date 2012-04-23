@@ -15,12 +15,25 @@
         android:descendantFocusability="blocksDescendants" >
  <!-- this line is super duper important -->
 
+        <!--     android:layout_centerVertical="true"         -->
+        <!--     android:layout_toLeftOf="@+id/check"  -->
+        <ImageView
+            android:id="@+id/chat_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:visibility="invisible"
+            android:src="@drawable/ic_menu_start_conversation_20_flip"
+            android:layout_alignParentLeft="true" />
+
+        <!--   android:layout_alignParentLeft="true" -->
+        <!--    android:layout_toLeftOf="@+id/chat_bubble" -->
         <TextView
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/chat_bubble"
+            android:layout_toLeftOf="@+id/check"
+            android:layout_toRightOf="@+id/chat_bubble"
             android:layout_weight="1"
             android:padding="2dp"
             android:text="@+id/label"
@@ -54,17 +67,12 @@
             android:padding="2dp"
             android:text="@+id/sublabel"
             android:textSize="13dp"
-            android:layout_below="@+id/item_name" >
+            android:layout_below="@+id/item_name"
+            android:layout_toLeftOf="@+id/check"
+            android:layout_toRightOf="@+id/chat_bubble" >
         </TextView>
 
-        <ImageView
-            android:id="@+id/chat_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/check"
-            android:visibility="invisible"
-            android:src="@drawable/ic_menu_start_conversation" />
+
 
     </RelativeLayout>
 

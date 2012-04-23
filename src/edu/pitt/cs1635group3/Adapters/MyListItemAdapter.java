@@ -28,7 +28,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 	protected Button assignBtn, completeBtn, inviteBtn; // properly handle
 														// button display
 
-	private static final String TAG = "ItemAdapter";
+	private static final String TAG = "MyListItemAdapter";
 	private DBHelper db;
 	protected Context context;
 
