@@ -70,6 +70,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			if (comments != null) {
 				if (!comments.equals("")) {
 					img.setVisibility(View.VISIBLE);
+				} else {
+					img.setVisibility(View.INVISIBLE);
 				}
 			}
 

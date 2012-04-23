@@ -348,7 +348,7 @@ public class InsideListActivity extends SherlockListActivity {
 						| Paint.STRIKE_THRU_TEXT_FLAG);
 				item.setCompleted(context);
 				selected.remove(item);
-				/*				
+				
 				a = new AlphaAnimation(1.00f, 0.90f);
 
 				a.setDuration(1000);
@@ -359,11 +359,11 @@ public class InsideListActivity extends SherlockListActivity {
 				    public void onAnimationRepeat(Animation animation) {}
 
 				    public void onAnimationEnd(Animation animation) {
-				    	tv.setTextAppearance(context, R.color.black);
+				    	itemRow.setBackgroundResource(R.color.transparent);
 				    }
 				});
 
-				tv.startAnimation(a);*/
+				itemRow.startAnimation(a);
 				
 			} else {
 				tv.setPaintFlags(tv.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
