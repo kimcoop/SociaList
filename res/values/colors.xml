@@ -9,6 +9,8 @@
     <color name="white">#FFFFFF</color>
     <color name="turquoise_light">#C7F1F0</color>
     <color name="turquoise_superlight">#00000000</color>
+    <color name="bg_turquoise_top">#C6D9DA</color>
+    <color name="bg_turquoise_bottom">#B7D5D7</color>
     
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
