@@ -83,7 +83,8 @@ public class ItemsActivity extends SherlockListActivity {
 		 */
 
 		items = Item.getAllItemsForUser(context);
-
+		totalItems = items.size();
+		
 		getSupportActionBar();
 		setTitle("My Items"); // TODO ADD TO strings.xml
 
