@@ -160,16 +160,6 @@ public class User {
 		return id;
 	}
 
-	public static int getUserByName(Context context, String rawAssignee) {
-		// this method will be changing to ID rather than name
-		int id;
-		db = new DBHelper(context);
-		db.open();
-		id = db.getUserByName(rawAssignee);
-		db.close();
-		return id;
-	}
-
 	public static void insertOrUpdateUsers(int listID, Context context,
 			ArrayList<User> users, boolean pushToCloud) {
 		db = new DBHelper(context);

@@ -357,9 +357,11 @@ public class ItemActivity extends SherlockActivity {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getNext());
-				int prevPos = (pos == 1 ? totalItems : pos - 1);
-				intent.putExtra("pos", prevPos);
+
+				intent.putExtra("ItemID", item.getPrev());
+				int nextPos = (pos == totalItems ? 1 : pos + 1);
+				intent.putExtra("pos", nextPos);
+				
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();
@@ -371,9 +373,9 @@ public class ItemActivity extends SherlockActivity {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getPrev());
-				int nextPos = (pos == totalItems ? 1 : pos + 1);
-				intent.putExtra("pos", nextPos);
+				intent.putExtra("ItemID", item.getNext());
+				int prevPos = (pos == 1 ? totalItems : pos - 1);
+				intent.putExtra("pos", prevPos);
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();

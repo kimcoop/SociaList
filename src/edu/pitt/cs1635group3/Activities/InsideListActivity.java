@@ -363,10 +363,9 @@ public class InsideListActivity extends SherlockListActivity {
 
 	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("New List Item Name");
+		alert.setTitle("New Item");
 
-		final EditText input = new EditText(this); // Set an EditText view to
-		// get user input
+		final EditText input = new EditText(this);
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -472,7 +471,7 @@ public class InsideListActivity extends SherlockListActivity {
 			return true;
 		} else if (item.getItemId() == R.id.menu_manage_users) {
 			intent = new Intent(this, ManageListUsersActivity.class);
-			intent.putExtra("listID", list.getID());
+			intent.putExtra("LISTID", listID);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {

@@ -39,20 +39,21 @@ public class ManageListUsersActivity extends SherlockListActivity {
 
 		userID = User.getCurrUser(context);
 
-		listID = getIntent().getExtras().getInt("listID");
+		listID = getIntent().getExtras().getInt("LISTID");
 		users = User.getUsersForList(context, listID);
+		Log.i(TAG, ""+users.size()+ " users in this list");
 
 		// String listName = CustomList.getListName(context, listID);
 
 		getSupportActionBar();
 		setTitle("Manage List");
-		adapter = new ListUsersAdapter(this, R.layout.generic_row, users);
+		adapter = new ListUsersAdapter(this, R.layout.generic_row, users, listID);
 		setListAdapter(adapter);
 
 	}
 
 	public void removeSelected(View v) {
-		removeSelected(); // REMOVE THIS WHEN YOU REMOVE THE BUTTON
+		removeSelected();
 	}
 
 	public void removeSelected() {
@@ -94,7 +95,6 @@ public class ManageListUsersActivity extends SherlockListActivity {
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);
-			// pass list id!!
 			intent.putExtra("listID", listID);
 			startActivity(intent);
 			return true;
