@@ -6,7 +6,7 @@
     <string name="ok">OK</string>
 
     <!-- Splash Screen -->
-    <string name="splash_loading">Loading:&#8230;</string>
+    <string name="splash_loading">Loading&#8230;</string>
     <string name="connect_title">Cannot Connect to the Internet</string>
     <string name="connect_issue">Your signal strength is too weak. Changes will be local and may not persist.</string>
 
@@ -88,6 +88,9 @@
     <!-- insidelist_layout.xml -->
     <string name="My_list_stuff">There aren\'t any items yet! Add some by clicking
 		the Add icon.</string>
+		
+	<!-- my_items_layout.xml -->
+    <string name="My_list_stuff">You have no items assigned to you yet.</string>
 
     <!-- item.xml -->
     <string name="Delete">Delete</string>
@@ -110,11 +113,11 @@
     <string name="no">No</string>
     <string name="try_again">Would you like to try again?</string>
     <string name="unknown_failure">There was an expected error.</string>
-    <string name="processing_wait">Processing. Please wait...</string>
-    <string name="removing_wait">Removing. Please wait...</string>
-    <string name="deleting_wait">Deleting. Please wait...</string>
-    <string name="creating_wait">Creating. Please wait...</string>
-    <string name="adding_wait">Adding. Please wait...</string>
+    <string name="processing_wait">Processing. Please wait&#8230;</string>
+    <string name="removing_wait">Removing. Please wait&#8230;</string>
+    <string name="deleting_wait">Deleting. Please wait&#8230;</string>
+    <string name="creating_wait">Creating. Please wait&#8230;</string>
+    <string name="adding_wait">Adding. Please wait&#8230;</string>
 
     <!-- Pending Lists -->
     <string name="accept_invites">Accept Invite(s)</string>

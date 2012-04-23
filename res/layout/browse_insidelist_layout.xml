@@ -44,6 +44,7 @@
         android:id="@android:id/empty"
         android:layout_marginTop="20dp"
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

@@ -38,9 +38,10 @@
         android:layout_height="fill_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
         android:layout_below="@menu/main_menu"
         android:layout_above="@+id/invite_layout_button_holder"
-        android:drawSelectorOnTop="false" 
         android:cacheColorHint="@color/transparent"
 		android:background="@color/transparent"  />
 
@@ -48,6 +49,7 @@
         android:id="@id/android:empty"
         android:layout_marginTop="20dp"
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
