@@ -60,7 +60,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		final Item o = items.get(position);
 
 		if (o != null) {
-			TextView name = (TextView) v.findViewById(R.id.item_name);
+			final TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
 			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
@@ -83,6 +83,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 				if (o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
+				} else {
+					name.setPaintFlags(name.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 				}
 			}
 			if (assignee != null) {
@@ -106,11 +108,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 						boolean isChecked) {
 					View row = ((View) buttonView.getParent().getParent());
 					if (isChecked) {
-
-						row.setBackgroundResource(R.color.turquoise_superlight);
+						row.setBackgroundResource(R.color.turquoise_bg_light);
 						selected.add(o);
 					} else {
-						
 						row.setBackgroundResource(R.color.transparent);
 						selected.remove(o);
 					}

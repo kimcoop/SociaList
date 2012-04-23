@@ -211,7 +211,9 @@ public class InsideListActivity extends SherlockListActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == 1) { // force refresh the view
+		if (resultCode==1 || resultCode==0) {
+			adapter.notifyDataSetChanged();
+			finish();
 			startActivity(getIntent());
 			finish();
 		}
@@ -236,7 +238,7 @@ public class InsideListActivity extends SherlockListActivity {
 		
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		if(isCID){
-			alert.setTitle("Rename TemplateID");
+			alert.setTitle("List Tags");
 			input.setText(list.getCustomID());
 		}else{
 			alert.setTitle("Rename List");
@@ -285,9 +287,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 		if (newItems) {
 			list.attachItems(items);
-			Log.i(TAG, "Back button pressed");
 			int listSize = list.getItems().size();
-			Log.d(TAG, "listSize = " + listSize);
 			list.setLinks(context);
 		}
 		Intent in = new Intent();
@@ -337,33 +337,41 @@ public class InsideListActivity extends SherlockListActivity {
 		selected = getSelectedItems();
 		Item item; 
 		
-		for (int i=0; i < selected.size(); i++) {
-			item = selected.get(i);
+		for (int i=0; i < totalItems; i++) {
+			item =  items.get((totalItems-1)-i);
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			final RelativeLayout itemRow = (RelativeLayout) itemLayout.findViewById(R.id.inside_layout);
-			final TextView tv = (TextView) itemLayout.findViewById(R.id.item_name);
-			tv.setPaintFlags(tv.getPaintFlags()
-					| Paint.STRIKE_THRU_TEXT_FLAG);
-			item.setCompleted(context);
+			final TextView tv = (TextView) itemRow.findViewById(R.id.item_name);
+			if (selected.indexOf(item) >= 0) { // is selected
+				Log.i("Item is selected", item.getName());
+				tv.setPaintFlags(tv.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
+				item.setCompleted(context);
+				selected.remove(item);
+				/*				
+				a = new AlphaAnimation(1.00f, 0.90f);
+
+				a.setDuration(1000);
+				a.setAnimationListener(new AnimationListener() {
+
+				    public void onAnimationStart(Animation animation) {}
+
+				    public void onAnimationRepeat(Animation animation) {}
+
+				    public void onAnimationEnd(Animation animation) {
+				    	tv.setTextAppearance(context, R.color.black);
+				    }
+				});
+
+				tv.startAnimation(a);*/
+				
+			} else {
+				tv.setPaintFlags(tv.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+			}
 			
-			a = new AlphaAnimation(1.00f, 0.00f);
-
-			a.setDuration(1000);
-			a.setAnimationListener(new AnimationListener() {
-
-			    public void onAnimationStart(Animation animation) {}
-
-			    public void onAnimationRepeat(Animation animation) {}
-
-			    public void onAnimationEnd(Animation animation) {
-			    	itemRow.setBackgroundResource(R.color.transparent);
-			    }
-			});
-
-			itemRow.startAnimation(a);
 			
 		}
-		
+		lv.invalidateViews();
 		adapter.notifyDataSetChanged();
 	}
 

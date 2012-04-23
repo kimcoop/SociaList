@@ -181,10 +181,10 @@ public class ItemActivity extends SherlockActivity {
 		if (itemUpdated) {
 			saveItem(v);
 		}
-		Intent in = new Intent();
-		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
-							// items.
+		Intent in = new Intent(context, InsideListActivity.class);
+		in.putExtra("ListID", item.getParentID());
 		finish();
+		startActivity(in);
 		super.onBackPressed();
 	}
 
