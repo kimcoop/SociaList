@@ -181,20 +181,30 @@ public class User {
 		db.close();
 	}
 
-	public static CharSequence[] getUsersForDialog(Context context, int id) {
+	public static CharSequence[] getUsersForDialog(Context context, int id, int currUser) {
 		CharSequence[] users;
 		db = new DBHelper(context);
 		db.open();
-		users = db.getUsersForDialog(id);
+		users = db.getUsersForDialog(id, currUser);
 		db.close();
 		return users;
 	}
 
-	public static ArrayList<User> getUsersForList(Context context, int id) {
+
+	public static int[] getUserIDsForDialog(Context context, int id, int currUser) {
+		int[] users;
+		db = new DBHelper(context);
+		db.open();
+		users = db.getUserIDsForDialog(id, currUser);
+		db.close();
+		return users;	
+	}
+
+	public static ArrayList<User> getUsersForList(Context context, int id, int currUser) {
 		ArrayList<User> users;
 		db = new DBHelper(context);
 		db.open();
-		users = db.getUsersForList(id);
+		users = db.getUsersForList(id, currUser);
 		db.close();
 		return users;
 	}

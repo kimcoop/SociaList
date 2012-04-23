@@ -116,8 +116,6 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		buttonsHelper = (View) findViewById(R.id.buttons_helper);
 		lv = getListView();
 
-		users = User.getUsersForDialog(context, list.getID());
-
 		adapter = new BrowseItemAdapter(this, R.layout.item_row, items);
 		lv.setTextFilterEnabled(true);
 		lv.setClickable(true);

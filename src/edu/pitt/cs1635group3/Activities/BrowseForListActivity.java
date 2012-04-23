@@ -46,7 +46,7 @@ public class BrowseForListActivity extends SherlockListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_listplaceholder);
 		getSupportActionBar();
-		setTitle("Browse List");
+		setTitle("Browse for a List");
 		lists = new ArrayList<CustomList>();
 		
 		adapter = new BrowseListAdapter(this, R.layout.list_row, lists);

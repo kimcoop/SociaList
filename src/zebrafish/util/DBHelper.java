@@ -343,57 +343,30 @@ public class DBHelper {
 		return invites;
 	} // end getUserInvites
 
-	public CharSequence[] getUsersForDialog(int id) {
-		// as a param
-		String listID = ""+id;
-		CharSequence[] users;
+	public CharSequence[] getUsersForDialog(int id, int currUser) {
 
-		String myQuery = "SELECT * FROM user, map_list_user WHERE user.first != null AND user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;		
-		Cursor c = db.rawQuery(myQuery, null);
-
-		if (c != null)
-			c.moveToFirst();
-		
-		users = new CharSequence[c.getCount()]; // allow for number of users
-												// returned
-
-		c.moveToFirst();
-		int i = 0;
-		while (!c.isAfterLast()) {
-			users[i] = (CharSequence) c.getString(1); // user's name
-			c.moveToNext();
-			i++;
+		ArrayList<User> arrUsers= getUsersForList(id, currUser);
+		CharSequence[] users = new CharSequence[arrUsers.size()];
+		for (int i = 0; i< arrUsers.size(); i++) {
+			users[i] = (CharSequence) arrUsers.get(i).getFirstName();
 		}
-		c.close();
+			
 		return users;
-	}
+	} // end getUsersForDialog
+	
 
-	public ArrayList<User> getAllUsers1() {
 
-		ArrayList<User> users = null;
-		String myQuery = "SELECT * FROM user";// WHERE parent_id = " + ID;
-		Cursor c = db.rawQuery(myQuery, null);
-
-		if (c != null) {
-			users = new ArrayList<User>(c.getCount());
-			c.moveToFirst();
-
-			while (!c.isAfterLast()) {
-				User u = new User();
-				u.setID(c.getInt(0));
-				u.setFirstName(c.getString(1));
-				users.add(u);
-				c.moveToNext();
-			}
-
-			c.close();
-
+	public int[] getUserIDsForDialog(int id, int currUser) {
+		ArrayList<User> arrUsers= getUsersForList(id, currUser);
+		int[] users = new int[arrUsers.size()];
+		for (int i = 0; i< arrUsers.size(); i++) {
+			users[i] = arrUsers.get(i).getID();
 		}
+			
 		return users;
+	} // end getUserIDsForDialog
 
-	}
-
-	public ArrayList<User> getUsersForList(int ID) {
+	public ArrayList<User> getUsersForList(int ID, int currUser) {
 		
 		String listID = "" + ID;
 		ArrayList<User> users = new ArrayList<User>();

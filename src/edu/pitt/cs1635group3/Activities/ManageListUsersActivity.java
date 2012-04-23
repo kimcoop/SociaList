@@ -37,10 +37,10 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		setContentView(R.layout.manage_list_users);
 		context = this;
 
-		int uID = User.getCurrUser(context);
+		userID = User.getCurrUser(context);
 
 		listID = getIntent().getExtras().getInt("listID");
-		users = User.getUsersForList(context, listID);
+		users = User.getUsersForList(context, listID, userID);
 
 		// String listName = CustomList.getListName(context, listID);
 

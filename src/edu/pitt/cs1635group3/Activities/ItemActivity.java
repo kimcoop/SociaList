@@ -36,6 +36,9 @@ public class ItemActivity extends SherlockActivity {
 	private GestureDetector gestureDetector;
 	private View.OnTouchListener gestureListener;
 
+	CharSequence[] users;
+	int[] correspUserIDs;
+
 	private Item item, prevItem, nextItem;
 	private DBHelper db;
 
@@ -45,11 +48,8 @@ public class ItemActivity extends SherlockActivity {
 	private static int userID;
 
 	private int pos, totalItems;
-
 	private boolean itemUpdated = false;
-
 	private EditText name, notes;
-
 	private View v;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,7 @@ public class ItemActivity extends SherlockActivity {
 
 		context = this;
 		v = this.getCurrentFocus();
-		int uID = User.getCurrUser(context);
-		Log.i(TAG, "User ID fetched: " + uID);
-
+		userID = User.getCurrUser(context);
 		// Gesture detection
 		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
@@ -79,7 +77,6 @@ public class ItemActivity extends SherlockActivity {
 		quantity = (EditText) findViewById(R.id.item_quantity);
 		assignee = (EditText) findViewById(R.id.item_assignee);
 		notes = (EditText) findViewById(R.id.item_notes);
-
 		CheckBox itemCompletion = (CheckBox) findViewById(R.id.item_completion);
 
 		// name.addTextChangedListener(mTextEditorWatcher);
@@ -102,6 +99,7 @@ public class ItemActivity extends SherlockActivity {
 		db.open();
 
 		item = db.getItem(itemID);
+		setupUsersForAssignment();
 
 		int prevID, nextID;
 		prevID = item.getPrev();
@@ -134,7 +132,7 @@ public class ItemActivity extends SherlockActivity {
 		assignee.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				selectAssignee(v);
+				selectAssignee();
 			}
 		});
 
@@ -153,36 +151,27 @@ public class ItemActivity extends SherlockActivity {
 		}
 	}
 
-	public void assignItemTo(String user) {
+	public void assignItemTo(int selectionPos) {
 
 		TextView assignee = (TextView) findViewById(R.id.item_assignee);
-		if (!(user.compareTo(assignee.toString()) == 0)) {
-			// The user who item is being assigned to has changed
-			itemUpdated = true;
-			assignee.setText(user);
-			assignee.setOnClickListener(new View.OnClickListener() {
-
-				public void onClick(View v) {
-					selectAssignee(v);
-				}
-			});
-			// item.assignTo(userID); -- Don't do this here. Do on save
-		}
+		itemUpdated = true;
+		assignee.setText(users[selectionPos]);
+		item.assignTo(correspUserIDs[selectionPos]);
 	}
 
-	public void selectAssignee(View v) {
-		final CharSequence[] users = User.getUsersForDialog(context,
-				item.getParentID());
+	public void selectAssignee() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
 		builder.setItems(users, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int pos) {
-				assignItemTo((String) users[pos]);
+
+				assignItemTo(pos);
 			}
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
+
 	}
 
 	@Override
@@ -215,16 +204,6 @@ public class ItemActivity extends SherlockActivity {
 				Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
 		item.setAssigner(User.getCurrUser(context));
-		/*
-		 * String rawAssignee = assignee.getText().toString().trim();
-		 * 
-		 * int assigneeID; if (rawAssignee != "") { assigneeID =
-		 * User.getUserByName(context, rawAssignee); Log.i(TAG,
-		 * "Assignee ID is " + assigneeID); // TODO item.assignTo(context,
-		 * assigneeID); } else { Log.e(TAG, "Cannot assign item to null user");
-		 * }
-		 */
-		UIUtil.showMessage(context, "Item updated.");
 
 	} // end saveItem
 
@@ -232,7 +211,7 @@ public class ItemActivity extends SherlockActivity {
 		// delete item and parent list
 		Intent intent = new Intent(this, SociaListActivity.class);
 		builder.dismiss();
-		
+
 		db.open();
 		db.deleteItem(item);
 		db.deleteListByID(item.getParentID());
@@ -434,6 +413,20 @@ public class ItemActivity extends SherlockActivity {
 			i--;
 			t.setText("" + i);
 		}
+	}
+	
+	public void setupUsersForAssignment() {
+		// do the initialization for users here
+
+		CharSequence[] tempUsers = User.getUsersForDialog(context, item.getParentID(), userID);
+		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, item.getParentID(),
+				userID); // these must go together (hacky, but needed for popup)
+		int numUsers = tempUsers.length +1;
+		users = new CharSequence[numUsers];
+		correspUserIDs = new int[numUsers];
+		users[numUsers-1] = User.getCurrUsername(context) + "(me)";
+		correspUserIDs[numUsers-1] = userID;
+		
 	}
 
 	@Override
