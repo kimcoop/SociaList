@@ -150,6 +150,11 @@ public class InsideListActivity extends SherlockListActivity {
 
 				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
+				
+				if (b.isShown()) {
+
+					b.setVisibility(View.GONE);
+				} else {
 				b.setVisibility(View.VISIBLE);
 
 				b.setOnClickListener(new OnClickListener() {
@@ -194,8 +199,10 @@ public class InsideListActivity extends SherlockListActivity {
 
 					}
 				});
+				}
 
 				return true;
+				
 			}
 		});
 

@@ -159,6 +159,11 @@ public class ItemsActivity extends SherlockListActivity {
 
 				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
+				
+				if (b.isShown()) {
+
+					b.setVisibility(View.GONE);
+				} else {
 				b.setVisibility(View.VISIBLE);
 
 				b.setOnClickListener(new OnClickListener() {
@@ -197,18 +202,19 @@ public class ItemsActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
-						adapter.remove(item);
 						lv.invalidateViews();
+						items.remove(item);
 						adapter.notifyDataSetChanged();
 
 					}
 				});
+				}
 
 				return true;
+				
 			}
 		});
-
-	}// end onCreate
+	} // end oncreate
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
