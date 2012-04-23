@@ -2,6 +2,8 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
+import service.CustomListTask;
+
 import zebrafish.util.UIUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -105,6 +107,7 @@ public class ItemsActivity extends SherlockListActivity {
 			public void onClick(View v) {
 			//	assign();
 				//UNCLAIM????
+				unclaim();
 			}
 		});
 		completeButton = (Button) findViewById(R.id.complete_button);
@@ -292,6 +295,18 @@ public class ItemsActivity extends SherlockListActivity {
 		}
 		adapter.notifyDataSetChanged();
 	}
+	
+	public void unclaim()
+	{
+		selected = getSelectedItems();
+		for (Item item : selected)
+		{
+			item.assignTo(context, -1);
+			adapter.remove(item);
+		}
+		adapter.notifyDataSetChanged();
+	//	lv.invalidate();
+	}
 
 	public ArrayList<Item> getSelectedItems() {
 		// called multiple times because there are many actions that require use
@@ -334,16 +349,18 @@ public class ItemsActivity extends SherlockListActivity {
 
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
-		if (item.getItemId() == R.id.menu_select_all) {
-			
+		if (item.getItemId() == R.id.menu_select_all)
+		{
 			if (items.size() > 0) {
-			
 				if (adapter.allSelected()) deselectAll();
 				else selectAll();
-			
 			}
-			
 			return true;
+		}
+		else if (item.getItemId() == R.id.menu_refresh)
+		{
+			new CustomListTask().refreshLists(context);
+			return false;
 		}
 		/*
 		 * Intent intent; if (item.getItemId() == 0) { intent = new Intent(this,

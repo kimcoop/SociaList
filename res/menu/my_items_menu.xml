@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
+        <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="always"
+        android:title="@string/Refresh"></item>
+    
         <item android:id="@+id/menu_select_all"
         android:icon="@drawable/ic_menu_selectall_holo_dark"
         android:showAsAction="always"
-        android:title="Select All"
+        android:title="@string/Select_All"
         ></item>
         
 </menu>

@@ -142,6 +142,8 @@
     <!-- my_items_layout.xml -->
     <string name="unclaim_button">Unclaim Item</string>
     
-    <!--  -->
-
+    <!-- actionbar stuff -->
+    <string name="Select_All">Select All</string>
+    <string name="Refresh">Refresh</string>
+    
 </resources>
