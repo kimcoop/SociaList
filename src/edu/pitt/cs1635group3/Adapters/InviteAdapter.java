@@ -59,10 +59,17 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							if (isChecked)
+
+							View row = ((View) buttonView.getParent().getParent());
+							if (isChecked) {
+
+								row.setBackgroundResource(R.color.turquoise_superlight);
 								selected.add(o);
-							else
+							} else {
+								
+								row.setBackgroundResource(R.color.transparent);
 								selected.remove(o);
+							}
 						}
 					});
 

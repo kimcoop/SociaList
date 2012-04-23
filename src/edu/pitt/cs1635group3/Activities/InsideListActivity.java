@@ -344,11 +344,9 @@ public class InsideListActivity extends SherlockListActivity {
 			a.setDuration(1000);
 			a.setAnimationListener(new AnimationListener() {
 
-			    public void onAnimationStart(Animation animation) {
-			    }
+			    public void onAnimationStart(Animation animation) {}
 
-			    public void onAnimationRepeat(Animation animation) {
-			    }
+			    public void onAnimationRepeat(Animation animation) {}
 
 			    public void onAnimationEnd(Animation animation) {
 			    	itemRow.setBackgroundResource(R.color.transparent);
