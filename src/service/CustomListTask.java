@@ -34,6 +34,7 @@ public class CustomListTask {
 	private static int RESERVE_PRIMARY_KEY = 4;
 	private static int UNCREATE_LIST = 5;
 	private static int CREATE_AS_UPDATE = 6;
+	private static int REFRESH_MY_ITEMS = 7;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -74,6 +75,10 @@ public class CustomListTask {
 				Log.i(TAG, "Updated " + currList.getName()+ " whose pk is " +currList.getID());
 				JSONCustomList.createAsUpdate(currList);
 				
+			} else if (params[0] == REFRESH_MY_ITEMS) {
+				Log.i(TAG, "Refreshing My Items");
+				numLists = JSONCustomList.download(context);
+			//	numItems = CustomList.getNumItemsAssigned(context, uID, listID);
 			}
 			
 			//} else {
@@ -108,6 +113,12 @@ public class CustomListTask {
 				
 			} else if (result.equals(""+UNCREATE_LIST)) {
 				Log.i(TAG, "uncreate list complete");
+			} else if (result.equals(""+REFRESH_MY_ITEMS)){
+				CustomListAdapter adapter = SociaListActivity.getAdapter();
+				if (adapter != null) adapter.notifyDataSetChanged();
+				refreshActivity();
+			//	String msg = UIUtil.pluralize(numLists, "item", "found");
+			//	UIUtil.showMessageShort(context, msg);
 			}
 			
 		}
@@ -134,6 +145,14 @@ public class CustomListTask {
 		task.execute(REFRESH_LISTS);
 	}
 
+	public void refreshMyItems(Context c) {
+		context = c;
+		
+		pd = ProgressDialog.show(context, "Refreshing", "Please wait...", true, false, null);
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(REFRESH_MY_ITEMS);
+	}
+	
 	public void update(CustomList list) {
 		currList = list;
 		DoCustomListTask task = new DoCustomListTask();
