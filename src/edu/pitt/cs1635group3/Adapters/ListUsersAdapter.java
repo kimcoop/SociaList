@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import edu.pitt.cs1635group3.R;
+import edu.pitt.cs1635group3.Activities.Classes.CustomList;
 import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class ListUsersAdapter extends ArrayAdapter<User> {
@@ -21,17 +22,17 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 	private final ArrayList<User> users;
 	private final ArrayList<User> selected;
 	private final static String TAG = "ListUserAdapter";
+	private static int listID;
 	private DBHelper db;
 	private static Context context;
 
 	public ListUsersAdapter(Context context, int textViewResourceId,
-			ArrayList<User> users) {
+			ArrayList<User> users, int listID) {
 		super(context, textViewResourceId, users);
 		this.users = users;
+		this.listID = listID;
 		this.context = context;
-		this.selected = new ArrayList<User>(); // populated on any checkbox
-												// action (removed when
-												// unchecked)
+		this.selected = new ArrayList<User>();
 		this.db = new DBHelper(context);
 	}
 
@@ -79,14 +80,17 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 			CheckBox cb = (CheckBox) v.findViewById(R.id.element_checkbox);
 
 			if (title != null) {
-				title.setText(o.getName());
+				title.setText(o.getFirstName());
 			}
 
 			if (subtitle != null) {
-				// long longDate = Long.parseLong(o.getUserDate());
-				// subtitle.setText(DateUtil.formatDate(longDate, context));
-				// TODO
-				subtitle.setText("6 items");
+				int numItems = CustomList.getNumItemsAssigned(context, o.getID(), listID);
+				int completedItems = CustomList.getNumItemsCompleted(context, o.getID(), listID);
+				String txt = " items";
+				if (numItems == 1) txt = " item";
+				txt = numItems + txt;
+				txt += ", " +completedItems + " completed";
+				subtitle.setText(txt);
 			}
 
 			if (cb != null) {

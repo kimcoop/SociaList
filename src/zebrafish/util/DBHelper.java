@@ -142,10 +142,6 @@ public class DBHelper {
 			db.execSQL(MAP_LIST_USER_CREATE);
 			db.execSQL(USER_CREATE);
 			
-			String q = "delete from map_list_user where 1";
-			db.rawQuery(q, null);
-			
-
 		}
 
 		@Override
@@ -170,6 +166,36 @@ public class DBHelper {
 	/*
 	 * USER METHODS
 	 */
+	
+	public void insertOrUpdateMapping(int listID, User u, boolean pushToCloud) {
+		String myQuery = "SELECT * FROM map_list_user WHERE user_id = " + u.getID()+ " and list_id = "+listID;
+		Cursor c = db.rawQuery(myQuery, null);
+		
+		ContentValues args = new ContentValues();	//id, list_id, user_id, list_name, invite_date, pending
+		args.put(KEY_MAP_LIST_USERID, u.getID());
+		args.put(KEY_MAP_LIST_ID, listID);
+		args.put(KEY_MAP_LIST_NAME, getListName(listID));
+		args.put(KEY_MAP_INVITE_DATE, "");
+		args.put(KEY_MAP_PENDING, 0); // by default, users attached to a list are not pending
+		Log.i(TAG, "mapping: " +args);
+
+		if (c.getCount() > 0) {// update
+			c.moveToFirst();
+			
+			int id = c.getInt(0); // the mapping id
+			c.close();
+			Log.i(TAG, "updating mapping for user " +u.getID());
+			db.update(MAP_LIST_USER_TABLE, args, "id" + "=?",
+					new String[] { String.valueOf(id) });
+			
+		} else { // insert
+			c.close();
+			Log.i(TAG, "inserting mapping for user " +u.getID());
+			db.insert(MAP_LIST_USER_TABLE, null, args);	
+		}
+		
+			
+	}
 
 	public void insertOrUpdateUser(int listID, User i, boolean pushToCloud) {
  
@@ -186,6 +212,8 @@ public class DBHelper {
 			c.close();
 			insertUser(listID, i, pushToCloud);
 		}
+		
+		insertOrUpdateMapping(listID, i, pushToCloud);
 	}
 
 	public boolean updateUser(User i, boolean pushToCloud) {
@@ -203,31 +231,14 @@ public class DBHelper {
 	}
 
 	public void insertUser(int listID, User u, boolean pushToCloud) {
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_USER_ID, u.getID());
-		initialValues.put(KEY_USER_FIRST, u.getFirstName());
-		initialValues.put(KEY_USER_LAST, u.getLastName());
-		initialValues.put(KEY_USER_EMAIL, u.getEmail());
-		initialValues.put(KEY_USER_DEVICE_TOKEN, u.getDeviceToken());
-		initialValues.put(KEY_USER_DEVICE_ID, u.getDeviceID());
-		db.insert(USER_TABLE, null, initialValues);
-		
-		//list_id, user_id, list_name, invite_date, pending
-
-		
-		initialValues = new ContentValues();
-		//String listName = getListName(listID);
-		String listName= "test";
-		// also insert into the mapping table
-		initialValues.put(KEY_MAP_LIST_USERID, u.getID());
-		initialValues.put(KEY_MAP_LIST_ID, listID);
-		initialValues.put(KEY_MAP_LIST_NAME, listName);
-		//initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
-		initialValues.put(KEY_MAP_PENDING, 0); // by default, users attached to a list are not pending
-		Log.i(TAG, "map: " +initialValues.describeContents());
-
-		Log.i(TAG, "map insertion: " +db.insert(MAP_LIST_USER_TABLE, null, initialValues));		
-		
+		ContentValues args = new ContentValues();
+		args.put(KEY_USER_ID, u.getID());
+		args.put(KEY_USER_FIRST, u.getFirstName());
+		args.put(KEY_USER_LAST, u.getLastName());
+		args.put(KEY_USER_EMAIL, u.getEmail());
+		args.put(KEY_USER_DEVICE_TOKEN, u.getDeviceToken());
+		args.put(KEY_USER_DEVICE_ID, u.getDeviceID());
+		db.insert(USER_TABLE, null, args);
 	}
 
 	public void insertOrUpdateInvite(Context context, Invite inv, boolean pushToCloud) {
@@ -298,18 +309,18 @@ public class DBHelper {
 
 		Log.i(TAG, "insert invite called");
 
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_MAP_LIST_USER_ID, inv.getID());
-		initialValues.put(KEY_MAP_LIST_ID, inv.getListID());
-		initialValues.put(KEY_MAP_LIST_NAME, inv.getListName());
-		initialValues.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
-		initialValues.put(KEY_MAP_PENDING, inv.isPending());
+		ContentValues args = new ContentValues();
+		args.put(KEY_MAP_LIST_USER_ID, inv.getID());
+		args.put(KEY_MAP_LIST_ID, inv.getListID());
+		args.put(KEY_MAP_LIST_NAME, inv.getListName());
+		args.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
+		args.put(KEY_MAP_PENDING, inv.isPending());
 
 		if (pushToCloud) {
 			Log.i(TAG, "InsertInvite: TODO pushToCloud");
 		}
 
-		return db.insert(MAP_LIST_USER_TABLE, null, initialValues);
+		return db.insert(MAP_LIST_USER_TABLE, null, args);
 
 	}
 
@@ -370,7 +381,7 @@ public class DBHelper {
 		
 		String listID = "" + ID;
 		ArrayList<User> users = new ArrayList<User>();
-		String myQuery = "SELECT * FROM user, map_list_user WHERE user.first != null AND user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
+		String myQuery = "SELECT user.id, user.first FROM user, map_list_user WHERE user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
 		
 		Cursor c = db.rawQuery(myQuery, null); 
 
@@ -420,23 +431,6 @@ public class DBHelper {
 		// Log.i("DB USER", "Name is " +u.getName());
 		c.close();
 		return u;
-	}
-
-	public int getUserByName(String user) {
-
-		String[] pieces = user.split(" ");
-		String fname = pieces[0];
-		String lname = pieces[1];
-
-		String myQuery = "SELECT * FROM user WHERE first = ? AND last = ?";
-		Cursor c = db.rawQuery(myQuery, new String[] { fname, lname });
-
-		if (c != null)
-			c.moveToFirst();
-
-		int userID = c.getInt(0);
-		c.close();
-		return userID;
 	}
 
 	private User cursorToUser(Cursor c) {
@@ -544,13 +538,13 @@ public class DBHelper {
 			new CustomListTask().createAsUpdate(list);
 		}
 
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_LIST_ID, list.getID());
-		initialValues.put(KEY_LIST_CUSTOM_ID, list.getCustomID());
-		initialValues.put(KEY_LIST_NAME, list.getName());
-		initialValues.put(KEY_CREATOR_ID, userID);
-		initialValues.put(KEY_CREATION_DATE, list.getCreationDate());
-		db.insert(LIST_TABLE, null, initialValues);
+		ContentValues args = new ContentValues();
+		args.put(KEY_LIST_ID, list.getID());
+		args.put(KEY_LIST_CUSTOM_ID, list.getCustomID());
+		args.put(KEY_LIST_NAME, list.getName());
+		args.put(KEY_CREATOR_ID, userID);
+		args.put(KEY_CREATION_DATE, list.getCreationDate());
+		db.insert(LIST_TABLE, null, args);
 
 	}
 
@@ -703,7 +697,7 @@ public class DBHelper {
 	}
 
 	public void insertItem(Item i, boolean pushToCloud) {
-		ContentValues initialValues = new ContentValues();
+		ContentValues args = new ContentValues();
 
 		long ret;
 
@@ -711,22 +705,22 @@ public class DBHelper {
 		if (i.isCompleted())
 			isCompleted = 1;
 
-		initialValues.put(KEY_ITEM_ID, i.getID());
-		initialValues.put(KEY_PARENT_ID, i.getParentID());
-		initialValues.put(KEY_ITEM_NAME, i.getName());
-		initialValues.put(KEY_ADDER_ID, i.getCreator());
-		initialValues.put(KEY_ADD_DATE, i.getCreationDate());
-		initialValues.put(KEY_QUANTITY, i.getQuantity());
-		initialValues.put(KEY_ASSIGNED_TO, i.getAssignee());
-		initialValues.put(KEY_ASSIGNER_ID, i.getAssigner());
-		initialValues.put(KEY_NOTES, i.getNotes());
-		initialValues.put(KEY_COMPLETED, isCompleted);
-		initialValues.put(KEY_COMPLETION_DATE, i.getCompletionDate());
-		initialValues.put(KEY_ITEM_PREV, i.getPrev());
-		initialValues.put(KEY_ITEM_NEXT, i.getNext());
-		initialValues.put(KEY_ITEM_SELECTED, 0);
+		args.put(KEY_ITEM_ID, i.getID());
+		args.put(KEY_PARENT_ID, i.getParentID());
+		args.put(KEY_ITEM_NAME, i.getName());
+		args.put(KEY_ADDER_ID, i.getCreator());
+		args.put(KEY_ADD_DATE, i.getCreationDate());
+		args.put(KEY_QUANTITY, i.getQuantity());
+		args.put(KEY_ASSIGNED_TO, i.getAssignee());
+		args.put(KEY_ASSIGNER_ID, i.getAssigner());
+		args.put(KEY_NOTES, i.getNotes());
+		args.put(KEY_COMPLETED, isCompleted);
+		args.put(KEY_COMPLETION_DATE, i.getCompletionDate());
+		args.put(KEY_ITEM_PREV, i.getPrev());
+		args.put(KEY_ITEM_NEXT, i.getNext());
+		args.put(KEY_ITEM_SELECTED, 0);
 
-		ret = db.insert(ITEM_TABLE, null, initialValues);
+		ret = db.insert(ITEM_TABLE, null, args);
 
 		Log.i(TAG, "db.insert returned = " + ret);
 
@@ -827,6 +821,46 @@ public class DBHelper {
 	public boolean updateItem(Item i) {
 		return updateItem(i, PUSH_TO_CLOUD);
 
+	}
+
+	public int getNumItemsAssigned(int uID, int listID) {
+		
+		String q = "SELECT * from item where item.parent_id="+listID+ " and item.assignee_id = "+uID;
+		int num = 0;
+		Cursor c = db.rawQuery(q, null); 
+
+		if (c != null) {
+			num = c.getCount();
+			/*
+			c.moveToFirst();
+			
+			while (!c.isAfterLast()) {
+				User u = new User();
+				u.setID(c.getInt(0));
+				u.setFirstName(c.getString(1));
+				users.add(u);
+				c.moveToNext();
+			}*/
+
+			c.close();
+
+		}
+		
+		return num;
+	}
+
+	public int getNumItemsCompleted(int uID, int listID) {
+
+		String q = "SELECT * from item where item.parent_id="+listID+ " and item.completed=1 and item.assignee_id = "+uID;
+		int num = 0;
+		Cursor c = db.rawQuery(q, null); 
+
+		if (c != null) {
+			num = c.getCount();
+			c.close();
+		}
+		
+		return num;
 	}
 
 }

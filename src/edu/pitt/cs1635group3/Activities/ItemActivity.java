@@ -357,9 +357,11 @@ public class ItemActivity extends SherlockActivity {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getNext());
-				int prevPos = (pos == 1 ? totalItems : pos - 1);
-				intent.putExtra("pos", prevPos);
+
+				intent.putExtra("ItemID", item.getPrev());
+				int nextPos = (pos == totalItems ? 1 : pos + 1);
+				intent.putExtra("pos", nextPos);
+				
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();
@@ -371,9 +373,9 @@ public class ItemActivity extends SherlockActivity {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getPrev());
-				int nextPos = (pos == totalItems ? 1 : pos + 1);
-				intent.putExtra("pos", nextPos);
+				intent.putExtra("ItemID", item.getNext());
+				int prevPos = (pos == 1 ? totalItems : pos - 1);
+				intent.putExtra("pos", prevPos);
 				intent.putExtra("totalItems", totalItems);
 				startActivity(intent);
 				finish();
@@ -418,21 +420,18 @@ public class ItemActivity extends SherlockActivity {
 	public void setupUsersForAssignment() {
 		// do the initialization for users here
 
-		CharSequence[] tempUsers = User.getUsersForDialog(context, item.getParentID());
-		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, item.getParentID()); // these must go together (hacky, but needed for popup)
-		int numUsers = tempUsers.length +1;
-		users = new CharSequence[numUsers];
-		correspUserIDs = new int[numUsers];
+		users = User.getUsersForDialog(context, item.getParentID());
+		correspUserIDs = User.getUserIDsForDialog(context, item.getParentID()); // these must go together (hacky, but needed for popup)
+		int numUsers = users.length;
 		
-		for (int i = 0; i<numUsers-1; i++) {
-			users[i] = tempUsers[i];
-			correspUserIDs[i] = tempCorrespUserIDs[i];
-		}
-		
-		
-		users[numUsers-1] = User.getCurrUsername(context) + " (me)";
-		correspUserIDs[numUsers-1] = userID;
-		
+		CharSequence txt = " (me)";
+		for (int i = 0; i<numUsers; i++) {
+			if (correspUserIDs[i]==userID) {
+				String name = users[i].toString();
+				users[i] = (name += txt);
+				break;
+			}
+		}		
 	}
 
 	@Override

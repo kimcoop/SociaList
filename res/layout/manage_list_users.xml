@@ -4,61 +4,52 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
     
-    <View
-        android:id="@+id/manage_list_user_footer"
+    <LinearLayout
+        android:id="@+id/manage_list_users_button_holder"
         style="@style/footerBar"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/remove_selected"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:onClick="removeSelected"
+            android:text="@string/remove_users" />
+        
+    </LinearLayout>
 
     <View android:id="@+id/manage_list_user_background"
         	style="@style/listBackground"
-        	android:layout_below="@menu/main_menu"
-        	android:layout_above="@id/manage_list_user_footer"/> 
+        	android:layout_below="@menu/manage_list_users_menu"
+        	android:layout_above="@id/manage_list_users_button_holder"/> 
     
     <ListView
-        android:id="@id/android:list"
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:drawSelectorOnTop="false"
+        android:layout_below="@menu/manage_list_users_menu"
+        android:layout_above="@+id/manage_list_users_button_holder"
+        android:choiceMode="multipleChoice"
         android:fadingEdge="none"
 	    android:cacheColorHint="@color/transparent"
-		android:background="@color/transparent"  
-        android:layout_below="@menu/main_menu"
-        android:layout_above="@+id/manage_list_user_footer" />
+		android:background="@color/transparent"
+        />
+    
  	<TextView
         android:id="@id/android:empty"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:text="@string/no_list_users" 
         android:background="@color/transparent"  
-        android:layout_below="@menu/main_menu"
-        android:layout_above="@+id/manage_list_user_footer"/>
-    
- <!--
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center" >
-
-        <Button
-            android:id="@+id/remove_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="removeSelected"
-            android:text="@string/remove_users" />
+        android:layout_below="@menu/manage_list_users_menu"
+        android:layout_above="@+id/manage_list_users_button_holder"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"/>
  
-        <Button
-            android:id="@+id/ignore_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="ignoreSelected"
-            android:text="@string/ignore_invites" /> 
-    </LinearLayout>-->
 
 </RelativeLayout>

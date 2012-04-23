@@ -483,4 +483,20 @@ public class CustomList implements Parcelable {
 			Item.insertOrUpdateItems(context, items, NO_PUSH_TO_CLOUD);
 		} // end *static* setLinks
 
+	public static int getNumItemsAssigned(Context context, int uID, int listID) {
+		db = new DBHelper(context);
+		db.open();
+		int n = db.getNumItemsAssigned(uID, listID);
+		db.close();
+		return n;
+	}
+
+	public static int getNumItemsCompleted(Context context, int uID, int listID) {
+		db = new DBHelper(context);
+		db.open();
+		int n = db.getNumItemsCompleted(uID, listID);
+		db.close();
+		return n;
+	}
+
 }

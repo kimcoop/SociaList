@@ -3,10 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:paddingTop="7dp"
-    android:paddingBottom="7dp"
-    android:paddingRight="7dp"
-    android:paddingLeft="12dip">
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:paddingRight="6dp"
+    android:paddingLeft="10dp">
 
     <RelativeLayout
         android:id="@+id/inside_layout"

@@ -363,10 +363,9 @@ public class InsideListActivity extends SherlockListActivity {
 
 	public void addItem() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("New List Item Name");
+		alert.setTitle("New Item");
 
-		final EditText input = new EditText(this); // Set an EditText view to
-		// get user input
+		final EditText input = new EditText(this);
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -430,20 +429,18 @@ public class InsideListActivity extends SherlockListActivity {
 	public void setupUsersForAssignment() {
 		// do the initialization for users here
 
-		CharSequence[] tempUsers = User.getUsersForDialog(context, listID);
-		int[] tempCorrespUserIDs = User.getUserIDsForDialog(context, listID);
-		int numUsers = tempUsers.length +1;
-		users = new CharSequence[numUsers];
-		correspUserIDs = new int[numUsers];
+		users = User.getUsersForDialog(context, listID);
+		correspUserIDs = User.getUserIDsForDialog(context, listID); // these must go together (hacky, but needed for popup)
+		int numUsers = users.length;
 		
-		for (int i = 0; i<numUsers-1; i++) {
-			users[i] = tempUsers[i];
-			correspUserIDs[i] = tempCorrespUserIDs[i];
-		}
-		
-		users[numUsers-1] = User.getCurrUsername(context) + " (me)";
-		correspUserIDs[numUsers-1] = userID;
-		
+		CharSequence txt = " (me)";
+		for (int i = 0; i<numUsers; i++) {
+			if (correspUserIDs[i]==userID) {
+				String name = users[i].toString();
+				users[i] = (name += txt);
+				break;
+			}
+		}		
 	}
 
 	@Override
@@ -472,7 +469,7 @@ public class InsideListActivity extends SherlockListActivity {
 			return true;
 		} else if (item.getItemId() == R.id.menu_manage_users) {
 			intent = new Intent(this, ManageListUsersActivity.class);
-			intent.putExtra("listID", list.getID());
+			intent.putExtra("LISTID", listID);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
