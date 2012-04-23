@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="@string/Delete"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

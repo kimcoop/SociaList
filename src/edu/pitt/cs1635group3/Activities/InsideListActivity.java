@@ -9,12 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -22,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -60,6 +65,7 @@ public class InsideListActivity extends SherlockListActivity {
 	CharSequence[] users;
 	int[] correspUserIDs;
 	private ArrayList<Item> selected;
+	private Animation a = new AlphaAnimation(1.00f, 0.80f);
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -142,7 +148,7 @@ public class InsideListActivity extends SherlockListActivity {
 				final Item item = items.get(position);
 				final String itemName = item.getName();
 
-				final Button b = (Button) parentView
+				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
 				b.setVisibility(View.VISIBLE);
 
@@ -298,7 +304,6 @@ public class InsideListActivity extends SherlockListActivity {
 	public void assign() {
 		
 		// Draw the users and store in an array of Strings, then also an array of the user ID. two arrays
-		
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -328,21 +333,33 @@ public class InsideListActivity extends SherlockListActivity {
 		for (int i=0; i < selected.size(); i++) {
 			item = selected.get(i);
 			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
-			TextView tv = (TextView) itemLayout.findViewById(R.id.item_name);
+			final RelativeLayout itemRow = (RelativeLayout) itemLayout.findViewById(R.id.inside_layout);
+			final TextView tv = (TextView) itemLayout.findViewById(R.id.item_name);
 			tv.setPaintFlags(tv.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
 			item.setCompleted(context);
-		}/*
-		
-		for (int i=0; i < lv.getChildCount(); i++) {
-			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
-			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.check);
-			cb.setChecked(true);
+			
+			a = new AlphaAnimation(1.00f, 0.00f);
+
+			a.setDuration(1000);
+			a.setAnimationListener(new AnimationListener() {
+
+			    public void onAnimationStart(Animation animation) {
+			    }
+
+			    public void onAnimationRepeat(Animation animation) {
+			    }
+
+			    public void onAnimationEnd(Animation animation) {
+			    	itemRow.setBackgroundResource(R.color.transparent);
+			    }
+			});
+
+			itemRow.startAnimation(a);
+			
 		}
 		
-		*/
-		
-		//adapter.notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
 	}
 
 	public ArrayList<Item> getSelectedItems() {
