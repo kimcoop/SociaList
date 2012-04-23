@@ -286,10 +286,11 @@ public class ItemsActivity extends SherlockListActivity {
 
 	public void complete() {
 		selected = getSelectedItems();
-
+		
 		for (Item item : selected) {
 			item.setCompleted(context);
 		}
+		
 		adapter.notifyDataSetChanged();
 	}
 

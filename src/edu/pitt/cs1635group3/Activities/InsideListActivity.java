@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -297,6 +299,9 @@ public class InsideListActivity extends SherlockListActivity {
 	}
 
 	public void assign() {
+		
+		// Draw the users and store in an array of Strings, then also an array of the user ID. two arrays
+		
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign To");
@@ -313,7 +318,7 @@ public class InsideListActivity extends SherlockListActivity {
 		selected = getSelectedItems();
 
 		for (Item item : selected) {
-			item.setUnCompleted(context);// TODO (easy)
+			//item.setUnCompleted(context);// TODO (easy)
 		}
 
 		adapter.notifyDataSetChanged();
@@ -321,11 +326,26 @@ public class InsideListActivity extends SherlockListActivity {
 
 	public void complete() {
 		selected = getSelectedItems();
-
-		for (Item item : selected) {
+		Item item; 
+		
+		for (int i=0; i < selected.size(); i++) {
+			item = selected.get(i);
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			TextView tv = (TextView) itemLayout.findViewById(R.id.item_name);
+			tv.setPaintFlags(tv.getPaintFlags()
+					| Paint.STRIKE_THRU_TEXT_FLAG);
 			item.setCompleted(context);
+		}/*
+		
+		for (int i=0; i < lv.getChildCount(); i++) {
+			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			CheckBox cb = (CheckBox)itemLayout.findViewById(R.id.check);
+			cb.setChecked(true);
 		}
-		adapter.notifyDataSetChanged();
+		
+		*/
+		
+		//adapter.notifyDataSetChanged();
 	}
 
 	public ArrayList<Item> getSelectedItems() {
