@@ -61,7 +61,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
-			Button b = (Button) v.findViewById(R.id.delete_item_button);
+			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
 
 			String comments = o.getNotes();
@@ -101,14 +101,16 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
+
+					View row = ((View) buttonView.getParent().getParent());
 					if (isChecked) {
+
+						row.setBackgroundResource(R.color.turquoise_superlight);
 						selected.add(o);
-						Log.i(TAG, "Adding " + o.getName() + " to selected: "
-								+ selected.size());
 					} else {
+						
+						row.setBackgroundResource(R.color.transparent);
 						selected.remove(o);
-						Log.i(TAG, "Removing " + o.getName()
-								+ " from selected: " + selected.size());
 					}
 					handleButtons();
 				}
@@ -143,13 +145,6 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 		completeBtn.setVisibility(View.GONE);
 		assignBtn.setVisibility(View.GONE);
 	}
-
-	/*//OLD
-	public void showActionButtons() {
-		inviteBtn.setVisibility(View.GONE);
-		completeBtn.setVisibility(View.VISIBLE);
-		assignBtn.setVisibility(View.VISIBLE);
-	}*/
 
 	public boolean allSelected() {
 		return selected.size() == items.size();

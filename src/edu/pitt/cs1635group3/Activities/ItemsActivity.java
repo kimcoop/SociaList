@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -156,7 +157,7 @@ public class ItemsActivity extends SherlockListActivity {
 				final Item item = items.get(position);
 				final String itemName = item.getName();
 
-				final Button b = (Button) parentView
+				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
 				b.setVisibility(View.VISIBLE);
 
@@ -196,9 +197,8 @@ public class ItemsActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
-						b.setVisibility(View.GONE);
-						parentLayout.removeView(parentView);
 						adapter.remove(item);
+						lv.invalidateViews();
 						adapter.notifyDataSetChanged();
 
 					}

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -23,15 +24,18 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 	private final static String TAG = "InviteAdapter";
 	private DBHelper db;
 	private static Context context;
+	private static Button accept, decline;
 
 	public InviteAdapter(Context context, int textViewResourceId,
-			ArrayList<Invite> invites) {
+			ArrayList<Invite> invites, Button a, Button d) {
 		super(context, textViewResourceId, invites);
 		this.invites = invites;
 		this.context = context;
 		this.selected = new ArrayList<Invite>(); // populated on any checkbox
 													// action (removed when
 													// unchecked)
+		accept = a;
+		decline = d;
 		this.db = new DBHelper(context);
 	}
 
@@ -59,12 +63,20 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							if (isChecked)
+
+							View row = ((View) buttonView.getParent().getParent());
+							if (isChecked) {
+
+								row.setBackgroundResource(R.color.turquoise_superlight);
 								selected.add(o);
-							else
+							} else {
+								
+								row.setBackgroundResource(R.color.transparent);
 								selected.remove(o);
+							}
+							handleButtons();
 						}
-					});
+					}); // end on checkedChange
 
 			v.setTag(holder);
 
@@ -131,6 +143,32 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 		
 		
 	} // end deselectAll
+	
+
+	public void handleButtons() {
+
+		if (accept != null && decline != null) {
+
+			if (selected.size() == 0) { // button display based on number
+										// selected items
+				disableButtons();
+			} else {
+				showActionButtons();
+			}
+		}
+	} // end handleButtons
+	
+
+	
+	public void disableButtons() {
+		accept.setEnabled(false);
+		decline.setEnabled(false);
+	}
+
+	public void showActionButtons() {
+		accept.setEnabled(true);
+		decline.setEnabled(true);
+	}
 	
 	
 

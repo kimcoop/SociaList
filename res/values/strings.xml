@@ -76,11 +76,9 @@
     <string name="Add_List_Item">Add Item</string>
     <string name="Save">Save</string>
     <string name="CancelNewList">Cancel</string>
-    <string name="CID">Template Name</string>
-    <string name="CID_hint">Like "MyDinnerParty88"</string>
-    <string name="CID_explain">Template names let users search for your list and
-		use it as a template. Share it with anyone you want to be able to
-		download a copy of your list.</string>
+    <string name="CID">Comma-Separated Tags</string>
+    <string name="CID_hint">Like "Dinner party, game night"</string>
+    <string name="CID_explain">Tags let users find and use your list (without sharing your list users) in order to download it as a template.</string>
 
     <!-- header.xml -->
     <string name="My_Lists">My Lists</string>
