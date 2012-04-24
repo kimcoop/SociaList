@@ -65,6 +65,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
+			
+			b.setVisibility(View.GONE);
+			cb.setVisibility(View.VISIBLE);
 
 			String comments = o.getNotes();
 			if (comments != null) {

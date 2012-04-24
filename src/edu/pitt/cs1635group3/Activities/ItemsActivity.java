@@ -160,12 +160,14 @@ public class ItemsActivity extends SherlockListActivity {
 
 				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
+				final CheckBox cb = (CheckBox) parentView.findViewById(R.id.check);
 				
 				if (b.isShown()) {
-
+					cb.setVisibility(View.VISIBLE);
 					b.setVisibility(View.GONE);
 				} else {
-				b.setVisibility(View.VISIBLE);
+					b.setVisibility(View.VISIBLE);
+					cb.setVisibility(View.GONE);
 
 				b.setOnClickListener(new OnClickListener() {
 

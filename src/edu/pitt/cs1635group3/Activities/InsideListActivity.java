@@ -152,13 +152,15 @@ public class InsideListActivity extends SherlockListActivity {
 
 				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
+				final CheckBox cb = (CheckBox) parentView.findViewById(R.id.check);
 				
 				if (b.isShown()) {
-
+					cb.setVisibility(View.VISIBLE);
 					b.setVisibility(View.GONE);
 				} else {
-				b.setVisibility(View.VISIBLE);
-
+					b.setVisibility(View.VISIBLE);
+					cb.setVisibility(View.GONE);
+					
 				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
@@ -195,9 +197,10 @@ public class InsideListActivity extends SherlockListActivity {
 						Item.deleteItem(context, item);
 
 						UIUtil.showMessage(context, "Item deleted");
-						lv.invalidateViews();
 						items.remove(item);
 						adapter.notifyDataSetChanged();
+
+						lv.invalidateViews();
 
 					}
 				});
@@ -367,7 +370,7 @@ public class InsideListActivity extends SherlockListActivity {
 						| Paint.STRIKE_THRU_TEXT_FLAG);
 				item.setCompleted(context);
 				selected.remove(item);
-				
+				/*
 				a = new AlphaAnimation(0.90f, 0.40f);
 
 				a.setDuration(1000);
@@ -384,7 +387,7 @@ public class InsideListActivity extends SherlockListActivity {
 				    }
 				});
 
-				itemLayout.startAnimation(a);
+				itemLayout.startAnimation(a);*/
 				
 			} else {
 				tv.setPaintFlags(tv.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
