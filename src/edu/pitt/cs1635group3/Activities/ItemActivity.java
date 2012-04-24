@@ -184,7 +184,7 @@ public class ItemActivity extends SherlockActivity {
 		Intent in = new Intent(context, InsideListActivity.class);
 		in.putExtra("ListID", item.getParentID());
 		finish();
-		startActivity(in);
+		//startActivity(in);
 		super.onBackPressed();
 	}
 

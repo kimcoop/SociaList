@@ -48,6 +48,8 @@
         <item>Rob Filippi</item>
         <item>Kim Cooperrider</item>
     </string-array>
+    
+    <string name="tag_hint">Seperate tags by coma</string>
 
     <!-- Invite -->
     <string name="send_button">Send Invitation</string>

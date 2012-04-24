@@ -64,7 +64,7 @@ public class BrowseForListActivity extends SherlockListActivity
 	public void searchList(View v){
 		listID_Text = (EditText) findViewById(R.id.list_id);
 		int id;
-		idStr = listID_Text.getText().toString();
+		idStr = listID_Text.getText().toString().trim();
 		lists.clear();
 		runOnUiThread(r);
 		

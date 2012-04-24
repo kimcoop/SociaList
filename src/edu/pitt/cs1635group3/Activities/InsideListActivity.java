@@ -13,6 +13,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -31,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -239,7 +241,10 @@ public class InsideListActivity extends SherlockListActivity {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		if(isCID){
 			alert.setTitle("List Tags");
-			input.setText(list.getCustomID());
+			if(!list.getCustomID().trim().equals("null")){
+				input.setText(list.getCustomID());
+			}
+			input.setHint(R.string.tag_hint);
 		}else{
 			alert.setTitle("Rename List");
 			input.setText(list.getName());
@@ -257,14 +262,28 @@ public class InsideListActivity extends SherlockListActivity {
         
 		alert.setView(input);
 
+
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
-				if(isCID){
-					saveRenameCID(value);
-				}else{
-					saveRename(value);
-				}
+				
+					if(value.toLowerCase().equals("null")){
+						Toast t = Toast.makeText(getApplicationContext(), "Name or tag can't be 'Null'", Toast.LENGTH_LONG);
+						t.setGravity(Gravity.TOP, 0, 80);
+						t.show();
+					}else if(value.length()==0){
+						Toast t = Toast.makeText(getApplicationContext(), "Name or tag can't be empty", Toast.LENGTH_LONG);
+						t.setGravity(Gravity.TOP, 0, 80);
+						t.show();
+					}else{
+						if(isCID){
+							saveRenameCID(value);
+						}else{
+							saveRename(value);
+						}
+						
+					}
+				
 			}
 		});
 
