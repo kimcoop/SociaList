@@ -43,7 +43,7 @@ public class HomeActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
-		context = this;			
+		context = this;
 		
 		userID = User.getCurrUser(context);
 		Log.i(TAG, "user id is " + userID);

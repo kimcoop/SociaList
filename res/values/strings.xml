@@ -79,7 +79,7 @@
     <string name="Save">Save</string>
     <string name="CancelNewList">Cancel</string>
     <string name="CID">Comma-Separated Tags</string>
-    <string name="CID_hint">Like "Dinner party, game night"</string>
+    <string name="CID_hint">picnic, game night</string>
     <string name="CID_explain">Tags let users find and use your list (without sharing your list users) in order to download it as a template.</string>
 
     <!-- header.xml -->

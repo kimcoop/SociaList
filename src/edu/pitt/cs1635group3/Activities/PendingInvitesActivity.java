@@ -68,9 +68,10 @@ public class PendingInvitesActivity extends SherlockListActivity { // ListActivi
 		for (Invite inv : selectedInvites) {
 			invites.remove(inv);
 		}
-		String pluralizer = "Invite";
+		String pluralizer = "invite";
 		if (selectedInvites.size() > 1)
 			pluralizer += "s";
+		UIUtil.showMessage(context, selectedInvites.size() + " " + pluralizer + " accepted.");
 		adapter.notifyDataSetChanged();
 	}
 

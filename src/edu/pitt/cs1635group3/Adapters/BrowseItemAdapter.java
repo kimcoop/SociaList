@@ -57,23 +57,11 @@ public class BrowseItemAdapter extends ArrayAdapter<Item> {
 
 		if (o != null) {
 			TextView name = (TextView) v.findViewById(R.id.item_name);
-			//TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
-			//CheckBox cb = (CheckBox) v.findViewById(R.id.check);
-			//Button b = (Button) v.findViewById(R.id.delete_item_button);
-			//ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
-
-			//String comments = o.getNotes();
-			//cb.setVisibility(View.GONE);
-			//assignee.setVisibility(View.GONE);
-			
 
 			if (name != null) {
 				name.setText(o.getName());
 					
 			}
-			
-
-			
 
 		} // end if o!= null
 		

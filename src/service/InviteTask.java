@@ -98,9 +98,7 @@ public class InviteTask {
 				
 			} else if (result.equals(""+ACCEPT_INVITES)) {
 
-				msg = UIUtil.pluralize(numInvites, "invite", "accepted");
 				HomeActivity.updateNumInvites();
-				UIUtil.showMessageShort(context, msg);
 				// Now also refresh adapter within My Lists (since new list will need to be pulled)
 				new CustomListTask().refreshListsQuiet(context);
 			} else if (result.equals(""+SEND_INVITE_PHONE)) {

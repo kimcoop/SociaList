@@ -110,21 +110,14 @@ public class DBHelper {
 			+ "list_id integer, user_id integer, list_name text, invite_date text, pending integer)";
 
 	private static final String USER_CREATE = "create table user (id integer primary key autoincrement, "
-			+ "first text not null, last text not null, email text,"
+			+ "first text not null, last text, email text,"
 			+ "device_token text, device_id text)";
 
 	private static final String DATABASE_NAME = "socialist_db";
 	private static final int DATABASE_VERSION = 1;
-
 	private final Context mCtx;
+	
 
-	/**
-	 * Constructor - takes the context to allow the database to be
-	 * opened/created
-	 * 
-	 * @param ctx
-	 *            the Context within which to work
-	 */
 	public DBHelper(Context ctx) {
 		this.mCtx = ctx;
 	}
@@ -193,24 +186,43 @@ public class DBHelper {
 			Log.i(TAG, "inserting mapping for user " +uID);
 			db.insert(MAP_LIST_USER_TABLE, null, args);	
 		}
-		
 			
+	}
+
+	public void insertOrUpdateCurrUser(int uID, String name, String email,
+			String pn) {
+		if (checkUserExists(uID)) {
+			// do nothing
+		} else {
+			ContentValues args = new ContentValues();
+			args.put(KEY_USER_ID, uID);
+			args.put(KEY_USER_FIRST, name);
+			args.put(KEY_USER_EMAIL, email);
+			db.insert(USER_TABLE, null, args);
+			Log.i(TAG, "inserted curruser!!!");
+		}
+		
+	}
+	
+	public boolean checkUserExists(int uID) {
+		String id = uID + "";
+		String myQuery = "SELECT * FROM user WHERE id = " + id;
+		Cursor c = db.rawQuery(myQuery, null);
+		boolean exists = false;
+		if (c.getCount() > 0) {
+			exists = true;
+		}
+		
+		c.close();
+		return exists;
 	}
 
 	public void insertOrUpdateUser(int listID, User i, boolean pushToCloud) {
  
-		String id = i.getID() + "";
-		String myQuery = "SELECT * FROM user WHERE id = " + id;
-		Log.i("insertingOrUpdateUser", "name " +i.getName());
-		Cursor c = db.rawQuery(myQuery, null);
-
-		if (c.getCount() > 0) {
-			// Item exists
-			c.close();
+		if (checkUserExists(i.getID())) {
 			updateUser(i, pushToCloud);
 		} else {
-			c.close();
-			insertUser(listID, i, pushToCloud);
+			insertUser(i, pushToCloud);
 		}
 		
 		insertOrUpdateMapping(listID, i.getID(), pushToCloud);
@@ -230,7 +242,7 @@ public class DBHelper {
 
 	}
 
-	public void insertUser(int listID, User u, boolean pushToCloud) {
+	public void insertUser(User u, boolean pushToCloud) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_USER_ID, u.getID());
 		args.put(KEY_USER_FIRST, u.getFirstName());
@@ -363,8 +375,6 @@ public class DBHelper {
 			
 		return users;
 	} // end getUsersForDialog
-	
-
 
 	public int[] getUserIDsForDialog(int id) {
 		ArrayList<User> arrUsers= getUsersForList(id);
@@ -871,5 +881,6 @@ public class DBHelper {
 				*/
 		
 	}
+
 
 }

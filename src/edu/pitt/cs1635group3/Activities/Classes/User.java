@@ -204,6 +204,12 @@ public class User {
 		Log.i(TAG, "name " + name + ". email " + email);
 		int uID;
 		uID = JSONUser.storeUser(context, name, email, pn);
+		
+		db = new DBHelper(context);
+		db.open();
+		db.insertOrUpdateCurrUser(uID, name, email, pn);
+		db.close();
+		
 		return uID;
 	}
 
