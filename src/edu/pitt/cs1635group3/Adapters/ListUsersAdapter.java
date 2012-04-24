@@ -48,6 +48,8 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.generic_row, null);
 			holder = new ViewHolder();
+			v.setClickable(false);
+			
 			holder.element_title = (TextView) v
 					.findViewById(R.id.element_title);
 			holder.element_subtitle = (TextView) v

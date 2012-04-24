@@ -107,7 +107,6 @@ public class JSONUser {
 		// if there is, return the userID.
 		// if there is not, creates a temp user acct linked to the pn so the
 		// user can register and collect the invite.
-		Log.i(TAG, "IMPORTANT listID shuld not be 0 for invite: " + listID);
 
 		ArrayList<NameValuePair> params = PostParams.formatParams(
 				"inviteByPhone", pn);
@@ -117,7 +116,6 @@ public class JSONUser {
 
 	public static void inviteByEmail(String email, int listID) {
 		// See comment for inviteByPhone
-		Log.i(TAG, "IMPORTANT listID shuld not be 0 for invite: " + listID);
 
 		ArrayList<NameValuePair> params = PostParams.formatParams(
 				"inviteByEmail", email);
@@ -127,7 +125,6 @@ public class JSONUser {
 
 	public static void inviteUser(ArrayList<NameValuePair> params) {
 		String result = JSONfunctions.postToCloud(params);
-		Log.i(TAG, "invited user!: " + result);
 	}
 	
 
