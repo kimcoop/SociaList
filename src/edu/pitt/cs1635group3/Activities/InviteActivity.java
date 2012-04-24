@@ -3,6 +3,8 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.Iterator;
 import java.util.Set;
 
+import service.InviteTask;
+
 import zebrafish.util.JSONUser;
 import zebrafish.util.UIUtil;
 import android.content.Context;
@@ -39,6 +41,7 @@ public class InviteActivity extends SherlockActivity {
 	protected static Context context;
 	private static int userID;
 	private static int listID;
+	private static EditText emailEntry;
 
 	String email = "";
 	String phone = "";
@@ -51,6 +54,7 @@ public class InviteActivity extends SherlockActivity {
 		context = this;
 		getSupportActionBar();
 		setTitle("Invite to List");
+		emailEntry = (EditText) findViewById(R.id.invite_email);
 
 		listID = getIntent().getExtras().getInt("listID");
 		String listName = CustomList.getListName(context, listID);
@@ -68,8 +72,7 @@ public class InviteActivity extends SherlockActivity {
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parentView,
 					View selectedItemView, int position, long id) {
-				EditText emailEntry = (EditText) findViewById(R.id.invite_email);
-				emailEntry.setText("");
+				//emailEntry.setText("");
 			}
 
 			public void onNothingSelected(AdapterView<?> parentView) {
@@ -218,16 +221,16 @@ public class InviteActivity extends SherlockActivity {
 
 	public void sendInvitation(View v) {
 		String smsContent = message;
-		
+		String contact = emailEntry.getText().toString().trim();
 		Log.i(TAG, "Sending invitation");
 
 		Spinner spinner = (Spinner) findViewById(R.id.invite_type_spinner);
 		String invite_type = (String) spinner.getItemAtPosition(spinner
 				.getSelectedItemPosition());
 
-		if (invite_type.equals("Invite via SMS") && phone.length()>0) {
+		if (invite_type.equals("Invite via SMS") && contact.length()>0) {
 
-			inviteByPhone(listID);
+			inviteByPhone(contact, listID);
 			UIUtil.showMessage(context, "SMS not available.");
 			/*
 			 * Uri smsUri = Uri.parse("sms:6102356128"); Intent sendIntent = new
@@ -244,9 +247,9 @@ public class InviteActivity extends SherlockActivity {
 			 * smsContent, pi, null);
 			 */
 
-		} else if (invite_type.equals("Invite via Email") && email.length()>0) {
+		} else if (invite_type.equals("Invite via Email") && contact.length()>0) {
 
-			inviteByEmail(listID);
+			inviteByEmail(contact, listID);
 			String subject = "Invitation to my SociaList";
 			String emailContent = message;
 
@@ -265,18 +268,14 @@ public class InviteActivity extends SherlockActivity {
 
 	} // end sendInvitation
 
-	public void inviteByPhone(int listID) {
-		EditText invitee = (EditText) findViewById(R.id.invite_email);
-		String pn = invitee.getText().toString().trim();
+	public void inviteByPhone(String pn, int listID) {
 		Log.i(TAG, "inviting user to list " +listID+ " by phone " +pn);
-		JSONUser.inviteByPhone(pn, listID);
+		new InviteTask().inviteByPhone(context, pn, listID);
 	}
 
-	public void inviteByEmail(int listID) {
-		EditText invitee = (EditText) findViewById(R.id.invite_email);
-		String email = invitee.getText().toString().trim();
+	public void inviteByEmail(String email, int listID) {
 		Log.i(TAG, "inviting user to list " +listID+ " by email " +email);
-		JSONUser.inviteByEmail(email, listID);
+		new InviteTask().inviteByEmail(context, email, listID);
 	}
 
 	@Override
