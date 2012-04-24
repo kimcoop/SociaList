@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:text="test subtitle"
+        android:layout_below="@id/element_title"
         android:layout_marginTop="-20dp"
         android:textSize="13dp" />
 
