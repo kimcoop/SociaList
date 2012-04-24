@@ -9,6 +9,7 @@
     <string name="splash_loading">Loading&#8230;</string>
     <string name="connect_title">Cannot Connect to the Internet</string>
     <string name="connect_issue">Your signal strength is too weak. Changes will be local and may not persist.</string>
+    <string name="ZBF">Zebra Fish Technologies</string>
 
     <!-- Home Activity -->
     <string name="push_explain">Allow push notifications? (You can always change
@@ -23,6 +24,7 @@
     <string name="btn_manage">My Items</string>
     <string name="btn_pending">Pending Invites</string>
     <string name="btn_browse">Browse For List</string>
+    <string name="btn_settings">Settings</string>
 
     <!-- Buttons -->
     <string name="invite_button">Invite…</string>
@@ -98,6 +100,7 @@
     <string name="Prev_Item">Prev Item</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="completed">Completed</string>
 
     <!-- listplaceholder.xml -->
     <string name="Create_New_List">Create New List</string>
@@ -148,5 +151,15 @@
     <!-- actionbar stuff -->
     <string name="Select_All">Select All</string>
     <string name="Refresh">Refresh</string>
+    
+    <!-- my_settings.xml  -->
+    <string name="notify">android:text="Notify me when: </string>
+    <string name="invited">I\'m invited to a list</string>
+    <string name="assigned">An item is assigned to me</string>
+    <string name="unassigned">An item is unassigned to me</string>
+    <string name="any">Any list item in my lists is updated</string>
+    
+    <!-- search_listplaceholder.xml  -->
+    <string name="search">Search</string>
     
 </resources>

@@ -20,7 +20,7 @@
 			android:layout_height="wrap_content"
 			android:paddingLeft="15dp"
 			android:paddingTop="5dp"
-			android:text="Name"
+			android:text="@string/Name_hint"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textSize="16dp" 
 			android:layout_below="@menu/main_menu"/>
@@ -43,7 +43,7 @@
 	       android:layout_height="wrap_content"
 	       android:layout_marginTop="10dp"
 	       android:paddingLeft="15dp"
-	       android:text="Email"
+	       android:text="@string/Email"
 	       android:textAppearance="?android:attr/textAppearanceMedium"
 	       android:textSize="16dp" 
 	       android:layout_below="@id/txtvName"/>
@@ -65,7 +65,7 @@
 	       android:layout_marginTop="23dp"
 	       android:layout_marginBottom="5dp"
 	       android:paddingLeft="15dp"
-	       android:text="Notify me when: "
+	       android:text="@string/notify"
 	       android:textAppearance="?android:attr/textAppearanceMedium"
 	       android:textSize="16dp" 
 	       android:layout_below="@id/txtvEmail"/>
@@ -81,25 +81,25 @@
 	           android:id="@+id/checkBox1"
 	           android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
-	           android:text="I\'m invited to a list" />
+	           android:text="@string/invited" />
 	
 	       <CheckBox
 	           android:id="@+id/checkBox2"
 	           android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
-	           android:text="An item is assigned to me" />
+	           android:text="@string/assigned" />
 	
 	       <CheckBox
 	           android:id="@+id/checkBox3"
 	           android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
-	           android:text="An item is unassigned to me" />
+	           android:text="@string/unassigned" />
 	
 	       <CheckBox
 	           android:id="@+id/checkBox4"
 	           android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
-	           android:text="Any list item in my lists is updated" />
+	           android:text="@string/any" />
 	       
 	   </LinearLayout>
 </RelativeLayout>

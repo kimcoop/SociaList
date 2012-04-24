@@ -33,7 +33,7 @@
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/list_id"
         android:onClick="searchList"
-        android:text="Search" 
+        android:text="@string/search" 
         android:layout_below="@id/search_listplaceholder_name"/>
 	<EditText
         android:id="@+id/list_id"

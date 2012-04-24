@@ -76,6 +76,7 @@
         android:layout_alignTop="@+id/home_header"
         android:layout_marginTop="8dp"
         android:paddingRight = "10dp"
+        android:contentDescription="@string/btn_settings"
         android:onClick="mySettings"
         android:src="@drawable/ic_menu_settings" />
     

@@ -79,7 +79,7 @@
      </style>
      
      <style name="turquoiseBgMedium">
-         <item name="android:background">@color/turquoise_4</item>  
+         <item name="android:background">@drawable/bg_gradient</item>  
      </style>
 
 

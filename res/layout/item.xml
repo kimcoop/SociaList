@@ -139,7 +139,7 @@
         android:layout_marginLeft="13dp"
         android:layout_marginTop="5dp"
         android:onClick="onToggleClicked"
-        android:text="Completed" 
+        android:text="@string/completed" 
         android:layout_below="@id/item_linear_layout2"/>
 
     <TextView
