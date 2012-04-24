@@ -2,6 +2,8 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
+import service.CustomListTask;
+
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONfunctions;
@@ -30,21 +32,20 @@ import edu.pitt.cs1635group3.R;
 
 public class BrowseForListActivity extends SherlockListActivity 
 {
-	protected Context context;
+	protected static Context context;
 	protected int userID;
 	private static final String TAG = "BrowseForListActivity";
 	
-	private BrowseListAdapter adapter;
-	private ListView lv;
-	private ArrayList<CustomList> lists = null;
-	private DBHelper db;
-	private EditText listID_Text;
+	private static BrowseListAdapter adapter;
+	private static ListView lv;
+	private static ArrayList<CustomList> lists = null;
+	private static EditText listID_Text;
 	private String idStr;
-	Runnable r;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_listplaceholder);
+		context = this;
 		getSupportActionBar();
 		setTitle("Browse for a List");
 		lists = new ArrayList<CustomList>();
@@ -54,53 +55,38 @@ public class BrowseForListActivity extends SherlockListActivity
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
-		r = new Runnable(){
-			public void run(){
-				adapter.notifyDataSetChanged();
-			}
-		}; 
 	}
 	
 	public void searchList(View v){
 		listID_Text = (EditText) findViewById(R.id.list_id);
-		int id;
 		idStr = listID_Text.getText().toString().trim();
 		lists.clear();
-		runOnUiThread(r);
 		
-		if(!idStr.equals("")){
-			try{
-				
-				lists = JSONCustomList.browseForList(context, idStr);
-				
-				
-			}catch(Exception e){
-				
-			}
+		if (!idStr.equals("")){
 			
-			if(lists.size()>0){
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(listID_Text.getWindowToken(), 0);
-				//Log.v(TAG, "Lists found!!!!!!!!!!!!!");
-				//TODO optimize here
-				adapter = new BrowseListAdapter(this, R.layout.list_row, lists);
-				setListAdapter(adapter);
-				//adapter.notifyDataSetChanged();
-				//runOnUiThread(r);
-			}
-			else{
-				Toast t = Toast.makeText(getApplicationContext(), "No lists found.", Toast.LENGTH_SHORT);
-				t.setGravity(Gravity.TOP, 0, 80);
-				t.show();
-			}
+			new CustomListTask().browse(context, idStr);
 			
-		}else{
-			//Toast t = new Toast(getApplicationContext());
-			Toast t = Toast.makeText(getApplicationContext(), "Search text cannot be empty.", Toast.LENGTH_SHORT);
+		} else{
+			Toast t = Toast.makeText(context, "Search text cannot be empty.", Toast.LENGTH_SHORT);
 			t.setGravity(Gravity.TOP, 0, 80);
 			t.show();
 		}
 		
+	}
+	
+	public static void display(ArrayList<CustomList> results) {
+		lists = results;
+		
+		if (lists.size()>0){
+			//InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			//imm.hideSoftInputFromWindow(listID_Text.getWindowToken(), 0);
+			adapter = new BrowseListAdapter(context, R.layout.list_row, lists);
+			lv.setAdapter(adapter);
+		} else{
+			Toast t = Toast.makeText(context, "No lists found.", Toast.LENGTH_SHORT);
+			t.setGravity(Gravity.TOP, 0, 80);
+			t.show();
+		}
 	}
 	
 	protected void onListItemClick(ListView l, View v, int position, long id) {

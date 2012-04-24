@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import edu.pitt.cs1635group3.Activities.BrowseForListActivity;
 import edu.pitt.cs1635group3.Activities.BrowseInsideListActivity;
 import edu.pitt.cs1635group3.Activities.CreateListActivity;
 import edu.pitt.cs1635group3.Activities.HomeActivity;
@@ -28,6 +29,8 @@ public class CustomListTask {
 	private static int numLists;
 	private static int currPK;
 	private static ArrayList<Integer> currItemPKs;
+	private static String searchTerm;
+	private static ArrayList<CustomList> results;
 	
 	private static int UPDATE_LIST = 1;
 	private static int REFRESH_LISTS = 2;
@@ -37,13 +40,12 @@ public class CustomListTask {
 	private static int CREATE_AS_UPDATE = 6;
 	private static int REFRESH_MY_ITEMS = 7;
 	private static int RESERVE_PK_BROWSE =8;
+	private static int BROWSE = 9;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
 		protected String doInBackground(Integer... params) {
 			String response = "";
-			
-			//if (IOUtil.isOnline(context)) {
 			
 			if (params[0] == UPDATE_LIST) {
 				
@@ -58,6 +60,7 @@ public class CustomListTask {
 			} else if (params[0] == REFRESH_LISTS_QUIET) {
 
 				Log.i(TAG, "Refreshing lists to get newly-accepted list");
+				JSONCustomList.download(context);
 				
 			} else if (params[0] == RESERVE_PRIMARY_KEY) {
 				
@@ -71,7 +74,6 @@ public class CustomListTask {
 					JSONItem.deleteItem(i);
 				}
 				
-				
 			} else if (params[0] == CREATE_AS_UPDATE) {
 				
 				Log.i(TAG, "Updated " + currList.getName()+ " whose pk is " +currList.getID());
@@ -84,11 +86,13 @@ public class CustomListTask {
 			} else if (params[0] == RESERVE_PK_BROWSE) {
 
 				currPK = JSONCustomList.getListPK();
+				
+			} else if (params[0] == BROWSE) {
+				
+				results = JSONCustomList.browseForList(context, searchTerm);
+				
 			}
 			
-			//} else {
-				//IOUtil.informConnectionIssue(context);
-			//}
 
 			return ""+params[0];
 		}
@@ -110,6 +114,9 @@ public class CustomListTask {
 				UIUtil.showMessageShort(context, msg);
 				
 			} else if (result.equals(""+REFRESH_LISTS_QUIET)) {
+
+				CustomListAdapter adapter = SociaListActivity.getAdapter();
+				if (adapter != null) adapter.notifyDataSetChanged();
 				refreshActivity();
 				
 			} else if (result.equals(""+RESERVE_PRIMARY_KEY)) {
@@ -126,6 +133,8 @@ public class CustomListTask {
 			} else if (result.equals(""+RESERVE_PK_BROWSE)) {
 
 				BrowseInsideListActivity.setListID(currPK);
+			} else if (result.equals(""+BROWSE)) {
+				BrowseForListActivity.display(results);
 			}
 			
 		}
@@ -190,6 +199,14 @@ public class CustomListTask {
 		currList = list;
 		DoCustomListTask task = new DoCustomListTask();
 		task.execute(CREATE_AS_UPDATE);
+	}
+	
+	public void browse(Context c, String tag) {
+		context = c;
+		pd = ProgressDialog.show(context, "Searching", "Please wait...", true, false, null);
+		searchTerm = tag;
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(BROWSE);
 	}
 }
 
