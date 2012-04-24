@@ -204,6 +204,7 @@ public class ItemActivity extends SherlockActivity {
 				Integer.parseInt(quantity.getText().toString().trim()));
 		item.setNotes(context, notes.getText().toString().trim());
 		item.setAssigner(User.getCurrUser(context));
+		UIUtil.showMessage(context, "Item saved!");
 
 	} // end saveItem
 
@@ -314,6 +315,9 @@ public class ItemActivity extends SherlockActivity {
 		intent.putExtra("totalItems", totalItems);
 		startActivity(intent);
 		finish();
+		ItemActivity.this.overridePendingTransition(
+				R.anim.slide_in_left, R.anim.slide_out_right);
+		
 	}
 
 	public void prevItem(View v) {
@@ -335,6 +339,9 @@ public class ItemActivity extends SherlockActivity {
 		intent.putExtra("totalItems", totalItems);
 		startActivity(intent);
 		finish();
+		ItemActivity.this.overridePendingTransition(
+				R.anim.slide_in_right, R.anim.slide_out_left);
+		
 	}
 
 	public void nextItem(View v) {
@@ -352,35 +359,21 @@ public class ItemActivity extends SherlockActivity {
 			}
 
 			// right to left swipe
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+			if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-
-				intent.putExtra("ItemID", item.getPrev());
-				int nextPos = (pos == totalItems ? 1 : pos + 1);
-				intent.putExtra("pos", nextPos);
+				goToPrev();
 				
-				intent.putExtra("totalItems", totalItems);
-				startActivity(intent);
-				finish();
-				ItemActivity.this.overridePendingTransition(
-						R.anim.slide_in_right, R.anim.slide_out_left);
 				// right to left swipe
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+			} else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getNext());
-				int prevPos = (pos == 1 ? totalItems : pos - 1);
-				intent.putExtra("pos", prevPos);
-				intent.putExtra("totalItems", totalItems);
-				startActivity(intent);
-				finish();
-				ItemActivity.this.overridePendingTransition(
-						R.anim.slide_in_left, R.anim.slide_out_right);
+				goToNext();
+				
 			}
 
 			return false;
