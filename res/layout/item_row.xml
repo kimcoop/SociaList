@@ -18,10 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/chat_bubble"
             android:layout_weight="1"
             android:padding="2dp"
-            android:text="@+id/label"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="20dp" >
 
@@ -43,17 +41,15 @@
 	        android:layout_height="wrap_content"
 	        android:visibility="gone"
 	        android:layout_alignParentRight="true"
-	        android:src="@drawable/ic_menu_delete"
-	        android:background="@color/white" />
+	        android:src="@drawable/ic_menu_delete" />
 	  
         <TextView
             android:id="@+id/item_assignee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="@+id/sublabel"
             android:textSize="13dp"
-            android:layout_below="@+id/item_name" >
+            android:layout_below="@id/item_name" >
         </TextView>
 
         <ImageView
@@ -61,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/check"
+            android:layout_toRightOf="@id/item_name"
             android:visibility="invisible"
             android:src="@drawable/ic_menu_start_conversation_20_flip" />
 

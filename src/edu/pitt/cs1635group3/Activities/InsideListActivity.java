@@ -339,7 +339,7 @@ public class InsideListActivity extends SherlockListActivity {
 		
 		for (int i=0; i < totalItems; i++) {
 			item =  items.get((totalItems-1)-i);
-			LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
+			final LinearLayout itemLayout = (LinearLayout) lv.getChildAt(i);
 			final RelativeLayout itemRow = (RelativeLayout) itemLayout.findViewById(R.id.inside_layout);
 			final TextView tv = (TextView) itemRow.findViewById(R.id.item_name);
 			if (selected.indexOf(item) >= 0) { // is selected
@@ -349,23 +349,23 @@ public class InsideListActivity extends SherlockListActivity {
 				item.setCompleted(context);
 				selected.remove(item);
 				
-				a = new AlphaAnimation(1.00f, 0.40f);
+				a = new AlphaAnimation(0.90f, 0.40f);
 
 				a.setDuration(1000);
 				a.setAnimationListener(new AnimationListener() {
 
 				    public void onAnimationStart(Animation animation) {
-				    	itemRow.setBackgroundResource(R.color.turquoise_bg_light);
+				    	itemLayout.setBackgroundResource(R.color.turquoise_bg_light);
 				    }
 
 				    public void onAnimationRepeat(Animation animation) {}
 
 				    public void onAnimationEnd(Animation animation) {
-				    	itemRow.setBackgroundResource(R.color.transparent);
+				    	itemLayout.setBackgroundResource(R.color.transparent);
 				    }
 				});
 
-				itemRow.startAnimation(a);
+				itemLayout.startAnimation(a);
 				
 			} else {
 				tv.setPaintFlags(tv.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
@@ -373,9 +373,8 @@ public class InsideListActivity extends SherlockListActivity {
 			
 			
 		}
-		lv.invalidateViews();
 		adapter.notifyDataSetChanged();
-	}
+	} // complete
 
 	public ArrayList<Item> getSelectedItems() {
 		// called multiple times because there are many actions that require use
