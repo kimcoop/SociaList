@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import edu.pitt.cs1635group3.Activities.BrowseInsideListActivity;
 import edu.pitt.cs1635group3.Activities.CreateListActivity;
 import edu.pitt.cs1635group3.Activities.HomeActivity;
 import edu.pitt.cs1635group3.Activities.SociaListActivity;
@@ -35,6 +36,7 @@ public class CustomListTask {
 	private static int UNCREATE_LIST = 5;
 	private static int CREATE_AS_UPDATE = 6;
 	private static int REFRESH_MY_ITEMS = 7;
+	private static int RESERVE_PK_BROWSE =8;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -78,7 +80,10 @@ public class CustomListTask {
 			} else if (params[0] == REFRESH_MY_ITEMS) {
 				Log.i(TAG, "Refreshing My Items");
 				numLists = JSONCustomList.download(context);
-			//	numItems = CustomList.getNumItemsAssigned(context, uID, listID);
+
+			} else if (params[0] == RESERVE_PK_BROWSE) {
+
+				currPK = JSONCustomList.getListPK();
 			}
 			
 			//} else {
@@ -117,8 +122,10 @@ public class CustomListTask {
 				CustomListAdapter adapter = SociaListActivity.getAdapter();
 				if (adapter != null) adapter.notifyDataSetChanged();
 				refreshActivity();
-			//	String msg = UIUtil.pluralize(numLists, "item", "found");
-			//	UIUtil.showMessageShort(context, msg);
+
+			} else if (result.equals(""+RESERVE_PK_BROWSE)) {
+
+				BrowseInsideListActivity.setListID(currPK);
 			}
 			
 		}
@@ -163,6 +170,11 @@ public class CustomListTask {
 		Log.i(TAG, "reserving pk");
 		DoCustomListTask task = new DoCustomListTask();
 		task.execute(RESERVE_PRIMARY_KEY);
+	}
+	
+	public void reservePrimaryKeyBrowse() {
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(RESERVE_PK_BROWSE);
 	}
 	
 	public void uncreateList(int id, ArrayList<Integer> itemPKs) {

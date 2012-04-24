@@ -86,7 +86,7 @@
     <string name="My_Lists">My Lists</string>
 
     <!-- insidelist_layout.xml -->
-    <string name="My_list_stuff">There aren\'t any items yet! Add some by clicking
+    <string name="list_no_items">There aren\'t any items yet! Add some by clicking
 		the Add icon.</string>
 		
 	<!-- my_items_layout.xml -->
