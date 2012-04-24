@@ -1,5 +1,7 @@
 package edu.pitt.cs1635group3.Activities;
 
+import java.util.ArrayList;
+
 import zebrafish.util.DBHelper;
 import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
@@ -52,6 +54,8 @@ public class MyItemActivity extends SherlockActivity {
 	private EditText name, notes;
 	private View v;
 
+//	private static ArrayList<Item> items = null;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item);
@@ -60,15 +64,15 @@ public class MyItemActivity extends SherlockActivity {
 		v = this.getCurrentFocus();
 		userID = User.getCurrUser(context);
 		// Gesture detection
-		gestureDetector = new GestureDetector(new MyGestureDetector());
+/*		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				/*
 				 * if(itemUpdated){ saveItem(v); }
-				 */
+				 * /
 				return gestureDetector.onTouchEvent(event);
 			}
-		};
+		};*/
 		View swiper = (View) findViewById(R.id.swiper);
 		swiper.setOnTouchListener(gestureListener);
 
@@ -181,10 +185,10 @@ public class MyItemActivity extends SherlockActivity {
 		if (itemUpdated) {
 			saveItem(v);
 		}
-		Intent in = new Intent(context, ItemsActivity.class);
-		in.putExtra("ListID", item.getParentID());
+	//	Intent in = new Intent(context, ItemsActivity.class);
+	//	in.putExtra("ListID", item.getParentID());
 		finish();
-		startActivity(in);
+	//	startActivity(in);
 		super.onBackPressed();
 	}
 
@@ -302,7 +306,7 @@ public class MyItemActivity extends SherlockActivity {
 	}
 
 	public void goToPrev() {
-
+/*
 		if (itemUpdated) {
 			saveItem(v);
 		}
@@ -312,19 +316,21 @@ public class MyItemActivity extends SherlockActivity {
 		int prevPos = (pos == 1 ? totalItems : pos - 1);
 		intent.putExtra("pos", prevPos);
 		intent.putExtra("totalItems", totalItems);
-	//	finish();
 		startActivity(intent);
 		finish();
+		MyItemActivity.this.overridePendingTransition(
+				R.anim.slide_in_left, R.anim.slide_out_right);
+*/		
 	}
 
 	public void prevItem(View v) {
 		// calling like this because it's an onclick but we also use it for
 		// swipe
-		goToPrev();
+//		goToPrev();
 	}
 
 	public void goToNext() {
-
+/*
 		if (itemUpdated) {
 			saveItem(v);
 		}
@@ -334,15 +340,17 @@ public class MyItemActivity extends SherlockActivity {
 		int nextPos = (pos == totalItems ? 1 : pos + 1);
 		intent.putExtra("pos", nextPos);
 		intent.putExtra("totalItems", totalItems);
-	//	finish();
 		startActivity(intent);
 		finish();
+		MyItemActivity.this.overridePendingTransition(
+				R.anim.slide_in_right, R.anim.slide_out_left);
+*/		
 	}
 
 	public void nextItem(View v) {
-		goToNext();
+//		goToNext();
 	}
-
+/*
 	class MyGestureDetector extends SimpleOnGestureListener {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -354,38 +362,21 @@ public class MyItemActivity extends SherlockActivity {
 			}
 
 			// right to left swipe
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+			if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-
-				intent.putExtra("ItemID", item.getPrev());
-				int nextPos = (pos == totalItems ? 1 : pos + 1);
-				intent.putExtra("pos", nextPos);
+				goToPrev();
 				
-				intent.putExtra("totalItems", totalItems);
-				
-			//	finish();
-				startActivity(intent);
-				finish();
-				MyItemActivity.this.overridePendingTransition(
-						R.anim.slide_in_right, R.anim.slide_out_left);
 				// right to left swipe
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+			} else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				if (itemUpdated) {
 					saveItem(v);
 				}
-				intent.putExtra("ItemID", item.getNext());
-				int prevPos = (pos == 1 ? totalItems : pos - 1);
-				intent.putExtra("pos", prevPos);
-				intent.putExtra("totalItems", totalItems);
-			//	finish();
-				startActivity(intent);
-				finish();
-				MyItemActivity.this.overridePendingTransition(
-						R.anim.slide_in_left, R.anim.slide_out_right);
+				goToNext();
+				
 			}
 
 			return false;
@@ -398,7 +389,7 @@ public class MyItemActivity extends SherlockActivity {
 			return true;
 		}
 	}
-
+*/
 	/* PLUS/MINUS BUTTONS FOR ITEM QTY */
 	public void plusButtonPressed(View v) {
 		itemUpdated = true; // Might not actually be true need to see
