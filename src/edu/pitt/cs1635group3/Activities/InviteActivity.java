@@ -58,7 +58,6 @@ public class InviteActivity extends SherlockActivity {
 		int uID = User.getCurrUser(context);
 		message = getString(R.string.invite_message_default);
 		
-		
 		EditText messageSpace = (EditText) findViewById(R.id.invite_message_preview);
 		messageSpace.setText(message);
 
@@ -258,6 +257,10 @@ public class InviteActivity extends SherlockActivity {
 			emailIntent.putExtra(Intent.EXTRA_TEXT, emailContent);
 			startActivity(Intent.createChooser(emailIntent, "Send Email..."));
 
+		} else {
+			
+			UIUtil.showMessage(context, "Invalid contact.");
+			
 		}
 
 	} // end sendInvitation

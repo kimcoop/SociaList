@@ -84,14 +84,14 @@ public class Invite {
 		pending = 0; // no longer pending -> accepted
 		db = new DBHelper(context);
 		db.open();
-		db.updateInvite(context, this, PUSH_TO_CLOUD);
+		db.updateInvite(this, PUSH_TO_CLOUD);
 		db.close();
 	}
 	
 	public void ignore(Context context) {
 		db = new DBHelper(context);
 		db.open();
-		db.ignoreInvite(context, this.ID, PUSH_TO_CLOUD);
+		db.ignoreInvite(this.ID, PUSH_TO_CLOUD);
 		db.close();
 	}
 
@@ -142,7 +142,7 @@ public class Invite {
 
 		for (Invite inv : invites) {
 
-			db.insertOrUpdateInvite(context, inv, pushToCloud);
+			db.insertOrUpdateInvite(inv, pushToCloud);
 
 		}
 
@@ -158,7 +158,7 @@ public class Invite {
 	public static void accept(Context context, ArrayList<Invite> selectedInvites) {
 		db = new DBHelper(context);
 		db.open();
-		db.acceptInvites(context, selectedInvites, PUSH_TO_CLOUD);
+		db.acceptInvites(selectedInvites, PUSH_TO_CLOUD);
 		db.close();
 		
 	}
