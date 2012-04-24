@@ -55,7 +55,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/insidelist_layout_button_holder"
-        android:text="@string/My_list_stuff" 
+        android:text="@string/list_no_items" 
         android:background="@color/transparent"/>
 
 </RelativeLayout>

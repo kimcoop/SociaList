@@ -380,7 +380,8 @@ public class DBHelper {
 		
 		String listID = "" + ID;
 		ArrayList<User> users = new ArrayList<User>();
-		String myQuery = "SELECT user.id, user.first FROM user, map_list_user WHERE user.id = map_list_user.user_id AND map_list_user.list_id = " +listID;
+		String myQuery = "SELECT user.id, user.first FROM user, map_list_user WHERE user.id = map_list_user.user_id ";
+		myQuery += "AND map_list_user.pending=0 AND map_list_user.list_id = " +listID;
 		
 		Cursor c = db.rawQuery(myQuery, null); 
 
@@ -749,7 +750,7 @@ public class DBHelper {
 		// Note - whenever this is called, be sure to update the encompassing
 		// list structure, since items are doubly-linked.
 
-		JSONItem.deleteItem(i.getID());
+		new ItemTask().deleteItem(i);
 		return db.delete(ITEM_TABLE, KEY_ITEM_ID + "=?",
 				new String[] { String.valueOf(i.getID()) }) > 0;
 	}
@@ -838,17 +839,6 @@ public class DBHelper {
 
 		if (c != null) {
 			num = c.getCount();
-			/*
-			c.moveToFirst();
-			
-			while (!c.isAfterLast()) {
-				User u = new User();
-				u.setID(c.getInt(0));
-				u.setFirstName(c.getString(1));
-				users.add(u);
-				c.moveToNext();
-			}*/
-
 			c.close();
 
 		}
@@ -868,6 +858,18 @@ public class DBHelper {
 		}
 		
 		return num;
+	}
+
+	public void removeUsersFromList(int listID, ArrayList<User> users) {
+		/*
+
+		JSONInvite.removeUsersFromList(listID, users);
+		for (User u: users) 
+
+		db.delete(MAP_LIST_USER_TABLE, KEY_MAP_LIST_LIST_ID + "=?", KEP_MAP_LIST_USERID + "=?",
+				new String[] { String.valueOf(list), String.valueOf(u.getID()) }) > 0;
+				*/
+		
 	}
 
 }

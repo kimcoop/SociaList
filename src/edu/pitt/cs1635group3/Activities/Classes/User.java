@@ -223,4 +223,12 @@ public class User {
 		return phoneNumber;
 	}
 
+	public static void removeFromList(Context context, ArrayList<User> u, int listID) {
+		db = new DBHelper(context);
+		db.open();
+		//db.removeUsersFromList(u);
+		db.close();
+		
+	}
+
 }

@@ -3,6 +3,8 @@ package edu.pitt.cs1635group3.Activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import service.CustomListTask;
+
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONItem;
@@ -53,7 +55,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 	private static DBHelper db;
 	public boolean PUSH_TO_CLOUD = true;
 	private String listName, CID;
-	private int newListPK;
+	private static int newListPK;
 	private ArrayList<HashMap<String, String>> mylist;
 	
 	private CustomList list = null;
@@ -98,6 +100,8 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		}
 		items = list.getItems();
 		totalItems = items.size();
+
+		new CustomListTask().reservePrimaryKeyBrowse(); // grab a new PK for the list in an AsyncTask
 
 		getSupportActionBar();
 		setTitle(list.getName());
@@ -163,6 +167,12 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 
 		alert.show();
 	}
+	
+
+	public static void setListID(int pk) { // from AsyncTask
+		newListPK = pk;
+		Log.i(TAG, "Received new list PK from AsyncTask: " +newListPK);
+	} // end setListID
 
 	public void addList(){
 		int userID = User.getCurrUser(context);
@@ -171,15 +181,8 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		newList.setCreator(userID);
 		newList.setName(listName);
 		
-		pd = ProgressDialog.show(context , null ,
-				  "Creating new list.." , true,
-				  false);
-		// get ID better
 		db = new DBHelper(this);
 		db.open();
-
-		newListPK = JSONCustomList.getListPK(); // get a truly unique ID from
-												// server
 		newList.setID(newListPK);
 
 		Item newItem;
@@ -241,10 +244,7 @@ public class BrowseInsideListActivity extends SherlockListActivity {
 		Intent in = new Intent();
 		setResult(1, in);// Requestcode 1. Tell parent activity to refresh
 							// items.
-		pd.dismiss();
-		finish();
-		
-
+		finish();		
 	}
 	
 	

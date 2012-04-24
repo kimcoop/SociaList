@@ -179,7 +179,6 @@ public class CreateListActivity extends SherlockListActivity {
 			db.insertList(newList, PUSH_TO_CLOUD);
 			db.close();
 			CustomList.setLinks(context, newList.getItems());
-			
 			Item.insertOrUpdateItems(context, newList.getItems(),
 				PUSH_TO_CLOUD);
 			

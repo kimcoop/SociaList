@@ -6,11 +6,5 @@
         android:icon="@drawable/ic_menu_invite"
         android:showAsAction="ifRoom|withText"
         android:title="Invite To List"/>
-    
-    <item
-        android:id="@+id/menu_remove"
-        android:icon="@drawable/ic_menu_blocked_user"
-        android:showAsAction="ifRoom|withText"
-        android:title="Remove User"/>
 
 </menu>

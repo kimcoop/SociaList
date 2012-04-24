@@ -62,15 +62,7 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		if (selected.size() == 0) {
 			UIUtil.showMessage(context, "No users selected.");
 		} else {
-			for (User u : selected) {
-				// User.removeFromList(context, u, listID);
-				if (u.getID() == userID) {
-					UIUtil.showMessage(context, "Can't delete yourself from the list.");
-					selected.remove(u);
-				}
-				users.remove(u);
-				// selected.remove(u);
-			}
+			User.removeFromList(context, selected, listID);
 			String pluralizer = "User";
 			if (selected.size() > 1)
 				pluralizer += "s";
@@ -93,9 +85,6 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		if (item.getItemId() == android.R.id.home) {
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
-			return true;
-		} else if (item.getItemId() == R.id.menu_remove) {
-			removeSelected();
 			return true;
 		} else if (item.getItemId() == R.id.menu_invite) {
 			intent = new Intent(this, InviteActivity.class);

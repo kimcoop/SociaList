@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import zebrafish.util.JSONItem;
 import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
@@ -237,7 +239,7 @@ public class InsideListActivity extends SherlockListActivity {
 		setTitle(newName);
 
 	}
-
+	/*
 	public void rename(final boolean isCID) {
 		final EditText input = new EditText(this); // Set an EditText view to
 		
@@ -294,6 +296,7 @@ public class InsideListActivity extends SherlockListActivity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// Canceled.
+						
 					}
 				});
 
@@ -302,6 +305,64 @@ public class InsideListActivity extends SherlockListActivity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 
+	}
+	*/
+	
+	public void rename(){
+		final Dialog dialog = new Dialog(this);
+
+		dialog.setContentView(R.layout.dialog_listname);
+		dialog.setOwnerActivity(this);
+		dialog.setTitle("Change List Name");
+		Button ok_btn = (Button) dialog.findViewById(R.id.buttonOK);
+		Button cancel_btn = (Button) dialog.findViewById(R.id.buttonCancel);
+		final EditText txtListname = (EditText) dialog
+				.findViewById(R.id.txtListname);
+		final EditText txtListtag = (EditText) dialog
+				.findViewById(R.id.txtListtag);
+
+		
+		txtListname.setText(list.getName());
+		txtListtag.setText(list.getCustomID());
+
+		OnClickListener l_ok = new OnClickListener() {
+			public void onClick(View v) {
+
+
+				String name = txtListname.getText().toString().trim();
+				String tag = txtListtag.getText().toString().trim();
+				
+				if(name.toLowerCase().equals("null") || tag.toLowerCase().equals("null")){
+					Toast t = Toast.makeText(getApplicationContext(), "Name or tag can't be 'Null'", Toast.LENGTH_LONG);
+					t.setGravity(Gravity.TOP, 0, 80);
+					t.show();
+				}else if(name.length()==0){
+					Toast t = Toast.makeText(getApplicationContext(), "Name can't be empty", Toast.LENGTH_LONG);
+					t.setGravity(Gravity.TOP, 0, 80);
+					t.show();
+				}else{
+					saveRenameCID(tag);
+					saveRename(name);
+					dialog.dismiss();
+				}
+				
+
+				
+			}
+		};
+
+		OnClickListener l_cancel = new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		};
+
+		ok_btn.setOnClickListener(l_ok);
+		cancel_btn.setOnClickListener(l_cancel);
+		dialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		dialog.show();
+		
 	}
 
 	@Override
@@ -515,10 +576,7 @@ public class InsideListActivity extends SherlockListActivity {
 			addItem();
 			return false;
 		} else if (item.getItemId() == R.id.menu_rename) {
-			rename(false);
-			return true;
-		} else if (item.getItemId() == R.id.menu_rename_cid) {
-			rename(true);
+			rename();
 			return true;
 		} else if (item.getItemId() == R.id.menu_manage_users) {
 			intent = new Intent(this, ManageListUsersActivity.class);

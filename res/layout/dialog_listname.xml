@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:paddingLeft="5dp"
+	android:paddingRight="5dp"
+	android:layout_width="300dp"
+	android:layout_height="wrap_content"
+	style="@style/turquoiseBgMedium">
+    
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_marginBottom="2dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView
+	    android:id="@+id/textView1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textSize="16sp"
+	    android:text="List Name:" />
+	
+	<EditText
+	    android:id="@+id/txtListname"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/dark_grey"
+	    android:textSize="16sp"
+        android:editable="true"
+        android:maxLength="254" >
+
+		<requestFocus />
+
+	</EditText>
+
+	<TextView
+	    android:id="@+id/textView2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textSize="16sp"
+	    android:text="List Tags:" />
+
+	<EditText
+	    android:id="@+id/txtListtag"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:editable="true"
+	    android:hint="@string/tag_hint"
+	    android:textColor="@color/dark_grey"
+	    android:textSize="16sp"
+	    android:maxLength="254" />
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="2dp"
+			android:layout_marginBottom="5dp" >
+	
+		<Button
+			android:id="@+id/buttonOK"
+			android:text="@string/ok"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1.0" />
+		
+		
+		<Button
+			android:id="@+id/buttonCancel"
+			android:text="@string/Cancel"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1.0" />
+	
+	</LinearLayout>
+	
+	
+</LinearLayout>

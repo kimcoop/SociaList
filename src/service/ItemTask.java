@@ -10,37 +10,46 @@ import edu.pitt.cs1635group3.Activities.Classes.Item;
 public class ItemTask {
 	public static final String TAG = "ItemUpdateTask";
 	protected Context context;
+	private static Item currItem;
+	private static int UPDATE_ITEM = 1;
+	private static int DELETE_ITEM = 2;
 
-	private class DoItemTask extends AsyncTask<Item, Void, String> {
+	private class DoItemTask extends AsyncTask<Integer, Void, String> {
 		@Override
-		protected String doInBackground(Item... params) {
+		protected String doInBackground(Integer... params) {
 			String response = "";
 			
-			//if (IOUtil.isOnline(this.getBaseContext())) {
+			if (params[0]==UPDATE_ITEM) {
 
-			for (Item item : params) {
-				Log.i(TAG, "Updated " + item.getName());
-				JSONItem.updateItem(item); // really will only be one item,
-											// I think -KIm
-			}
+					JSONItem.updateItem(currItem);
 			
-			//} else {
-			//	IOUtil.informConnectionIssue(context);
-			//}
+			} else if (params[0]==DELETE_ITEM) {
 
-			return "";
+				JSONItem.deleteItem(currItem.getID());
+			}
+
+			return ""+params[0];
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			// textView.setText(result);
-			Log.i(TAG, result);
+			
+			Log.i(TAG, "Item " +currItem.getName()+ " updated or deleted");
+			
 		}
 	}
 
 	public void update(Item i) {
+		currItem = i;
 		DoItemTask task = new DoItemTask();
-		task.execute(i);
+		task.execute(UPDATE_ITEM);
 
+	}
+
+	public void deleteItem(Item i) {
+		currItem = i;
+		DoItemTask task = new DoItemTask();
+		task.execute(DELETE_ITEM);
+		
 	}
 }
