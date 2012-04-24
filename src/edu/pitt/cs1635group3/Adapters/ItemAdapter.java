@@ -60,16 +60,21 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		final Item o = items.get(position);
 
 		if (o != null) {
-			final TextView name = (TextView) v.findViewById(R.id.item_name);
-			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
+			TextView name = (TextView) v.findViewById(R.id.item_name);
+			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
+			
+			b.setVisibility(View.GONE);
+			cb.setVisibility(View.VISIBLE);
 
 			String comments = o.getNotes();
 			if (comments != null) {
 				if (!comments.equals("")) {
 					img.setVisibility(View.VISIBLE);
+				} else {
+					img.setVisibility(View.INVISIBLE);
 				}
 			}
 

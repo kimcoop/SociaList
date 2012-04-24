@@ -67,7 +67,7 @@ public class InviteAdapter extends ArrayAdapter<Invite> {
 							View row = ((View) buttonView.getParent().getParent());
 							if (isChecked) {
 
-								row.setBackgroundResource(R.color.turquoise_superlight);
+								row.setBackgroundResource(R.color.turquoise_bg_light);
 								selected.add(o);
 							} else {
 								

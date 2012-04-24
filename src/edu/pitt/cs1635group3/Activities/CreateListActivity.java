@@ -182,7 +182,6 @@ public class CreateListActivity extends SherlockListActivity {
 			
 			Item.insertOrUpdateItems(context, newList.getItems(),
 				PUSH_TO_CLOUD);
-		
 			
 			UIUtil.showMessage(context, "List Created!");
 			finish();

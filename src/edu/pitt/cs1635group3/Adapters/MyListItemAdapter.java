@@ -63,11 +63,16 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
 			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
+			
+			b.setVisibility(View.GONE);
+			cb.setVisibility(View.VISIBLE);
 
 			String comments = o.getNotes();
 			if (comments != null) {
 				if (!comments.equals("")) {
 					img.setVisibility(View.VISIBLE);
+				} else {
+					img.setVisibility(View.INVISIBLE);
 				}
 			}
 
@@ -78,9 +83,11 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 			if (name != null) {
 				name.setText(o.getName());
 
-				if (cb != null && o.isCompleted()) {
+				if (o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
+				} else {
+					name.setPaintFlags(name.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 				}
 			}
 			if (assignee != null) {
@@ -105,7 +112,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 					View row = ((View) buttonView.getParent().getParent());
 					if (isChecked) {
 
-						row.setBackgroundResource(R.color.turquoise_superlight);
+						row.setBackgroundResource(R.color.turquoise_bg_light);
 						selected.add(o);
 					} else {
 						

@@ -12,6 +12,7 @@ import edu.pitt.cs1635group3.Adapters.InviteAdapter;
 import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONInvite;
+import zebrafish.util.JSONUser;
 import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -26,13 +27,16 @@ public class InviteTask {
 	protected static int numInvites;
 	private ArrayList<Invite> currInvites;
 	private Invite currInv; // invite to update, passed in by method updateInvite
-	private int currInvId;
+	private int currInvId, currListId;
 	protected ProgressDialog pd;
+	private static String contact;
 	
 	private static int GET_INVITES = 1;
 	private static int ACCEPT_INVITE = 2;
 	private static int DECLINE_INVITE = 3;
 	private static int ACCEPT_INVITES = 4;
+	private static int SEND_INVITE_PHONE = 5;
+	private static int SEND_INVITE_EMAIL = 6;
 
 	private class DoInviteTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -48,6 +52,10 @@ public class InviteTask {
 					JSONInvite.declineInvite(context, currInvId);
 				} else if (params[0] == ACCEPT_INVITES) {
 					JSONInvite.acceptInvites(context, currInvites);
+				} else if (params[0] == SEND_INVITE_PHONE) {
+					JSONUser.inviteByPhone(contact, currListId);
+				} else if (params[0] == SEND_INVITE_EMAIL) {
+					JSONUser.inviteByEmail(contact, currListId);
 				}
 			
 			} else {
@@ -95,8 +103,12 @@ public class InviteTask {
 				UIUtil.showMessageShort(context, msg);
 				// Now also refresh adapter within My Lists (since new list will need to be pulled)
 				new CustomListTask().refreshListsQuiet(context);
-				
-				
+			} else if (result.equals(""+SEND_INVITE_PHONE)) {
+				msg = "Invite sent!";
+				UIUtil.showMessageShort(context, msg);
+			} else if (result.equals(""+SEND_INVITE_EMAIL)) {
+				msg = "Invite sent!";
+				UIUtil.showMessageShort(context, msg);
 			}
 		}
 	}
@@ -137,6 +149,22 @@ public class InviteTask {
 		currInvites = selectedInvites;
 		DoInviteTask task = new DoInviteTask();
 		task.execute(ACCEPT_INVITES);
+	}
+	
+	public void inviteByPhone(Context c, String pn, int listID) {
+		context = c;
+		contact = pn;
+		currListId = listID;
+		DoInviteTask task = new DoInviteTask();
+		task.execute(SEND_INVITE_PHONE);
+	}
+	
+	public void inviteByEmail(Context c, String email, int listID) {
+		context = c;
+		contact = email;
+		currListId = listID;
+		DoInviteTask task = new DoInviteTask();
+		task.execute(SEND_INVITE_EMAIL);
 	}
 	
 	

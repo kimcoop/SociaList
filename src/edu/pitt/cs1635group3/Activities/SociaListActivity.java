@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -58,13 +60,6 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 		lv = getListView();
 
 		LayoutInflater inflater = getLayoutInflater();
-		/*ViewGroup header = (ViewGroup)inflater.inflate(R.layout.header, lv, false);
-		
-		lv.addHeaderView(header, null, false);
-		if(lists.size() > 5){
-			ViewGroup footer = (ViewGroup)inflater.inflate(R.layout.footer, lv, false);
-			lv.addFooterView(footer, null, false);
-		}*/
 		setListAdapter(adapter);
 		lv.setClickable(true);
 		lv.setTextFilterEnabled(true);
@@ -77,26 +72,27 @@ public class SociaListActivity extends SherlockListActivity { // ListActivity
 				final int position = pos;
 				final CustomList userlist = lists.get(position);
 
-				final Button b = (Button) v
-						.findViewById(R.id.delete_list_button);
-				b.setVisibility(View.VISIBLE);
+				final ImageView b = (ImageView) v
+						.findViewById(R.id.delete_list_img);
+				
+				if (b.isShown()) {
+					b.setVisibility(View.INVISIBLE);
+				} else {
+					b.setVisibility(View.VISIBLE);
 
 				b.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
 
 						CustomList.deleteListAndChildren(context, userlist);
-
 						UIUtil.showMessage(context, "List deleted.");
-						b.setVisibility(View.INVISIBLE);
-						lv.invalidateViews();
-						parentLayout.removeView(parentView);
 						adapter.remove(userlist);
 						adapter.notifyDataSetChanged();
+						lv.invalidateViews();
 
 					}
 				});
-
+				}
 				return true;
 			}
 		});

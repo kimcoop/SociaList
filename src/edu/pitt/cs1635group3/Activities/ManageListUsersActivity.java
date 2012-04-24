@@ -64,6 +64,10 @@ public class ManageListUsersActivity extends SherlockListActivity {
 		} else {
 			for (User u : selected) {
 				// User.removeFromList(context, u, listID);
+				if (u.getID() == userID) {
+					UIUtil.showMessage(context, "Can't delete yourself from the list.");
+					selected.remove(u);
+				}
 				users.remove(u);
 				// selected.remove(u);
 			}

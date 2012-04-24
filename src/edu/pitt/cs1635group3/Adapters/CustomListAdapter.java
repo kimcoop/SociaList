@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import edu.pitt.cs1635group3.R;
 import edu.pitt.cs1635group3.Activities.Classes.CustomList;
@@ -47,8 +48,8 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 			holder = new ViewHolder();
 			holder.title = (TextView) v.findViewById(R.id.element_title);
 			holder.subtitle = (TextView) v.findViewById(R.id.element_subtitle);
-			// holder.delete = (Button) v.findViewById(R.id.delete_list_button);
-
+			holder.delete = (ImageView) v.findViewById(R.id.delete_list_img);
+			holder.delete.setVisibility(View.INVISIBLE);
 			v.setTag(holder);
 
 		} else {
@@ -68,9 +69,6 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 				db.open();
 
 				ArrayList<Item> items = db.getItemsForListByID(o.getID());
-
-				Log.d("GET ITEMS FOR LIST", "List ID " + o.getID() + " has "
-						+ items.size() + " children.");
 
 				int numItems = 0, completedItems = 0, unassignedItems = 0;
 				String summary = "", pluralizer = " items";
@@ -98,7 +96,7 @@ public class CustomListAdapter extends ArrayAdapter<CustomList> {
 
 	static class ViewHolder {
 		TextView title, subtitle;
-		Button delete;
+		ImageView delete;
 	}
 
 }

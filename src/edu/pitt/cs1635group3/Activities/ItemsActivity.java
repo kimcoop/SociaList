@@ -38,7 +38,7 @@ public class ItemsActivity extends SherlockListActivity {
 	// private CustomList list = null;
 	private static ArrayList<Item> items = null;
 	private static MyListItemAdapter adapter;
-	private RelativeLayout parentLayout;
+	//private RelativeLayout parentLayout;
 
 	private static final String TAG = "ItemsActivity";
 
@@ -60,7 +60,7 @@ public class ItemsActivity extends SherlockListActivity {
 		setContentView(R.layout.my_items_layout);
 		context = this;
 		userID = User.getCurrUser(context);
-		parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used
+	//	parentLayout = (RelativeLayout) findViewById(R.id.insidelist_parent); // used
 																				// for
 																				// deletions
 		newItemPKs = new ArrayList<Integer>(); // used for additions
@@ -142,7 +142,7 @@ public class ItemsActivity extends SherlockListActivity {
 					item.setNext(context, item.getID());
 				}
 
-				Intent intent = new Intent(context, ItemActivity.class);
+				Intent intent = new Intent(context, MyItemActivity.class);
 				intent.putExtra("ItemID", item.getID());
 				intent.putExtra("pos", pos + 1); // Display item X of Y
 				intent.putExtra("totalItems", totalItems);
@@ -160,12 +160,14 @@ public class ItemsActivity extends SherlockListActivity {
 
 				final ImageView b = (ImageView) parentView
 						.findViewById(R.id.delete_item_button);
+				final CheckBox cb = (CheckBox) parentView.findViewById(R.id.check);
 				
 				if (b.isShown()) {
-
+					cb.setVisibility(View.VISIBLE);
 					b.setVisibility(View.GONE);
 				} else {
-				b.setVisibility(View.VISIBLE);
+					b.setVisibility(View.VISIBLE);
+					cb.setVisibility(View.GONE);
 
 				b.setOnClickListener(new OnClickListener() {
 
@@ -253,17 +255,18 @@ public class ItemsActivity extends SherlockListActivity {
 	 * 
 	 * }
 	 */
-	/*
-	 * @Override public void onBackPressed() {
-	 * 
-	 * if (newItems) { list.attachItems(items); Log.i(TAG,
-	 * "Back button pressed"); int listSize = list.getItems().size(); Log.d(TAG,
-	 * "listSize = " + listSize); list.setLinks(context); } Intent in = new
-	 * Intent(); setResult(1, in);// Requestcode 1. Tell parent activity to
-	 * refresh // items.
-	 * 
-	 * finish(); super.onBackPressed(); }
-	 */
+	/**/
+	 @Override
+	 public void onBackPressed()
+	 {
+		 Intent in = new Intent();
+		 setResult(1, in);// Requestcode 1. Tell parent activity to refresh 
+		 // items.
+	 
+	//	 finish();
+		 super.onBackPressed();
+	 }
+	 /**/
 	/*
 	 * public void assignItemsTo(String user) { selected = getSelectedItems();
 	 * 

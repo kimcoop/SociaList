@@ -3,40 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp"
-    android:paddingRight="6dp"
-    android:paddingLeft="10dp">
+    android:padding="7dp" >
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/inside_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants" >
  <!-- this line is super duper important -->
 
-        <!--     android:layout_centerVertical="true"         -->
-        <!--     android:layout_toLeftOf="@+id/check"  -->
-        <ImageView
-            android:id="@+id/chat_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:visibility="invisible"
-            android:src="@drawable/ic_menu_start_conversation_20_flip"
-            android:layout_alignParentLeft="true" />
-
-        <!--   android:layout_alignParentLeft="true" -->
-        <!--    android:layout_toLeftOf="@+id/chat_bubble" -->
         <TextView
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/check"
-            android:layout_toRightOf="@+id/chat_bubble"
+            android:layout_alignParentLeft="true"
             android:layout_weight="1"
             android:padding="2dp"
-            android:text="@+id/label"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="20dp" >
 
@@ -51,29 +34,32 @@
             android:layout_marginRight="10px"
             android:focusable="false" >
         </CheckBox>
-	    
+        
 	    <ImageView
 	        android:id="@+id/delete_item_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:visibility="gone"
 	        android:layout_alignParentRight="true"
-	        android:src="@drawable/ic_menu_delete"
-	        android:background="@color/white" />
-	    
+	        android:src="@drawable/ic_menu_delete" />
+	  
         <TextView
             android:id="@+id/item_assignee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="@+id/sublabel"
             android:textSize="13dp"
-            android:layout_below="@+id/item_name"
-            android:layout_toLeftOf="@+id/check"
-            android:layout_toRightOf="@+id/chat_bubble" >
+            android:layout_below="@id/item_name" >
         </TextView>
 
-
+        <ImageView
+            android:id="@+id/chat_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/item_name"
+            android:visibility="invisible"
+            android:src="@drawable/ic_menu_start_conversation_20_flip" />
 
     </RelativeLayout>
 

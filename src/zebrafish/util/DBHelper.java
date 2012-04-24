@@ -167,12 +167,12 @@ public class DBHelper {
 	 * USER METHODS
 	 */
 	
-	public void insertOrUpdateMapping(int listID, User u, boolean pushToCloud) {
-		String myQuery = "SELECT * FROM map_list_user WHERE user_id = " + u.getID()+ " and list_id = "+listID;
+	public void insertOrUpdateMapping(int listID, int uID, boolean pushToCloud) {
+		String myQuery = "SELECT * FROM map_list_user WHERE user_id = " + uID+ " and list_id = "+listID;
 		Cursor c = db.rawQuery(myQuery, null);
 		
 		ContentValues args = new ContentValues();	//id, list_id, user_id, list_name, invite_date, pending
-		args.put(KEY_MAP_LIST_USERID, u.getID());
+		args.put(KEY_MAP_LIST_USERID, uID);
 		args.put(KEY_MAP_LIST_ID, listID);
 		args.put(KEY_MAP_LIST_NAME, getListName(listID));
 		args.put(KEY_MAP_INVITE_DATE, "");
@@ -184,13 +184,13 @@ public class DBHelper {
 			
 			int id = c.getInt(0); // the mapping id
 			c.close();
-			Log.i(TAG, "updating mapping for user " +u.getID());
+			Log.i(TAG, "updating mapping for user " +uID);
 			db.update(MAP_LIST_USER_TABLE, args, "id" + "=?",
 					new String[] { String.valueOf(id) });
 			
 		} else { // insert
 			c.close();
-			Log.i(TAG, "inserting mapping for user " +u.getID());
+			Log.i(TAG, "inserting mapping for user " +uID);
 			db.insert(MAP_LIST_USER_TABLE, null, args);	
 		}
 		
@@ -213,7 +213,7 @@ public class DBHelper {
 			insertUser(listID, i, pushToCloud);
 		}
 		
-		insertOrUpdateMapping(listID, i, pushToCloud);
+		insertOrUpdateMapping(listID, i.getID(), pushToCloud);
 	}
 
 	public boolean updateUser(User i, boolean pushToCloud) {
@@ -241,7 +241,7 @@ public class DBHelper {
 		db.insert(USER_TABLE, null, args);
 	}
 
-	public void insertOrUpdateInvite(Context context, Invite inv, boolean pushToCloud) {
+	public void insertOrUpdateInvite(Invite inv, boolean pushToCloud) {
 
 		String id = inv.getListID() + "";
 		String myQuery = "SELECT * FROM map_list_user WHERE list_id = " + id;
@@ -250,18 +250,18 @@ public class DBHelper {
 		if (c.getCount() > 0) {
 			// Invite exists
 			c.close();
-			updateInvite(context, inv, pushToCloud);
+			updateInvite(inv, pushToCloud);
 		} else {
 			c.close();
 			insertInvite(inv, pushToCloud);
 		}
 	}
 
-	public void ignoreInvite(Context context, int id, boolean pushToCloud) {
+	public void ignoreInvite(int id, boolean pushToCloud) {
 		// delete the invite
 		
 		if (pushToCloud) {
-			new InviteTask().ignoreInvite(context, id);
+			new InviteTask().ignoreInvite(mCtx, id);
 		}
 
 		db.delete(MAP_LIST_USER_TABLE, KEY_MAP_LIST_USER_ID + "=?",
@@ -271,22 +271,21 @@ public class DBHelper {
 	
 
 
-	public void acceptInvites(Context context,
-			ArrayList<Invite> selectedInvites, boolean pushToCloud) {
+	public void acceptInvites(ArrayList<Invite> selectedInvites, boolean pushToCloud) {
 
 		for (Invite inv : selectedInvites) {
 			inv.setPending(0);
-			updateInvite(context, inv, NO_PUSH_TO_CLOUD); // push all at once
+			updateInvite(inv, NO_PUSH_TO_CLOUD); // push all at once
 		}
 
 		if (pushToCloud) {
-			new InviteTask().updateInvites(context, selectedInvites);
+			new InviteTask().updateInvites(mCtx, selectedInvites);
 		}
 
 		
 	}
 
-	public boolean updateInvite(Context context, Invite inv, boolean pushToCloud) {
+	public boolean updateInvite(Invite inv, boolean pushToCloud) {
 
 		ContentValues args = new ContentValues();
 		args.put(KEY_MAP_LIST_ID, inv.getListID());
@@ -294,7 +293,7 @@ public class DBHelper {
 		args.put(KEY_MAP_INVITE_DATE, inv.getInviteDate());
 
 		if (pushToCloud) {
-			new InviteTask().updateInvite(context, inv);
+			new InviteTask().updateInvite(mCtx, inv);
 		}
 
 		Log.i(TAG, "Updating invite to have pending = " +inv.isPending());
@@ -522,6 +521,9 @@ public class DBHelper {
 			c.close();
 			insertList(i, pushToCloud);
 		}
+
+		int currUser = User.getCurrUser(mCtx);
+		insertOrUpdateMapping(i.getID(), currUser, pushToCloud);
 	}
 
 	public void insertList(CustomList list, boolean pushToCloud) {
@@ -545,6 +547,9 @@ public class DBHelper {
 		args.put(KEY_CREATOR_ID, userID);
 		args.put(KEY_CREATION_DATE, list.getCreationDate());
 		db.insert(LIST_TABLE, null, args);
+		
+		int currUser = User.getCurrUser(mCtx);
+		insertOrUpdateMapping(list.getID(), currUser, pushToCloud);
 
 	}
 
