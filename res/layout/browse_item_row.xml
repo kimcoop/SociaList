@@ -25,14 +25,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="25dp" >
         </TextView>
-
-        <Button
-            android:id="@+id/delete_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/Delete"
-            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>
