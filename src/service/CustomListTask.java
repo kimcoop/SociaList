@@ -117,7 +117,6 @@ public class CustomListTask {
 
 				CustomListAdapter adapter = SociaListActivity.getAdapter();
 				if (adapter != null) adapter.notifyDataSetChanged();
-				refreshActivity();
 				
 			} else if (result.equals(""+RESERVE_PRIMARY_KEY)) {
 				
