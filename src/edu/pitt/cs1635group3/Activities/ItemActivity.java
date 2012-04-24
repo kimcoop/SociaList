@@ -316,7 +316,8 @@ public class ItemActivity extends SherlockActivity {
 		startActivity(intent);
 		finish();
 		ItemActivity.this.overridePendingTransition(
-				R.anim.slide_in_right, R.anim.slide_out_left);
+				R.anim.slide_in_left, R.anim.slide_out_right);
+		
 	}
 
 	public void prevItem(View v) {
@@ -339,7 +340,8 @@ public class ItemActivity extends SherlockActivity {
 		startActivity(intent);
 		finish();
 		ItemActivity.this.overridePendingTransition(
-				R.anim.slide_in_left, R.anim.slide_out_right);
+				R.anim.slide_in_right, R.anim.slide_out_left);
+		
 	}
 
 	public void nextItem(View v) {
