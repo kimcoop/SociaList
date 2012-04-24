@@ -216,7 +216,7 @@ public class User {
 	public static String getUserByID(Context context, int uID) {
 		db = new DBHelper(context);
 		db.open();
-		String name = db.getUserByID(uID).getName();
+		String name = db.getUserByID(uID).getFirstName();
 		db.close();
 		return name;
 	}
