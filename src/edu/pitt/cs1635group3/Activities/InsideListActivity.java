@@ -349,12 +349,14 @@ public class InsideListActivity extends SherlockListActivity {
 				item.setCompleted(context);
 				selected.remove(item);
 				
-				a = new AlphaAnimation(1.00f, 0.90f);
+				a = new AlphaAnimation(1.00f, 0.40f);
 
 				a.setDuration(1000);
 				a.setAnimationListener(new AnimationListener() {
 
-				    public void onAnimationStart(Animation animation) {}
+				    public void onAnimationStart(Animation animation) {
+				    	itemRow.setBackgroundResource(R.color.turquoise_bg_light);
+				    }
 
 				    public void onAnimationRepeat(Animation animation) {}
 

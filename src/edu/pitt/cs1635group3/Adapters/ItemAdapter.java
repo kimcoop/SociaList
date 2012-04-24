@@ -60,9 +60,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		final Item o = items.get(position);
 
 		if (o != null) {
-			final TextView name = (TextView) v.findViewById(R.id.item_name);
-			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			CheckBox cb = (CheckBox) v.findViewById(R.id.check);
+			TextView name = (TextView) v.findViewById(R.id.item_name);
+			TextView assignee = (TextView) v.findViewById(R.id.item_assignee);
 			ImageView b = (ImageView) v.findViewById(R.id.delete_item_button);
 			ImageView img = (ImageView) v.findViewById(R.id.chat_bubble);
 

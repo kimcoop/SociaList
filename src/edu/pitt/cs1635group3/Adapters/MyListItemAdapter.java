@@ -68,6 +68,8 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 			if (comments != null) {
 				if (!comments.equals("")) {
 					img.setVisibility(View.VISIBLE);
+				} else {
+					img.setVisibility(View.INVISIBLE);
 				}
 			}
 
@@ -78,9 +80,11 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 			if (name != null) {
 				name.setText(o.getName());
 
-				if (cb != null && o.isCompleted()) {
+				if (o.isCompleted()) {
 					name.setPaintFlags(name.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
+				} else {
+					name.setPaintFlags(name.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 				}
 			}
 			if (assignee != null) {
@@ -105,7 +109,7 @@ public class MyListItemAdapter extends ArrayAdapter<Item> {
 					View row = ((View) buttonView.getParent().getParent());
 					if (isChecked) {
 
-						row.setBackgroundResource(R.color.turquoise_superlight);
+						row.setBackgroundResource(R.color.turquoise_bg_light);
 						selected.add(o);
 					} else {
 						
