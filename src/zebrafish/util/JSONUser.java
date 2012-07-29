@@ -9,6 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import service.InviteTask;
+import service.JSONTask;
+import service.SplashScreenTask;
+import service.UserTask;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
@@ -20,6 +23,7 @@ public class JSONUser {
 	public static final String URL = Config.URL;
 	public static final String TAG = "JSON USEr";
 	public static DBHelper db;
+	public static int uID = -1;
 	public static final boolean NO_PUSH_TO_CLOUD = false;
 
 	public static ArrayList<NameValuePair> userToParams(String name,
@@ -38,13 +42,16 @@ public class JSONUser {
 		ArrayList<NameValuePair> params = userToParams(name, email, pn);
 		params.add(new BasicNameValuePair("action", "storeUser"));
 
+		//new UserTask().store(context, params); //This will set uID
+		//return uID;
 		return storeUser(context, params);
 	}
 
 	public static int storeUser(Context context, ArrayList<NameValuePair> params) {
 		// let user register or not register by taking generic paramater params
-
-		String result = JSONfunctions.postToCloud(params);
+		
+		//String result = new JSONTask().postToCloud(params);
+		String result = new JSONfunctions().postToCloud(params);
 		int uID = JSONfunctions.parseForInt(result);
 		Log.i(TAG, "Stored user. User id from cloud is " + uID);
 		new InviteTask().getInvites(context); // try to pull invites once we have a real user ID

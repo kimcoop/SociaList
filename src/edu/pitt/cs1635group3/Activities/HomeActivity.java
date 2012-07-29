@@ -2,6 +2,7 @@ package edu.pitt.cs1635group3.Activities;
 
 import service.InviteTask;
 import service.SplashScreenTask;
+import service.UserTask;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -105,8 +106,8 @@ public class HomeActivity extends Activity {
 				String pn = User.getPhoneNumber(context);
 
 				if (!name.equals("") && !email.equals("")) { // allow store
-
-					storeUser(name, email, pn, allowPush);
+					new UserTask().store(context, name, email, pn, allowPush);
+					//storeUser(name, email, pn, allowPush);
 					dialog.dismiss();
 
 				} else {
@@ -120,7 +121,8 @@ public class HomeActivity extends Activity {
 
 		OnClickListener l_cancel = new OnClickListener() {
 			public void onClick(View v) {
-				storeUser(null, null, User.getPhoneNumber(context), false); // store without registration
+				//storeUser(null, null, User.getPhoneNumber(context), false); // store without registration
+				new UserTask().store(context, null, null, User.getPhoneNumber(context), false);
 				dialog.dismiss();
 			}
 		};
@@ -185,7 +187,7 @@ public class HomeActivity extends Activity {
 		}
 	} // end showPushNotificationDialog()
 
-	protected void storeUser(String name, String email, String pn,
+	public static void storeUser(String name, String email, String pn,
 			boolean allowPush) {
 		// pass the ID back to shared prefs to recall later
 		Log.i(TAG, "user name " + name + ", email " + email + " pn " + pn);
@@ -196,10 +198,6 @@ public class HomeActivity extends Activity {
 		e.putString("name", name);
 		e.putString("email", email);
 		e.commit();
-
-		if (allowPush) {
-			registerPushNotification();
-		}
 
 		Log.i(TAG, "User name (" + name + ") registered");
 	}

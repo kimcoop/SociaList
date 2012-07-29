@@ -119,7 +119,7 @@ public class InviteTask {
 
 	public void getInvites(Context c) {
 		context = c;
-		pd = ProgressDialog.show(context,"Checking for invites", "Please wait...", true, false, null);
+		//pd = ProgressDialog.show(context,"Checking for invites", "Please wait...", true, false, null);
 		DoInviteTask task = new DoInviteTask();
 		task.execute(GET_INVITES);
 	}

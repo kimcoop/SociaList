@@ -107,19 +107,21 @@ public class JSONfunctions {
 	 */
 
 	public static String postToCloud(ArrayList<NameValuePair> params) {
-
+		Log.i(TAG, "in postToCloud ");
 		// initialize
 		InputStream is = null;
 		String result = "", resp = "";
 
 		// http post
 		try {
+			Log.i(TAG, "Try Block");
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(URL);
 			httppost.setEntity(new UrlEncodedFormEntity(params));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();
+			Log.i(TAG, "exit Try Block ");
 
 		} catch (Exception e) {
 			Log.e(TAG + " - post", "Error in http connection " + e.toString());
