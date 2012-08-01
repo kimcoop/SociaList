@@ -135,7 +135,7 @@ public class HomeActivity extends Activity {
 
 	
 	public void registerPushNotification() {
-
+		/** THIS HAS BEEN MOVED TO UserTask.java*/
 		Log.d(TAG, "in registerPushNotification()");
 
 		final SharedPreferences c2dmPrefs = getSharedPreferences(

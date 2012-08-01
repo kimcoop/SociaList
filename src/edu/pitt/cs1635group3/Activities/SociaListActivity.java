@@ -36,7 +36,7 @@ import edu.pitt.cs1635group3.Adapters.CustomListAdapter;
 public class SociaListActivity extends SherlockListActivity { // ListActivity
 	private ArrayList<CustomList> lists = null;
 	private RelativeLayout parentLayout;
-	private static CustomListAdapter adapter;
+	public static CustomListAdapter adapter;
 
 	private Context context;
 	private static final String TAG = "SociaListActivity";

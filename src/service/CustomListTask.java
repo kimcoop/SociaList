@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 
+
 import zebrafish.util.IOUtil;
 import zebrafish.util.JSONCustomList;
 import zebrafish.util.JSONItem;
@@ -9,6 +10,7 @@ import zebrafish.util.UIUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import edu.pitt.cs1635group3.Activities.BrowseForListActivity;
@@ -41,6 +43,7 @@ public class CustomListTask {
 	private static int REFRESH_MY_ITEMS = 7;
 	private static int RESERVE_PK_BROWSE =8;
 	private static int BROWSE = 9;
+	private static int SAVE_LIST = 10;
 
 	private class DoCustomListTask extends AsyncTask<Integer, Void, String> {
 		@Override
@@ -91,7 +94,10 @@ public class CustomListTask {
 				
 				results = JSONCustomList.browseForList(context, searchTerm);
 				
+			} else if (params[0] == SAVE_LIST){
+				CreateListActivity.saveList();
 			}
+			
 			
 
 			return ""+params[0];
@@ -113,7 +119,16 @@ public class CustomListTask {
 				String msg = UIUtil.pluralize(numLists, "list", "found");
 				UIUtil.showMessageShort(context, msg);
 				
-			} else if (result.equals(""+REFRESH_LISTS_QUIET)) {
+			} else if (result.equals(""+SAVE_LIST)) {
+				CustomListAdapter adapter = SociaListActivity.getAdapter();
+				if (adapter != null) adapter.notifyDataSetChanged();
+				else Log.i(TAG, "adapter was NULL!!");
+				UIUtil.showMessage(context, "List Created!");
+				((Activity)context).finish();
+				Intent i = new Intent(context, SociaListActivity.class);
+				((Activity)context).startActivity(i);;
+				
+			}else if (result.equals(""+REFRESH_LISTS_QUIET)) {
 
 				CustomListAdapter adapter = SociaListActivity.getAdapter();
 				if (adapter != null) adapter.notifyDataSetChanged();
@@ -206,6 +221,13 @@ public class CustomListTask {
 		searchTerm = tag;
 		DoCustomListTask task = new DoCustomListTask();
 		task.execute(BROWSE);
+	}
+	
+	public void saveList(Context c) {
+		context = c;
+		DoCustomListTask task = new DoCustomListTask();
+		task.execute(SAVE_LIST);
+
 	}
 }
 

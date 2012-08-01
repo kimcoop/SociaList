@@ -2,6 +2,9 @@ package edu.pitt.cs1635group3.Activities;
 
 import java.util.ArrayList;
 
+import service.ItemTask;
+import service.UserTask;
+
 import zebrafish.util.JSONItem;
 import zebrafish.util.UIUtil;
 import android.app.AlertDialog;
@@ -49,22 +52,22 @@ import edu.pitt.cs1635group3.Adapters.ItemAdapter;
 
 public class InsideListActivity extends SherlockListActivity {
 
-	private CustomList list = null;
-	private ArrayList<Item> items = null;
-	private static ItemAdapter adapter;
+	private static CustomList list = null;
+	private static ArrayList<Item> items = null;
+	public static ItemAdapter adapter;
 	private RelativeLayout parentLayout;
 
 	private static final String TAG = "InsideListActivity";
 
 	private int totalItems;
-	protected Context context;
+	protected static Context context;
 
 	protected Button assignButton, completeButton;
 	private View buttonsHelper;
 	private static ListView lv;
-	private boolean newItems = false;
+	private static boolean newItems = false;
 	private static int listID, userID;
-	private ArrayList<Integer> newItemPKs;
+	private static ArrayList<Integer> newItemPKs;
 
 	CharSequence[] users;
 	int[] correspUserIDs;
@@ -477,7 +480,24 @@ public class InsideListActivity extends SherlockListActivity {
 
 	}
 
-	public void addItem() {
+	public static void addItem(EditText input){
+		String value = input.getText().toString().trim();
+		Item i = new Item();
+
+		i.setName(value);
+		i.setCreator(userID);
+		i.setParent(list.getID());
+
+		int itemID = JSONItem.getItemPK();
+		newItemPKs.add(itemID);
+		i.setID(context, itemID);
+
+		items.add(i);
+
+		newItems = true;
+	}
+	
+	public void addItemAlert() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("New Item");
 
@@ -486,21 +506,7 @@ public class InsideListActivity extends SherlockListActivity {
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				String value = input.getText().toString().trim();
-				Item i = new Item();
-
-				i.setName(value);
-				i.setCreator(userID);
-				i.setParent(list.getID());
-
-				int itemID = JSONItem.getItemPK();
-				newItemPKs.add(itemID);
-				i.setID(context, itemID);
-
-				items.add(i);
-
-				adapter.notifyDataSetChanged();
-				newItems = true;
+				new ItemTask().addItem(input);
 			}
 		});
 
@@ -575,7 +581,7 @@ public class InsideListActivity extends SherlockListActivity {
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.menu_add) {
-			addItem();
+			addItemAlert();
 			return false;
 		} else if (item.getItemId() == R.id.menu_rename) {
 			rename();

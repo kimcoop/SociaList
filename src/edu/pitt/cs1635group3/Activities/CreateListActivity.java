@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import service.CustomListTask;
+import service.ItemTask;
 
 import zebrafish.util.DBHelper;
 import zebrafish.util.JSONCustomList;
@@ -36,14 +37,16 @@ import edu.pitt.cs1635group3.Activities.Classes.User;
 
 public class CreateListActivity extends SherlockListActivity {
 
-	private ArrayList<HashMap<String, String>> mylist;
+	private static ArrayList<HashMap<String, String>> mylist;
 	private static int newListPK;
-	private EditText listNameSpace, CIDSpace;
-	private String listName, CID;
-	public boolean PUSH_TO_CLOUD = true;
+	private static EditText listNameSpace;
+	private static EditText CIDSpace;
+	private static String listName;
+	private static String CID;
+	public static boolean PUSH_TO_CLOUD = true;
 
 	
-	private ArrayList<Integer> newItemPKs; // track the new slices of the web
+	private static ArrayList<Integer> newItemPKs; // track the new slices of the web
 											// servers we allocate (in case of
 											// cancel)
 
@@ -145,7 +148,21 @@ public class CreateListActivity extends SherlockListActivity {
 		dialog.show();
 	}
 
-	public void saveList(View v) {
+	/** Quick hack, this is called from the XML file which calls the asnyc task*/
+	public void saveListHelper(View v){
+		//saveList();
+		
+		new CustomListTask().saveList(context);
+		//The list might not be created yet - We will get here before
+		//the thread creating the thread finishes, but we cannot
+		//call finish from the thread, so we must call it here.
+		//Maybe wait a sec? This is open for discussion
+		//finish();
+		//Intent i = new Intent(context, SociaListActivity.class);
+		//startActivity(i);
+	}
+	
+	public static void saveList() {
 
 		listName = listNameSpace.getText().toString();
 		if (listName.equals("")) { // invalid name. don't allow save.
@@ -162,7 +179,7 @@ public class CreateListActivity extends SherlockListActivity {
 			newList.setName(listName);
 
 			// get ID better
-			db = new DBHelper(this);
+			db = new DBHelper(context);
 			db.open();
 
 			Item newItem;
@@ -182,10 +199,7 @@ public class CreateListActivity extends SherlockListActivity {
 			Item.insertOrUpdateItems(context, newList.getItems(),
 				PUSH_TO_CLOUD);
 			
-			UIUtil.showMessage(context, "List Created!");
-			finish();
-			Intent i = new Intent(context, SociaListActivity.class);
-			startActivity(i);
+			
 
 		}
 
