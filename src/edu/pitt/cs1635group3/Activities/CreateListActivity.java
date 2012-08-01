@@ -150,16 +150,7 @@ public class CreateListActivity extends SherlockListActivity {
 
 	/** Quick hack, this is called from the XML file which calls the asnyc task*/
 	public void saveListHelper(View v){
-		//saveList();
-		
 		new CustomListTask().saveList(context);
-		//The list might not be created yet - We will get here before
-		//the thread creating the thread finishes, but we cannot
-		//call finish from the thread, so we must call it here.
-		//Maybe wait a sec? This is open for discussion
-		//finish();
-		//Intent i = new Intent(context, SociaListActivity.class);
-		//startActivity(i);
 	}
 	
 	public static void saveList() {
